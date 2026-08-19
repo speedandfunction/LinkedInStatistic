@@ -74,5 +74,8 @@ jobs:
       # Infinity data in v0alpha1 dashboards, so the list must be pushed).
       - name: Refresh $post dashboard variable
         env:
+          # update-post-variable.mjs requires BOTH — it exits 2 if GRAFANA_URL
+          # is unset (the de-personalised script dropped the hardcoded default).
+          GRAFANA_URL: ${{ vars.GRAFANA_URL || 'https://speedandfunction.grafana.net' }}
           GRAFANA_SERVICE_ACCOUNT_TOKEN: ${{ secrets.GRAFANA_SERVICE_ACCOUNT_TOKEN }}
         run: node .github/scripts/update-post-variable.mjs

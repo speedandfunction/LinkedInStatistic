@@ -1,0 +1,410 @@
+{
+  "source": "linkedin-page-admin-analytics-xls",
+  "generated_at": "2026-08-19T19:10:59Z",
+  "months": {
+    "2026-03": {
+      "page_views": 961,
+      "unique_visitors": 442,
+      "new_followers": 19,
+      "post_impressions": 719,
+      "post_reactions": 10,
+      "post_comments": 0,
+      "post_reposts": 0,
+      "post_clicks": 53
+    },
+    "2026-04": {
+      "page_views": 579,
+      "unique_visitors": 295,
+      "new_followers": 7,
+      "post_impressions": 336,
+      "post_reactions": 2,
+      "post_comments": 0,
+      "post_reposts": 0,
+      "post_clicks": 6
+    },
+    "2026-05": {
+      "page_views": 564,
+      "unique_visitors": 244,
+      "new_followers": 13,
+      "post_impressions": 471,
+      "post_reactions": 5,
+      "post_comments": 1,
+      "post_reposts": 0,
+      "post_clicks": 12
+    },
+    "2026-06": {
+      "page_views": 836,
+      "unique_visitors": 321,
+      "new_followers": 16,
+      "post_impressions": 529,
+      "post_reactions": 3,
+      "post_comments": 0,
+      "post_reposts": 0,
+      "post_clicks": 3
+    },
+    "2026-07": {
+      "page_views": 659,
+      "unique_visitors": 267,
+      "new_followers": 17,
+      "post_impressions": 467,
+      "post_reactions": 0,
+      "post_comments": 0,
+      "post_reposts": 0,
+      "post_clicks": 3
+    },
+    "2026-08": {
+      "page_views": 291,
+      "unique_visitors": 112,
+      "new_followers": 7,
+      "post_impressions": 171,
+      "post_reactions": 0,
+      "post_comments": 0,
+      "post_reposts": 0,
+      "post_clicks": 2
+    }
+  },
+  "visitor_demographics": {
+    "Seniority": [
+      [
+        "Senior",
+        3196
+      ],
+      [
+        "Entry",
+        2334
+      ],
+      [
+        "CXO",
+        499
+      ],
+      [
+        "Manager",
+        479
+      ],
+      [
+        "Director",
+        398
+      ],
+      [
+        "Owner",
+        241
+      ],
+      [
+        "VP",
+        93
+      ],
+      [
+        "Partner",
+        71
+      ]
+    ],
+    "Job function": [
+      [
+        "Engineering",
+        1518
+      ],
+      [
+        "Business Development",
+        1324
+      ],
+      [
+        "Human Resources",
+        1221
+      ],
+      [
+        "Sales",
+        521
+      ],
+      [
+        "Program and Project Management",
+        505
+      ],
+      [
+        "Operations",
+        326
+      ],
+      [
+        "Information Technology",
+        306
+      ],
+      [
+        "Marketing",
+        300
+      ]
+    ],
+    "Industry": [
+      [
+        "IT Services and IT Consulting",
+        3017
+      ],
+      [
+        "Software Development",
+        1474
+      ],
+      [
+        "Technology, Information and Internet",
+        811
+      ],
+      [
+        "Staffing and Recruiting",
+        414
+      ],
+      [
+        "Human Resources Services",
+        335
+      ],
+      [
+        "Business Consulting and Services",
+        269
+      ],
+      [
+        "Advertising Services",
+        200
+      ],
+      [
+        "Financial Services",
+        153
+      ]
+    ],
+    "Company size": [
+      [
+        "51-200",
+        1837
+      ],
+      [
+        "11-50",
+        1471
+      ],
+      [
+        "201-500",
+        786
+      ],
+      [
+        "1001-5000",
+        686
+      ],
+      [
+        "2-10",
+        679
+      ],
+      [
+        "10001+",
+        603
+      ],
+      [
+        "501-1000",
+        510
+      ],
+      [
+        "5001-10000",
+        136
+      ]
+    ],
+    "Location": [
+      [
+        "Kyiv Metropolitan Area, Ukraine",
+        717
+      ],
+      [
+        "Lviv, Ukraine",
+        457
+      ],
+      [
+        "New York City Metropolitan Area",
+        281
+      ],
+      [
+        "Greater Philadelphia",
+        221
+      ],
+      [
+        "Cracow Metropolitan Area, Poland",
+        185
+      ],
+      [
+        "Washington DC-Baltimore Area",
+        182
+      ],
+      [
+        "Lahore, Pakistan",
+        178
+      ],
+      [
+        "Kharkiv Metropolitan Area, Ukraine",
+        177
+      ]
+    ]
+  },
+  "follower_demographics": {
+    "Seniority": [
+      [
+        "Senior",
+        468
+      ],
+      [
+        "Entry",
+        365
+      ],
+      [
+        "Director",
+        92
+      ],
+      [
+        "Manager",
+        69
+      ],
+      [
+        "Owner",
+        60
+      ],
+      [
+        "CXO",
+        51
+      ],
+      [
+        "VP",
+        34
+      ],
+      [
+        "Partner",
+        16
+      ]
+    ],
+    "Job function": [
+      [
+        "Engineering",
+        273
+      ],
+      [
+        "Business Development",
+        179
+      ],
+      [
+        "Sales",
+        97
+      ],
+      [
+        "Human Resources",
+        69
+      ],
+      [
+        "Operations",
+        63
+      ],
+      [
+        "Program and Project Management",
+        61
+      ],
+      [
+        "Information Technology",
+        59
+      ],
+      [
+        "Marketing",
+        40
+      ]
+    ],
+    "Industry": [
+      [
+        "IT Services and IT Consulting",
+        218
+      ],
+      [
+        "Software Development",
+        153
+      ],
+      [
+        "IT System Custom Software Development",
+        107
+      ],
+      [
+        "Technology, Information and Internet",
+        56
+      ],
+      [
+        "Business Consulting and Services",
+        46
+      ],
+      [
+        "Advertising Services",
+        42
+      ],
+      [
+        "Financial Services",
+        36
+      ],
+      [
+        "Staffing and Recruiting",
+        33
+      ]
+    ],
+    "Company size": [
+      [
+        "51-200",
+        244
+      ],
+      [
+        "11-50",
+        199
+      ],
+      [
+        "10001+",
+        161
+      ],
+      [
+        "2-10",
+        141
+      ],
+      [
+        "1001-5000",
+        114
+      ],
+      [
+        "201-500",
+        74
+      ],
+      [
+        "501-1000",
+        74
+      ],
+      [
+        "5001-10000",
+        32
+      ]
+    ],
+    "Location": [
+      [
+        "Greater Philadelphia",
+        166
+      ],
+      [
+        "Kyiv Metropolitan Area, Ukraine",
+        63
+      ],
+      [
+        "New York City Metropolitan Area",
+        44
+      ],
+      [
+        "Lviv, Ukraine",
+        38
+      ],
+      [
+        "Washington DC-Baltimore Area",
+        20
+      ],
+      [
+        "Kharkiv Metropolitan Area, Ukraine",
+        15
+      ],
+      [
+        "San Francisco Bay Area",
+        15
+      ],
+      [
+        "Lahore, Pakistan",
+        15
+      ]
+    ]
+  }
+}
