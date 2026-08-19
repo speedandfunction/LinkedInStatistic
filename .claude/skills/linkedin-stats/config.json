@@ -1,0 +1,6 @@
+{
+  "_note": "Identity of the tracked LinkedIn account. Everything account-specific lives here so the pipeline code stays generic. profile_slug is the path segment of the personal profile ('in/<slug>'); company_id is the numeric LinkedIn Page id used by the page phase.",
+  "profile_slug": "in/REPLACE-WITH-YOUR-SLUG",
+  "company_id": "7948833",
+  "posts_cutoff": "2026-01-01"
+}

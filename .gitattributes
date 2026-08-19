@@ -1,0 +1,13 @@
+# The pipeline executes on macOS: the shell drivers, the Python merge helper and
+# the Node scrapers must all check out with LF regardless of the contributor's
+# platform. A CRLF run-weekly.sh dies on the runner with `$'\r': command not
+# found`, which reads like a corrupt script rather than a line-ending problem.
+* text=auto eol=lf
+
+*.sh   text eol=lf
+*.py   text eol=lf
+*.mjs  text eol=lf
+*.js   text eol=lf
+*.json text eol=lf
+*.yml  text eol=lf
+*.md   text eol=lf

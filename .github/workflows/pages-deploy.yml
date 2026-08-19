@@ -1,0 +1,54 @@
+name: pages-deploy
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: Emit flat stats.json for Grafana
+        run: |
+          mkdir -p pages-dist
+          node .github/scripts/build-stats-json.mjs --out pages-dist/stats.json
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: pages-dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
+
+  # Same coupling as the weekly publish job: once the republished stats.json
+  # is live, sync the $post Custom-variable list on the per-post dashboard.
+  refresh-post-variable:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: Refresh $post dashboard variable
+        env:
+          GRAFANA_SERVICE_ACCOUNT_TOKEN: ${{ secrets.GRAFANA_SERVICE_ACCOUNT_TOKEN }}
+        run: node .github/scripts/update-post-variable.mjs

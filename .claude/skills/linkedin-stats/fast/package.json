@@ -1,0 +1,10 @@
+{
+  "name": "linkedin-stats-fast-scrape",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Deterministic fast path for the linkedin-stats skill: scrapes discovery, per-post metrics, account analytics and outbound comments in one paced Playwright run (~5 min) instead of the multi-hour LLM agent pipeline.",
+  "type": "module",
+  "dependencies": {
+    "playwright-core": "1.61.1"
+  }
+}

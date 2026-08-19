@@ -1,0 +1,9 @@
+{
+  "_note": "Engagement scoring weights. Points per engagement event, by the tier of the person who produced it. The base is reaction=1, comment=5; ICP is a 2x multiplier on both, the VIP list is 4x on both. Scores are DERIVED AT BUILD TIME by .github/scripts/build-stats-json.mjs from the raw events in dashboards/li-stats/engagement.json — editing this file rescores all history on the next Pages build, with no re-scrape. Tier resolution: a person on vip-people.md is 'vip'; a person whose cached ICP verdict is true is 'icp'; everyone else is 'normal'. A person who is BOTH vip and icp scores at 'precedence' (max = the higher points of the two tiers, per event kind).",
+  "precedence": "max",
+  "weights": {
+    "normal": { "reaction": 1, "comment": 5 },
+    "icp": { "reaction": 2, "comment": 10 },
+    "vip": { "reaction": 4, "comment": 20 }
+  }
+}

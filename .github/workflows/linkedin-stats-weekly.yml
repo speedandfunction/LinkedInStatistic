@@ -1,0 +1,78 @@
+name: linkedin-stats-weekly
+
+on:
+  schedule:
+    # 00:00 UTC Mon -> 02:00 Kyiv winter / 03:00 Kyiv summer
+    - cron: "0 0 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: [self-hosted, macOS]
+    # Generous backstop: the in-script watchdogs (per-attempt deadline, heal
+    # and review caps) are what bound the run — they must win over this or
+    # partial commits and the incident doc are lost to a runner-level kill.
+    # Capped at 20h (not the old 6000 min): a run stuck OUTSIDE those
+    # watchdogs (npm, git, PR chain) would otherwise occupy the single
+    # runner past Tuesday 04:00 — GitHub silently cancels self-hosted jobs
+    # queued >24h, so the hourly fire would vanish without a Slack bookend.
+    # Worst legitimate run (5 attempts + 4 heals + review + chains) is ~9h.
+    timeout-minutes: 1200
+    outputs:
+      main_updated: ${{ steps.scrape.outputs.main_updated }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Run weekly scrape
+        id: scrape
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ./.claude/skills/linkedin-stats/run-weekly.sh
+
+  publish:
+    needs: scrape
+    # A healed/partial run leaves its data on an unmerged PR — republishing
+    # stale main would be a no-op; skip until the PR is merged (then use
+    # pages-deploy.yml to publish manually).
+    if: needs.scrape.outputs.main_updated == 'true'
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: Emit flat stats.json for Grafana
+        run: |
+          mkdir -p pages-dist
+          node .github/scripts/build-stats-json.mjs --out pages-dist/stats.json
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: pages-dist
+      - id: deployment
+        uses: actions/deploy-pages@v5
+      # After the new stats.json is live: push the regenerated $post
+      # Custom-variable list to the Grafana per-post dashboard so the picker
+      # always includes the week's new posts (Query variables can't read
+      # Infinity data in v0alpha1 dashboards, so the list must be pushed).
+      - name: Refresh $post dashboard variable
+        env:
+          GRAFANA_SERVICE_ACCOUNT_TOKEN: ${{ secrets.GRAFANA_SERVICE_ACCOUNT_TOKEN }}
+        run: node .github/scripts/update-post-variable.mjs

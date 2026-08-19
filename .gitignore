@@ -1,0 +1,10 @@
+tmp/
+__pycache__/
+.claude/settings.local.json
+.claude/worktrees/
+
+# Regenerable
+.claude/skills/linkedin-stats/fast/node_modules/
+
+# Secrets — loaded by the runner / start script
+.env
