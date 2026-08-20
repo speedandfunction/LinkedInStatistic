@@ -309,19 +309,160 @@
     },
     {
       "id": 6,
+      "type": "barchart",
+      "title": "US · ICP share of visitors by month",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 7
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "custom": {
+            "lineWidth": 1,
+            "fillOpacity": 80
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "auto",
+        "xTickLabelRotation": 0,
+        "showValue": "auto",
+        "stacking": "none",
+        "legend": {
+          "showLegend": true,
+          "placement": "bottom"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "type": "json",
+          "source": "inline",
+          "format": "table",
+          "parser": "simple",
+          "root_selector": "",
+          "data": "[{\"month\":\"2026-03\",\"us\":65,\"team\":205,\"anti\":96,\"other\":207,\"icp_pct\":11.3,\"anti_pct\":16.8,\"total\":573},{\"month\":\"2026-04\",\"us\":68,\"team\":73,\"anti\":24,\"other\":83,\"icp_pct\":27.4,\"anti_pct\":9.7,\"total\":248},{\"month\":\"2026-05\",\"us\":113,\"team\":98,\"anti\":0,\"other\":55,\"icp_pct\":42.5,\"anti_pct\":0,\"total\":266},{\"month\":\"2026-06\",\"us\":326,\"team\":123,\"anti\":27,\"other\":136,\"icp_pct\":53.3,\"anti_pct\":4.4,\"total\":612},{\"month\":\"2026-07\",\"us\":75,\"team\":127,\"anti\":37,\"other\":154,\"icp_pct\":19.1,\"anti_pct\":9.4,\"total\":393},{\"month\":\"2026-08\",\"us\":0,\"team\":27,\"anti\":0,\"other\":82,\"icp_pct\":0,\"anti_pct\":0,\"total\":109}]",
+          "columns": [
+            {
+              "selector": "month",
+              "text": "month",
+              "type": "string"
+            },
+            {
+              "selector": "icp_pct",
+              "text": "icp_pct",
+              "type": "number"
+            }
+          ],
+          "filters": []
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "type": "barchart",
+      "title": "Visitor geography by month",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 7
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "lineWidth": 1,
+            "fillOpacity": 80
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "auto",
+        "xTickLabelRotation": 0,
+        "showValue": "auto",
+        "stacking": "normal",
+        "legend": {
+          "showLegend": true,
+          "placement": "bottom"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "type": "json",
+          "source": "inline",
+          "format": "table",
+          "parser": "simple",
+          "root_selector": "",
+          "data": "[{\"month\":\"2026-03\",\"us\":65,\"team\":205,\"anti\":96,\"other\":207,\"icp_pct\":11.3,\"anti_pct\":16.8,\"total\":573},{\"month\":\"2026-04\",\"us\":68,\"team\":73,\"anti\":24,\"other\":83,\"icp_pct\":27.4,\"anti_pct\":9.7,\"total\":248},{\"month\":\"2026-05\",\"us\":113,\"team\":98,\"anti\":0,\"other\":55,\"icp_pct\":42.5,\"anti_pct\":0,\"total\":266},{\"month\":\"2026-06\",\"us\":326,\"team\":123,\"anti\":27,\"other\":136,\"icp_pct\":53.3,\"anti_pct\":4.4,\"total\":612},{\"month\":\"2026-07\",\"us\":75,\"team\":127,\"anti\":37,\"other\":154,\"icp_pct\":19.1,\"anti_pct\":9.4,\"total\":393},{\"month\":\"2026-08\",\"us\":0,\"team\":27,\"anti\":0,\"other\":82,\"icp_pct\":0,\"anti_pct\":0,\"total\":109}]",
+          "columns": [
+            {
+              "selector": "month",
+              "text": "month",
+              "type": "string"
+            },
+            {
+              "selector": "us",
+              "text": "us",
+              "type": "number"
+            },
+            {
+              "selector": "team",
+              "text": "team",
+              "type": "number"
+            },
+            {
+              "selector": "anti",
+              "text": "anti",
+              "type": "number"
+            },
+            {
+              "selector": "other",
+              "text": "other",
+              "type": "number"
+            }
+          ],
+          "filters": []
+        }
+      ]
+    },
+    {
+      "id": 8,
       "type": "row",
       "title": "Company Page — monthly",
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 7
+        "y": 15
       },
       "collapsed": false,
       "panels": []
     },
     {
-      "id": 7,
+      "id": 9,
       "type": "barchart",
       "title": "Page views & unique visitors",
       "datasource": {
@@ -332,7 +473,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 8
+        "y": 16
       },
       "fieldConfig": {
         "defaults": {
@@ -389,7 +530,7 @@
       ]
     },
     {
-      "id": 8,
+      "id": 10,
       "type": "barchart",
       "title": "New followers",
       "datasource": {
@@ -400,7 +541,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 8
+        "y": 16
       },
       "fieldConfig": {
         "defaults": {
@@ -452,7 +593,7 @@
       ]
     },
     {
-      "id": 9,
+      "id": 11,
       "type": "barchart",
       "title": "Post impressions",
       "datasource": {
@@ -463,7 +604,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 8
+        "y": 16
       },
       "fieldConfig": {
         "defaults": {
@@ -515,7 +656,7 @@
       ]
     },
     {
-      "id": 10,
+      "id": 12,
       "type": "table",
       "title": "Monthly metrics",
       "datasource": {
@@ -526,7 +667,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 16
+        "y": 24
       },
       "fieldConfig": {
         "defaults": {},
@@ -600,20 +741,20 @@
       ]
     },
     {
-      "id": 11,
+      "id": 13,
       "type": "row",
       "title": "Audience (12-month snapshot)",
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 24
+        "y": 32
       },
       "collapsed": false,
       "panels": []
     },
     {
-      "id": 12,
+      "id": 14,
       "type": "bargauge",
       "title": "Visitors by seniority",
       "datasource": {
@@ -624,7 +765,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 25
+        "y": 33
       },
       "fieldConfig": {
         "defaults": {
@@ -674,7 +815,7 @@
       ]
     },
     {
-      "id": 13,
+      "id": 15,
       "type": "bargauge",
       "title": "Visitors by industry",
       "datasource": {
@@ -685,7 +826,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 25
+        "y": 33
       },
       "fieldConfig": {
         "defaults": {
@@ -735,7 +876,7 @@
       ]
     },
     {
-      "id": 14,
+      "id": 16,
       "type": "bargauge",
       "title": "Followers by seniority",
       "datasource": {
@@ -746,7 +887,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 33
+        "y": 41
       },
       "fieldConfig": {
         "defaults": {
@@ -796,7 +937,7 @@
       ]
     },
     {
-      "id": 15,
+      "id": 17,
       "type": "bargauge",
       "title": "Followers by industry",
       "datasource": {
@@ -807,7 +948,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 33
+        "y": 41
       },
       "fieldConfig": {
         "defaults": {
