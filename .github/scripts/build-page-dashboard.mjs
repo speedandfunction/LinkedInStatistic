@@ -70,20 +70,40 @@ function bargauge(title, gridPos, rows) {
     targets: [inlineTarget(rows, demoCols)],
   };
 }
+// ICP share as a coloured stat: green above target, red below.
+function icpStat(title, gridPos, pct) {
+  return {
+    id: nid(), type: 'stat', title, datasource: DS, gridPos,
+    fieldConfig: { defaults: { unit: 'percent', decimals: 1, min: 0, max: 100, thresholds: {
+      mode: 'absolute', steps: [{ color: 'red', value: null }, { color: 'orange', value: 30 }, { color: 'green', value: 50 }] } }, overrides: [] },
+    options: { reduceOptions: { values: false, calcs: ['lastNotNull'], fields: '/^v$/' }, textMode: 'value', colorMode: 'value', graphMode: 'none' },
+    targets: [inlineTarget([{ v: pct }], [{ selector: 'v', text: 'v', type: 'number' }])],
+  };
+}
 
 const demoRows = (obj, cat) => (obj[cat] || []).map(([name, value]) => ({ name, value }));
+const geo = src.geography || { visitors: { buckets: {}, icp_pct: 0 }, followers: { buckets: {}, icp_pct: 0 } };
+const BUCKET_LABEL = { US: 'US · ICP', TEAM: 'Ukraine · team', ANTI: 'India / China · off-ICP', OTHER: 'Other · off-target' };
+const geoRows = (b) => ['US', 'TEAM', 'ANTI', 'OTHER'].map((k) => ({ name: BUCKET_LABEL[k], value: (b || {})[k] || 0 }));
 
 const panels = [
-  { id: nid(), type: 'row', title: 'Company Page — monthly', gridPos: { h: 1, w: 24, x: 0, y: 0 }, collapsed: false, panels: [] },
-  barchart('Page views & unique visitors', { h: 8, w: 12, x: 0, y: 1 }, ['page_views', 'unique_visitors']),
-  barchart('New followers', { h: 8, w: 6, x: 12, y: 1 }, ['new_followers']),
-  barchart('Post impressions', { h: 8, w: 6, x: 18, y: 1 }, ['post_impressions']),
-  table('Monthly metrics', { h: 8, w: 24, x: 0, y: 9 }),
-  { id: nid(), type: 'row', title: 'Audience (12-month snapshot)', gridPos: { h: 1, w: 24, x: 0, y: 17 }, collapsed: false, panels: [] },
-  bargauge('Visitors by seniority', { h: 8, w: 12, x: 0, y: 18 }, demoRows(src.visitor_demographics, 'Seniority')),
-  bargauge('Visitors by industry', { h: 8, w: 12, x: 12, y: 18 }, demoRows(src.visitor_demographics, 'Industry')),
-  bargauge('Followers by seniority', { h: 8, w: 12, x: 0, y: 26 }, demoRows(src.follower_demographics, 'Seniority')),
-  bargauge('Followers by industry', { h: 8, w: 12, x: 12, y: 26 }, demoRows(src.follower_demographics, 'Industry')),
+  { id: nid(), type: 'row', title: 'ICP geography (12-month snapshot)', gridPos: { h: 1, w: 24, x: 0, y: 0 }, collapsed: false, panels: [] },
+  icpStat('US · ICP share — visitors', { h: 6, w: 6, x: 0, y: 1 }, geo.visitors.icp_pct),
+  icpStat('US · ICP share — followers', { h: 6, w: 6, x: 6, y: 1 }, geo.followers.icp_pct),
+  bargauge('Visitors by ICP bucket', { h: 6, w: 6, x: 12, y: 1 }, geoRows(geo.visitors.buckets)),
+  bargauge('Followers by ICP bucket', { h: 6, w: 6, x: 18, y: 1 }, geoRows(geo.followers.buckets)),
+
+  { id: nid(), type: 'row', title: 'Company Page — monthly', gridPos: { h: 1, w: 24, x: 0, y: 7 }, collapsed: false, panels: [] },
+  barchart('Page views & unique visitors', { h: 8, w: 12, x: 0, y: 8 }, ['page_views', 'unique_visitors']),
+  barchart('New followers', { h: 8, w: 6, x: 12, y: 8 }, ['new_followers']),
+  barchart('Post impressions', { h: 8, w: 6, x: 18, y: 8 }, ['post_impressions']),
+  table('Monthly metrics', { h: 8, w: 24, x: 0, y: 16 }),
+
+  { id: nid(), type: 'row', title: 'Audience (12-month snapshot)', gridPos: { h: 1, w: 24, x: 0, y: 24 }, collapsed: false, panels: [] },
+  bargauge('Visitors by seniority', { h: 8, w: 12, x: 0, y: 25 }, demoRows(src.visitor_demographics, 'Seniority')),
+  bargauge('Visitors by industry', { h: 8, w: 12, x: 12, y: 25 }, demoRows(src.visitor_demographics, 'Industry')),
+  bargauge('Followers by seniority', { h: 8, w: 12, x: 0, y: 33 }, demoRows(src.follower_demographics, 'Seniority')),
+  bargauge('Followers by industry', { h: 8, w: 12, x: 12, y: 33 }, demoRows(src.follower_demographics, 'Industry')),
 ];
 
 const dashboard = {

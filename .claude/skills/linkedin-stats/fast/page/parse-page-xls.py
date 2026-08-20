@@ -20,6 +20,7 @@ Usage:
 """
 import sys, os, json, datetime, collections
 import xlrd
+from geo_classify import classify_rows
 
 
 def _date(v):
@@ -56,6 +57,14 @@ def _demo(path, sheet_name, topn=8):
     rows = [(sh.cell_value(r, 0), sh.cell_value(r, 1)) for r in range(1, sh.nrows)]
     rows.sort(key=lambda x: -(x[1] if isinstance(x[1], (int, float)) else 0))
     return [[n, int(v)] for n, v in rows[:topn] if isinstance(v, (int, float))]
+
+
+def _geo(path):
+    """Classify the full Location sheet into ICP geography buckets (US/TEAM/ANTI/OTHER)."""
+    wb = xlrd.open_workbook(path)
+    sh = wb.sheet_by_name("Location")
+    rows = [(sh.cell_value(r, 0), sh.cell_value(r, 1)) for r in range(1, sh.nrows)]
+    return classify_rows(rows)
 
 
 def last_months(n):
@@ -111,6 +120,10 @@ def parse(xls_dir, months):
         "months": out_months,
         "visitor_demographics": {s: _demo(os.path.join(xls_dir, "visitors.xls"), s) for s in demo_sheets},
         "follower_demographics": {s: _demo(os.path.join(xls_dir, "followers.xls"), s) for s in demo_sheets},
+        "geography": {
+            "visitors": _geo(os.path.join(xls_dir, "visitors.xls")),
+            "followers": _geo(os.path.join(xls_dir, "followers.xls")),
+        },
     }
 
 
