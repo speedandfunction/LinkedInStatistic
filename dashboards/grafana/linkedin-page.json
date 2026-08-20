@@ -68,7 +68,7 @@
     {
       "id": 1,
       "type": "row",
-      "title": "ICP geography (12-month snapshot)",
+      "title": "ICP geography (visitors · last 6 months)",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -81,7 +81,7 @@
     {
       "id": 2,
       "type": "stat",
-      "title": "US · ICP share — visitors",
+      "title": "US · ICP share — visitors (6 mo)",
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "grafanacloud-infinity"
@@ -142,7 +142,7 @@
           "format": "table",
           "parser": "simple",
           "root_selector": "",
-          "data": "[{\"v\":25.6}]",
+          "data": "[{\"v\":29.4}]",
           "columns": [
             {
               "selector": "v",
@@ -157,7 +157,7 @@
     {
       "id": 3,
       "type": "stat",
-      "title": "US · ICP share — followers",
+      "title": "US · ICP share — followers (base)",
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "grafanacloud-infinity"
@@ -233,7 +233,7 @@
     {
       "id": 4,
       "type": "bargauge",
-      "title": "Visitors by ICP bucket",
+      "title": "Visitors by ICP bucket (6 mo)",
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "grafanacloud-infinity"
@@ -274,7 +274,7 @@
           "format": "table",
           "parser": "simple",
           "root_selector": "",
-          "data": "[{\"name\":\"US · ICP\",\"value\":1552},{\"name\":\"Ukraine · team\",\"value\":1681},{\"name\":\"India / China · off-ICP\",\"value\":560},{\"name\":\"Other · off-target\",\"value\":2260}]",
+          "data": "[{\"name\":\"US · ICP\",\"value\":647},{\"name\":\"Ukraine · team\",\"value\":653},{\"name\":\"India / China · off-ICP\",\"value\":184},{\"name\":\"Other · off-target\",\"value\":717}]",
           "columns": [
             {
               "selector": "name",
@@ -294,7 +294,7 @@
     {
       "id": 5,
       "type": "bargauge",
-      "title": "Followers by ICP bucket",
+      "title": "Followers by ICP bucket (base)",
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "grafanacloud-infinity"

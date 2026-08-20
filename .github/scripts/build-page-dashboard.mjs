@@ -26,6 +26,14 @@ const months = Object.entries(src.months).map(([month, m]) => ({ month, ...m }))
 const geoMonthly = fs.existsSync(GEO_IN)
   ? Object.entries(JSON.parse(fs.readFileSync(GEO_IN, 'utf8')).months).map(([month, g]) => ({ month, ...g }))
   : [];
+// 6-month VISITOR geography = sum of the monthly exports (Location is additive
+// "total views"), so the headline matches the rest of the 6-month dashboard.
+const vis6 = (() => {
+  const b = { US: 0, TEAM: 0, ANTI: 0, OTHER: 0 };
+  for (const r of geoMonthly) { b.US += r.us || 0; b.TEAM += r.team || 0; b.ANTI += r.anti || 0; b.OTHER += r.other || 0; }
+  const total = b.US + b.TEAM + b.ANTI + b.OTHER;
+  return { buckets: b, icp_pct: total ? Math.round((1000 * b.US) / total) / 10 : 0 };
+})();
 
 const DS = { type: 'yesoreyeram-infinity-datasource', uid: 'grafanacloud-infinity' };
 
@@ -128,11 +136,11 @@ function barchartData(title, gridPos, data, keys, unit = 'short', stacking = 'no
 }
 
 const panels = [
-  { id: nid(), type: 'row', title: 'ICP geography (12-month snapshot)', gridPos: { h: 1, w: 24, x: 0, y: 0 }, collapsed: false, panels: [] },
-  icpStat('US · ICP share — visitors', { h: 6, w: 6, x: 0, y: 1 }, geo.visitors.icp_pct),
-  icpStat('US · ICP share — followers', { h: 6, w: 6, x: 6, y: 1 }, geo.followers.icp_pct),
-  bargauge('Visitors by ICP bucket', { h: 6, w: 6, x: 12, y: 1 }, geoRows(geo.visitors.buckets)),
-  bargauge('Followers by ICP bucket', { h: 6, w: 6, x: 18, y: 1 }, geoRows(geo.followers.buckets)),
+  { id: nid(), type: 'row', title: 'ICP geography (visitors · last 6 months)', gridPos: { h: 1, w: 24, x: 0, y: 0 }, collapsed: false, panels: [] },
+  icpStat('US · ICP share — visitors (6 mo)', { h: 6, w: 6, x: 0, y: 1 }, vis6.icp_pct),
+  icpStat('US · ICP share — followers (base)', { h: 6, w: 6, x: 6, y: 1 }, geo.followers.icp_pct),
+  bargauge('Visitors by ICP bucket (6 mo)', { h: 6, w: 6, x: 12, y: 1 }, geoRows(vis6.buckets)),
+  bargauge('Followers by ICP bucket (base)', { h: 6, w: 6, x: 18, y: 1 }, geoRows(geo.followers.buckets)),
   barchartData('US · ICP share of visitors by month', { h: 8, w: 12, x: 0, y: 7 }, geoMonthly, ['icp_pct'], 'percent'),
   barchartData('Visitor geography by month', { h: 8, w: 12, x: 12, y: 7 }, geoMonthly, ['us', 'team', 'anti', 'other'], 'short', 'normal'),
 
