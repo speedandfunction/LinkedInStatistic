@@ -67,13 +67,18 @@ const ICP_FILE = path.join(REPO_ROOT, 'sources', 'icp.md');
 const AGENTS_DIR = path.join(REPO_ROOT, '.claude', 'agents');
 const MERGE_PY = path.join(SCRIPT_DIR, 'merge.py');
 const MANIFEST_FILE = path.join(REPO_ROOT, 'tmp', 'fast-scrape-manifest.json');
-// Account identity lives in config.json — nothing about a specific person or
-// company is hardcoded below this block.
+// Account identity lives in config.json — no specific person is hardcoded
+// below this block. (config.company_id is read by the separate company-page
+// phase in fast/page/scrape-page.mjs, not by this personal-profile script.)
 const CONFIG = JSON.parse(fs.readFileSync(
   path.join(SCRIPT_DIR, '..', 'config.json'), 'utf8'));
 const PROFILE_SLUG = String(CONFIG.profile_slug || '').replace(/^\/+|\/+$/g, '');
 if (!/^in\/[^/]+$/.test(PROFILE_SLUG)) {
   console.error(`config.json: profile_slug must look like "in/<slug>", got "${PROFILE_SLUG}"`);
+  process.exit(23);
+}
+if (/REPLACE-WITH-YOUR-SLUG/i.test(PROFILE_SLUG)) {
+  console.error('config.json: profile_slug is still the placeholder — set it to your real "in/<slug>" before running.');
   process.exit(23);
 }
 // LI_CHROME_PROFILE_DIR overrides the macOS default (Linux runners, sandboxes).
