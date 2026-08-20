@@ -44,6 +44,18 @@ function inlineTarget(rows, columns, refId = 'A') {
     filters: [],
   };
 }
+// Backend-parser inline target that honours a filterExpression on the `month`
+// column — the ONLY way an inline panel responds to the $month variable
+// (parser:'simple' ignores filterExpression; parser:'backend' applies it).
+function filteredTarget(rows, keys, filterExpression, refId = 'A') {
+  return {
+    refId, datasource: DS, type: 'json', source: 'inline', format: 'table',
+    parser: 'backend', root_selector: '', data: JSON.stringify(rows),
+    columns: [{ selector: 'month', text: 'month', type: 'string' },
+      ...keys.map((k) => ({ selector: k, text: k, type: 'number' }))],
+    filters: [], filterExpression,
+  };
+}
 const numCols = (keys) => [{ selector: 'month', text: 'month', type: 'string' },
   ...keys.map((k) => ({ selector: k, text: k, type: 'number' }))];
 const demoCols = [{ selector: 'name', text: 'name', type: 'string' },
@@ -86,6 +98,20 @@ function icpStat(title, gridPos, pct) {
   };
 }
 
+// Stat for the $month-selected value (filtered inline via backend parser).
+function monthStat(title, gridPos, field, unit, colored = false) {
+  const defaults = { unit, decimals: unit === 'percent' ? 1 : 0 };
+  if (colored) defaults.thresholds = { mode: 'absolute',
+    steps: [{ color: 'red', value: null }, { color: 'orange', value: 30 }, { color: 'green', value: 50 }] };
+  return {
+    id: nid(), type: 'stat', title, datasource: DS, gridPos,
+    fieldConfig: { defaults, overrides: [] },
+    options: { reduceOptions: { values: false, calcs: ['lastNotNull'], fields: `/^${field}$/` },
+      textMode: 'value', colorMode: colored ? 'value' : 'none', graphMode: 'none' },
+    targets: [filteredTarget(geoMonthly, [field], 'month == "${month}"')],
+  };
+}
+
 const demoRows = (obj, cat) => (obj[cat] || []).map(([name, value]) => ({ name, value }));
 const geo = src.geography || { visitors: { buckets: {}, icp_pct: 0 }, followers: { buckets: {}, icp_pct: 0 } };
 const BUCKET_LABEL = { US: 'US · ICP', TEAM: 'Ukraine · team', ANTI: 'India / China · off-ICP', OTHER: 'Other · off-target' };
@@ -110,18 +136,35 @@ const panels = [
   barchartData('US · ICP share of visitors by month', { h: 8, w: 12, x: 0, y: 7 }, geoMonthly, ['icp_pct'], 'percent'),
   barchartData('Visitor geography by month', { h: 8, w: 12, x: 12, y: 7 }, geoMonthly, ['us', 'team', 'anti', 'other'], 'short', 'normal'),
 
-  { id: nid(), type: 'row', title: 'Company Page — monthly', gridPos: { h: 1, w: 24, x: 0, y: 15 }, collapsed: false, panels: [] },
-  barchart('Page views & unique visitors', { h: 8, w: 12, x: 0, y: 16 }, ['page_views', 'unique_visitors']),
-  barchart('New followers', { h: 8, w: 6, x: 12, y: 16 }, ['new_followers']),
-  barchart('Post impressions', { h: 8, w: 6, x: 18, y: 16 }, ['post_impressions']),
-  table('Monthly metrics', { h: 8, w: 24, x: 0, y: 24 }),
+  { id: nid(), type: 'row', title: 'Selected month — pick $month above', gridPos: { h: 1, w: 24, x: 0, y: 15 }, collapsed: false, panels: [] },
+  monthStat('US · ICP share ($month)', { h: 5, w: 6, x: 0, y: 16 }, 'icp_pct', 'percent', true),
+  monthStat('India / China share ($month)', { h: 5, w: 6, x: 6, y: 16 }, 'anti_pct', 'percent'),
+  monthStat('US visitors ($month)', { h: 5, w: 6, x: 12, y: 16 }, 'us', 'short'),
+  monthStat('India / China visitors ($month)', { h: 5, w: 6, x: 18, y: 16 }, 'anti', 'short'),
 
-  { id: nid(), type: 'row', title: 'Audience (12-month snapshot)', gridPos: { h: 1, w: 24, x: 0, y: 32 }, collapsed: false, panels: [] },
-  bargauge('Visitors by seniority', { h: 8, w: 12, x: 0, y: 33 }, demoRows(src.visitor_demographics, 'Seniority')),
-  bargauge('Visitors by industry', { h: 8, w: 12, x: 12, y: 33 }, demoRows(src.visitor_demographics, 'Industry')),
-  bargauge('Followers by seniority', { h: 8, w: 12, x: 0, y: 41 }, demoRows(src.follower_demographics, 'Seniority')),
-  bargauge('Followers by industry', { h: 8, w: 12, x: 12, y: 41 }, demoRows(src.follower_demographics, 'Industry')),
+  { id: nid(), type: 'row', title: 'Company Page — monthly', gridPos: { h: 1, w: 24, x: 0, y: 21 }, collapsed: false, panels: [] },
+  barchart('Page views & unique visitors', { h: 8, w: 12, x: 0, y: 22 }, ['page_views', 'unique_visitors']),
+  barchart('New followers', { h: 8, w: 6, x: 12, y: 22 }, ['new_followers']),
+  barchart('Post impressions', { h: 8, w: 6, x: 18, y: 22 }, ['post_impressions']),
+  table('Monthly metrics', { h: 8, w: 24, x: 0, y: 30 }),
+
+  { id: nid(), type: 'row', title: 'Audience (12-month snapshot)', gridPos: { h: 1, w: 24, x: 0, y: 38 }, collapsed: false, panels: [] },
+  bargauge('Visitors by seniority', { h: 8, w: 12, x: 0, y: 39 }, demoRows(src.visitor_demographics, 'Seniority')),
+  bargauge('Visitors by industry', { h: 8, w: 12, x: 12, y: 39 }, demoRows(src.visitor_demographics, 'Industry')),
+  bargauge('Followers by seniority', { h: 8, w: 12, x: 0, y: 47 }, demoRows(src.follower_demographics, 'Seniority')),
+  bargauge('Followers by industry', { h: 8, w: 12, x: 12, y: 47 }, demoRows(src.follower_demographics, 'Industry')),
 ];
+
+// $month picker — Custom variable in "display : value" format (Query type
+// can't read Infinity in v0alpha1 dashboards, so the list is embedded).
+const monthValues = geoMonthly.map((r) => r.month);
+const monthVar = {
+  name: 'month', type: 'custom', label: 'Month',
+  query: monthValues.map((m) => `${m} : ${m}`).join(', '),
+  current: monthValues.length ? { text: monthValues[monthValues.length - 1], value: monthValues[monthValues.length - 1] } : {},
+  options: monthValues.map((m, i) => ({ text: m, value: m, selected: i === monthValues.length - 1 })),
+  includeAll: false, multi: false,
+};
 
 const dashboard = {
   uid: 'linkedin-page',
@@ -132,7 +175,7 @@ const dashboard = {
   version: 1,
   refresh: '',
   time: { from: 'now-1y', to: 'now' },
-  templating: { list: [] },
+  templating: { list: monthValues.length ? [monthVar] : [] },
   annotations: { list: [] },
   panels,
 };
