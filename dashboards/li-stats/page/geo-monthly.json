@@ -1,0 +1,58 @@
+{
+  "months": {
+    "2026-03": {
+      "us": 65,
+      "team": 205,
+      "anti": 96,
+      "other": 207,
+      "icp_pct": 11.3,
+      "anti_pct": 16.8,
+      "total": 573
+    },
+    "2026-04": {
+      "us": 68,
+      "team": 73,
+      "anti": 24,
+      "other": 83,
+      "icp_pct": 27.4,
+      "anti_pct": 9.7,
+      "total": 248
+    },
+    "2026-05": {
+      "us": 113,
+      "team": 98,
+      "anti": 0,
+      "other": 55,
+      "icp_pct": 42.5,
+      "anti_pct": 0.0,
+      "total": 266
+    },
+    "2026-06": {
+      "us": 326,
+      "team": 123,
+      "anti": 27,
+      "other": 136,
+      "icp_pct": 53.3,
+      "anti_pct": 4.4,
+      "total": 612
+    },
+    "2026-07": {
+      "us": 75,
+      "team": 127,
+      "anti": 37,
+      "other": 154,
+      "icp_pct": 19.1,
+      "anti_pct": 9.4,
+      "total": 393
+    },
+    "2026-08": {
+      "us": 0,
+      "team": 27,
+      "anti": 0,
+      "other": 82,
+      "icp_pct": 0.0,
+      "anti_pct": 0.0,
+      "total": 109
+    }
+  }
+}

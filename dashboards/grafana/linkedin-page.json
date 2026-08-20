@@ -14,7 +14,52 @@
     "to": "now"
   },
   "templating": {
-    "list": []
+    "list": [
+      {
+        "name": "month",
+        "type": "custom",
+        "label": "Month",
+        "query": "2026-03 : 2026-03, 2026-04 : 2026-04, 2026-05 : 2026-05, 2026-06 : 2026-06, 2026-07 : 2026-07, 2026-08 : 2026-08",
+        "current": {
+          "text": "2026-08",
+          "value": "2026-08"
+        },
+        "options": [
+          {
+            "text": "2026-03",
+            "value": "2026-03",
+            "selected": false
+          },
+          {
+            "text": "2026-04",
+            "value": "2026-04",
+            "selected": false
+          },
+          {
+            "text": "2026-05",
+            "value": "2026-05",
+            "selected": false
+          },
+          {
+            "text": "2026-06",
+            "value": "2026-06",
+            "selected": false
+          },
+          {
+            "text": "2026-07",
+            "value": "2026-07",
+            "selected": false
+          },
+          {
+            "text": "2026-08",
+            "value": "2026-08",
+            "selected": true
+          }
+        ],
+        "includeAll": false,
+        "multi": false
+      }
+    ]
   },
   "annotations": {
     "list": []
@@ -23,7 +68,7 @@
     {
       "id": 1,
       "type": "row",
-      "title": "Company Page — monthly",
+      "title": "ICP geography (visitors · last 6 months)",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -35,6 +80,716 @@
     },
     {
       "id": 2,
+      "type": "stat",
+      "title": "US · ICP share — visitors (6 mo)",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 0,
+        "y": 1
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "decimals": 1,
+          "min": 0,
+          "max": 100,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 30
+              },
+              {
+                "color": "green",
+                "value": 50
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^v$/"
+        },
+        "textMode": "value",
+        "colorMode": "value",
+        "graphMode": "none"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "type": "json",
+          "source": "inline",
+          "format": "table",
+          "parser": "simple",
+          "root_selector": "",
+          "data": "[{\"v\":29.4}]",
+          "columns": [
+            {
+              "selector": "v",
+              "text": "v",
+              "type": "number"
+            }
+          ],
+          "filters": []
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "type": "stat",
+      "title": "US · ICP share — followers (base)",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 6,
+        "y": 1
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "decimals": 1,
+          "min": 0,
+          "max": 100,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 30
+              },
+              {
+                "color": "green",
+                "value": 50
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^v$/"
+        },
+        "textMode": "value",
+        "colorMode": "value",
+        "graphMode": "none"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "type": "json",
+          "source": "inline",
+          "format": "table",
+          "parser": "simple",
+          "root_selector": "",
+          "data": "[{\"v\":42.5}]",
+          "columns": [
+            {
+              "selector": "v",
+              "text": "v",
+              "type": "number"
+            }
+          ],
+          "filters": []
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "type": "bargauge",
+      "title": "Visitors by ICP bucket (6 mo)",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 12,
+        "y": 1
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-BlPu"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "horizontal",
+        "displayMode": "gradient",
+        "reduceOptions": {
+          "values": true,
+          "calcs": [],
+          "fields": "/^value$/"
+        },
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "type": "json",
+          "source": "inline",
+          "format": "table",
+          "parser": "simple",
+          "root_selector": "",
+          "data": "[{\"name\":\"US · ICP\",\"value\":647},{\"name\":\"Ukraine · team\",\"value\":653},{\"name\":\"India / China · off-ICP\",\"value\":184},{\"name\":\"Other · off-target\",\"value\":717}]",
+          "columns": [
+            {
+              "selector": "name",
+              "text": "name",
+              "type": "string"
+            },
+            {
+              "selector": "value",
+              "text": "value",
+              "type": "number"
+            }
+          ],
+          "filters": []
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "type": "bargauge",
+      "title": "Followers by ICP bucket (base)",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 18,
+        "y": 1
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-BlPu"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "horizontal",
+        "displayMode": "gradient",
+        "reduceOptions": {
+          "values": true,
+          "calcs": [],
+          "fields": "/^value$/"
+        },
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "type": "json",
+          "source": "inline",
+          "format": "table",
+          "parser": "simple",
+          "root_selector": "",
+          "data": "[{\"name\":\"US · ICP\",\"value\":356},{\"name\":\"Ukraine · team\",\"value\":154},{\"name\":\"India / China · off-ICP\",\"value\":57},{\"name\":\"Other · off-target\",\"value\":270}]",
+          "columns": [
+            {
+              "selector": "name",
+              "text": "name",
+              "type": "string"
+            },
+            {
+              "selector": "value",
+              "text": "value",
+              "type": "number"
+            }
+          ],
+          "filters": []
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "type": "barchart",
+      "title": "US · ICP share of visitors by month",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 7
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "custom": {
+            "lineWidth": 1,
+            "fillOpacity": 80
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "auto",
+        "xTickLabelRotation": 0,
+        "showValue": "auto",
+        "stacking": "none",
+        "legend": {
+          "showLegend": true,
+          "placement": "bottom"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "type": "json",
+          "source": "inline",
+          "format": "table",
+          "parser": "simple",
+          "root_selector": "",
+          "data": "[{\"month\":\"2026-03\",\"us\":65,\"team\":205,\"anti\":96,\"other\":207,\"icp_pct\":11.3,\"anti_pct\":16.8,\"total\":573},{\"month\":\"2026-04\",\"us\":68,\"team\":73,\"anti\":24,\"other\":83,\"icp_pct\":27.4,\"anti_pct\":9.7,\"total\":248},{\"month\":\"2026-05\",\"us\":113,\"team\":98,\"anti\":0,\"other\":55,\"icp_pct\":42.5,\"anti_pct\":0,\"total\":266},{\"month\":\"2026-06\",\"us\":326,\"team\":123,\"anti\":27,\"other\":136,\"icp_pct\":53.3,\"anti_pct\":4.4,\"total\":612},{\"month\":\"2026-07\",\"us\":75,\"team\":127,\"anti\":37,\"other\":154,\"icp_pct\":19.1,\"anti_pct\":9.4,\"total\":393},{\"month\":\"2026-08\",\"us\":0,\"team\":27,\"anti\":0,\"other\":82,\"icp_pct\":0,\"anti_pct\":0,\"total\":109}]",
+          "columns": [
+            {
+              "selector": "month",
+              "text": "month",
+              "type": "string"
+            },
+            {
+              "selector": "icp_pct",
+              "text": "icp_pct",
+              "type": "number"
+            }
+          ],
+          "filters": []
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "type": "barchart",
+      "title": "Visitor geography by month",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 7
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "lineWidth": 1,
+            "fillOpacity": 80
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "auto",
+        "xTickLabelRotation": 0,
+        "showValue": "auto",
+        "stacking": "normal",
+        "legend": {
+          "showLegend": true,
+          "placement": "bottom"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "type": "json",
+          "source": "inline",
+          "format": "table",
+          "parser": "simple",
+          "root_selector": "",
+          "data": "[{\"month\":\"2026-03\",\"us\":65,\"team\":205,\"anti\":96,\"other\":207,\"icp_pct\":11.3,\"anti_pct\":16.8,\"total\":573},{\"month\":\"2026-04\",\"us\":68,\"team\":73,\"anti\":24,\"other\":83,\"icp_pct\":27.4,\"anti_pct\":9.7,\"total\":248},{\"month\":\"2026-05\",\"us\":113,\"team\":98,\"anti\":0,\"other\":55,\"icp_pct\":42.5,\"anti_pct\":0,\"total\":266},{\"month\":\"2026-06\",\"us\":326,\"team\":123,\"anti\":27,\"other\":136,\"icp_pct\":53.3,\"anti_pct\":4.4,\"total\":612},{\"month\":\"2026-07\",\"us\":75,\"team\":127,\"anti\":37,\"other\":154,\"icp_pct\":19.1,\"anti_pct\":9.4,\"total\":393},{\"month\":\"2026-08\",\"us\":0,\"team\":27,\"anti\":0,\"other\":82,\"icp_pct\":0,\"anti_pct\":0,\"total\":109}]",
+          "columns": [
+            {
+              "selector": "month",
+              "text": "month",
+              "type": "string"
+            },
+            {
+              "selector": "us",
+              "text": "us",
+              "type": "number"
+            },
+            {
+              "selector": "team",
+              "text": "team",
+              "type": "number"
+            },
+            {
+              "selector": "anti",
+              "text": "anti",
+              "type": "number"
+            },
+            {
+              "selector": "other",
+              "text": "other",
+              "type": "number"
+            }
+          ],
+          "filters": []
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "type": "row",
+      "title": "Selected month — pick $month above",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 15
+      },
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "id": 9,
+      "type": "stat",
+      "title": "US · ICP share ($month)",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 0,
+        "y": 16
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "decimals": 1,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 30
+              },
+              {
+                "color": "green",
+                "value": 50
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^icp_pct$/"
+        },
+        "textMode": "value",
+        "colorMode": "value",
+        "graphMode": "none"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "type": "json",
+          "source": "inline",
+          "format": "table",
+          "parser": "backend",
+          "root_selector": "",
+          "data": "[{\"month\":\"2026-03\",\"us\":65,\"team\":205,\"anti\":96,\"other\":207,\"icp_pct\":11.3,\"anti_pct\":16.8,\"total\":573},{\"month\":\"2026-04\",\"us\":68,\"team\":73,\"anti\":24,\"other\":83,\"icp_pct\":27.4,\"anti_pct\":9.7,\"total\":248},{\"month\":\"2026-05\",\"us\":113,\"team\":98,\"anti\":0,\"other\":55,\"icp_pct\":42.5,\"anti_pct\":0,\"total\":266},{\"month\":\"2026-06\",\"us\":326,\"team\":123,\"anti\":27,\"other\":136,\"icp_pct\":53.3,\"anti_pct\":4.4,\"total\":612},{\"month\":\"2026-07\",\"us\":75,\"team\":127,\"anti\":37,\"other\":154,\"icp_pct\":19.1,\"anti_pct\":9.4,\"total\":393},{\"month\":\"2026-08\",\"us\":0,\"team\":27,\"anti\":0,\"other\":82,\"icp_pct\":0,\"anti_pct\":0,\"total\":109}]",
+          "columns": [
+            {
+              "selector": "month",
+              "text": "month",
+              "type": "string"
+            },
+            {
+              "selector": "icp_pct",
+              "text": "icp_pct",
+              "type": "number"
+            }
+          ],
+          "filters": [],
+          "filterExpression": "month == \"${month}\""
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "type": "stat",
+      "title": "India / China share ($month)",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 6,
+        "y": 16
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "decimals": 1
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^anti_pct$/"
+        },
+        "textMode": "value",
+        "colorMode": "none",
+        "graphMode": "none"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "type": "json",
+          "source": "inline",
+          "format": "table",
+          "parser": "backend",
+          "root_selector": "",
+          "data": "[{\"month\":\"2026-03\",\"us\":65,\"team\":205,\"anti\":96,\"other\":207,\"icp_pct\":11.3,\"anti_pct\":16.8,\"total\":573},{\"month\":\"2026-04\",\"us\":68,\"team\":73,\"anti\":24,\"other\":83,\"icp_pct\":27.4,\"anti_pct\":9.7,\"total\":248},{\"month\":\"2026-05\",\"us\":113,\"team\":98,\"anti\":0,\"other\":55,\"icp_pct\":42.5,\"anti_pct\":0,\"total\":266},{\"month\":\"2026-06\",\"us\":326,\"team\":123,\"anti\":27,\"other\":136,\"icp_pct\":53.3,\"anti_pct\":4.4,\"total\":612},{\"month\":\"2026-07\",\"us\":75,\"team\":127,\"anti\":37,\"other\":154,\"icp_pct\":19.1,\"anti_pct\":9.4,\"total\":393},{\"month\":\"2026-08\",\"us\":0,\"team\":27,\"anti\":0,\"other\":82,\"icp_pct\":0,\"anti_pct\":0,\"total\":109}]",
+          "columns": [
+            {
+              "selector": "month",
+              "text": "month",
+              "type": "string"
+            },
+            {
+              "selector": "anti_pct",
+              "text": "anti_pct",
+              "type": "number"
+            }
+          ],
+          "filters": [],
+          "filterExpression": "month == \"${month}\""
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "type": "stat",
+      "title": "US visitors ($month)",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 12,
+        "y": 16
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^us$/"
+        },
+        "textMode": "value",
+        "colorMode": "none",
+        "graphMode": "none"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "type": "json",
+          "source": "inline",
+          "format": "table",
+          "parser": "backend",
+          "root_selector": "",
+          "data": "[{\"month\":\"2026-03\",\"us\":65,\"team\":205,\"anti\":96,\"other\":207,\"icp_pct\":11.3,\"anti_pct\":16.8,\"total\":573},{\"month\":\"2026-04\",\"us\":68,\"team\":73,\"anti\":24,\"other\":83,\"icp_pct\":27.4,\"anti_pct\":9.7,\"total\":248},{\"month\":\"2026-05\",\"us\":113,\"team\":98,\"anti\":0,\"other\":55,\"icp_pct\":42.5,\"anti_pct\":0,\"total\":266},{\"month\":\"2026-06\",\"us\":326,\"team\":123,\"anti\":27,\"other\":136,\"icp_pct\":53.3,\"anti_pct\":4.4,\"total\":612},{\"month\":\"2026-07\",\"us\":75,\"team\":127,\"anti\":37,\"other\":154,\"icp_pct\":19.1,\"anti_pct\":9.4,\"total\":393},{\"month\":\"2026-08\",\"us\":0,\"team\":27,\"anti\":0,\"other\":82,\"icp_pct\":0,\"anti_pct\":0,\"total\":109}]",
+          "columns": [
+            {
+              "selector": "month",
+              "text": "month",
+              "type": "string"
+            },
+            {
+              "selector": "us",
+              "text": "us",
+              "type": "number"
+            }
+          ],
+          "filters": [],
+          "filterExpression": "month == \"${month}\""
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "type": "stat",
+      "title": "India / China visitors ($month)",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 18,
+        "y": 16
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^anti$/"
+        },
+        "textMode": "value",
+        "colorMode": "none",
+        "graphMode": "none"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "type": "json",
+          "source": "inline",
+          "format": "table",
+          "parser": "backend",
+          "root_selector": "",
+          "data": "[{\"month\":\"2026-03\",\"us\":65,\"team\":205,\"anti\":96,\"other\":207,\"icp_pct\":11.3,\"anti_pct\":16.8,\"total\":573},{\"month\":\"2026-04\",\"us\":68,\"team\":73,\"anti\":24,\"other\":83,\"icp_pct\":27.4,\"anti_pct\":9.7,\"total\":248},{\"month\":\"2026-05\",\"us\":113,\"team\":98,\"anti\":0,\"other\":55,\"icp_pct\":42.5,\"anti_pct\":0,\"total\":266},{\"month\":\"2026-06\",\"us\":326,\"team\":123,\"anti\":27,\"other\":136,\"icp_pct\":53.3,\"anti_pct\":4.4,\"total\":612},{\"month\":\"2026-07\",\"us\":75,\"team\":127,\"anti\":37,\"other\":154,\"icp_pct\":19.1,\"anti_pct\":9.4,\"total\":393},{\"month\":\"2026-08\",\"us\":0,\"team\":27,\"anti\":0,\"other\":82,\"icp_pct\":0,\"anti_pct\":0,\"total\":109}]",
+          "columns": [
+            {
+              "selector": "month",
+              "text": "month",
+              "type": "string"
+            },
+            {
+              "selector": "anti",
+              "text": "anti",
+              "type": "number"
+            }
+          ],
+          "filters": [],
+          "filterExpression": "month == \"${month}\""
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "type": "row",
+      "title": "Company Page — monthly",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 21
+      },
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "id": 14,
       "type": "barchart",
       "title": "Page views & unique visitors",
       "datasource": {
@@ -45,7 +800,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 1
+        "y": 22
       },
       "fieldConfig": {
         "defaults": {
@@ -102,7 +857,7 @@
       ]
     },
     {
-      "id": 3,
+      "id": 15,
       "type": "barchart",
       "title": "New followers",
       "datasource": {
@@ -113,7 +868,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 1
+        "y": 22
       },
       "fieldConfig": {
         "defaults": {
@@ -165,7 +920,7 @@
       ]
     },
     {
-      "id": 4,
+      "id": 16,
       "type": "barchart",
       "title": "Post impressions",
       "datasource": {
@@ -176,7 +931,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 1
+        "y": 22
       },
       "fieldConfig": {
         "defaults": {
@@ -228,7 +983,7 @@
       ]
     },
     {
-      "id": 5,
+      "id": 17,
       "type": "table",
       "title": "Monthly metrics",
       "datasource": {
@@ -239,7 +994,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 9
+        "y": 30
       },
       "fieldConfig": {
         "defaults": {},
@@ -313,20 +1068,20 @@
       ]
     },
     {
-      "id": 6,
+      "id": 18,
       "type": "row",
       "title": "Audience (12-month snapshot)",
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 17
+        "y": 38
       },
       "collapsed": false,
       "panels": []
     },
     {
-      "id": 7,
+      "id": 19,
       "type": "bargauge",
       "title": "Visitors by seniority",
       "datasource": {
@@ -337,7 +1092,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 18
+        "y": 39
       },
       "fieldConfig": {
         "defaults": {
@@ -387,7 +1142,7 @@
       ]
     },
     {
-      "id": 8,
+      "id": 20,
       "type": "bargauge",
       "title": "Visitors by industry",
       "datasource": {
@@ -398,7 +1153,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 18
+        "y": 39
       },
       "fieldConfig": {
         "defaults": {
@@ -448,7 +1203,7 @@
       ]
     },
     {
-      "id": 9,
+      "id": 21,
       "type": "bargauge",
       "title": "Followers by seniority",
       "datasource": {
@@ -459,7 +1214,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 26
+        "y": 47
       },
       "fieldConfig": {
         "defaults": {
@@ -509,7 +1264,7 @@
       ]
     },
     {
-      "id": 10,
+      "id": 22,
       "type": "bargauge",
       "title": "Followers by industry",
       "datasource": {
@@ -520,7 +1275,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 26
+        "y": 47
       },
       "fieldConfig": {
         "defaults": {
