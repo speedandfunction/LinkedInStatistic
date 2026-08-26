@@ -18,6 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 1700589495734272,
   "links": [
     {
       "asDropdown": false,
@@ -146,6 +147,7 @@
             "type": "yesoreyeram-infinity-datasource",
             "uid": "grafanacloud-infinity"
           },
+          "filterExpression": "scope == \"last_week\"",
           "filters": [],
           "format": "table",
           "parser": "backend",
@@ -153,12 +155,11 @@
           "root_selector": "engagement_score_totals",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
-          },
-          "filterExpression": "scope == \"last_week\""
+          }
         }
       ],
       "title": "Engagement score (last week)",
@@ -263,6 +264,7 @@
             "type": "yesoreyeram-infinity-datasource",
             "uid": "grafanacloud-infinity"
           },
+          "filterExpression": "scope == \"last_week\"",
           "filters": [],
           "format": "table",
           "parser": "backend",
@@ -270,12 +272,11 @@
           "root_selector": "engagement_score_totals",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
-          },
-          "filterExpression": "scope == \"last_week\""
+          }
         }
       ],
       "title": "…from normal audience",
@@ -380,6 +381,7 @@
             "type": "yesoreyeram-infinity-datasource",
             "uid": "grafanacloud-infinity"
           },
+          "filterExpression": "scope == \"last_week\"",
           "filters": [],
           "format": "table",
           "parser": "backend",
@@ -387,12 +389,11 @@
           "root_selector": "engagement_score_totals",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
-          },
-          "filterExpression": "scope == \"last_week\""
+          }
         }
       ],
       "title": "…from ICP",
@@ -497,6 +498,7 @@
             "type": "yesoreyeram-infinity-datasource",
             "uid": "grafanacloud-infinity"
           },
+          "filterExpression": "scope == \"last_week\"",
           "filters": [],
           "format": "table",
           "parser": "backend",
@@ -504,12 +506,11 @@
           "root_selector": "engagement_score_totals",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
-          },
-          "filterExpression": "scope == \"last_week\""
+          }
         }
       ],
       "title": "…from VIP list (4×)",
@@ -654,6 +655,7 @@
             "type": "yesoreyeram-infinity-datasource",
             "uid": "grafanacloud-infinity"
           },
+          "filterExpression": "scope == \"all_time\"",
           "filters": [],
           "format": "table",
           "parser": "backend",
@@ -661,12 +663,11 @@
           "root_selector": "engagement_score_totals",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
-          },
-          "filterExpression": "scope == \"all_time\""
+          }
         }
       ],
       "title": "Engagement score (all time)",
@@ -811,6 +812,7 @@
             "type": "yesoreyeram-infinity-datasource",
             "uid": "grafanacloud-infinity"
           },
+          "filterExpression": "scope == \"all_time\"",
           "filters": [],
           "format": "table",
           "parser": "backend",
@@ -818,12 +820,11 @@
           "root_selector": "engagement_score_totals",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
-          },
-          "filterExpression": "scope == \"all_time\""
+          }
         }
       ],
       "title": "…from normal audience",
@@ -968,6 +969,7 @@
             "type": "yesoreyeram-infinity-datasource",
             "uid": "grafanacloud-infinity"
           },
+          "filterExpression": "scope == \"all_time\"",
           "filters": [],
           "format": "table",
           "parser": "backend",
@@ -975,12 +977,11 @@
           "root_selector": "engagement_score_totals",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
-          },
-          "filterExpression": "scope == \"all_time\""
+          }
         }
       ],
       "title": "…from ICP",
@@ -1125,6 +1126,7 @@
             "type": "yesoreyeram-infinity-datasource",
             "uid": "grafanacloud-infinity"
           },
+          "filterExpression": "scope == \"all_time\"",
           "filters": [],
           "format": "table",
           "parser": "backend",
@@ -1132,12 +1134,11 @@
           "root_selector": "engagement_score_totals",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
-          },
-          "filterExpression": "scope == \"all_time\""
+          }
         }
       ],
       "title": "…from VIP list (4×)",
@@ -1153,6 +1154,7 @@
           "color": {
             "mode": "thresholds"
           },
+          "decimals": 1,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -1162,8 +1164,7 @@
               }
             ]
           },
-          "unit": "percent",
-          "decimals": 1
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -1283,6 +1284,7 @@
             "type": "yesoreyeram-infinity-datasource",
             "uid": "grafanacloud-infinity"
           },
+          "filterExpression": "scope == \"all_time\"",
           "filters": [],
           "format": "table",
           "parser": "backend",
@@ -1290,12 +1292,11 @@
           "root_selector": "engagement_score_totals",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
-          },
-          "filterExpression": "scope == \"all_time\""
+          }
         }
       ],
       "title": "ICP share of reactions (all time)",
@@ -1311,6 +1312,7 @@
           "color": {
             "mode": "thresholds"
           },
+          "decimals": 1,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -1320,8 +1322,7 @@
               }
             ]
           },
-          "unit": "percent",
-          "decimals": 1
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -1441,6 +1442,7 @@
             "type": "yesoreyeram-infinity-datasource",
             "uid": "grafanacloud-infinity"
           },
+          "filterExpression": "scope == \"all_time\"",
           "filters": [],
           "format": "table",
           "parser": "backend",
@@ -1448,12 +1450,11 @@
           "root_selector": "engagement_score_totals",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
-          },
-          "filterExpression": "scope == \"all_time\""
+          }
         }
       ],
       "title": "ICP share of comments (all time)",
@@ -1469,6 +1470,7 @@
           "color": {
             "mode": "thresholds"
           },
+          "decimals": 1,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -1478,8 +1480,7 @@
               }
             ]
           },
-          "unit": "percent",
-          "decimals": 1
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -1599,6 +1600,7 @@
             "type": "yesoreyeram-infinity-datasource",
             "uid": "grafanacloud-infinity"
           },
+          "filterExpression": "scope == \"all_time\"",
           "filters": [],
           "format": "table",
           "parser": "backend",
@@ -1606,12 +1608,11 @@
           "root_selector": "engagement_score_totals",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
-          },
-          "filterExpression": "scope == \"all_time\""
+          }
         }
       ],
       "title": "ICP share of all engagement (all time)",
@@ -1756,6 +1757,7 @@
             "type": "yesoreyeram-infinity-datasource",
             "uid": "grafanacloud-infinity"
           },
+          "filterExpression": "scope == \"all_time\"",
           "filters": [],
           "format": "table",
           "parser": "backend",
@@ -1763,12 +1765,11 @@
           "root_selector": "engagement_score_totals",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
-          },
-          "filterExpression": "scope == \"all_time\""
+          }
         }
       ],
       "title": "ICP engagers (all time)",
@@ -1779,6 +1780,7 @@
         "type": "yesoreyeram-infinity-datasource",
         "uid": "grafanacloud-infinity"
       },
+      "description": "Reactions are dated by comparing weekly reactor snapshots, so a target's first scan is a baseline and is excluded here; comments are dated exactly from their URN.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1884,7 +1886,7 @@
           "root_selector": "engagement_score_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -1892,7 +1894,6 @@
         }
       ],
       "title": "Engagement score per week",
-      "description": "Reactions are dated by comparing weekly reactor snapshots, so a target's first scan is a baseline and is excluded here; comments are dated exactly from their URN.",
       "transformations": [
         {
           "id": "convertFieldType",
@@ -1911,12 +1912,12 @@
           "id": "organize",
           "options": {
             "excludeByName": {
-              "reactions": true,
-              "comments": true
+              "comments": true,
+              "reactions": true
             },
             "indexByName": {
-              "week": 0,
-              "score": 1
+              "score": 1,
+              "week": 0
             },
             "renameByName": {}
           }
@@ -2071,7 +2072,7 @@
           "root_selector": "engagement_people",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -2085,19 +2086,19 @@
           "options": {
             "excludeByName": {},
             "indexByName": {
-              "name": 0,
-              "tier": 1,
-              "score_last_week": 2,
-              "score": 3,
-              "reactions": 4,
               "comments": 5,
               "headline": 6,
-              "profile_url": 7
+              "name": 0,
+              "profile_url": 7,
+              "reactions": 4,
+              "score": 3,
+              "score_last_week": 2,
+              "tier": 1
             },
             "renameByName": {
-              "score_last_week": "Last week",
-              "score": "All time",
               "name": "Person",
+              "score": "All time",
+              "score_last_week": "Last week",
               "tier": "Tier"
             }
           }
@@ -2256,8 +2257,8 @@
               {
                 "id": "custom.cellOptions",
                 "value": {
-                  "type": "gauge",
-                  "mode": "gradient"
+                  "mode": "gradient",
+                  "type": "gauge"
                 }
               }
             ]
@@ -2291,8 +2292,8 @@
               {
                 "id": "custom.cellOptions",
                 "value": {
-                  "type": "gauge",
-                  "mode": "gradient"
+                  "mode": "gradient",
+                  "type": "gauge"
                 }
               }
             ]
@@ -2326,8 +2327,8 @@
               {
                 "id": "custom.cellOptions",
                 "value": {
-                  "type": "gauge",
-                  "mode": "gradient"
+                  "mode": "gradient",
+                  "type": "gauge"
                 }
               }
             ]
@@ -2415,7 +2416,7 @@
           "root_selector": "engagement_score_totals",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -2423,7 +2424,6 @@
         }
       ],
       "title": "Reactions & comments — total vs ICP (last week and all time)",
-      "type": "table",
       "transformations": [
         {
           "id": "organize",
@@ -2433,20 +2433,21 @@
             },
             "includeByName": {},
             "indexByName": {
-              "scope": 0,
-              "reactions": 1,
-              "reactions_icp": 2,
-              "icp_reaction_pct": 3,
               "comments": 4,
               "comments_icp": 5,
               "icp_comment_pct": 6,
               "icp_engagement_pct": 7,
+              "icp_reaction_pct": 3,
+              "reactions": 1,
+              "reactions_icp": 2,
+              "scope": 0,
               "week": 8
             },
             "renameByName": {}
           }
         }
-      ]
+      ],
+      "type": "table"
     },
     {
       "collapsed": false,
@@ -2530,7 +2531,7 @@
           "root_selector": "account_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -2625,7 +2626,7 @@
           "root_selector": "account_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -2720,7 +2721,7 @@
           "root_selector": "account_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -2815,7 +2816,7 @@
           "root_selector": "account_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -2908,7 +2909,7 @@
           "root_selector": "account_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -3012,7 +3013,7 @@
           "root_selector": "account_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -3116,7 +3117,7 @@
           "root_selector": "account_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -3220,7 +3221,7 @@
           "root_selector": "account_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -3337,7 +3338,7 @@
           "root_selector": "account_demographics",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -3496,7 +3497,7 @@
           "root_selector": "account_demographics",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -3661,7 +3662,7 @@
           "root_selector": "account_demographics",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -3819,7 +3820,7 @@
           "root_selector": "posts_per_month",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -3912,7 +3913,7 @@
           "root_selector": "comments_per_month",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -4004,7 +4005,7 @@
           "root_selector": "comments_per_month",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -4096,7 +4097,7 @@
           "root_selector": "comments_per_month",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -4180,7 +4181,7 @@
           "root_selector": "correlation_points",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -4251,7 +4252,7 @@
           "root_selector": "correlation_points",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -4306,7 +4307,7 @@
           "root_selector": "account_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -4322,7 +4323,7 @@
   },
   "time": {
     "from": "now-180d/d",
-    "to": "now/d"
+    "to": "now"
   },
   "timepicker": {
     "refresh_intervals": [
@@ -4340,5 +4341,6 @@
   },
   "timezone": "browser",
   "title": "LinkedIn Stats",
-  "uid": "linkedin-stats"
+  "uid": "kiqz2fk",
+  "version": 42
 }
