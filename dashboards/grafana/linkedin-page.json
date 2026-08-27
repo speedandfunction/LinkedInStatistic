@@ -315,6 +315,18 @@
           "filters": [],
           "filterExpression": "audience == \"visitors\""
         }
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "audience": true
+            },
+            "indexByName": {},
+            "renameByName": {}
+          }
+        }
       ]
     },
     {
@@ -385,6 +397,18 @@
           ],
           "filters": [],
           "filterExpression": "audience == \"followers\""
+        }
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "audience": true
+            },
+            "indexByName": {},
+            "renameByName": {}
+          }
         }
       ]
     },
@@ -1311,6 +1335,17 @@
       ],
       "transformations": [
         {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "audience": true,
+              "category": true
+            },
+            "indexByName": {},
+            "renameByName": {}
+          }
+        },
+        {
           "id": "sortBy",
           "options": {
             "sort": [
@@ -1405,6 +1440,17 @@
         }
       ],
       "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "audience": true,
+              "category": true
+            },
+            "indexByName": {},
+            "renameByName": {}
+          }
+        },
         {
           "id": "sortBy",
           "options": {
@@ -1501,6 +1547,17 @@
       ],
       "transformations": [
         {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "audience": true,
+              "category": true
+            },
+            "indexByName": {},
+            "renameByName": {}
+          }
+        },
+        {
           "id": "sortBy",
           "options": {
             "sort": [
@@ -1595,6 +1652,17 @@
         }
       ],
       "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "audience": true,
+              "category": true
+            },
+            "indexByName": {},
+            "renameByName": {}
+          }
+        },
         {
           "id": "sortBy",
           "options": {
