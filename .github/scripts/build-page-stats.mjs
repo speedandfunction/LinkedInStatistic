@@ -15,11 +15,13 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { buildEngagement } from './lib/engagement.mjs';
 
 const args = Object.fromEntries(process.argv.slice(2).map((a, i, arr) =>
   a.startsWith('--') ? [a.slice(2), arr[i + 1]] : [null, null]).filter(([k]) => k));
 const DIR = 'dashboards/li-stats/page';
 const OUT = args.out || 'pages-dist/page-stats.json';
+const SKILL = '.claude/skills/linkedin-stats';
 
 const monthly = JSON.parse(fs.readFileSync(path.join(DIR, 'monthly.json'), 'utf8'));
 const geoMonthly = JSON.parse(fs.readFileSync(path.join(DIR, 'geo-monthly.json'), 'utf8'));
@@ -59,9 +61,21 @@ for (const row of page_geo_aggregate) {
   }
 }
 
+// Engagement — WHO engaged with the company's posts, weighted by ICP/VIP tier.
+// Same three sections and identical scoring as Peter's personal dashboard; the
+// only difference is the event source: engagers of the COMPANY's posts, written
+// to dashboards/li-stats/page/engagement.json by the company people phase.
+// Absent until that phase runs once -> the tiles render 0 (not "No data").
+const { engagement_score_totals, engagement_score_weeks, engagement_people } = buildEngagement({
+  engagementFile: path.join(DIR, 'engagement.json'),
+  scoringFile: path.join(SKILL, 'scoring.json'),
+  vipFile: path.join(SKILL, 'vip-people.md'),
+});
+
 const out = {
   generated_at: monthly.generated_at || null,
   page_monthly, page_geo_monthly, page_geo_aggregate, page_geo_buckets, page_demographics,
+  engagement_score_totals, engagement_score_weeks, engagement_people,
 };
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 fs.writeFileSync(OUT, JSON.stringify(out) + '\n');
