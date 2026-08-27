@@ -24,6 +24,7 @@ jobs:
         run: |
           mkdir -p pages-dist
           node .github/scripts/build-stats-json.mjs --out pages-dist/stats.json
+          node .github/scripts/build-page-stats.mjs --out pages-dist/page-stats.json
       - uses: actions/upload-pages-artifact@v5
         with:
           path: pages-dist

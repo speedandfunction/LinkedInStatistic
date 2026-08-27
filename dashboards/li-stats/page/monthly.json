@@ -1,6 +1,6 @@
 {
   "source": "linkedin-page-admin-analytics-xls",
-  "generated_at": "2026-08-19T19:10:59Z",
+  "generated_at": "2026-08-20T17:44:42Z",
   "months": {
     "2026-03": {
       "page_views": 961,
@@ -406,5 +406,103 @@
         15
       ]
     ]
+  },
+  "geography": {
+    "visitors": {
+      "buckets": {
+        "US": 1552,
+        "TEAM": 1681,
+        "ANTI": 560,
+        "OTHER": 2260
+      },
+      "total": 6053,
+      "icp_pct": 25.6,
+      "anti_pct": 9.3,
+      "countries": {
+        "Ukraine": 1681.0,
+        "United States": 1552.0,
+        "India": 560.0,
+        "Poland": 509.0,
+        "Canada": 252.0,
+        "Pakistan": 226.0,
+        "Spain": 160.0,
+        "United Kingdom": 129.0,
+        "France": 100.0,
+        "Texas Metropolitan Area": 98.0,
+        "Germany": 96.0,
+        "Portugal": 84.0,
+        "Montenegro": 59.0,
+        "Argentina": 52.0,
+        "Indonesia": 47.0,
+        "Czechia": 44.0,
+        "Philippines": 43.0,
+        "Bulgaria": 36.0,
+        "Netherlands": 33.0,
+        "Romania": 32.0,
+        "Vietnam": 32.0,
+        "Serbia": 29.0,
+        "North Macedonia": 28.0,
+        "Estonia": 26.0,
+        "Ireland": 22.0,
+        "Brazil": 18.0,
+        "Azerbaijan": 18.0,
+        "Georgia": 18.0,
+        "Israel": 17.0,
+        "Virginia Metropolitan Area": 14.0,
+        "Türkiye": 13.0,
+        "Austria": 13.0,
+        "Mexico": 12.0
+      }
+    },
+    "followers": {
+      "buckets": {
+        "US": 356,
+        "TEAM": 154,
+        "ANTI": 57,
+        "OTHER": 270
+      },
+      "total": 837,
+      "icp_pct": 42.5,
+      "anti_pct": 6.8,
+      "countries": {
+        "United States": 356.0,
+        "Ukraine": 154.0,
+        "India": 57.0,
+        "Poland": 42.0,
+        "Canada": 35.0,
+        "Pakistan": 28.0,
+        "United Kingdom": 13.0,
+        "Montenegro": 13.0,
+        "Serbia": 13.0,
+        "Germany": 10.0,
+        "Texas Metropolitan Area": 9.0,
+        "Ohio Metropolitan Area": 7.0,
+        "Portugal": 6.0,
+        "Australia": 6.0,
+        "South Africa": 6.0,
+        "Brazil": 5.0,
+        "France": 5.0,
+        "Georgia": 5.0,
+        "Egypt": 5.0,
+        "Ireland": 5.0,
+        "Sri Lanka": 4.0,
+        "Türkiye": 4.0,
+        "Netherlands": 4.0,
+        "Oregon Metropolitan Area": 4.0,
+        "Kenya": 4.0,
+        "Czechia": 4.0,
+        "Sweden": 4.0,
+        "Spain": 3.0,
+        "Denmark": 3.0,
+        "Bulgaria": 3.0,
+        "Azerbaijan": 3.0,
+        "Armenia": 3.0,
+        "Virginia Metropolitan Area": 3.0,
+        "Ethiopia": 3.0,
+        "Argentina": 3.0,
+        "Chile": 3.0,
+        "Tanzania": 2.0
+      }
+    }
   }
 }
