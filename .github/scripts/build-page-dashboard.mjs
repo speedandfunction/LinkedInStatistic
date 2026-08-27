@@ -1,14 +1,20 @@
 #!/usr/bin/env node
-// Build the company-page Grafana dashboard. It mirrors the FIELDS of Peter's
-// personal "LinkedIn Stats" dashboard (the Account-view section: headline
-// stats, over-time charts, audience demographics) but reads the COMPANY's data
-// — there is no engager-level "engagement score / top engagers" section here,
-// because that needs per-person collection the company page does not have.
-// The company's ICP signal is geography (US vs India), kept as its own section.
+// Build the company-page Grafana dashboard so its FIELDS match Peter's personal
+// "LinkedIn Stats" dashboard field-for-field, adapted to the company's data:
+//   1. Engagement score — who engaged, weighted by tier   (Peter's signature
+//      section: score last-week/all-time x normal/ICP/VIP, ICP share of
+//      reactions/comments/engagement, ICP engagers, score-per-week, top
+//      engagers, reactions-vs-ICP). Fed by the company's AGGREGATE engagement
+//      (reaction/comment counts) — every event scores at `normal`, ICP/VIP
+//      splits are 0, top-engagers is empty, because the company page has no
+//      per-person data and we do NOT scrape reactors.
+//   2. Company page — headline / over-time / audience demographics  (Peter's
+//      Account-view fields on the company's real page metrics).
+//   3. ICP geography — US vs India  (the company's real ICP signal; Peter's ICP
+//      is engager-based, the company's is geography-based).
 //
-// Panels read LIVE from the published page-stats.json over HTTP (Infinity
-// source:"url"), same architecture as Peter's board: refresh the data + re-
-// publish and the dashboard updates itself, no re-import.
+// Panels read LIVE from the published page-stats.json (Infinity source:"url"),
+// same architecture as Peter's board — refresh + re-publish and it updates.
 //
 // Usage: node .github/scripts/build-page-dashboard.mjs [--out dashboards/grafana/linkedin-page.json]
 
@@ -36,10 +42,69 @@ const bucketCols = [col('audience', 'string'), col('name', 'string'), col('value
 const aggCols = (field) => [col('audience', 'string'), col(field, 'number')];
 
 let id = 0; const nid = () => ++id;
-const BLUE = '#3274D9'; const GREEN = '#56A64B'; const ORANGE = '#FF9830'; const PURPLE = '#B877D9';
+const BLUE = '#3274D9'; const DARK = '#24292e'; const GREEN = '#56A64B'; const ORANGE = '#FF9830'; const PURPLE = '#B877D9';
 
-// ---- headline stat (reads the single page_totals row) — mirrors Peter's
-// Account-view stat tiles (Followers / Post impressions / ...).
+// ===== 1. Engagement section (Peter's exact fields) =====
+function scoreStat(title, gridPos, scope, field, color) {
+  return {
+    id: nid(), type: 'stat', title, datasource: DS, gridPos,
+    fieldConfig: { defaults: { unit: 'short', decimals: 0, color: { mode: 'fixed', fixedColor: color } }, overrides: [] },
+    options: { reduceOptions: { values: false, calcs: ['lastNotNull'], fields: `/^${field}$/` }, textMode: 'value', colorMode: 'value', graphMode: 'none' },
+    targets: [urlTarget('engagement_score_totals', [col('scope', 'string'), col(field, 'number')], `scope == "${scope}"`)],
+  };
+}
+function pctStat(title, gridPos, scope, field) {
+  return {
+    id: nid(), type: 'stat', title, datasource: DS, gridPos,
+    fieldConfig: { defaults: { unit: 'percent', decimals: 1, thresholds: { mode: 'absolute', steps: [{ color: 'red', value: null }, { color: 'orange', value: 15 }, { color: 'green', value: 30 }] } }, overrides: [] },
+    options: { reduceOptions: { values: false, calcs: ['lastNotNull'], fields: `/^${field}$/` }, textMode: 'value', colorMode: 'value', graphMode: 'none' },
+    targets: [urlTarget('engagement_score_totals', [col('scope', 'string'), col(field, 'number')], `scope == "${scope}"`)],
+  };
+}
+function countStat(title, gridPos, scope, field, color) {
+  return {
+    id: nid(), type: 'stat', title, datasource: DS, gridPos,
+    fieldConfig: { defaults: { unit: 'short', decimals: 0, color: { mode: 'fixed', fixedColor: color } }, overrides: [] },
+    options: { reduceOptions: { values: false, calcs: ['lastNotNull'], fields: `/^${field}$/` }, textMode: 'value', colorMode: 'value', graphMode: 'none' },
+    targets: [urlTarget('engagement_score_totals', [col('scope', 'string'), col(field, 'number')], `scope == "${scope}"`)],
+  };
+}
+function weeksTs(title, gridPos) {
+  return {
+    id: nid(), type: 'timeseries', title, datasource: DS, gridPos,
+    fieldConfig: { defaults: { custom: { drawStyle: 'line', lineInterpolation: 'smooth', fillOpacity: 20, lineWidth: 2, spanNulls: true } }, overrides: [] },
+    options: { legend: { showLegend: true, placement: 'bottom', calcs: [] }, tooltip: { mode: 'multi' } },
+    targets: [urlTarget('engagement_score_weeks', [col('week', 'string'), col('score', 'number'), col('score_icp', 'number')])],
+    transformations: [
+      { id: 'convertFieldType', options: { conversions: [{ targetField: 'week', destinationType: 'time', dateFormat: 'YYYY-MM-DD' }] } },
+      { id: 'sortBy', options: { sort: [{ desc: false, field: 'week' }] } },
+    ],
+  };
+}
+function peopleTable(title, gridPos) {
+  return {
+    id: nid(), type: 'table', title, datasource: DS, gridPos,
+    fieldConfig: { defaults: {}, overrides: [] },
+    options: { showHeader: true, sortBy: [{ displayName: 'All time', desc: true }] },
+    targets: [urlTarget('engagement_people', [col('name', 'string'), col('tier', 'string'), col('score_last_week', 'number'), col('score', 'number'), col('reactions', 'number'), col('comments', 'number')])],
+    transformations: [
+      { id: 'organize', options: { excludeByName: {}, indexByName: { name: 0, tier: 1, score_last_week: 2, score: 3, reactions: 4, comments: 5 },
+        renameByName: { name: 'Person', tier: 'Tier', score_last_week: 'Last week', score: 'All time', reactions: 'reactions', comments: 'comments' } } },
+      { id: 'sortBy', options: { sort: [{ desc: true, field: 'All time' }] } },
+      { id: 'limit', options: { limitField: 15 } },
+    ],
+  };
+}
+function reactCommentBar(title, gridPos) {
+  return {
+    id: nid(), type: 'barchart', title, datasource: DS, gridPos,
+    fieldConfig: { defaults: { unit: 'short', custom: { lineWidth: 1, fillOpacity: 80 } }, overrides: [] },
+    options: { orientation: 'auto', showValue: 'auto', stacking: 'none', legend: { showLegend: true, placement: 'bottom' }, xField: 'scope' },
+    targets: [urlTarget('engagement_score_totals', [col('scope', 'string'), col('reactions', 'number'), col('reactions_icp', 'number'), col('comments', 'number'), col('comments_icp', 'number')])],
+  };
+}
+
+// ===== 2. Account view (Peter's Account-view fields, company data) =====
 function stat(title, gridPos, field, color, unit = 'short') {
   return {
     id: nid(), type: 'stat', title, datasource: DS, gridPos,
@@ -48,18 +113,15 @@ function stat(title, gridPos, field, color, unit = 'short') {
     targets: [urlTarget('page_totals', [col('scope', 'string'), col(field, 'number')])],
   };
 }
-// ---- monthly bar (page_monthly, x=month) — the over-time charts.
-function monthlyBar(title, gridPos, keys, unit = 'short', stacking = 'none') {
+function monthlyBar(title, gridPos, keys, root = 'page_monthly', unit = 'short', stacking = 'none') {
   return {
     id: nid(), type: 'barchart', title, datasource: DS, gridPos,
     fieldConfig: { defaults: { unit, custom: { lineWidth: 1, fillOpacity: 80 } }, overrides: [] },
     options: { orientation: 'auto', showValue: 'auto', stacking, legend: { showLegend: keys.length > 1, placement: 'bottom' }, xField: 'month' },
-    targets: [urlTarget('page_monthly', monthCols(keys))],
+    targets: [urlTarget(root, monthCols(keys))],
     transformations: [{ id: 'sortBy', options: { sort: [{ desc: false, field: 'month' }] } }],
   };
 }
-// ---- demographics bar (page_demographics, filtered by audience+category) —
-// mirrors Peter's "Seniority / Top job titles / Top locations" barcharts.
 function demoBar(title, gridPos, audience, category) {
   return {
     id: nid(), type: 'barchart', title, datasource: DS, gridPos,
@@ -81,7 +143,8 @@ function table(title, gridPos) {
     transformations: [{ id: 'sortBy', options: { sort: [{ desc: false, field: 'month' }] } }],
   };
 }
-// ---- ICP geography (the company's ICP dimension) ----
+
+// ===== 3. ICP geography (company's ICP dimension) =====
 function icpStat(title, gridPos, audience) {
   return {
     id: nid(), type: 'stat', title, datasource: DS, gridPos,
@@ -111,60 +174,68 @@ function monthStat(title, gridPos, field, unit, colored = false) {
 }
 
 const panels = [
-  // ---- Company page — headline (mirrors Peter's Account-view stat tiles) ----
-  { id: nid(), type: 'row', title: 'Company page — headline', gridPos: { h: 1, w: 24, x: 0, y: 0 }, collapsed: false, panels: [] },
-  stat('Followers', { h: 4, w: 6, x: 0, y: 1 }, 'total_followers', BLUE),
-  stat('New followers (6 mo)', { h: 4, w: 6, x: 6, y: 1 }, 'new_followers_6mo', GREEN),
-  stat('Page views (6 mo)', { h: 4, w: 6, x: 12, y: 1 }, 'page_views_6mo', ORANGE),
-  stat('Unique visitors (6 mo)', { h: 4, w: 6, x: 18, y: 1 }, 'unique_visitors_6mo', PURPLE),
+  // ---- 1. Engagement score — who engaged, weighted by tier (Peter's exact) ----
+  { id: nid(), type: 'row', title: 'Engagement score — who engaged, weighted by tier', gridPos: { h: 1, w: 24, x: 0, y: 0 }, collapsed: false, panels: [] },
+  scoreStat('Engagement score (last week)', { h: 4, w: 6, x: 0, y: 1 }, 'last_week', 'score', BLUE),
+  scoreStat('...from normal audience', { h: 4, w: 6, x: 6, y: 1 }, 'last_week', 'score_normal', DARK),
+  scoreStat('...from ICP', { h: 4, w: 6, x: 12, y: 1 }, 'last_week', 'score_icp', GREEN),
+  scoreStat('...from VIP list (4×)', { h: 4, w: 6, x: 18, y: 1 }, 'last_week', 'score_vip', PURPLE),
+  scoreStat('Engagement score (all time)', { h: 4, w: 6, x: 0, y: 5 }, 'all_time', 'score', BLUE),
+  scoreStat('...from normal audience', { h: 4, w: 6, x: 6, y: 5 }, 'all_time', 'score_normal', DARK),
+  scoreStat('...from ICP', { h: 4, w: 6, x: 12, y: 5 }, 'all_time', 'score_icp', GREEN),
+  scoreStat('...from VIP list (4×)', { h: 4, w: 6, x: 18, y: 5 }, 'all_time', 'score_vip', PURPLE),
+  pctStat('ICP share of reactions (all time)', { h: 4, w: 6, x: 0, y: 9 }, 'all_time', 'icp_reaction_pct'),
+  pctStat('ICP share of comments (all time)', { h: 4, w: 6, x: 6, y: 9 }, 'all_time', 'icp_comment_pct'),
+  pctStat('ICP share of all engagement (all time)', { h: 4, w: 6, x: 12, y: 9 }, 'all_time', 'icp_engagement_pct'),
+  countStat('ICP engagers (all time)', { h: 4, w: 6, x: 18, y: 9 }, 'all_time', 'people_icp', GREEN),
+  weeksTs('Engagement score per week', { h: 8, w: 14, x: 0, y: 13 }),
+  peopleTable('Top engagers', { h: 8, w: 10, x: 14, y: 13 }),
+  { id: nid(), type: 'row', title: 'Reactions & comments — total vs ICP (last week and all time)', gridPos: { h: 1, w: 24, x: 0, y: 21 }, collapsed: false, panels: [] },
+  reactCommentBar('Reactions & comments — total vs ICP', { h: 7, w: 24, x: 0, y: 22 }),
 
-  // ---- Over time (monthly) — mirrors Peter's Account-view timeseries ----
-  { id: nid(), type: 'row', title: 'Over time (monthly)', gridPos: { h: 1, w: 24, x: 0, y: 5 }, collapsed: false, panels: [] },
-  monthlyBar('New followers per month', { h: 8, w: 12, x: 0, y: 6 }, ['new_followers']),
-  monthlyBar('Post impressions per month', { h: 8, w: 12, x: 12, y: 6 }, ['post_impressions']),
-  monthlyBar('Page views & unique visitors', { h: 8, w: 12, x: 0, y: 14 }, ['page_views', 'unique_visitors']),
-  monthlyBar('Reactions & comments per month', { h: 8, w: 12, x: 12, y: 14 }, ['post_reactions', 'post_comments']),
-  table('Monthly metrics', { h: 8, w: 24, x: 0, y: 22 }),
+  // ---- 2. Company page — headline (Peter's Account-view stats) ----
+  { id: nid(), type: 'row', title: 'Company page — headline', gridPos: { h: 1, w: 24, x: 0, y: 29 }, collapsed: false, panels: [] },
+  stat('Followers', { h: 4, w: 6, x: 0, y: 30 }, 'total_followers', BLUE),
+  stat('New followers (6 mo)', { h: 4, w: 6, x: 6, y: 30 }, 'new_followers_6mo', GREEN),
+  stat('Page views (6 mo)', { h: 4, w: 6, x: 12, y: 30 }, 'page_views_6mo', ORANGE),
+  stat('Unique visitors (6 mo)', { h: 4, w: 6, x: 18, y: 30 }, 'unique_visitors_6mo', PURPLE),
 
-  // ---- Audience — visitors (mirrors Peter's demographics barcharts) ----
-  { id: nid(), type: 'row', title: 'Audience — visitors (12-month)', gridPos: { h: 1, w: 24, x: 0, y: 30 }, collapsed: false, panels: [] },
-  demoBar('Seniority', { h: 7, w: 8, x: 0, y: 31 }, 'visitors', 'Seniority'),
-  demoBar('Job function', { h: 7, w: 8, x: 8, y: 31 }, 'visitors', 'Job function'),
-  demoBar('Industry', { h: 7, w: 8, x: 16, y: 31 }, 'visitors', 'Industry'),
-  demoBar('Location', { h: 7, w: 12, x: 0, y: 38 }, 'visitors', 'Location'),
-  demoBar('Company size', { h: 7, w: 12, x: 12, y: 38 }, 'visitors', 'Company size'),
+  { id: nid(), type: 'row', title: 'Over time (monthly)', gridPos: { h: 1, w: 24, x: 0, y: 34 }, collapsed: false, panels: [] },
+  monthlyBar('New followers per month', { h: 8, w: 12, x: 0, y: 35 }, ['new_followers']),
+  monthlyBar('Post impressions per month', { h: 8, w: 12, x: 12, y: 35 }, ['post_impressions']),
+  monthlyBar('Page views & unique visitors', { h: 8, w: 12, x: 0, y: 43 }, ['page_views', 'unique_visitors']),
+  monthlyBar('Reactions & comments per month', { h: 8, w: 12, x: 12, y: 43 }, ['post_reactions', 'post_comments']),
+  table('Monthly metrics', { h: 8, w: 24, x: 0, y: 51 }),
 
-  // ---- Audience — followers ----
-  { id: nid(), type: 'row', title: 'Audience — followers (base)', gridPos: { h: 1, w: 24, x: 0, y: 45 }, collapsed: false, panels: [] },
-  demoBar('Seniority', { h: 7, w: 8, x: 0, y: 46 }, 'followers', 'Seniority'),
-  demoBar('Job function', { h: 7, w: 8, x: 8, y: 46 }, 'followers', 'Job function'),
-  demoBar('Industry', { h: 7, w: 8, x: 16, y: 46 }, 'followers', 'Industry'),
-  demoBar('Location', { h: 7, w: 12, x: 0, y: 53 }, 'followers', 'Location'),
-  demoBar('Company size', { h: 7, w: 12, x: 12, y: 53 }, 'followers', 'Company size'),
+  { id: nid(), type: 'row', title: 'Audience — visitors (12-month)', gridPos: { h: 1, w: 24, x: 0, y: 59 }, collapsed: false, panels: [] },
+  demoBar('Seniority', { h: 7, w: 8, x: 0, y: 60 }, 'visitors', 'Seniority'),
+  demoBar('Job function', { h: 7, w: 8, x: 8, y: 60 }, 'visitors', 'Job function'),
+  demoBar('Industry', { h: 7, w: 8, x: 16, y: 60 }, 'visitors', 'Industry'),
+  demoBar('Location', { h: 7, w: 12, x: 0, y: 67 }, 'visitors', 'Location'),
+  demoBar('Company size', { h: 7, w: 12, x: 12, y: 67 }, 'visitors', 'Company size'),
 
-  // ---- ICP geography (the company's ICP dimension: US vs India) ----
-  { id: nid(), type: 'row', title: 'ICP geography — US vs India', gridPos: { h: 1, w: 24, x: 0, y: 60 }, collapsed: false, panels: [] },
-  icpStat('US · ICP share — visitors (6 mo)', { h: 6, w: 6, x: 0, y: 61 }, 'visitors'),
-  icpStat('US · ICP share — followers (base)', { h: 6, w: 6, x: 6, y: 61 }, 'followers'),
-  bucketGauge('Visitors by ICP bucket (6 mo)', { h: 6, w: 6, x: 12, y: 61 }, 'visitors'),
-  bucketGauge('Followers by ICP bucket (base)', { h: 6, w: 6, x: 18, y: 61 }, 'followers'),
-  monthlyBar('US · ICP share of visitors by month', { h: 8, w: 12, x: 0, y: 67 }, ['icp_pct'], 'percent'),
-  monthlyBar('Visitor geography by month', { h: 8, w: 12, x: 12, y: 67 }, ['us', 'team', 'anti', 'other'], 'short', 'normal'),
+  { id: nid(), type: 'row', title: 'Audience — followers (base)', gridPos: { h: 1, w: 24, x: 0, y: 74 }, collapsed: false, panels: [] },
+  demoBar('Seniority', { h: 7, w: 8, x: 0, y: 75 }, 'followers', 'Seniority'),
+  demoBar('Job function', { h: 7, w: 8, x: 8, y: 75 }, 'followers', 'Job function'),
+  demoBar('Industry', { h: 7, w: 8, x: 16, y: 75 }, 'followers', 'Industry'),
+  demoBar('Location', { h: 7, w: 12, x: 0, y: 82 }, 'followers', 'Location'),
+  demoBar('Company size', { h: 7, w: 12, x: 12, y: 82 }, 'followers', 'Company size'),
 
-  { id: nid(), type: 'row', title: 'Selected month — pick $month above', gridPos: { h: 1, w: 24, x: 0, y: 75 }, collapsed: false, panels: [] },
-  monthStat('US · ICP share ($month)', { h: 5, w: 6, x: 0, y: 76 }, 'icp_pct', 'percent', true),
-  monthStat('India / China share ($month)', { h: 5, w: 6, x: 6, y: 76 }, 'anti_pct', 'percent'),
-  monthStat('US visitors ($month)', { h: 5, w: 6, x: 12, y: 76 }, 'us', 'short'),
-  monthStat('India / China visitors ($month)', { h: 5, w: 6, x: 18, y: 76 }, 'anti', 'short'),
+  // ---- 3. ICP geography — US vs India (company's ICP dimension) ----
+  { id: nid(), type: 'row', title: 'ICP geography — US vs India', gridPos: { h: 1, w: 24, x: 0, y: 89 }, collapsed: false, panels: [] },
+  icpStat('US · ICP share — visitors (6 mo)', { h: 6, w: 6, x: 0, y: 90 }, 'visitors'),
+  icpStat('US · ICP share — followers (base)', { h: 6, w: 6, x: 6, y: 90 }, 'followers'),
+  bucketGauge('Visitors by ICP bucket (6 mo)', { h: 6, w: 6, x: 12, y: 90 }, 'visitors'),
+  bucketGauge('Followers by ICP bucket (base)', { h: 6, w: 6, x: 18, y: 90 }, 'followers'),
+  monthlyBar('US · ICP share of visitors by month', { h: 8, w: 12, x: 0, y: 96 }, ['icp_pct'], 'page_geo_monthly', 'percent'),
+  monthlyBar('Visitor geography by month', { h: 8, w: 12, x: 12, y: 96 }, ['us', 'team', 'anti', 'other'], 'page_geo_monthly', 'short', 'normal'),
+
+  { id: nid(), type: 'row', title: 'Selected month — pick $month above', gridPos: { h: 1, w: 24, x: 0, y: 104 }, collapsed: false, panels: [] },
+  monthStat('US · ICP share ($month)', { h: 5, w: 6, x: 0, y: 105 }, 'icp_pct', 'percent', true),
+  monthStat('India / China share ($month)', { h: 5, w: 6, x: 6, y: 105 }, 'anti_pct', 'percent'),
+  monthStat('US visitors ($month)', { h: 5, w: 6, x: 12, y: 105 }, 'us', 'short'),
+  monthStat('India / China visitors ($month)', { h: 5, w: 6, x: 18, y: 105 }, 'anti', 'short'),
 ];
-
-// Fix the ICP-geography by-month barcharts: page_geo_monthly is the source, not
-// page_monthly. Re-point those two panels (icp_pct + us/team/anti/other).
-for (const p of panels) {
-  if (p.title === 'US · ICP share of visitors by month' || p.title === 'Visitor geography by month') {
-    p.targets[0].root_selector = 'page_geo_monthly';
-  }
-}
 
 // $month picker built from the published geo months.
 const geoMonthly = JSON.parse(fs.readFileSync('dashboards/li-stats/page/geo-monthly.json', 'utf8'));
