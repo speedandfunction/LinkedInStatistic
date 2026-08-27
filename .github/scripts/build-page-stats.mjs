@@ -15,13 +15,11 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { buildEngagement } from './lib/engagement.mjs';
 
 const args = Object.fromEntries(process.argv.slice(2).map((a, i, arr) =>
   a.startsWith('--') ? [a.slice(2), arr[i + 1]] : [null, null]).filter(([k]) => k));
 const DIR = 'dashboards/li-stats/page';
 const OUT = args.out || 'pages-dist/page-stats.json';
-const SKILL = '.claude/skills/linkedin-stats';
 
 const monthly = JSON.parse(fs.readFileSync(path.join(DIR, 'monthly.json'), 'utf8'));
 const geoMonthly = JSON.parse(fs.readFileSync(path.join(DIR, 'geo-monthly.json'), 'utf8'));
@@ -61,21 +59,30 @@ for (const row of page_geo_aggregate) {
   }
 }
 
-// Engagement — WHO engaged with the company's posts, weighted by ICP/VIP tier.
-// Same three sections and identical scoring as Peter's personal dashboard; the
-// only difference is the event source: engagers of the COMPANY's posts, written
-// to dashboards/li-stats/page/engagement.json by the company people phase.
-// Absent until that phase runs once -> the tiles render 0 (not "No data").
-const { engagement_score_totals, engagement_score_weeks, engagement_people } = buildEngagement({
-  engagementFile: path.join(DIR, 'engagement.json'),
-  scoringFile: path.join(SKILL, 'scoring.json'),
-  vipFile: path.join(SKILL, 'vip-people.md'),
-});
+// Headline numbers for the stat tiles (mirrors Peter's Account-view stats):
+// current follower base + 6-month sums of the additive monthly metrics, plus
+// the latest month's values. One flat row so a stat panel reads it directly.
+const sum = (k) => page_monthly.reduce((a, m) => a + (m[k] || 0), 0);
+const latest = page_monthly[page_monthly.length - 1] || {};
+const page_totals = [{
+  scope: 'summary',
+  total_followers: monthly.total_followers || 0,
+  new_followers_6mo: sum('new_followers'),
+  page_views_6mo: sum('page_views'),
+  unique_visitors_6mo: sum('unique_visitors'),
+  post_impressions_6mo: sum('post_impressions'),
+  post_reactions_6mo: sum('post_reactions'),
+  post_comments_6mo: sum('post_comments'),
+  latest_month: latest.month || '',
+  latest_page_views: latest.page_views || 0,
+  latest_new_followers: latest.new_followers || 0,
+  latest_post_impressions: latest.post_impressions || 0,
+}];
 
 const out = {
   generated_at: monthly.generated_at || null,
-  page_monthly, page_geo_monthly, page_geo_aggregate, page_geo_buckets, page_demographics,
-  engagement_score_totals, engagement_score_weeks, engagement_people,
+  total_followers: monthly.total_followers || 0,
+  page_totals, page_monthly, page_geo_monthly, page_geo_aggregate, page_geo_buckets, page_demographics,
 };
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 fs.writeFileSync(OUT, JSON.stringify(out) + '\n');
