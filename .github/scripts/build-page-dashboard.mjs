@@ -64,6 +64,7 @@ function bucketGauge(title, gridPos, audience) {
     fieldConfig: { defaults: { color: { mode: 'continuous-BlPu' } }, overrides: [] },
     options: { orientation: 'horizontal', displayMode: 'gradient', reduceOptions: { values: true, calcs: [], fields: '/^value$/' }, showUnfilled: true },
     targets: [urlTarget('page_geo_buckets', bucketCols, `audience == "${audience}"`)],
+    transformations: [{ id: 'organize', options: { excludeByName: { audience: true }, indexByName: {}, renameByName: {} } }],
   };
 }
 function demoGauge(title, gridPos, audience, category) {
@@ -72,7 +73,11 @@ function demoGauge(title, gridPos, audience, category) {
     fieldConfig: { defaults: { color: { mode: 'continuous-BlPu' } }, overrides: [] },
     options: { orientation: 'horizontal', displayMode: 'gradient', reduceOptions: { values: true, calcs: [], fields: '/^value$/' }, showUnfilled: true },
     targets: [urlTarget('page_demographics', demoCols, `(audience == "${audience}") && (category == "${category}")`)],
-    transformations: [{ id: 'sortBy', options: { sort: [{ desc: true, field: 'value' }] } }, { id: 'limit', options: { limitField: 8 } }],
+    transformations: [
+      { id: 'organize', options: { excludeByName: { audience: true, category: true }, indexByName: {}, renameByName: {} } },
+      { id: 'sortBy', options: { sort: [{ desc: true, field: 'value' }] } },
+      { id: 'limit', options: { limitField: 8 } },
+    ],
   };
 }
 function icpStat(title, gridPos, audience) {
