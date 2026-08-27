@@ -79,10 +79,44 @@ const page_totals = [{
   latest_post_impressions: latest.post_impressions || 0,
 }];
 
+// Engagement — the SAME fields as Peter's dashboard, adapted to the company's
+// AGGREGATE engagement (reaction/comment counts per month). Peter scores each
+// engager by ICP/VIP tier; the company page has no per-person data, so every
+// event scores at the `normal` weights (reaction 1, comment 5) and the ICP/VIP
+// splits are 0 — honest: the counts exist, the per-person ICP breakdown does
+// not (that would need per-post reactor collection, which we do not do).
+const W = { reaction: 1, comment: 5 };
+const engRow = (scope, week, reactions, comments) => {
+  const score = reactions * W.reaction + comments * W.comment;
+  return {
+    scope, week,
+    score, score_normal: score, score_icp: 0, score_vip: 0,
+    reactions, comments, people: 0,
+    reactions_icp: 0, comments_icp: 0, people_icp: 0,
+    reactions_non_icp: reactions, comments_non_icp: comments,
+    icp_reaction_pct: 0, icp_comment_pct: 0, icp_engagement_pct: 0,
+  };
+};
+const rx6 = sum('post_reactions');
+const cm6 = sum('post_comments');
+const engagement_score_totals = [
+  engRow('last_week', latest.month || '', latest.post_reactions || 0, latest.post_comments || 0),
+  engRow('all_time', '', rx6, cm6),
+];
+// One point per month (Peter's per-week series; the company page reports monthly).
+const engagement_score_weeks = page_monthly.map((m) => {
+  const score = (m.post_reactions || 0) * W.reaction + (m.post_comments || 0) * W.comment;
+  return { week: `${m.month}-01`, score, score_normal: score, score_icp: 0, score_vip: 0,
+    reactions: m.post_reactions || 0, comments: m.post_comments || 0 };
+});
+// No per-person data -> Top engagers is empty (honest; the field still exists).
+const engagement_people = [];
+
 const out = {
   generated_at: monthly.generated_at || null,
   total_followers: monthly.total_followers || 0,
   page_totals, page_monthly, page_geo_monthly, page_geo_aggregate, page_geo_buckets, page_demographics,
+  engagement_score_totals, engagement_score_weeks, engagement_people,
 };
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 fs.writeFileSync(OUT, JSON.stringify(out) + '\n');
