@@ -79,22 +79,23 @@ const page_totals = [{
   latest_post_impressions: latest.post_impressions || 0,
 }];
 
-// Engagement — the SAME fields as Peter's dashboard, adapted to the company's
-// AGGREGATE engagement (reaction/comment counts per month). Peter scores each
-// engager by ICP/VIP tier; the company page has no per-person data, so every
-// event scores at the `normal` weights (reaction 1, comment 5) and the ICP/VIP
-// splits are 0 — honest: the counts exist, the per-person ICP breakdown does
-// not (that would need per-post reactor collection, which we do not do).
+// Engagement — the SAME fields as Peter's dashboard. Score/reactions/comments
+// come from the company's real aggregate counts (normal weights: reaction 1,
+// comment 5). Every field that NEEDS per-person data (ICP/VIP splits, people
+// counts, ICP shares) is the literal string "???" — the company page's
+// per-person breakdown has not been collected, and rendering "???" is honest
+// where a zero would read as a fact.
 const W = { reaction: 1, comment: 5 };
+const UNK = '???';
 const engRow = (scope, week, reactions, comments) => {
   const score = reactions * W.reaction + comments * W.comment;
   return {
     scope, week,
-    score, score_normal: score, score_icp: 0, score_vip: 0,
-    reactions, comments, people: 0,
-    reactions_icp: 0, comments_icp: 0, people_icp: 0,
+    score, score_normal: UNK, score_icp: UNK, score_vip: UNK,
+    reactions, comments, people: UNK,
+    reactions_icp: UNK, comments_icp: UNK, people_icp: UNK,
     reactions_non_icp: reactions, comments_non_icp: comments,
-    icp_reaction_pct: 0, icp_comment_pct: 0, icp_engagement_pct: 0,
+    icp_reaction_pct: UNK, icp_comment_pct: UNK, icp_engagement_pct: UNK,
   };
 };
 const rx6 = sum('post_reactions');
@@ -106,17 +107,34 @@ const engagement_score_totals = [
 // One point per month (Peter's per-week series; the company page reports monthly).
 const engagement_score_weeks = page_monthly.map((m) => {
   const score = (m.post_reactions || 0) * W.reaction + (m.post_comments || 0) * W.comment;
-  return { week: `${m.month}-01`, score, score_normal: score, score_icp: 0, score_vip: 0,
-    reactions: m.post_reactions || 0, comments: m.post_comments || 0 };
+  return { week: `${m.month}-01`, score, reactions: m.post_reactions || 0, comments: m.post_comments || 0 };
 });
 // No per-person data -> Top engagers is empty (honest; the field still exists).
 const engagement_people = [];
+
+// Account-view weekly analog: cumulative follower count per month, ending at
+// the current base (1362), reconstructed by subtracting later months' new
+// followers. Approximation (ignores unfollows) but derived from real numbers.
+const page_account_weeks = [];
+{
+  let cum = monthly.total_followers || 0;
+  const rev = [...page_monthly].reverse();
+  const rows = [];
+  for (const m of rev) {
+    rows.push({ week: `${m.month}-01`, followers: cum, post_impressions: m.post_impressions || 0 });
+    cum -= m.new_followers || 0;
+  }
+  page_account_weeks.push(...rows.reverse());
+}
+
+// Single-row section the "???" stat tiles read.
+const unknowns = [{ v: UNK }];
 
 const out = {
   generated_at: monthly.generated_at || null,
   total_followers: monthly.total_followers || 0,
   page_totals, page_monthly, page_geo_monthly, page_geo_aggregate, page_geo_buckets, page_demographics,
-  engagement_score_totals, engagement_score_weeks, engagement_people,
+  engagement_score_totals, engagement_score_weeks, engagement_people, page_account_weeks, unknowns,
 };
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 fs.writeFileSync(OUT, JSON.stringify(out) + '\n');
