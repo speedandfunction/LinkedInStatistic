@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 // Build the company-page Grafana dashboard as an EXACT 1:1 replica of Peter's
 // personal "LinkedIn Stats" dashboard — same sections, same panels, same
-// titles, same order. Panels whose data the company page genuinely provides
-// read real numbers from the live page-stats.json feed; panels whose data is
-// NOT available render "???" instead of a fake zero:
-//   - impossible for a company page ever: Profile viewers, Search appearances
-//     (LinkedIn has no such concepts for Pages)
-//   - not collected (needs per-person reactor collection / outbound-comment
-//     tracking): ICP/VIP splits, top engagers, page's own posts/comments
-//     activity, per-post correlation charts
+// titles, same order, same panel TYPES (sparkline stats, line timeseries,
+// horizontal demo bars). Panels whose data the company page provides read real
+// numbers from the live page-stats.json feed — including Search appearances
+// (the admin tab exposes a rolling 7-day figure we snapshot weekly) and
+// Profile viewers (whose Page analog is Visitors). Panels whose data is NOT
+// collected render "???" instead of a fake zero: ICP/VIP splits + top engagers
+// (needs per-person reactor collection), the page's own posting/commenting
+// activity, and the per-post correlation charts.
 // The company-specific ICP-geography sections are kept BELOW the replica.
 //
 // Usage: node .github/scripts/build-page-dashboard.mjs [--out dashboards/grafana/linkedin-page.json]
@@ -70,9 +70,23 @@ function unknownPanel(title, gridPos, note) {
 function tsPanel(title, gridPos, root, fields) {
   return {
     id: nid(), type: 'timeseries', title, datasource: DS, gridPos,
-    fieldConfig: { defaults: { custom: { drawStyle: 'line', lineInterpolation: 'smooth', fillOpacity: 20, lineWidth: 2, spanNulls: true } }, overrides: [] },
+    fieldConfig: { defaults: { custom: { drawStyle: 'line', lineInterpolation: 'smooth', fillOpacity: 10, lineWidth: 2, spanNulls: true } }, overrides: [] },
     options: { legend: { showLegend: true, placement: 'bottom', calcs: [] }, tooltip: { mode: 'multi' } },
     targets: [urlTarget(root, [col('week', 'string'), ...fields.map((f) => col(f, 'number'))])],
+    transformations: [
+      { id: 'convertFieldType', options: { conversions: [{ targetField: 'week', destinationType: 'time', dateFormat: 'YYYY-MM-DD' }] } },
+      { id: 'sortBy', options: { sort: [{ desc: false, field: 'week' }] } },
+    ],
+  };
+}
+// ---- stat with a sparkline under the number (Peter's graphMode:'area') —
+// reads the weekly series so the sparkline has points; value = latest.
+function sparkStat(title, gridPos, root, field, color) {
+  return {
+    id: nid(), type: 'stat', title, datasource: DS, gridPos,
+    fieldConfig: { defaults: { unit: 'short', decimals: 0, color: { mode: 'fixed', fixedColor: color } }, overrides: [] },
+    options: { reduceOptions: { values: false, calcs: ['lastNotNull'], fields: `/^${field}$/` }, textMode: 'value', colorMode: 'value', graphMode: 'area' },
+    targets: [urlTarget(root, [col('week', 'string'), col(field, 'number')])],
     transformations: [
       { id: 'convertFieldType', options: { conversions: [{ targetField: 'week', destinationType: 'time', dateFormat: 'YYYY-MM-DD' }] } },
       { id: 'sortBy', options: { sort: [{ desc: false, field: 'week' }] } },
@@ -140,23 +154,6 @@ function monthStat(title, gridPos, field, unit, colored = false) {
     targets: [urlTarget('page_geo_monthly', [col('month', 'string'), col(field, 'number')], 'month == "${month}"')],
   };
 }
-function followersStat(title, gridPos) {
-  return {
-    id: nid(), type: 'stat', title, datasource: DS, gridPos,
-    fieldConfig: { defaults: { unit: 'short', decimals: 0, color: { mode: 'fixed', fixedColor: BLUE } }, overrides: [] },
-    options: { reduceOptions: { values: false, calcs: ['lastNotNull'], fields: '/^total_followers$/' }, textMode: 'value', colorMode: 'value', graphMode: 'none' },
-    targets: [urlTarget('page_totals', [col('scope', 'string'), col('total_followers', 'number')])],
-  };
-}
-function totalsStat(title, gridPos, field, color) {
-  return {
-    id: nid(), type: 'stat', title, datasource: DS, gridPos,
-    fieldConfig: { defaults: { unit: 'short', decimals: 0, color: { mode: 'fixed', fixedColor: color } }, overrides: [] },
-    options: { reduceOptions: { values: false, calcs: ['lastNotNull'], fields: `/^${field}$/` }, textMode: 'value', colorMode: 'value', graphMode: 'none' },
-    targets: [urlTarget('page_totals', [col('scope', 'string'), col(field, 'number')])],
-  };
-}
-const impressionsStat = (title, gridPos) => totalsStat(title, gridPos, 'latest_post_impressions', ORANGE);
 
 const NEEDS_PEOPLE = 'requires per-person collection on the page’s posts (not enabled)';
 const NEEDS_ACTIVITY = 'requires tracking the page’s own posting/commenting activity (not collected)';
@@ -184,13 +181,13 @@ const panels = [
   reactVsIcpTable('Reactions & comments — total vs ICP', { h: 6, w: 24, x: 0, y: 22 }),
 
   row('Account view', 28),
-  followersStat('Followers', { h: 4, w: 6, x: 0, y: 29 }),
-  impressionsStat('Post impressions (monthly)', { h: 4, w: 6, x: 6, y: 29 }),
-  totalsStat('Profile viewers — page visitors (latest month)', { h: 4, w: 6, x: 12, y: 29 }, 'latest_unique_visitors', PURPLE),
-  totalsStat('Search appearances (prev week)', { h: 4, w: 6, x: 18, y: 29 }, 'search_appearances_7d', GREEN),
+  sparkStat('Followers', { h: 4, w: 6, x: 0, y: 29 }, 'page_account_weeks', 'followers', BLUE),
+  sparkStat('Post impressions (monthly)', { h: 4, w: 6, x: 6, y: 29 }, 'page_account_weeks', 'post_impressions', ORANGE),
+  sparkStat('Profile viewers — page visitors (monthly)', { h: 4, w: 6, x: 12, y: 29 }, 'page_account_weeks', 'unique_visitors', PURPLE),
+  sparkStat('Search appearances (prev week)', { h: 4, w: 6, x: 18, y: 29 }, 'page_search_weeks', 'searches', GREEN),
   tsPanel('Followers', { h: 7, w: 12, x: 0, y: 33 }, 'page_account_weeks', ['followers']),
   tsPanel('Post impressions (monthly)', { h: 7, w: 12, x: 12, y: 33 }, 'page_account_weeks', ['post_impressions']),
-  monthlyBar('Profile viewers — page visitors per month', { h: 7, w: 12, x: 0, y: 40 }, ['unique_visitors', 'page_views']),
+  tsPanel('Profile viewers — page visitors (monthly)', { h: 7, w: 12, x: 0, y: 40 }, 'page_account_weeks', ['unique_visitors']),
   tsPanel('Search appearances (weekly snapshots)', { h: 7, w: 12, x: 12, y: 40 }, 'page_search_weeks', ['searches']),
   demoBar('Seniority', { h: 7, w: 8, x: 0, y: 47 }, 'followers', 'Seniority'),
   demoBar('Top job titles', { h: 7, w: 8, x: 8, y: 47 }, 'followers', 'Job function'),
