@@ -42,7 +42,7 @@ const bucketCols = [col('audience', 'string'), col('name', 'string'), col('value
 const aggCols = (field) => [col('audience', 'string'), col(field, 'number')];
 
 let id = 0; const nid = () => ++id;
-const BLUE = '#3274D9'; const DARK = '#24292e'; const GREEN = '#56A64B'; const ORANGE = '#FF9830'; const PURPLE = '#B877D9';
+const BLUE = '#3274D9'; const DARK = '#24292e'; const GREEN = '#56A64B'; const ORANGE = '#FF9830'; const PURPLE = '#B877D9'; const TEAL = '#37A2A6';
 
 // ===== 1. Engagement section (Peter's exact fields) =====
 function scoreStat(title, gridPos, scope, field, color) {
@@ -195,10 +195,11 @@ const panels = [
 
   // ---- 2. Account view (Peter's Account-view section, on company data) ----
   { id: nid(), type: 'row', title: 'Account view', gridPos: { h: 1, w: 24, x: 0, y: 29 }, collapsed: false, panels: [] },
-  stat('Followers', { h: 4, w: 6, x: 0, y: 30 }, 'total_followers', BLUE),
-  stat('New followers (6 mo)', { h: 4, w: 6, x: 6, y: 30 }, 'new_followers_6mo', GREEN),
-  stat('Page views (6 mo)', { h: 4, w: 6, x: 12, y: 30 }, 'page_views_6mo', ORANGE),
-  stat('Unique visitors (6 mo)', { h: 4, w: 6, x: 18, y: 30 }, 'unique_visitors_6mo', PURPLE),
+  stat('Followers', { h: 4, w: 5, x: 0, y: 30 }, 'total_followers', BLUE),
+  stat('New followers (6 mo)', { h: 4, w: 5, x: 5, y: 30 }, 'new_followers_6mo', GREEN),
+  stat('Post impressions (6 mo)', { h: 4, w: 4, x: 10, y: 30 }, 'post_impressions_6mo', TEAL),
+  stat('Page views (6 mo)', { h: 4, w: 5, x: 14, y: 30 }, 'page_views_6mo', ORANGE),
+  stat('Unique visitors (6 mo)', { h: 4, w: 5, x: 19, y: 30 }, 'unique_visitors_6mo', PURPLE),
   monthlyBar('New followers per month', { h: 8, w: 12, x: 0, y: 34 }, ['new_followers']),
   monthlyBar('Post impressions per month', { h: 8, w: 12, x: 12, y: 34 }, ['post_impressions']),
   monthlyBar('Page views & unique visitors', { h: 8, w: 12, x: 0, y: 42 }, ['page_views', 'unique_visitors']),

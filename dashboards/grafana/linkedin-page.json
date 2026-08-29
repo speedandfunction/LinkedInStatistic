@@ -1307,7 +1307,7 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 6,
+        "w": 5,
         "x": 0,
         "y": 30
       },
@@ -1377,8 +1377,8 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 6,
-        "x": 6,
+        "w": 5,
+        "x": 5,
         "y": 30
       },
       "fieldConfig": {
@@ -1440,6 +1440,76 @@
     {
       "id": 21,
       "type": "stat",
+      "title": "Post impressions (6 mo)",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 10,
+        "y": 30
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 0,
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#37A2A6"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^post_impressions_6mo$/"
+        },
+        "textMode": "value",
+        "colorMode": "value",
+        "graphMode": "none"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "type": "json",
+          "source": "url",
+          "format": "table",
+          "parser": "backend",
+          "root_selector": "page_totals",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          },
+          "columns": [
+            {
+              "selector": "scope",
+              "text": "scope",
+              "type": "string"
+            },
+            {
+              "selector": "post_impressions_6mo",
+              "text": "post_impressions_6mo",
+              "type": "number"
+            }
+          ],
+          "filters": []
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "type": "stat",
       "title": "Page views (6 mo)",
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
@@ -1447,8 +1517,8 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 6,
-        "x": 12,
+        "w": 5,
+        "x": 14,
         "y": 30
       },
       "fieldConfig": {
@@ -1508,7 +1578,7 @@
       ]
     },
     {
-      "id": 22,
+      "id": 23,
       "type": "stat",
       "title": "Unique visitors (6 mo)",
       "datasource": {
@@ -1517,8 +1587,8 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 6,
-        "x": 18,
+        "w": 5,
+        "x": 19,
         "y": 30
       },
       "fieldConfig": {
@@ -1578,7 +1648,7 @@
       ]
     },
     {
-      "id": 23,
+      "id": 24,
       "type": "barchart",
       "title": "New followers per month",
       "datasource": {
@@ -1658,7 +1728,7 @@
       ]
     },
     {
-      "id": 24,
+      "id": 25,
       "type": "barchart",
       "title": "Post impressions per month",
       "datasource": {
@@ -1738,7 +1808,7 @@
       ]
     },
     {
-      "id": 25,
+      "id": 26,
       "type": "barchart",
       "title": "Page views & unique visitors",
       "datasource": {
@@ -1823,7 +1893,7 @@
       ]
     },
     {
-      "id": 26,
+      "id": 27,
       "type": "barchart",
       "title": "Reactions & comments per month",
       "datasource": {
@@ -1908,7 +1978,7 @@
       ]
     },
     {
-      "id": 27,
+      "id": 28,
       "type": "table",
       "title": "Monthly metrics",
       "datasource": {
@@ -2010,7 +2080,7 @@
       ]
     },
     {
-      "id": 28,
+      "id": 29,
       "type": "barchart",
       "title": "Visitors — seniority",
       "datasource": {
@@ -2120,7 +2190,7 @@
       ]
     },
     {
-      "id": 29,
+      "id": 30,
       "type": "barchart",
       "title": "Visitors — job function",
       "datasource": {
@@ -2230,7 +2300,7 @@
       ]
     },
     {
-      "id": 30,
+      "id": 31,
       "type": "barchart",
       "title": "Visitors — industry",
       "datasource": {
@@ -2340,7 +2410,7 @@
       ]
     },
     {
-      "id": 31,
+      "id": 32,
       "type": "barchart",
       "title": "Visitors — location",
       "datasource": {
@@ -2450,7 +2520,7 @@
       ]
     },
     {
-      "id": 32,
+      "id": 33,
       "type": "barchart",
       "title": "Visitors — company size",
       "datasource": {
@@ -2560,7 +2630,7 @@
       ]
     },
     {
-      "id": 33,
+      "id": 34,
       "type": "barchart",
       "title": "Followers — seniority",
       "datasource": {
@@ -2670,7 +2740,7 @@
       ]
     },
     {
-      "id": 34,
+      "id": 35,
       "type": "barchart",
       "title": "Followers — job function",
       "datasource": {
@@ -2780,7 +2850,7 @@
       ]
     },
     {
-      "id": 35,
+      "id": 36,
       "type": "barchart",
       "title": "Followers — industry",
       "datasource": {
@@ -2890,7 +2960,7 @@
       ]
     },
     {
-      "id": 36,
+      "id": 37,
       "type": "barchart",
       "title": "Followers — location",
       "datasource": {
@@ -3000,7 +3070,7 @@
       ]
     },
     {
-      "id": 37,
+      "id": 38,
       "type": "barchart",
       "title": "Followers — company size",
       "datasource": {
@@ -3110,7 +3180,7 @@
       ]
     },
     {
-      "id": 38,
+      "id": 39,
       "type": "row",
       "title": "ICP geography — US vs India",
       "gridPos": {
@@ -3123,7 +3193,7 @@
       "panels": []
     },
     {
-      "id": 39,
+      "id": 40,
       "type": "stat",
       "title": "US · ICP share — visitors (6 mo)",
       "datasource": {
@@ -3207,7 +3277,7 @@
       ]
     },
     {
-      "id": 40,
+      "id": 41,
       "type": "stat",
       "title": "US · ICP share — followers (base)",
       "datasource": {
@@ -3291,7 +3361,7 @@
       ]
     },
     {
-      "id": 41,
+      "id": 42,
       "type": "bargauge",
       "title": "Visitors by ICP bucket (6 mo)",
       "datasource": {
@@ -3374,7 +3444,7 @@
       ]
     },
     {
-      "id": 42,
+      "id": 43,
       "type": "bargauge",
       "title": "Followers by ICP bucket (base)",
       "datasource": {
@@ -3457,7 +3527,7 @@
       ]
     },
     {
-      "id": 43,
+      "id": 44,
       "type": "barchart",
       "title": "US · ICP share of visitors by month",
       "datasource": {
@@ -3537,7 +3607,7 @@
       ]
     },
     {
-      "id": 44,
+      "id": 45,
       "type": "barchart",
       "title": "Visitor geography by month",
       "datasource": {
@@ -3632,7 +3702,7 @@
       ]
     },
     {
-      "id": 45,
+      "id": 46,
       "type": "row",
       "title": "Selected month — pick $month above",
       "gridPos": {
@@ -3645,7 +3715,7 @@
       "panels": []
     },
     {
-      "id": 46,
+      "id": 47,
       "type": "stat",
       "title": "US · ICP share ($month)",
       "datasource": {
@@ -3729,7 +3799,7 @@
       ]
     },
     {
-      "id": 47,
+      "id": 48,
       "type": "stat",
       "title": "India / China share ($month)",
       "datasource": {
@@ -3796,7 +3866,7 @@
       ]
     },
     {
-      "id": 48,
+      "id": 49,
       "type": "stat",
       "title": "US visitors ($month)",
       "datasource": {
@@ -3863,7 +3933,7 @@
       ]
     },
     {
-      "id": 49,
+      "id": 50,
       "type": "stat",
       "title": "India / China visitors ($month)",
       "datasource": {
