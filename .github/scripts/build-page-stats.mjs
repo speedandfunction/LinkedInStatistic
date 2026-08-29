@@ -121,7 +121,7 @@ const page_account_weeks = [];
   const rev = [...page_monthly].reverse();
   const rows = [];
   for (const m of rev) {
-    rows.push({ week: `${m.month}-01`, followers: cum, post_impressions: m.post_impressions || 0 });
+    rows.push({ week: `${m.month}-01`, followers: cum, post_impressions: m.post_impressions || 0, unique_visitors: m.unique_visitors || 0 });
     cum -= m.new_followers || 0;
   }
   page_account_weeks.push(...rows.reverse());
