@@ -127,6 +127,15 @@ const page_account_weeks = [];
   page_account_weeks.push(...rows.reverse());
 }
 
+// Weekly Page-searches snapshots (admin "Search appearances" tab shows a
+// rolling last-7-days figure; each collection appends one point).
+const page_search_weeks = Object.entries(monthly.search_appearances || {})
+  .map(([week, searches]) => ({ week, searches }))
+  .sort((a, b) => a.week.localeCompare(b.week));
+const latestSearch = page_search_weeks.length ? page_search_weeks[page_search_weeks.length - 1] : null;
+page_totals[0].search_appearances_7d = latestSearch ? latestSearch.searches : 0;
+page_totals[0].latest_unique_visitors = latest.unique_visitors || 0;
+
 // Single-row section the "???" stat tiles read.
 const unknowns = [{ v: UNK }];
 
@@ -134,7 +143,7 @@ const out = {
   generated_at: monthly.generated_at || null,
   total_followers: monthly.total_followers || 0,
   page_totals, page_monthly, page_geo_monthly, page_geo_aggregate, page_geo_buckets, page_demographics,
-  engagement_score_totals, engagement_score_weeks, engagement_people, page_account_weeks, unknowns,
+  engagement_score_totals, engagement_score_weeks, engagement_people, page_account_weeks, page_search_weeks, unknowns,
 };
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 fs.writeFileSync(OUT, JSON.stringify(out) + '\n');

@@ -2,6 +2,9 @@
   "source": "linkedin-page-admin-analytics-xls",
   "generated_at": "2026-08-20T17:44:42Z",
   "total_followers": 1362,
+  "search_appearances": {
+    "2026-08-27": 577
+  },
   "months": {
     "2026-03": {
       "page_views": 961,
