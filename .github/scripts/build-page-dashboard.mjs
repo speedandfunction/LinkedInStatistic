@@ -50,13 +50,28 @@ function scoreStat(title, gridPos, scope, field, color) {
     targets: [urlTarget('engagement_score_totals', [col('scope', 'string'), col(field, 'number')], `scope == "${scope}"`)],
   };
 }
-// ---- "???" stat: reads the literal string so the tile renders ??? ----
-function unknownStat(title, gridPos) {
+// ---- tier stat: reads a real engagement_score_totals field as a STRING, so the
+// SAME panel shows "???" while un-collected and the real number once the page
+// people-phase has run — no dashboard change needed to light it up. ----
+function tierStat(title, gridPos, scope, field, color) {
   return {
     id: nid(), type: 'stat', title, datasource: DS, gridPos,
-    fieldConfig: { defaults: { color: { mode: 'fixed', fixedColor: GRAY } }, overrides: [] },
-    options: { reduceOptions: { values: false, calcs: ['lastNotNull'], fields: '/^v$/' }, textMode: 'value', colorMode: 'value', graphMode: 'none' },
-    targets: [urlTarget('unknowns', [col('v', 'string')])],
+    fieldConfig: { defaults: { color: { mode: 'fixed', fixedColor: color } }, overrides: [] },
+    options: { reduceOptions: { values: false, calcs: ['lastNotNull'], fields: `/^${field}$/` }, textMode: 'value', colorMode: 'value', graphMode: 'none' },
+    targets: [urlTarget('engagement_score_totals', [col('scope', 'string'), col(field, 'string')], `scope == "${scope}"`)],
+  };
+}
+// ---- Top engagers: real table (empty until the people-phase runs) ----
+function peopleTable(title, gridPos) {
+  return {
+    id: nid(), type: 'table', title, datasource: DS, gridPos,
+    fieldConfig: { defaults: {}, overrides: [] },
+    options: { showHeader: true, sortBy: [{ displayName: 'score', desc: true }] },
+    targets: [urlTarget('engagement_people', [col('name', 'string'), col('tier', 'string'), col('reactions', 'number'), col('comments', 'number'), col('score', 'number')])],
+    transformations: [
+      { id: 'sortBy', options: { sort: [{ desc: true, field: 'score' }] } },
+      { id: 'limit', options: { limitField: 15 } },
+    ],
   };
 }
 // ---- "???" chart placeholder (for panels whose CHART we cannot draw) ----
@@ -155,7 +170,6 @@ function monthStat(title, gridPos, field, unit, colored = false) {
   };
 }
 
-const NEEDS_PEOPLE = 'requires per-person collection on the page’s posts (not enabled)';
 const NEEDS_ACTIVITY = 'requires tracking the page’s own posting/commenting activity (not collected)';
 const NEEDS_PER_POST = 'requires per-post records (not collected for the page)';
 
@@ -163,19 +177,19 @@ const panels = [
   // ============ 1:1 replica of Peter's "LinkedIn Stats" ============
   row('Engagement score — who engaged, weighted by tier', 0),
   scoreStat('Engagement score (last week)', { h: 4, w: 6, x: 0, y: 1 }, 'last_week', 'score', BLUE),
-  unknownStat('...from normal audience', { h: 4, w: 6, x: 6, y: 1 }),
-  unknownStat('...from ICP', { h: 4, w: 6, x: 12, y: 1 }),
-  unknownStat('...from VIP list (4×)', { h: 4, w: 6, x: 18, y: 1 }),
+  tierStat('...from normal audience', { h: 4, w: 6, x: 6, y: 1 }, 'last_week', 'score_normal', DARK),
+  tierStat('...from ICP', { h: 4, w: 6, x: 12, y: 1 }, 'last_week', 'score_icp', GREEN),
+  tierStat('...from VIP list (4×)', { h: 4, w: 6, x: 18, y: 1 }, 'last_week', 'score_vip', PURPLE),
   scoreStat('Engagement score (all time)', { h: 4, w: 6, x: 0, y: 5 }, 'all_time', 'score', BLUE),
-  unknownStat('...from normal audience', { h: 4, w: 6, x: 6, y: 5 }),
-  unknownStat('...from ICP', { h: 4, w: 6, x: 12, y: 5 }),
-  unknownStat('...from VIP list (4×)', { h: 4, w: 6, x: 18, y: 5 }),
-  unknownStat('ICP share of reactions (all time)', { h: 4, w: 6, x: 0, y: 9 }),
-  unknownStat('ICP share of comments (all time)', { h: 4, w: 6, x: 6, y: 9 }),
-  unknownStat('ICP share of all engagement (all time)', { h: 4, w: 6, x: 12, y: 9 }),
-  unknownStat('ICP engagers (all time)', { h: 4, w: 6, x: 18, y: 9 }),
+  tierStat('...from normal audience', { h: 4, w: 6, x: 6, y: 5 }, 'all_time', 'score_normal', DARK),
+  tierStat('...from ICP', { h: 4, w: 6, x: 12, y: 5 }, 'all_time', 'score_icp', GREEN),
+  tierStat('...from VIP list (4×)', { h: 4, w: 6, x: 18, y: 5 }, 'all_time', 'score_vip', PURPLE),
+  tierStat('ICP share of reactions (all time)', { h: 4, w: 6, x: 0, y: 9 }, 'all_time', 'icp_reaction_pct', GREEN),
+  tierStat('ICP share of comments (all time)', { h: 4, w: 6, x: 6, y: 9 }, 'all_time', 'icp_comment_pct', GREEN),
+  tierStat('ICP share of all engagement (all time)', { h: 4, w: 6, x: 12, y: 9 }, 'all_time', 'icp_engagement_pct', GREEN),
+  tierStat('ICP engagers (all time)', { h: 4, w: 6, x: 18, y: 9 }, 'all_time', 'people_icp', GREEN),
   tsPanel('Engagement score per week', { h: 8, w: 14, x: 0, y: 13 }, 'engagement_score_weeks', ['score']),
-  unknownPanel('Top engagers', { h: 8, w: 10, x: 14, y: 13 }, NEEDS_PEOPLE),
+  peopleTable('Top engagers', { h: 8, w: 10, x: 14, y: 13 }),
 
   row('Reactions & comments — total vs ICP (last week and all time)', 21),
   reactVsIcpTable('Reactions & comments — total vs ICP', { h: 6, w: 24, x: 0, y: 22 }),

@@ -15,6 +15,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { buildEngagement } from './lib/engagement.mjs';
 
 const args = Object.fromEntries(process.argv.slice(2).map((a, i, arr) =>
   a.startsWith('--') ? [a.slice(2), arr[i + 1]] : [null, null]).filter(([k]) => k));
@@ -87,30 +88,44 @@ const page_totals = [{
 // where a zero would read as a fact.
 const W = { reaction: 1, comment: 5 };
 const UNK = '???';
-const engRow = (scope, week, reactions, comments) => {
-  const score = reactions * W.reaction + comments * W.comment;
-  return {
-    scope, week,
-    score, score_normal: UNK, score_icp: UNK, score_vip: UNK,
-    reactions, comments, people: UNK,
-    reactions_icp: UNK, comments_icp: UNK, people_icp: UNK,
-    reactions_non_icp: reactions, comments_non_icp: comments,
-    icp_reaction_pct: UNK, icp_comment_pct: UNK, icp_engagement_pct: UNK,
-  };
-};
-const rx6 = sum('post_reactions');
-const cm6 = sum('post_comments');
-const engagement_score_totals = [
-  engRow('last_week', latest.month || '', latest.post_reactions || 0, latest.post_comments || 0),
-  engRow('all_time', '', rx6, cm6),
-];
-// One point per month (Peter's per-week series; the company page reports monthly).
-const engagement_score_weeks = page_monthly.map((m) => {
-  const score = (m.post_reactions || 0) * W.reaction + (m.post_comments || 0) * W.comment;
-  return { week: `${m.month}-01`, score, reactions: m.post_reactions || 0, comments: m.post_comments || 0 };
+
+// PER-PERSON path: when the page people-collection has run at least once,
+// dashboards/li-stats/page/engagement.json holds who engaged with the page's
+// posts; score it with Peter's exact math (shared lib) so the tier splits,
+// ICP shares, ICP-engager count and Top engagers are REAL numbers.
+const perPerson = buildEngagement({
+  engagementFile: path.join(DIR, 'engagement.json'),
+  scoringFile: '.claude/skills/linkedin-stats/scoring.json',
+  vipFile: '.claude/skills/linkedin-stats/vip-people.md',
 });
-// No per-person data -> Top engagers is empty (honest; the field still exists).
-const engagement_people = [];
+
+let engagement_score_totals, engagement_score_weeks, engagement_people;
+if (perPerson) {
+  ({ engagement_score_totals, engagement_score_weeks, engagement_people } = perPerson);
+} else {
+  // AGGREGATE fallback: only XLS counts exist — totals are real, tier splits
+  // are unknowable, so those fields stay the literal "???".
+  const engRow = (scope, week, reactions, comments) => {
+    const score = reactions * W.reaction + comments * W.comment;
+    return {
+      scope, week,
+      score, score_normal: UNK, score_icp: UNK, score_vip: UNK,
+      reactions, comments, people: UNK,
+      reactions_icp: UNK, comments_icp: UNK, people_icp: UNK,
+      reactions_non_icp: reactions, comments_non_icp: comments,
+      icp_reaction_pct: UNK, icp_comment_pct: UNK, icp_engagement_pct: UNK,
+    };
+  };
+  engagement_score_totals = [
+    engRow('last_week', latest.month || '', latest.post_reactions || 0, latest.post_comments || 0),
+    engRow('all_time', '', sum('post_reactions'), sum('post_comments')),
+  ];
+  engagement_score_weeks = page_monthly.map((m) => {
+    const score = (m.post_reactions || 0) * W.reaction + (m.post_comments || 0) * W.comment;
+    return { week: `${m.month}-01`, score, reactions: m.post_reactions || 0, comments: m.post_comments || 0 };
+  });
+  engagement_people = [];
+}
 
 // Account-view weekly analog: cumulative follower count per month, ending at
 // the current base (1362), reconstructed by subtracting later months' new
