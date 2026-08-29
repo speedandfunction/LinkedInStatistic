@@ -167,7 +167,7 @@
         "defaults": {
           "color": {
             "mode": "fixed",
-            "fixedColor": "#9d9d9d"
+            "fixedColor": "#24292e"
           }
         },
         "overrides": []
@@ -178,7 +178,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^v$/"
+          "fields": "/^score_normal$/"
         },
         "textMode": "value",
         "colorMode": "value",
@@ -195,7 +195,7 @@
           "source": "url",
           "format": "table",
           "parser": "backend",
-          "root_selector": "unknowns",
+          "root_selector": "engagement_score_totals",
           "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
           "url_options": {
             "data": "",
@@ -203,12 +203,18 @@
           },
           "columns": [
             {
-              "selector": "v",
-              "text": "v",
+              "selector": "scope",
+              "text": "scope",
+              "type": "string"
+            },
+            {
+              "selector": "score_normal",
+              "text": "score_normal",
               "type": "string"
             }
           ],
-          "filters": []
+          "filters": [],
+          "filterExpression": "scope == \"last_week\""
         }
       ]
     },
@@ -230,7 +236,7 @@
         "defaults": {
           "color": {
             "mode": "fixed",
-            "fixedColor": "#9d9d9d"
+            "fixedColor": "#56A64B"
           }
         },
         "overrides": []
@@ -241,7 +247,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^v$/"
+          "fields": "/^score_icp$/"
         },
         "textMode": "value",
         "colorMode": "value",
@@ -258,7 +264,7 @@
           "source": "url",
           "format": "table",
           "parser": "backend",
-          "root_selector": "unknowns",
+          "root_selector": "engagement_score_totals",
           "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
           "url_options": {
             "data": "",
@@ -266,12 +272,18 @@
           },
           "columns": [
             {
-              "selector": "v",
-              "text": "v",
+              "selector": "scope",
+              "text": "scope",
+              "type": "string"
+            },
+            {
+              "selector": "score_icp",
+              "text": "score_icp",
               "type": "string"
             }
           ],
-          "filters": []
+          "filters": [],
+          "filterExpression": "scope == \"last_week\""
         }
       ]
     },
@@ -293,7 +305,7 @@
         "defaults": {
           "color": {
             "mode": "fixed",
-            "fixedColor": "#9d9d9d"
+            "fixedColor": "#B877D9"
           }
         },
         "overrides": []
@@ -304,7 +316,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^v$/"
+          "fields": "/^score_vip$/"
         },
         "textMode": "value",
         "colorMode": "value",
@@ -321,7 +333,7 @@
           "source": "url",
           "format": "table",
           "parser": "backend",
-          "root_selector": "unknowns",
+          "root_selector": "engagement_score_totals",
           "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
           "url_options": {
             "data": "",
@@ -329,12 +341,18 @@
           },
           "columns": [
             {
-              "selector": "v",
-              "text": "v",
+              "selector": "scope",
+              "text": "scope",
+              "type": "string"
+            },
+            {
+              "selector": "score_vip",
+              "text": "score_vip",
               "type": "string"
             }
           ],
-          "filters": []
+          "filters": [],
+          "filterExpression": "scope == \"last_week\""
         }
       ]
     },
@@ -427,7 +445,7 @@
         "defaults": {
           "color": {
             "mode": "fixed",
-            "fixedColor": "#9d9d9d"
+            "fixedColor": "#24292e"
           }
         },
         "overrides": []
@@ -438,7 +456,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^v$/"
+          "fields": "/^score_normal$/"
         },
         "textMode": "value",
         "colorMode": "value",
@@ -455,7 +473,7 @@
           "source": "url",
           "format": "table",
           "parser": "backend",
-          "root_selector": "unknowns",
+          "root_selector": "engagement_score_totals",
           "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
           "url_options": {
             "data": "",
@@ -463,12 +481,18 @@
           },
           "columns": [
             {
-              "selector": "v",
-              "text": "v",
+              "selector": "scope",
+              "text": "scope",
+              "type": "string"
+            },
+            {
+              "selector": "score_normal",
+              "text": "score_normal",
               "type": "string"
             }
           ],
-          "filters": []
+          "filters": [],
+          "filterExpression": "scope == \"all_time\""
         }
       ]
     },
@@ -490,7 +514,7 @@
         "defaults": {
           "color": {
             "mode": "fixed",
-            "fixedColor": "#9d9d9d"
+            "fixedColor": "#56A64B"
           }
         },
         "overrides": []
@@ -501,7 +525,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^v$/"
+          "fields": "/^score_icp$/"
         },
         "textMode": "value",
         "colorMode": "value",
@@ -518,7 +542,7 @@
           "source": "url",
           "format": "table",
           "parser": "backend",
-          "root_selector": "unknowns",
+          "root_selector": "engagement_score_totals",
           "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
           "url_options": {
             "data": "",
@@ -526,12 +550,18 @@
           },
           "columns": [
             {
-              "selector": "v",
-              "text": "v",
+              "selector": "scope",
+              "text": "scope",
+              "type": "string"
+            },
+            {
+              "selector": "score_icp",
+              "text": "score_icp",
               "type": "string"
             }
           ],
-          "filters": []
+          "filters": [],
+          "filterExpression": "scope == \"all_time\""
         }
       ]
     },
@@ -553,7 +583,7 @@
         "defaults": {
           "color": {
             "mode": "fixed",
-            "fixedColor": "#9d9d9d"
+            "fixedColor": "#B877D9"
           }
         },
         "overrides": []
@@ -564,7 +594,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^v$/"
+          "fields": "/^score_vip$/"
         },
         "textMode": "value",
         "colorMode": "value",
@@ -581,7 +611,7 @@
           "source": "url",
           "format": "table",
           "parser": "backend",
-          "root_selector": "unknowns",
+          "root_selector": "engagement_score_totals",
           "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
           "url_options": {
             "data": "",
@@ -589,12 +619,18 @@
           },
           "columns": [
             {
-              "selector": "v",
-              "text": "v",
+              "selector": "scope",
+              "text": "scope",
+              "type": "string"
+            },
+            {
+              "selector": "score_vip",
+              "text": "score_vip",
               "type": "string"
             }
           ],
-          "filters": []
+          "filters": [],
+          "filterExpression": "scope == \"all_time\""
         }
       ]
     },
@@ -616,7 +652,7 @@
         "defaults": {
           "color": {
             "mode": "fixed",
-            "fixedColor": "#9d9d9d"
+            "fixedColor": "#56A64B"
           }
         },
         "overrides": []
@@ -627,7 +663,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^v$/"
+          "fields": "/^icp_reaction_pct$/"
         },
         "textMode": "value",
         "colorMode": "value",
@@ -644,7 +680,7 @@
           "source": "url",
           "format": "table",
           "parser": "backend",
-          "root_selector": "unknowns",
+          "root_selector": "engagement_score_totals",
           "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
           "url_options": {
             "data": "",
@@ -652,12 +688,18 @@
           },
           "columns": [
             {
-              "selector": "v",
-              "text": "v",
+              "selector": "scope",
+              "text": "scope",
+              "type": "string"
+            },
+            {
+              "selector": "icp_reaction_pct",
+              "text": "icp_reaction_pct",
               "type": "string"
             }
           ],
-          "filters": []
+          "filters": [],
+          "filterExpression": "scope == \"all_time\""
         }
       ]
     },
@@ -679,7 +721,7 @@
         "defaults": {
           "color": {
             "mode": "fixed",
-            "fixedColor": "#9d9d9d"
+            "fixedColor": "#56A64B"
           }
         },
         "overrides": []
@@ -690,7 +732,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^v$/"
+          "fields": "/^icp_comment_pct$/"
         },
         "textMode": "value",
         "colorMode": "value",
@@ -707,7 +749,7 @@
           "source": "url",
           "format": "table",
           "parser": "backend",
-          "root_selector": "unknowns",
+          "root_selector": "engagement_score_totals",
           "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
           "url_options": {
             "data": "",
@@ -715,12 +757,18 @@
           },
           "columns": [
             {
-              "selector": "v",
-              "text": "v",
+              "selector": "scope",
+              "text": "scope",
+              "type": "string"
+            },
+            {
+              "selector": "icp_comment_pct",
+              "text": "icp_comment_pct",
               "type": "string"
             }
           ],
-          "filters": []
+          "filters": [],
+          "filterExpression": "scope == \"all_time\""
         }
       ]
     },
@@ -742,7 +790,7 @@
         "defaults": {
           "color": {
             "mode": "fixed",
-            "fixedColor": "#9d9d9d"
+            "fixedColor": "#56A64B"
           }
         },
         "overrides": []
@@ -753,7 +801,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^v$/"
+          "fields": "/^icp_engagement_pct$/"
         },
         "textMode": "value",
         "colorMode": "value",
@@ -770,7 +818,7 @@
           "source": "url",
           "format": "table",
           "parser": "backend",
-          "root_selector": "unknowns",
+          "root_selector": "engagement_score_totals",
           "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
           "url_options": {
             "data": "",
@@ -778,12 +826,18 @@
           },
           "columns": [
             {
-              "selector": "v",
-              "text": "v",
+              "selector": "scope",
+              "text": "scope",
+              "type": "string"
+            },
+            {
+              "selector": "icp_engagement_pct",
+              "text": "icp_engagement_pct",
               "type": "string"
             }
           ],
-          "filters": []
+          "filters": [],
+          "filterExpression": "scope == \"all_time\""
         }
       ]
     },
@@ -805,7 +859,7 @@
         "defaults": {
           "color": {
             "mode": "fixed",
-            "fixedColor": "#9d9d9d"
+            "fixedColor": "#56A64B"
           }
         },
         "overrides": []
@@ -816,7 +870,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^v$/"
+          "fields": "/^people_icp$/"
         },
         "textMode": "value",
         "colorMode": "value",
@@ -833,7 +887,7 @@
           "source": "url",
           "format": "table",
           "parser": "backend",
-          "root_selector": "unknowns",
+          "root_selector": "engagement_score_totals",
           "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
           "url_options": {
             "data": "",
@@ -841,12 +895,18 @@
           },
           "columns": [
             {
-              "selector": "v",
-              "text": "v",
+              "selector": "scope",
+              "text": "scope",
+              "type": "string"
+            },
+            {
+              "selector": "people_icp",
+              "text": "people_icp",
               "type": "string"
             }
           ],
-          "filters": []
+          "filters": [],
+          "filterExpression": "scope == \"all_time\""
         }
       ]
     },
@@ -946,8 +1006,12 @@
     },
     {
       "id": 15,
-      "type": "text",
+      "type": "table",
       "title": "Top engagers",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
       "gridPos": {
         "h": 8,
         "w": 10,
@@ -959,9 +1023,80 @@
         "overrides": []
       },
       "options": {
-        "mode": "markdown",
-        "content": "\n# ???\n\nrequires per-person collection on the page’s posts (not enabled)"
-      }
+        "showHeader": true,
+        "sortBy": [
+          {
+            "displayName": "score",
+            "desc": true
+          }
+        ]
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "type": "json",
+          "source": "url",
+          "format": "table",
+          "parser": "backend",
+          "root_selector": "engagement_people",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          },
+          "columns": [
+            {
+              "selector": "name",
+              "text": "name",
+              "type": "string"
+            },
+            {
+              "selector": "tier",
+              "text": "tier",
+              "type": "string"
+            },
+            {
+              "selector": "reactions",
+              "text": "reactions",
+              "type": "number"
+            },
+            {
+              "selector": "comments",
+              "text": "comments",
+              "type": "number"
+            },
+            {
+              "selector": "score",
+              "text": "score",
+              "type": "number"
+            }
+          ],
+          "filters": []
+        }
+      ],
+      "transformations": [
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "desc": true,
+                "field": "score"
+              }
+            ]
+          }
+        },
+        {
+          "id": "limit",
+          "options": {
+            "limitField": 15
+          }
+        }
+      ]
     },
     {
       "id": 16,
