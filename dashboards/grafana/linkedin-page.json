@@ -1206,7 +1206,7 @@
     {
       "id": 21,
       "type": "stat",
-      "title": "Profile viewers (90d)",
+      "title": "Profile viewers — page visitors (latest month)",
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "grafanacloud-infinity"
@@ -1219,9 +1219,11 @@
       },
       "fieldConfig": {
         "defaults": {
+          "unit": "short",
+          "decimals": 0,
           "color": {
             "mode": "fixed",
-            "fixedColor": "#9d9d9d"
+            "fixedColor": "#B877D9"
           }
         },
         "overrides": []
@@ -1232,7 +1234,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^v$/"
+          "fields": "/^latest_unique_visitors$/"
         },
         "textMode": "value",
         "colorMode": "value",
@@ -1249,7 +1251,7 @@
           "source": "url",
           "format": "table",
           "parser": "backend",
-          "root_selector": "unknowns",
+          "root_selector": "page_totals",
           "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
           "url_options": {
             "data": "",
@@ -1257,9 +1259,14 @@
           },
           "columns": [
             {
-              "selector": "v",
-              "text": "v",
+              "selector": "scope",
+              "text": "scope",
               "type": "string"
+            },
+            {
+              "selector": "latest_unique_visitors",
+              "text": "latest_unique_visitors",
+              "type": "number"
             }
           ],
           "filters": []
@@ -1282,9 +1289,11 @@
       },
       "fieldConfig": {
         "defaults": {
+          "unit": "short",
+          "decimals": 0,
           "color": {
             "mode": "fixed",
-            "fixedColor": "#9d9d9d"
+            "fixedColor": "#56A64B"
           }
         },
         "overrides": []
@@ -1295,7 +1304,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^v$/"
+          "fields": "/^search_appearances_7d$/"
         },
         "textMode": "value",
         "colorMode": "value",
@@ -1312,7 +1321,7 @@
           "source": "url",
           "format": "table",
           "parser": "backend",
-          "root_selector": "unknowns",
+          "root_selector": "page_totals",
           "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
           "url_options": {
             "data": "",
@@ -1320,9 +1329,14 @@
           },
           "columns": [
             {
-              "selector": "v",
-              "text": "v",
+              "selector": "scope",
+              "text": "scope",
               "type": "string"
+            },
+            {
+              "selector": "search_appearances_7d",
+              "text": "search_appearances_7d",
+              "type": "number"
             }
           ],
           "filters": []
@@ -1519,8 +1533,12 @@
     },
     {
       "id": 25,
-      "type": "text",
-      "title": "Profile viewers (90d)",
+      "type": "barchart",
+      "title": "Profile viewers — page visitors per month",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
       "gridPos": {
         "h": 7,
         "w": 12,
@@ -1528,18 +1546,84 @@
         "y": 40
       },
       "fieldConfig": {
-        "defaults": {},
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "lineWidth": 1,
+            "fillOpacity": 80
+          }
+        },
         "overrides": []
       },
       "options": {
-        "mode": "markdown",
-        "content": "\n# ???\n\nLinkedIn does not provide this metric for company pages"
-      }
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "legend": {
+          "showLegend": true,
+          "placement": "bottom"
+        },
+        "xField": "month"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "type": "json",
+          "source": "url",
+          "format": "table",
+          "parser": "backend",
+          "root_selector": "page_monthly",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          },
+          "columns": [
+            {
+              "selector": "month",
+              "text": "month",
+              "type": "string"
+            },
+            {
+              "selector": "unique_visitors",
+              "text": "unique_visitors",
+              "type": "number"
+            },
+            {
+              "selector": "page_views",
+              "text": "page_views",
+              "type": "number"
+            }
+          ],
+          "filters": []
+        }
+      ],
+      "transformations": [
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "desc": false,
+                "field": "month"
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": 26,
-      "type": "text",
-      "title": "Search appearances (prev week)",
+      "type": "timeseries",
+      "title": "Search appearances (weekly snapshots)",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
       "gridPos": {
         "h": 7,
         "w": 12,
@@ -1547,13 +1631,84 @@
         "y": 40
       },
       "fieldConfig": {
-        "defaults": {},
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "fillOpacity": 20,
+            "lineWidth": 2,
+            "spanNulls": true
+          }
+        },
         "overrides": []
       },
       "options": {
-        "mode": "markdown",
-        "content": "\n# ???\n\nLinkedIn does not provide this metric for company pages"
-      }
+        "legend": {
+          "showLegend": true,
+          "placement": "bottom",
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "type": "json",
+          "source": "url",
+          "format": "table",
+          "parser": "backend",
+          "root_selector": "page_search_weeks",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          },
+          "columns": [
+            {
+              "selector": "week",
+              "text": "week",
+              "type": "string"
+            },
+            {
+              "selector": "searches",
+              "text": "searches",
+              "type": "number"
+            }
+          ],
+          "filters": []
+        }
+      ],
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "targetField": "week",
+                "destinationType": "time",
+                "dateFormat": "YYYY-MM-DD"
+              }
+            ]
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "desc": false,
+                "field": "week"
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "id": 27,

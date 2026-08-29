@@ -148,17 +148,17 @@ function followersStat(title, gridPos) {
     targets: [urlTarget('page_totals', [col('scope', 'string'), col('total_followers', 'number')])],
   };
 }
-function impressionsStat(title, gridPos) {
+function totalsStat(title, gridPos, field, color) {
   return {
     id: nid(), type: 'stat', title, datasource: DS, gridPos,
-    fieldConfig: { defaults: { unit: 'short', decimals: 0, color: { mode: 'fixed', fixedColor: ORANGE } }, overrides: [] },
-    options: { reduceOptions: { values: false, calcs: ['lastNotNull'], fields: '/^latest_post_impressions$/' }, textMode: 'value', colorMode: 'value', graphMode: 'none' },
-    targets: [urlTarget('page_totals', [col('scope', 'string'), col('latest_post_impressions', 'number')])],
+    fieldConfig: { defaults: { unit: 'short', decimals: 0, color: { mode: 'fixed', fixedColor: color } }, overrides: [] },
+    options: { reduceOptions: { values: false, calcs: ['lastNotNull'], fields: `/^${field}$/` }, textMode: 'value', colorMode: 'value', graphMode: 'none' },
+    targets: [urlTarget('page_totals', [col('scope', 'string'), col(field, 'number')])],
   };
 }
+const impressionsStat = (title, gridPos) => totalsStat(title, gridPos, 'latest_post_impressions', ORANGE);
 
 const NEEDS_PEOPLE = 'requires per-person collection on the page’s posts (not enabled)';
-const NO_PAGE = 'LinkedIn does not provide this metric for company pages';
 const NEEDS_ACTIVITY = 'requires tracking the page’s own posting/commenting activity (not collected)';
 const NEEDS_PER_POST = 'requires per-post records (not collected for the page)';
 
@@ -186,12 +186,12 @@ const panels = [
   row('Account view', 28),
   followersStat('Followers', { h: 4, w: 6, x: 0, y: 29 }),
   impressionsStat('Post impressions (monthly)', { h: 4, w: 6, x: 6, y: 29 }),
-  unknownStat('Profile viewers (90d)', { h: 4, w: 6, x: 12, y: 29 }),
-  unknownStat('Search appearances (prev week)', { h: 4, w: 6, x: 18, y: 29 }),
+  totalsStat('Profile viewers — page visitors (latest month)', { h: 4, w: 6, x: 12, y: 29 }, 'latest_unique_visitors', PURPLE),
+  totalsStat('Search appearances (prev week)', { h: 4, w: 6, x: 18, y: 29 }, 'search_appearances_7d', GREEN),
   tsPanel('Followers', { h: 7, w: 12, x: 0, y: 33 }, 'page_account_weeks', ['followers']),
   tsPanel('Post impressions (monthly)', { h: 7, w: 12, x: 12, y: 33 }, 'page_account_weeks', ['post_impressions']),
-  unknownPanel('Profile viewers (90d)', { h: 7, w: 12, x: 0, y: 40 }, NO_PAGE),
-  unknownPanel('Search appearances (prev week)', { h: 7, w: 12, x: 12, y: 40 }, NO_PAGE),
+  monthlyBar('Profile viewers — page visitors per month', { h: 7, w: 12, x: 0, y: 40 }, ['unique_visitors', 'page_views']),
+  tsPanel('Search appearances (weekly snapshots)', { h: 7, w: 12, x: 12, y: 40 }, 'page_search_weeks', ['searches']),
   demoBar('Seniority', { h: 7, w: 8, x: 0, y: 47 }, 'followers', 'Seniority'),
   demoBar('Top job titles', { h: 7, w: 8, x: 8, y: 47 }, 'followers', 'Job function'),
   demoBar('Top locations', { h: 7, w: 8, x: 16, y: 47 }, 'followers', 'Location'),
