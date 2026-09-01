@@ -1,0 +1,36 @@
+{
+  "urn": "urn:li:activity:7056699560458371072",
+  "id": "7056699560458371072",
+  "type": "post",
+  "posted_at": "2023-04-25T18:44:42Z",
+  "posted_date": "2023-04-25",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7056699560458371072/",
+  "preview": "Will hashtag #chatgpt Replace Programmers 🤔 With the introduction of ChatGPT to the market, there has been some discussion about the potential threat it poses to developers. We decided to ask ChatGPT",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:25:26Z",
+      "metrics": {
+        "impressions": 10,
+        "members_reached": 0,
+        "reactions": 1,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 10
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": []
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "urn": "urn:li:activity:7170862043091099648",
+  "id": "7170862043091099648",
+  "type": "post",
+  "posted_at": "2024-03-05T19:25:39Z",
+  "posted_date": "2024-03-05",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7170862043091099648/",
+  "preview": "Школа BoarLabs SPACE працює! Знов одразу 2 вихованці, прожект женеджер та розробник, отримали офери! Тож якщо хтось бажає отримати практичний досвід в IT на позиції Project Manager або React/FronEnd р",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:27:50Z",
+      "metrics": {
+        "impressions": 1196,
+        "members_reached": 0,
+        "reactions": 18,
+        "comments": 0,
+        "reposts": 2,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 1,
+        "followers_gained": 1,
+        "engagement_rate": 1.67
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": []
+    }
+  }
+}

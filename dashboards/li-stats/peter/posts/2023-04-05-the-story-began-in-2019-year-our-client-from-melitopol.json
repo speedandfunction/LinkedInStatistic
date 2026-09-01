@@ -1,0 +1,36 @@
+{
+  "urn": "urn:li:activity:7049301051283259392",
+  "id": "7049301051283259392",
+  "type": "post",
+  "posted_at": "2023-04-05T08:45:40Z",
+  "posted_date": "2023-04-05",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7049301051283259392/",
+  "preview": "The story began in 2019 year. Our client from Melitopol asked KAVOON Custom bike equipment Shop to sew a large kit of bags for him: a bumbag, a framebag and 2 \"Tube\" fork bags made in Ukrainian nation",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:24:36Z",
+      "metrics": {
+        "impressions": 12,
+        "members_reached": 0,
+        "reactions": 21,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 175
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": []
+    }
+  }
+}

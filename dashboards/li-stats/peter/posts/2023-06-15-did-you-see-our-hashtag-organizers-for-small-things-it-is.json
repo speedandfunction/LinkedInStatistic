@@ -1,0 +1,36 @@
+{
+  "urn": "urn:li:activity:7075112539084193793",
+  "id": "7075112539084193793",
+  "type": "post",
+  "posted_at": "2023-06-15T14:11:18Z",
+  "posted_date": "2023-06-15",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7075112539084193793/",
+  "preview": "Did you see our hashtag #organizers for small things? It is suitable both for organizing things in large bags and for personal things at home. Thanks to hashtag #Mollesystem you can attach something o",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:26:34Z",
+      "metrics": {
+        "impressions": 8,
+        "members_reached": 0,
+        "reactions": 4,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 50
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": []
+    }
+  }
+}

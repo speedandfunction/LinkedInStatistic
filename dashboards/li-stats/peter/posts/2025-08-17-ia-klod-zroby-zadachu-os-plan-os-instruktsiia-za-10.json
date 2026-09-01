@@ -1,0 +1,72 @@
+{
+  "urn": "urn:li:activity:7362894592616128512",
+  "id": "7362894592616128512",
+  "type": "post",
+  "posted_at": "2025-08-17T17:14:26Z",
+  "posted_date": "2025-08-17",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7362894592616128512/",
+  "preview": "Я: Клод, зроби задачу. Ось план, ось інструкція. .... ⏱️ За 10 хв: Я: Що робиш? Інструкцію читав? Клод: Читав! Я: Чому тоді не по інструкції? Клод: Я по інструкції! Я: Крок 6 читав? Що там написано? Н",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:30:16Z",
+      "metrics": {
+        "impressions": 23095,
+        "members_reached": 14456,
+        "reactions": 155,
+        "comments": 32,
+        "reposts": 0,
+        "saves": 5,
+        "sends": 3,
+        "profile_viewers": 44,
+        "followers_gained": 12,
+        "engagement_rate": 0.81
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 33.1,
+          "Entry": 32.5,
+          "Director": 6.7,
+          "Manager": 5.1,
+          "CXO": 4.2
+        },
+        "job_title": {
+          "Software Engineer": 7.6,
+          "Frontend Developer": 3.7,
+          "Project Manager": 3.6,
+          "Quality Assurance Engineer": 2.4,
+          "Full Stack Engineer": 2
+        },
+        "industry": {
+          "IT Services and IT Consulting": 31,
+          "Software Development": 20.5,
+          "Technology, Information and Internet": 7.3,
+          "Advertising Services": 3.1,
+          "Financial Services": 2.1
+        },
+        "company_size": {
+          "51-200 employees": 18,
+          "11-50 employees": 14.1,
+          "1001-5000 employees": 11,
+          "10,001+ employees": 10.5,
+          "201-500 employees": 10
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 24.7,
+          "Lviv": 6.4,
+          "Warsaw Metropolitan Area": 3.6,
+          "Kharkiv Metropolitan Area": 2.6,
+          "Dnipro Metropolitan Area": 2.3
+        },
+        "company": {
+          "EPAM Systems": 1.9,
+          "NDA": 1.5,
+          "SoftServe": 0,
+          "DataArt": 0,
+          "GlobalLogic": 0
+        }
+      },
+      "comments": []
+    }
+  }
+}

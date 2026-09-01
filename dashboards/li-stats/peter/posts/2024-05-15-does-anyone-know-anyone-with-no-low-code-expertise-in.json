@@ -1,0 +1,36 @@
+{
+  "urn": "urn:li:activity:7196529241818071042",
+  "id": "7196529241818071042",
+  "type": "post",
+  "posted_at": "2024-05-15T15:17:56Z",
+  "posted_date": "2024-05-15",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7196529241818071042/",
+  "preview": "Does anyone know anyone with no/low-code expertise in Microsoft stack? I need a sales engineer ASAP for our Huge client, rebuilding his existing tool. The consultation is about the feasibility of buil",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:28:32Z",
+      "metrics": {
+        "impressions": 656,
+        "members_reached": 0,
+        "reactions": 2,
+        "comments": 5,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 2,
+        "followers_gained": 0,
+        "engagement_rate": 1.07
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": []
+    }
+  }
+}

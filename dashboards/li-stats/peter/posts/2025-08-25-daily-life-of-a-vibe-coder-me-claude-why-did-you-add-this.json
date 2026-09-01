@@ -1,0 +1,69 @@
+{
+  "urn": "urn:li:activity:7365674012695236608",
+  "id": "7365674012695236608",
+  "type": "post",
+  "posted_at": "2025-08-25T09:18:52Z",
+  "posted_date": "2025-08-25",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7365674012695236608/",
+  "preview": "Daily life of a vibe-coder. Me: Claude, why did you add this here? Claude: It's written in the implementation plan! Me: But why is it there? You're the one who created it! Claude: It's in the Acceptan",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:30:50Z",
+      "metrics": {
+        "impressions": 676,
+        "members_reached": 319,
+        "reactions": 7,
+        "comments": 2,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 1.33
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 30.7,
+          "Entry": 28.2,
+          "Director": 7.8,
+          "CXO": 5.6,
+          "Manager": 5.3
+        },
+        "job_title": {
+          "Software Engineer": 6.6,
+          "Founder": 4.4,
+          "Frontend Developer": 2.8,
+          "Full Stack Engineer": 2.8,
+          "Chief Technology Officer": 2.5
+        },
+        "industry": {
+          "IT Services and IT Consulting": 30.1,
+          "Software Development": 25.7,
+          "Technology, Information and Internet": 9.7,
+          "Non-profit Organizations": 5,
+          "Business Consulting and Services": 2.2
+        },
+        "company_size": {
+          "11-50 employees": 18.5,
+          "51-200 employees": 15,
+          "1-10 employees": 13.2,
+          "10,001+ employees": 9.4,
+          "1001-5000 employees": 7.2
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 9.4,
+          "Lviv": 5,
+          "Washington DC-Baltimore Area": 4.7,
+          "The Randstad, Netherlands": 2.8,
+          "Greater Philadelphia": 2.5
+        },
+        "company": {
+          "Speed and Function": 4.4,
+          "Open Supply Hub": 2.2
+        }
+      },
+      "comments": []
+    }
+  }
+}

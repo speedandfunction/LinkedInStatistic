@@ -1,0 +1,66 @@
+{
+  "urn": "urn:li:activity:7368317216699703296",
+  "id": "7368317216699703296",
+  "type": "post",
+  "posted_at": "2025-09-01T16:22:01Z",
+  "posted_date": "2025-09-01",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7368317216699703296/",
+  "preview": "Funny discovery 🙂: Claude just won’t stick to my code conventions, no matter how I phrase the prompt. But when it comes to fixing linter errors, he’s flawless 🔧. That got me thinking 🤔 — for humans to",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:31:00Z",
+      "metrics": {
+        "impressions": 483,
+        "members_reached": 238,
+        "reactions": 7,
+        "comments": 3,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 1,
+        "followers_gained": 1,
+        "engagement_rate": 2.07
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 32.8,
+          "Senior": 30.7,
+          "CXO": 7.1,
+          "Director": 5,
+          "Manager": 4.2
+        },
+        "job_title": {
+          "Software Engineer": 10.5,
+          "Frontend Developer": 5,
+          "Full Stack Engineer": 3.8,
+          "Founder": 3.8,
+          "Product Manager": 3.8
+        },
+        "industry": {
+          "IT Services and IT Consulting": 31.9,
+          "Software Development": 29.8,
+          "Technology, Information and Internet": 9.7,
+          "Business Consulting and Services": 2.9
+        },
+        "company_size": {
+          "51-200 employees": 23.1,
+          "11-50 employees": 17.6,
+          "1-10 employees": 8.8,
+          "1001-5000 employees": 8.8,
+          "10,001+ employees": 6.7
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 11.3,
+          "Lviv": 5.9,
+          "Washington DC-Baltimore Area": 5,
+          "New York City Metropolitan Area": 3.8
+        },
+        "company": {
+          "Speed and Function": 8.8
+        }
+      },
+      "comments": []
+    }
+  }
+}

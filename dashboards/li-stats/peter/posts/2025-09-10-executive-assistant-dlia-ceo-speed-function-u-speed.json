@@ -1,0 +1,72 @@
+{
+  "urn": "urn:li:activity:7371658609128042496",
+  "id": "7371658609128042496",
+  "type": "post",
+  "posted_at": "2025-09-10T21:39:31Z",
+  "posted_date": "2025-09-10",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7371658609128042496/",
+  "preview": "🚀 Executive Assistant для CEO @ Speed & Function У Speed & Function ми створюємо purpose-built software, але наш справжній фокус — розвиток людей і культур, які стоять за технологіями. Ми працюємо з к",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:31:17Z",
+      "metrics": {
+        "impressions": 1211,
+        "members_reached": 633,
+        "reactions": 24,
+        "comments": 1,
+        "reposts": 2,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 10,
+        "followers_gained": 1,
+        "engagement_rate": 2.23
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 33.5,
+          "Entry": 31.3,
+          "Director": 5.1,
+          "Manager": 4.4,
+          "CXO": 3.8
+        },
+        "job_title": {
+          "Software Engineer": 10,
+          "Frontend Developer": 4.3,
+          "Full Stack Engineer": 3.3,
+          "Project Manager": 2.2,
+          "Founder": 1.9
+        },
+        "industry": {
+          "IT Services and IT Consulting": 34.4,
+          "Software Development": 23.2,
+          "Technology, Information and Internet": 8.1,
+          "Staffing and Recruiting": 2.1,
+          "Non-profit Organizations": 1.7
+        },
+        "company_size": {
+          "51-200 employees": 18.5,
+          "11-50 employees": 15.3,
+          "1-10 employees": 8.5,
+          "201-500 employees": 8.2,
+          "1001-5000 employees": 7.3
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 13.3,
+          "Lviv": 7.7,
+          "Warsaw Metropolitan Area": 2.8,
+          "Odesa": 2.4,
+          "Cracow Metropolitan Area": 2.1
+        },
+        "company": {
+          "Speed and Function": 5.1,
+          "AltexSoft": 1.7,
+          "EPAM Systems": 1.3,
+          "NDA": 1.1,
+          "DataArt": 0
+        }
+      },
+      "comments": []
+    }
+  }
+}

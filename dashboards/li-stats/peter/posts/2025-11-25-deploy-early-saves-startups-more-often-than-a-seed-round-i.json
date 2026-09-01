@@ -1,0 +1,67 @@
+{
+  "urn": "urn:li:activity:7399100453231386624",
+  "id": "7399100453231386624",
+  "type": "post",
+  "posted_at": "2025-11-25T15:03:36Z",
+  "posted_date": "2025-11-25",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7399100453231386624/",
+  "preview": "🚀 𝐃𝐞𝐩𝐥𝐨𝐲 𝐞𝐚𝐫𝐥𝐲 𝐬𝐚𝐯𝐞𝐬 𝐬𝐭𝐚𝐫𝐭𝐮𝐩𝐬 𝐦𝐨𝐫𝐞 𝐨𝐟𝐭𝐞𝐧 𝐭𝐡𝐚𝐧 𝐚 𝐬𝐞𝐞𝐝 𝐫𝐨𝐮𝐧𝐝. I have a friend who has been building his startup for three months already. He showed me a demo on his laptop one and a half months ago — a",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:31:52Z",
+      "metrics": {
+        "impressions": 725,
+        "members_reached": 325,
+        "reactions": 11,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 4,
+        "followers_gained": 0,
+        "engagement_rate": 1.52
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 32.3,
+          "Senior": 26.8,
+          "CXO": 6.5,
+          "Owner": 5.8,
+          "Manager": 4.6
+        },
+        "job_title": {
+          "Software Engineer": 12,
+          "Founder": 4.3,
+          "Frontend Developer": 3.4,
+          "Full Stack Engineer": 3.1,
+          "Co-Founder": 2.8
+        },
+        "industry": {
+          "IT Services and IT Consulting": 34.5,
+          "Software Development": 27.1,
+          "Technology, Information and Internet": 9.2,
+          "Business Consulting and Services": 3.1
+        },
+        "company_size": {
+          "51-200 employees": 21.5,
+          "11-50 employees": 14.2,
+          "1-10 employees": 11.7,
+          "201-500 employees": 7.4,
+          "1001-5000 employees": 6.5
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 11.1,
+          "Lviv": 6.2,
+          "Warsaw Metropolitan Area": 2.5,
+          "Kharkiv Metropolitan Area": 1.8,
+          "Dnipro Metropolitan Area": 1.8
+        },
+        "company": {
+          "Speed and Function": 6.2
+        }
+      },
+      "comments": []
+    }
+  }
+}

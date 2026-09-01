@@ -1,0 +1,36 @@
+{
+  "urn": "urn:li:activity:7064846397010845696",
+  "id": "7064846397010845696",
+  "type": "post",
+  "posted_at": "2023-05-18T06:17:19Z",
+  "posted_date": "2023-05-18",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7064846397010845696/",
+  "preview": "We are hashtag #hiring for a Junior Specialist at East Telecom…",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:26:02Z",
+      "metrics": {
+        "impressions": 10,
+        "members_reached": 0,
+        "reactions": 2,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 20
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": []
+    }
+  }
+}

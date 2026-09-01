@@ -1,0 +1,36 @@
+{
+  "urn": "urn:li:activity:7045009149381730304",
+  "id": "7045009149381730304",
+  "type": "post",
+  "posted_at": "2023-03-24T12:31:11Z",
+  "posted_date": "2023-03-24",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7045009149381730304/",
+  "preview": "WOW. Speed and Functionannounced new concept named TOaaS Please read more on site (it's being under development though): https://lnkd.in/dzk7X_zA hashtag #service hashtag #agency hashtag #philli …more",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:23:58Z",
+      "metrics": {
+        "impressions": 19,
+        "members_reached": 0,
+        "reactions": 9,
+        "comments": 1,
+        "reposts": 2,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 63.16
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": []
+    }
+  }
+}

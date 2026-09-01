@@ -1,0 +1,60 @@
+{
+  "urn": "urn:li:activity:7374477133995290625",
+  "id": "7374477133995290625",
+  "type": "post",
+  "posted_at": "2025-09-18T16:19:19Z",
+  "posted_date": "2025-09-18",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7374477133995290625/",
+  "preview": "Are my EU based connections looking for a great opportunity with awesome Howie Ross?",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:31:22Z",
+      "metrics": {
+        "impressions": 401,
+        "members_reached": 133,
+        "reactions": 6,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 1,
+        "followers_gained": 1,
+        "engagement_rate": 1.5
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 30.1,
+          "Entry": 29.3,
+          "Director": 8.3,
+          "CXO": 7.5
+        },
+        "job_title": {
+          "Software Engineer": 9,
+          "Chief Executive Officer": 5.3,
+          "iOS Developer": 4.5
+        },
+        "industry": {
+          "IT Services and IT Consulting": 39.1,
+          "Software Development": 22.6,
+          "Technology, Information and Internet": 7.5
+        },
+        "company_size": {
+          "51-200 employees": 24.8,
+          "11-50 employees": 15,
+          "1-10 employees": 12,
+          "10,001+ employees": 7.5,
+          "501-1000 employees": 7.5
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 15.8,
+          "Lviv": 4.5
+        },
+        "company": {
+          "Speed and Function": 9
+        }
+      },
+      "comments": []
+    }
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "urn": "urn:li:activity:7404153601205473280",
+  "id": "7404153601205473280",
+  "type": "post",
+  "posted_at": "2025-12-09T13:43:01Z",
+  "posted_date": "2025-12-09",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7404153601205473280/",
+  "preview": "An engineering book taught me management. Sounds weird, but \"𝗔𝗰𝗰𝗲𝗹𝗲𝗿𝗮𝘁𝗲: 𝗧𝗵𝗲 𝗦𝗰𝗶𝗲𝗻𝗰𝗲 𝗼𝗳 𝗟𝗲𝗮𝗻 𝗦𝗼𝗳𝘁𝘄𝗮𝗿𝗲 𝗮𝗻𝗱 𝗗𝗲𝘃𝗢𝗽𝘀\" by Nicole Forsgren, Jez Humble, Gene Kim isn't really about code. It's about the fact",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:32:27Z",
+      "metrics": {
+        "impressions": 534,
+        "members_reached": 219,
+        "reactions": 7,
+        "comments": 1,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 1,
+        "followers_gained": 0,
+        "engagement_rate": 1.5
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 32.9,
+          "Entry": 32.4,
+          "Director": 6.4,
+          "Owner": 4.6,
+          "VP": 4.1
+        },
+        "job_title": {
+          "Software Engineer": 20.5,
+          "Founder": 3.7,
+          "Frontend Developer": 2.7,
+          "Project Manager": 2.7,
+          "Full Stack Engineer": 2.7
+        },
+        "industry": {
+          "IT Services and IT Consulting": 35.2,
+          "Software Development": 30.6,
+          "Technology, Information and Internet": 10
+        },
+        "company_size": {
+          "51-200 employees": 24.7,
+          "11-50 employees": 16.4,
+          "10,001+ employees": 10.5,
+          "1001-5000 employees": 8.7,
+          "1-10 employees": 7.3
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 9.6,
+          "Lviv": 6.8,
+          "Wroclaw Metropolitan Area": 3.2,
+          "Prague Metropolitan Area": 3.2,
+          "Amsterdam Area": 2.7
+        },
+        "company": {
+          "Speed and Function": 8.7
+        }
+      },
+      "comments": []
+    }
+  }
+}

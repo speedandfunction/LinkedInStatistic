@@ -1,0 +1,38 @@
+{
+  "urn": "urn:li:activity:7270748651860185088",
+  "id": "7270748651860185088",
+  "type": "post",
+  "posted_at": "2024-12-06T10:39:22Z",
+  "posted_date": "2024-12-06",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7270748651860185088/",
+  "preview": "Hi Friends, Do you know any specialists with experience in digital building access projects? I'm looking for professionals with skills in: ✅ SDK development for React Native ✅ GoLang ✅ C# (integration",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:29:35Z",
+      "metrics": {
+        "impressions": 979,
+        "members_reached": 0,
+        "reactions": 6,
+        "comments": 2,
+        "reposts": 1,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 3,
+        "followers_gained": 0,
+        "engagement_rate": 0.92
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {
+          "IT Services and IT Consulting": 35.3
+        },
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": []
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "urn": "urn:li:activity:7055229951939141633",
+  "id": "7055229951939141633",
+  "type": "post",
+  "posted_at": "2023-04-21T17:25:00Z",
+  "posted_date": "2023-04-21",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7055229951939141633/",
+  "preview": "I’ve never thought of AI in terms of customization of learning. To me it seems to be the next disruptive technology after typography hashtag #ai hashtag #learning",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:24:42Z",
+      "metrics": {
+        "impressions": 6,
+        "members_reached": 0,
+        "reactions": 9,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 150
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": []
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "urn": "urn:li:activity:7254561384724652035",
+  "id": "7254561384724652035",
+  "type": "post",
+  "posted_at": "2024-10-22T18:36:57Z",
+  "posted_date": "2024-10-22",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7254561384724652035/",
+  "preview": "Разом з фондом https://lnkd.in/dFasYB5K та https://boarlabs.xyz/ я починаю, проєкт щодо реінтеграції ветеранів. Я чесно ще не знаю що з цього вийде. Але вже зараз шукаю проектного менеджера під цю іні",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:29:00Z",
+      "metrics": {
+        "impressions": 1472,
+        "members_reached": 0,
+        "reactions": 18,
+        "comments": 1,
+        "reposts": 8,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 9,
+        "followers_gained": 1,
+        "engagement_rate": 1.83
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 44.8
+        },
+        "job_title": {},
+        "industry": {
+          "IT Services and IT Consulting": 34.5
+        },
+        "company_size": {
+          "51-200 employees": 27.6
+        },
+        "location": {},
+        "company": {}
+      },
+      "comments": []
+    }
+  }
+}

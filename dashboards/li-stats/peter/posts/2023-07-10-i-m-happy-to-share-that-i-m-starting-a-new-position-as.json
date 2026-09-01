@@ -1,0 +1,36 @@
+{
+  "urn": "urn:li:activity:7084280581169061888",
+  "id": "7084280581169061888",
+  "type": "post",
+  "posted_at": "2023-07-10T21:21:50Z",
+  "posted_date": "2023-07-10",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7084280581169061888/",
+  "preview": "I’m happy to share that I’m starting a new position as Solutions Architect!",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:26:49Z",
+      "metrics": {
+        "impressions": 20,
+        "members_reached": 0,
+        "reactions": 31,
+        "comments": 1,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 160
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": []
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "urn": "urn:li:activity:7274850744367796224",
+  "id": "7274850744367796224",
+  "type": "post",
+  "posted_at": "2024-12-17T18:19:37Z",
+  "posted_date": "2024-12-17",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7274850744367796224/",
+  "preview": "1 MILLION production locations mapped on Open Supply Hub! 🎉 What once seemed impossible is now a reality, proving the power of collective action and transparency in supply chains 🌍✨ hashtag #SupplyCha",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:29:47Z",
+      "metrics": {
+        "impressions": 224,
+        "members_reached": 0,
+        "reactions": 5,
+        "comments": 2,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 2,
+        "followers_gained": 0,
+        "engagement_rate": 3.13
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": []
+    }
+  }
+}

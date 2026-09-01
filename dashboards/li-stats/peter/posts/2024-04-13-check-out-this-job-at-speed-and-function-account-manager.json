@@ -1,0 +1,36 @@
+{
+  "urn": "urn:li:activity:7184885236319608832",
+  "id": "7184885236319608832",
+  "type": "post",
+  "posted_at": "2024-04-13T12:08:49Z",
+  "posted_date": "2024-04-13",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7184885236319608832/",
+  "preview": "Check out this job at Speed and Function: Account Manager",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:28:22Z",
+      "metrics": {
+        "impressions": 528,
+        "members_reached": 0,
+        "reactions": 4,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 0.76
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": []
+    }
+  }
+}

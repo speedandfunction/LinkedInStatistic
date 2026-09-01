@@ -1,0 +1,36 @@
+{
+  "urn": "urn:li:activity:7024735648322367490",
+  "id": "7024735648322367490",
+  "type": "post",
+  "posted_at": "2023-01-27T13:51:31Z",
+  "posted_date": "2023-01-27",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7024735648322367490/",
+  "preview": "If I were looking for a job, it would definitely be a company from the B-corp community (https://lnkd.in/dh4PfPFZ). It would be important for them to have an opportunity to influence the environment a",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:23:15Z",
+      "metrics": {
+        "impressions": 4,
+        "members_reached": 0,
+        "reactions": 7,
+        "comments": 0,
+        "reposts": 1,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 200
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": []
+    }
+  }
+}

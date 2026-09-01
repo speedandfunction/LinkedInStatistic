@@ -1,0 +1,36 @@
+{
+  "urn": "urn:li:activity:7282751726107906048",
+  "id": "7282751726107906048",
+  "type": "post",
+  "posted_at": "2025-01-08T13:35:18Z",
+  "posted_date": "2025-01-08",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7282751726107906048/",
+  "preview": "Hey LinkedIn network! 🚀 Do you know any experts with hands-on experience in digital building access projects? I’m on the lookout for professionals skilled in: ✅ SDK development for React Native ✅ GoLa",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:30:08Z",
+      "metrics": {
+        "impressions": 631,
+        "members_reached": 0,
+        "reactions": 10,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 9,
+        "followers_gained": 0,
+        "engagement_rate": 1.58
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": []
+    }
+  }
+}

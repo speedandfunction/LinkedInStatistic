@@ -1,0 +1,72 @@
+{
+  "urn": "urn:li:activity:7402388577843605504",
+  "id": "7402388577843605504",
+  "type": "post",
+  "posted_at": "2025-12-04T16:49:26Z",
+  "posted_date": "2025-12-04",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7402388577843605504/",
+  "preview": "Imagine you're building 𝗕𝘂𝗿𝗷 𝗞𝗵𝗮𝗹𝗶𝗳𝗮 𝗼𝘂𝘁 𝗼𝗳 𝗟𝗲𝗴𝗼🧱 A seriously complicated thing — 163 floors. You make this beautiful blueprint, give it to your team: \"Here's the blueprint, here's the building I want",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:32:07Z",
+      "metrics": {
+        "impressions": 21350,
+        "members_reached": 16469,
+        "reactions": 23,
+        "comments": 5,
+        "reposts": 1,
+        "saves": 4,
+        "sends": 0,
+        "profile_viewers": 11,
+        "followers_gained": 2,
+        "engagement_rate": 0.14
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 39.5,
+          "Senior": 32.1,
+          "Manager": 4.6,
+          "Director": 4.2,
+          "CXO": 2.6
+        },
+        "job_title": {
+          "Software Engineer": 25.8,
+          "Full Stack Engineer": 3.1,
+          "Frontend Developer": 2.6,
+          "Project Manager": 1.6,
+          "Quality Assurance Engineer": 1.4
+        },
+        "industry": {
+          "Software Development": 36.3,
+          "IT Services and IT Consulting": 28.2,
+          "Technology, Information and Internet": 6.1,
+          "Computer Games": 3.9,
+          "Financial Services": 2
+        },
+        "company_size": {
+          "51-200 employees": 15.3,
+          "10,001+ employees": 13.8,
+          "11-50 employees": 13.7,
+          "1001-5000 employees": 12.4,
+          "201-500 employees": 9.4
+        },
+        "location": {
+          "Belgrade Metropolitan Area": 3.2,
+          "Kyiv Metropolitan Area": 2.7,
+          "Zagreb Metropolitan Area": 1.9,
+          "Warsaw Metropolitan Area": 1.6,
+          "Novi Sad Metropolitan Area": 1.5
+        },
+        "company": {
+          "EPAM Systems": 0,
+          "Microsoft": 0,
+          "SoftServe": 0,
+          "GlobalLogic": 0,
+          "Accenture": 0
+        }
+      },
+      "comments": []
+    }
+  }
+}

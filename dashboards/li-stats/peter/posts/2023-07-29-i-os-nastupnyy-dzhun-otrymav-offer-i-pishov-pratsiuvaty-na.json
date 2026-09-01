@@ -1,0 +1,36 @@
+{
+  "urn": "urn:li:activity:7090997854990733312",
+  "id": "7090997854990733312",
+  "type": "post",
+  "posted_at": "2023-07-29T10:13:52Z",
+  "posted_date": "2023-07-29",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7090997854990733312/",
+  "preview": "І ось наступний Джун отримав оффер і пішов працювати на клієнтський проект. І це не розробник а менеджер. Тож якщо хтось бажає отримати практичний досвід в IT на позиції Project Manager да й ще отрима",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:27:05Z",
+      "metrics": {
+        "impressions": 47,
+        "members_reached": 0,
+        "reactions": 24,
+        "comments": 0,
+        "reposts": 4,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 59.57
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": []
+    }
+  }
+}

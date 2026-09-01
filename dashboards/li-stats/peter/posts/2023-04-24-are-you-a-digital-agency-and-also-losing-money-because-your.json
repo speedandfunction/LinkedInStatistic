@@ -1,0 +1,36 @@
+{
+  "urn": "urn:li:activity:7056322602386022400",
+  "id": "7056322602386022400",
+  "type": "post",
+  "posted_at": "2023-04-24T17:46:48Z",
+  "posted_date": "2023-04-24",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7056322602386022400/",
+  "preview": "Are you a digital agency and also losing money because your projects aren't going as planned. Did you client get frustrated and went away? How do you deal with that? Could you share any of your expert",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:25:02Z",
+      "metrics": {
+        "impressions": 6,
+        "members_reached": 0,
+        "reactions": 5,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 83.33
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": []
+    }
+  }
+}

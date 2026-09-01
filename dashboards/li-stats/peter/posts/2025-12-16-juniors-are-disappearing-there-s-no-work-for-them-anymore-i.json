@@ -1,0 +1,72 @@
+{
+  "urn": "urn:li:activity:7406707512676147201",
+  "id": "7406707512676147201",
+  "type": "post",
+  "posted_at": "2025-12-16T14:51:20Z",
+  "posted_date": "2025-12-16",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7406707512676147201/",
+  "preview": "\"𝙅𝙪𝙣𝙞𝙤𝙧𝙨 𝙖𝙧𝙚 𝙙𝙞𝙨𝙖𝙥𝙥𝙚𝙖𝙧𝙞𝙣𝙜. 𝙏𝙝𝙚𝙧𝙚'𝙨 𝙣𝙤 𝙬𝙤𝙧𝙠 𝙛𝙤𝙧 𝙩𝙝𝙚𝙢 𝙖𝙣𝙮𝙢𝙤𝙧𝙚.\" I keep hearing this. And honestly? 𝗜'𝗺 𝗻𝗼𝘁 𝗰𝗼𝗻𝘃𝗶𝗻𝗰𝗲𝗱. Here's what I’m actually observing: 𝘁𝗵𝗲 𝘁𝗼𝗼𝗹 𝗶𝘀 𝗰𝗵𝗮𝗻𝗴𝗶𝗻𝗴, 𝗻𝗼𝘁 𝘁𝗵𝗲 𝗽𝗿𝗼𝗳𝗲𝘀𝘀𝗶𝗼𝗻. A year",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:32:36Z",
+      "metrics": {
+        "impressions": 1799,
+        "members_reached": 1176,
+        "reactions": 10,
+        "comments": 5,
+        "reposts": 0,
+        "saves": 1,
+        "sends": 2,
+        "profile_viewers": 3,
+        "followers_gained": 0,
+        "engagement_rate": 0.83
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 32.3,
+          "Senior": 29.5,
+          "CXO": 5.8,
+          "Director": 5.7,
+          "Manager": 3.7
+        },
+        "job_title": {
+          "Software Engineer": 14.2,
+          "Frontend Developer": 2.5,
+          "Project Manager": 2.3,
+          "Founder": 2.1,
+          "Chief Executive Officer": 2
+        },
+        "industry": {
+          "IT Services and IT Consulting": 31.2,
+          "Software Development": 27.3,
+          "Technology, Information and Internet": 7.2,
+          "Business Consulting and Services": 2.7,
+          "Financial Services": 2
+        },
+        "company_size": {
+          "51-200 employees": 16.6,
+          "11-50 employees": 14.2,
+          "10,001+ employees": 10.5,
+          "1001-5000 employees": 10,
+          "1-10 employees": 8.6
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 10.4,
+          "Lviv": 3.8,
+          "Zagreb Metropolitan Area": 3.2,
+          "Bratislava Metropolitan Area": 2.6,
+          "Ljubljana Metropolitan Area": 2.6
+        },
+        "company": {
+          "Speed and Function": 1.8,
+          "EPAM Systems": 0,
+          "DataArt": 0,
+          "SoftServe": 0,
+          "GlobalLogic": 0
+        }
+      },
+      "comments": []
+    }
+  }
+}

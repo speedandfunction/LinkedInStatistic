@@ -1,0 +1,36 @@
+{
+  "urn": "urn:li:activity:7175904271811362816",
+  "id": "7175904271811362816",
+  "type": "post",
+  "posted_at": "2024-03-19T17:21:40Z",
+  "posted_date": "2024-03-19",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7175904271811362816/",
+  "preview": "Anna is recommending and will also support initiative:)",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:28:14Z",
+      "metrics": {
+        "impressions": 310,
+        "members_reached": 0,
+        "reactions": 0,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 0
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": []
+    }
+  }
+}

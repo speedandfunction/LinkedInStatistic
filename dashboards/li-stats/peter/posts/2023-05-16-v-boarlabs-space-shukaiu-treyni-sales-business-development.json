@@ -1,0 +1,36 @@
+{
+  "urn": "urn:li:activity:7064310719965446144",
+  "id": "7064310719965446144",
+  "type": "post",
+  "posted_at": "2023-05-16T18:48:44Z",
+  "posted_date": "2023-05-16",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7064310719965446144/",
+  "preview": "В BoarLabs SPACE шукаю трейні Sales/Business Development спеціаліста. Із вимог - англійська, пройдений курси лідгену та креативне мислення. В обов’язки входить пошук нових клієнтів для проекту KAVOON",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:25:46Z",
+      "metrics": {
+        "impressions": 12,
+        "members_reached": 0,
+        "reactions": 7,
+        "comments": 0,
+        "reposts": 2,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 75
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": []
+    }
+  }
+}

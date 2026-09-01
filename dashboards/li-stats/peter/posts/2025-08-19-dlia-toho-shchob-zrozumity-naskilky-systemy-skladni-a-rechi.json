@@ -1,0 +1,68 @@
+{
+  "urn": "urn:li:activity:7363502077815177217",
+  "id": "7363502077815177217",
+  "type": "post",
+  "posted_at": "2025-08-19T09:28:22Z",
+  "posted_date": "2025-08-19",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7363502077815177217/",
+  "preview": "Для того, щоб зрозуміти, наскільки системи складні, а речі взаємопов’язані, треба усвідомити, що у 2024-му половину Нобелівської премії з фізики отримав білолог (експериментальна та когнітивна психоло",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:30:33Z",
+      "metrics": {
+        "impressions": 658,
+        "members_reached": 362,
+        "reactions": 7,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 4,
+        "followers_gained": 0,
+        "engagement_rate": 1.06
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 36.2,
+          "Senior": 29.8,
+          "Director": 5,
+          "CXO": 5,
+          "Manager": 3.3
+        },
+        "job_title": {
+          "Software Engineer": 9.4,
+          "Full Stack Engineer": 4.4,
+          "Frontend Developer": 4.1,
+          "iOS Developer": 3.9,
+          "Project Manager": 3.6
+        },
+        "industry": {
+          "IT Services and IT Consulting": 36.7,
+          "Software Development": 22.9,
+          "Technology, Information and Internet": 7.2,
+          "Strategic Management Services": 2.2,
+          "Staffing and Recruiting": 1.7
+        },
+        "company_size": {
+          "11-50 employees": 19.3,
+          "51-200 employees": 18.8,
+          "1-10 employees": 9.7,
+          "1001-5000 employees": 6.9,
+          "10,001+ employees": 6.6
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 18,
+          "Lviv": 6.9,
+          "Warsaw Metropolitan Area": 3.3,
+          "Dnipro Metropolitan Area": 3,
+          "Kharkiv Metropolitan Area": 3
+        },
+        "company": {
+          "Speed and Function": 3.9
+        }
+      },
+      "comments": []
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "urn": "urn:li:activity:7205824015532191744",
+  "id": "7205824015532191744",
+  "type": "post",
+  "posted_at": "2024-06-10T06:52:03Z",
+  "posted_date": "2024-06-10",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7205824015532191744/",
+  "preview": "I'm looking for an HRD who is passionate about self-development and inspired by Robert Kegan’s Deliberately Developmental Organizations (DDO) framework. Fluency in both Ukrainian and English is essent",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:29:04Z",
+      "metrics": {
+        "impressions": 1336,
+        "members_reached": 0,
+        "reactions": 15,
+        "comments": 0,
+        "reposts": 4,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 21,
+        "followers_gained": 3,
+        "engagement_rate": 1.42
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": []
+    }
+  }
+}

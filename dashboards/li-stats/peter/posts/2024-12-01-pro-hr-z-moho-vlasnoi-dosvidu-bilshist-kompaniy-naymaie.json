@@ -1,0 +1,36 @@
+{
+  "urn": "urn:li:activity:7269061795187707904",
+  "id": "7269061795187707904",
+  "type": "post",
+  "posted_at": "2024-12-01T18:56:24Z",
+  "posted_date": "2024-12-01",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7269061795187707904/",
+  "preview": "Про HR. З мого власної досвіду, більшість компаній наймає нових людей аби ті вирішували проблеми... І при цьому вимагає працювати в тих процесах, які і є причиною тих проблем. Дивно.... …more",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:29:23Z",
+      "metrics": {
+        "impressions": 819,
+        "members_reached": 0,
+        "reactions": 12,
+        "comments": 1,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 4,
+        "followers_gained": 0,
+        "engagement_rate": 1.59
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": []
+    }
+  }
+}

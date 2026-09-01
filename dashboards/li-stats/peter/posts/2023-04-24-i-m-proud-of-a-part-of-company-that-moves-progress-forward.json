@@ -1,0 +1,36 @@
+{
+  "urn": "urn:li:activity:7056281470004264960",
+  "id": "7056281470004264960",
+  "type": "post",
+  "posted_at": "2023-04-24T15:03:21Z",
+  "posted_date": "2023-04-24",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7056281470004264960/",
+  "preview": "I’m proud of a part of company that moves progress forward. Together with Mediawiki we create global technology, not just use existing one.",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:25:21Z",
+      "metrics": {
+        "impressions": 16,
+        "members_reached": 0,
+        "reactions": 5,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 31.25
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": []
+    }
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "urn": "urn:li:activity:7401633143939575808",
+  "id": "7401633143939575808",
+  "type": "post",
+  "posted_at": "2025-12-02T14:47:37Z",
+  "posted_date": "2025-12-02",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7401633143939575808/",
+  "preview": "Conversation on April 1: — 𝘞𝘩𝘦𝘯 𝘪𝘴 𝘺𝘰𝘶𝘳 𝘳𝘦𝘭𝘦𝘢𝘴𝘦? — 𝘈𝘱𝘳𝘪𝘭 15. Conversation on May 1: — 𝘞𝘩𝘦𝘯 𝘪𝘴 𝘺𝘰𝘶𝘳 𝘳𝘦𝘭𝘦𝘢𝘴𝘦? — 𝘔𝘢𝘺 15. — 𝘉𝘶𝘵 𝘪𝘵 𝘸𝘢𝘴 𝘴𝘶𝘱𝘱𝘰𝘴𝘦𝘥 𝘵𝘰 𝘣𝘦 𝘈𝘱𝘳𝘪𝘭 15 🤔 — 𝘞𝘩𝘦𝘯 𝘸𝘦 𝘵𝘳𝘪𝘦𝘥 𝘵𝘰 𝘳𝘦𝘭𝘦𝘢𝘴𝘦, 𝘸𝘦 𝘥𝘪𝘴𝘤𝘰𝘷𝘦𝘳𝘦𝘥 𝘵",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:31:54Z",
+      "metrics": {
+        "impressions": 703,
+        "members_reached": 299,
+        "reactions": 6,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 3,
+        "followers_gained": 0,
+        "engagement_rate": 0.85
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 33.4,
+          "Senior": 30.1,
+          "Director": 6.4,
+          "CXO": 5.4,
+          "Owner": 4.3
+        },
+        "job_title": {
+          "Software Engineer": 13,
+          "Frontend Developer": 4.7,
+          "Founder": 3.7,
+          "iOS Developer": 3.7,
+          "Quality Assurance Engineer": 2.7
+        },
+        "industry": {
+          "IT Services and IT Consulting": 38.8,
+          "Software Development": 23.4,
+          "Technology, Information and Internet": 8.4,
+          "Strategic Management Services": 2.3,
+          "Business Consulting and Services": 2
+        },
+        "company_size": {
+          "51-200 employees": 20.1,
+          "11-50 employees": 19.4,
+          "1001-5000 employees": 9.4,
+          "1-10 employees": 8.4,
+          "201-500 employees": 7.4
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 12.4,
+          "Lviv": 6,
+          "Wroclaw Metropolitan Area": 2.7,
+          "Odesa": 2.3,
+          "Amsterdam Area": 2
+        },
+        "company": {
+          "Speed and Function": 5.7
+        }
+      },
+      "comments": []
+    }
+  }
+}

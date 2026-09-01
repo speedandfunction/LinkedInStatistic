@@ -1,0 +1,36 @@
+{
+  "urn": "urn:li:activity:7123751510462652417",
+  "id": "7123751510462652417",
+  "type": "post",
+  "posted_at": "2023-10-27T19:25:12Z",
+  "posted_date": "2023-10-27",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7123751510462652417/",
+  "preview": "У BoarLabs SPACE ми шукаємо Sales/Business Development спеціаліста на часткову зайнятість! Якщо ви: - пройшли курси лідгену - маєте креативне мислення - володієте англійською мовою - бажаєте отримати",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:27:28Z",
+      "metrics": {
+        "impressions": 182,
+        "members_reached": 0,
+        "reactions": 10,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 5.49
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": []
+    }
+  }
+}

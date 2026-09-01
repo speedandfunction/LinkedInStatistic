@@ -1,0 +1,36 @@
+{
+  "urn": "urn:li:activity:7032359831273357313",
+  "id": "7032359831273357313",
+  "type": "post",
+  "posted_at": "2023-02-17T14:47:18Z",
+  "posted_date": "2023-02-17",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7032359831273357313/",
+  "preview": "Made up an article how I approach to people development.",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:23:53Z",
+      "metrics": {
+        "impressions": 50,
+        "members_reached": 0,
+        "reactions": 14,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 28
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": []
+    }
+  }
+}

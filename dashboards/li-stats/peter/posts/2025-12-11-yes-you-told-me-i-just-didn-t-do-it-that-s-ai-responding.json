@@ -1,0 +1,65 @@
+{
+  "urn": "urn:li:activity:7404885926641963008",
+  "id": "7404885926641963008",
+  "type": "post",
+  "posted_at": "2025-12-11T14:13:01Z",
+  "posted_date": "2025-12-11",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7404885926641963008/",
+  "preview": "\"𝒀𝒆𝒔, 𝒚𝒐𝒖 𝒕𝒐𝒍𝒅 𝒎𝒆. 𝑰 𝒋𝒖𝒔𝒕 𝒅𝒊𝒅𝒏'𝒕 𝒅𝒐 𝒊𝒕.\" That's AI responding to your carefully crafted instructions 🙃 You write a beautiful prompt. Clear rules. Principles. Step-by-step logic. AI executes maybe half",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:32:22Z",
+      "metrics": {
+        "impressions": 412,
+        "members_reached": 161,
+        "reactions": 4,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 0.97
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 29.8,
+          "Senior": 29.2,
+          "Director": 5.6,
+          "CXO": 5,
+          "VP": 5
+        },
+        "job_title": {
+          "Software Engineer": 13.7,
+          "Project Manager": 3.7,
+          "Frontend Developer": 3.7
+        },
+        "industry": {
+          "IT Services and IT Consulting": 40.4,
+          "Software Development": 23,
+          "Technology, Information and Internet": 8.7,
+          "Business Consulting and Services": 3.7
+        },
+        "company_size": {
+          "51-200 employees": 26.1,
+          "11-50 employees": 17.4,
+          "1001-5000 employees": 8.1,
+          "1-10 employees": 7.5,
+          "10,001+ employees": 6.2
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 10.6,
+          "Lviv": 6.2,
+          "Budva": 4.3,
+          "Washington DC-Baltimore Area": 3.7,
+          "Wroclaw Metropolitan Area": 3.7
+        },
+        "company": {
+          "Speed and Function": 11.8
+        }
+      },
+      "comments": []
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "urn": "urn:li:activity:7351255940483923968",
+  "id": "7351255940483923968",
+  "type": "post",
+  "posted_at": "2025-07-16T14:26:35Z",
+  "posted_date": "2025-07-16",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7351255940483923968/",
+  "preview": "Just this past Monday, I presented the idea that in the future, we won't write code directly; instead, we will write specifications. AI will generate code based on clearly defined requirements. I call",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:30:14Z",
+      "metrics": {
+        "impressions": 631,
+        "members_reached": 0,
+        "reactions": 10,
+        "comments": 2,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 7,
+        "followers_gained": 0,
+        "engagement_rate": 1.9
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 36.8,
+          "Entry": 31.6,
+          "CXO": 6.8,
+          "Manager": 6
+        },
+        "job_title": {
+          "Software Engineer": 16.2
+        },
+        "industry": {
+          "Software Development": 35.9,
+          "IT Services and IT Consulting": 29.1,
+          "Technology, Information and Internet": 7.7
+        },
+        "company_size": {
+          "51-200 employees": 23.1,
+          "10,001+ employees": 16.2,
+          "11-50 employees": 12,
+          "1-10 employees": 8.5,
+          "1001-5000 employees": 7.7
+        },
+        "location": {
+          "Lviv": 15.4,
+          "Kyiv Metropolitan Area": 9.4
+        },
+        "company": {
+          "Speed and Function": 10.3
+        }
+      },
+      "comments": []
+    }
+  }
+}

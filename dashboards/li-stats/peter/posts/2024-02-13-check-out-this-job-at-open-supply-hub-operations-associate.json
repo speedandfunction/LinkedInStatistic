@@ -1,0 +1,36 @@
+{
+  "urn": "urn:li:activity:7163291785375465472",
+  "id": "7163291785375465472",
+  "type": "post",
+  "posted_at": "2024-02-13T22:04:09Z",
+  "posted_date": "2024-02-13",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7163291785375465472/",
+  "preview": "Check out this job at Open Supply Hub: Operations Associate - Remote",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T20:27:38Z",
+      "metrics": {
+        "impressions": 869,
+        "members_reached": 0,
+        "reactions": 4,
+        "comments": 0,
+        "reposts": 2,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 2,
+        "followers_gained": 0,
+        "engagement_rate": 0.69
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": []
+    }
+  }
+}
