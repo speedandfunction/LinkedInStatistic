@@ -1,0 +1,109 @@
+{
+  "comments": {
+    "urn:li:comment:(activity:7498711668579799041,7498807679990071296)": {
+      "comment_urn": "urn:li:comment:(activity:7498711668579799041,7498807679990071296)",
+      "commented_at": "2026-08-27T18:24:32Z",
+      "verb": "commented",
+      "text": "",
+      "comment_author_name": "Peter Ovchynnikov",
+      "comment_author_url": "https://www.linkedin.com/in/ovchyn",
+      "post_urn": "urn:li:activity:7498807688177459200",
+      "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7498807688177459200/",
+      "post_author_name": "Peter Ovchynnikov",
+      "post_author_url": "https://www.linkedin.com/in/ovchyn",
+      "permalink": "https://www.linkedin.com/feed/update/urn:li:activity:7498807688177459200/?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7498711668579799041%2C7498807679990071296%29",
+      "weeks": {
+        "2026-08-31": {
+          "snapshot_at": "2026-09-01T17:02:10Z",
+          "reactions": 0,
+          "replies_count": 0,
+          "impressions": 0
+        }
+      }
+    },
+    "urn:li:comment:(activity:7498693207849975808,7498699106027204608)": {
+      "comment_urn": "urn:li:comment:(activity:7498693207849975808,7498699106027204608)",
+      "commented_at": "2026-08-27T11:13:05Z",
+      "verb": "commented",
+      "text": "",
+      "comment_author_name": "Peter Ovchynnikov",
+      "comment_author_url": "https://www.linkedin.com/in/ovchyn",
+      "post_urn": "urn:li:activity:7498699112972775424",
+      "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7498699112972775424/",
+      "post_author_name": "Andrii Rozhylo",
+      "post_author_url": "https://www.linkedin.com/in/arozhylo",
+      "permalink": "https://www.linkedin.com/feed/update/urn:li:activity:7498699112972775424/?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7498693207849975808%2C7498699106027204608%29",
+      "weeks": {
+        "2026-08-31": {
+          "snapshot_at": "2026-09-01T17:02:10Z",
+          "reactions": 0,
+          "replies_count": 0,
+          "impressions": 0
+        }
+      }
+    },
+    "urn:li:comment:(activity:7492904487343288320,7497740882662715393)": {
+      "comment_urn": "urn:li:comment:(activity:7492904487343288320,7497740882662715393)",
+      "commented_at": "2026-08-24T19:45:27Z",
+      "verb": "commented",
+      "text": "",
+      "comment_author_name": "Peter Ovchynnikov",
+      "comment_author_url": "https://www.linkedin.com/in/ovchyn",
+      "post_urn": "urn:li:activity:7497740889067466752",
+      "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7497740889067466752/",
+      "post_author_name": "Peter Ovchynnikov",
+      "post_author_url": "https://www.linkedin.com/in/ovchyn",
+      "permalink": "https://www.linkedin.com/feed/update/urn:li:activity:7497740889067466752/?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7492904487343288320%2C7497740882662715393%29",
+      "weeks": {
+        "2026-08-31": {
+          "snapshot_at": "2026-09-01T17:02:10Z",
+          "reactions": 0,
+          "replies_count": 0,
+          "impressions": 0
+        }
+      }
+    },
+    "urn:li:comment:(activity:7492474869096472576,7493085128018071552)": {
+      "comment_urn": "urn:li:comment:(activity:7492474869096472576,7493085128018071552)",
+      "commented_at": "2026-08-11T23:25:09Z",
+      "verb": "commented",
+      "text": "Not long ago, teams were assessed by more code, more PRs, and faster delivery (see DORA metrics). Now it feels more obvious that the hard part is still human: understanding what should be built, checking if it works, and seeing if it helps users. Maybe the next useful metrics will be closer to product requirement mistakes, rework, and end-user feedback.",
+      "comment_author_name": "Peter Ovchynnikov",
+      "comment_author_url": "https://www.linkedin.com/in/ovchyn",
+      "post_urn": "urn:li:activity:7493085154949709824",
+      "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7493085154949709824/",
+      "post_author_name": "Salah Awad",
+      "post_author_url": "https://www.linkedin.com/in/salahawad",
+      "permalink": "https://www.linkedin.com/feed/update/urn:li:activity:7493085154949709824/?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7492474869096472576%2C7493085128018071552%29",
+      "weeks": {
+        "2026-08-31": {
+          "snapshot_at": "2026-09-01T17:02:10Z",
+          "reactions": 0,
+          "replies_count": 1,
+          "impressions": 38
+        }
+      }
+    },
+    "urn:li:comment:(activity:7490570860181983232,7493083360483950593)": {
+      "comment_urn": "urn:li:comment:(activity:7490570860181983232,7493083360483950593)",
+      "commented_at": "2026-08-11T23:18:07Z",
+      "verb": "commented",
+      "text": "I agree the open-source part is the part worth watching most, because that is where it stops feeling like a test and starts feeling real.\n\nI think in the near future we may not use this pattern that much, because Claude Code can just write the code instead of importing it. Which makes the remaining part even more dangerous.",
+      "comment_author_name": "Peter Ovchynnikov",
+      "comment_author_url": "https://www.linkedin.com/in/ovchyn",
+      "post_urn": "urn:li:activity:7493083374937473025",
+      "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7493083374937473025/",
+      "post_author_name": "Ethan Mollick",
+      "post_author_url": "https://www.linkedin.com/in/emollick",
+      "permalink": "https://www.linkedin.com/feed/update/urn:li:activity:7493083374937473025/?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7490570860181983232%2C7493083360483950593%29",
+      "weeks": {
+        "2026-08-31": {
+          "snapshot_at": "2026-09-01T17:02:10Z",
+          "reactions": 0,
+          "replies_count": 0,
+          "impressions": 10
+        }
+      }
+    }
+  }
+}

@@ -20,11 +20,12 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: 22
-      - name: Emit flat stats.json for Grafana
+      - name: Emit per-author stats.json for Grafana
         run: |
           mkdir -p pages-dist
-          node .github/scripts/build-stats-json.mjs --out pages-dist/stats.json
-          node .github/scripts/build-page-stats.mjs --out pages-dist/page-stats.json
+          # Один stats.json на кожну папку автора (dashboards/li-stats/<author>/)
+          # + спільний page-stats.json. Кількість авторів не зашита.
+          node .github/scripts/build-pages.mjs --out-dir pages-dist
       - uses: actions/upload-pages-artifact@v5
         with:
           path: pages-dist

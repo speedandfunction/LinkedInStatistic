@@ -45,6 +45,7 @@ import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright-core';
 import * as People from './people.mjs';
 import { classifyPeople, headlineHash, loadIcpText, needsClassification } from './classify-icp.mjs';
+import { openBrowserbaseSession } from './browserbase-backend.mjs';
 
 // ---------------------------------------------------------------- constants
 
@@ -54,12 +55,48 @@ const earlyArgs = Object.fromEntries(process.argv.slice(2).map((a) => {
   const m = a.match(/^--([^=]+)(?:=(.*))?$/);
   return m ? [m[1], m[2] ?? true] : [a, true];
 }));
-// --data-root: point the whole run at a copy of dashboards/li-stats (sandbox
-// testing without touching git-tracked data).
+// ---- Багатопрофільність: ідентичність і каталог даних на кожного автора ----
+// LI_AUTHOR вибирає одну особу; її profile_slug/company_id/cutoff беруться з
+// profiles.json (ключ = автор), із фолбеком на config.json для старого
+// однокористувацького режиму. Кожен автор пише у власну папку
+// dashboards/li-stats/<author>/ — будь-яка кількість профілів збирається
+// незалежно, не затираючи одне одного.
+const AUTHOR = String(process.env.LI_AUTHOR || '').trim();
+const PROFILES_FILE = path.join(SCRIPT_DIR, '..', 'profiles.json');
+function loadIdentity() {
+  if (AUTHOR) {
+    try {
+      const profiles = JSON.parse(fs.readFileSync(PROFILES_FILE, 'utf8'));
+      if (profiles[AUTHOR]) return profiles[AUTHOR];
+      console.error(`profiles.json: немає автора "${AUTHOR}" — додай його або прибери LI_AUTHOR`);
+      process.exit(23);
+    } catch (e) {
+      if (e && e.code !== 'ENOENT') throw e;
+      // profiles.json немає — падаємо на config.json (сумісність)
+    }
+  }
+  return JSON.parse(fs.readFileSync(path.join(SCRIPT_DIR, '..', 'config.json'), 'utf8'));
+}
+const CONFIG = loadIdentity();
+const PROFILE_SLUG = String(CONFIG.profile_slug || '').replace(/^\/+|\/+$/g, '');
+if (!/^in\/[^/]+$/.test(PROFILE_SLUG)) {
+  console.error(`profile_slug must look like "in/<slug>", got "${PROFILE_SLUG}" (author=${AUTHOR || '-'})`);
+  process.exit(23);
+}
+if (/REPLACE-WITH-YOUR-SLUG/i.test(PROFILE_SLUG)) {
+  console.error('profile_slug is still the placeholder — set it in profiles.json or config.json.');
+  process.exit(23);
+}
+
+// Каталог даних: --data-root має пріоритет; далі папка автора; далі старий
+// спільний корінь (сумісність / однокористувацький режим).
 const DATA_ROOT = earlyArgs['data-root']
   ? path.resolve(String(earlyArgs['data-root']))
-  : path.join(REPO_ROOT, 'dashboards', 'li-stats');
+  : (AUTHOR
+      ? path.join(REPO_ROOT, 'dashboards', 'li-stats', AUTHOR)
+      : path.join(REPO_ROOT, 'dashboards', 'li-stats'));
 const POSTS_DIR = path.join(DATA_ROOT, 'posts');
+fs.mkdirSync(POSTS_DIR, { recursive: true }); // папка автора створюється сама
 const ACCOUNT_FILE = path.join(DATA_ROOT, 'account.json');
 const COMMENTS_FILE = path.join(DATA_ROOT, 'comments.json');
 const ENGAGEMENT_FILE = path.join(DATA_ROOT, 'engagement.json');
@@ -67,20 +104,6 @@ const ICP_FILE = path.join(REPO_ROOT, 'sources', 'icp.md');
 const AGENTS_DIR = path.join(REPO_ROOT, '.claude', 'agents');
 const MERGE_PY = path.join(SCRIPT_DIR, 'merge.py');
 const MANIFEST_FILE = path.join(REPO_ROOT, 'tmp', 'fast-scrape-manifest.json');
-// Account identity lives in config.json — no specific person is hardcoded
-// below this block. (config.company_id is read by the separate company-page
-// phase in fast/page/scrape-page.mjs, not by this personal-profile script.)
-const CONFIG = JSON.parse(fs.readFileSync(
-  path.join(SCRIPT_DIR, '..', 'config.json'), 'utf8'));
-const PROFILE_SLUG = String(CONFIG.profile_slug || '').replace(/^\/+|\/+$/g, '');
-if (!/^in\/[^/]+$/.test(PROFILE_SLUG)) {
-  console.error(`config.json: profile_slug must look like "in/<slug>", got "${PROFILE_SLUG}"`);
-  process.exit(23);
-}
-if (/REPLACE-WITH-YOUR-SLUG/i.test(PROFILE_SLUG)) {
-  console.error('config.json: profile_slug is still the placeholder — set it to your real "in/<slug>" before running.');
-  process.exit(23);
-}
 // LI_CHROME_PROFILE_DIR overrides the macOS default (Linux runners, sandboxes).
 const USER_DATA_DIR = process.env.LI_CHROME_PROFILE_DIR || path.join(
   process.env.HOME, 'Library', 'Caches', 'ms-playwright', 'mcp-chrome-linkedin-stats');
@@ -431,7 +454,18 @@ async function feedScrollLoop(page, { scrape, waitForNew, shouldStop, maxIterati
 
 // ---------------------------------------------------------------- browser
 
+// Опційний бекенд Browserbase (хмарна сесія lifleet) замість локального Chrome.
+// Вмикається LI_BACKEND=browserbase; акаунт — LI_AUTHOR (дефолт oleksandr).
+// release зберігаємо для shutdown, щоб звільнити сесію (єдиний слот на free plan).
+let bbRelease = null;
+
 async function launchBrowser() {
+  if (process.env.LI_BACKEND === 'browserbase') {
+    const slug = process.env.LI_AUTHOR || 'oleksandr';
+    const { context, release } = await openBrowserbaseSession(slug);
+    bbRelease = release;
+    return context;
+  }
   let lastErr;
   for (let attempt = 1; attempt <= 3; attempt++) {
     try {
@@ -1947,6 +1981,8 @@ async function shutdown(code) {
   flushContracts();
   writeManifest();
   if (context) await context.close().catch(() => {});
+  // Browserbase: звільнити хмарну сесію, інакше висить і займає слот плану.
+  if (bbRelease) await bbRelease().catch(() => {});
   process.exit(code);
 }
 process.on('SIGTERM', () => { log('SIGTERM — shutting down'); shutdown(143); });

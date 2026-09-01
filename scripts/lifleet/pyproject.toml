@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lifleet"
+version = "0.1.0"
+description = "Керування пулом LinkedIn-акаунтів через Browserbase Contexts"
+requires-python = ">=3.9"
+dependencies = [
+    "browserbase",
+    "playwright",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[project.scripts]
+lifleet = "lifleet.cli:main"
+
+[tool.setuptools]
+packages = ["lifleet"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
