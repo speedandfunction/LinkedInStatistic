@@ -1,0 +1,72 @@
+{
+  "urn": "urn:li:activity:7453510493186560000",
+  "id": "7453510493186560000",
+  "type": "post",
+  "posted_at": "2026-04-24T18:29:41Z",
+  "posted_date": "2026-04-24",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7453510493186560000/",
+  "preview": "Last week, Anthropic banned 31 Speed and Function from Claude — 23 team accounts and 8 personal accounts linked to the same credit card. No warning. No explanation. We filed appeals, contacted support",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:27:21Z",
+      "metrics": {
+        "impressions": 1863,
+        "members_reached": 981,
+        "reactions": 32,
+        "comments": 4,
+        "reposts": 6,
+        "saves": 1,
+        "sends": 0,
+        "profile_viewers": 13,
+        "followers_gained": 0,
+        "engagement_rate": 2.25
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 31.6,
+          "Entry": 24.9,
+          "CXO": 6.5,
+          "Manager": 6.2,
+          "Director": 6
+        },
+        "job_title": {
+          "Software Engineer": 13,
+          "Founder": 3.7,
+          "Co-Founder": 2.3,
+          "Chief Executive Officer": 2.1,
+          "Frontend Developer": 2
+        },
+        "industry": {
+          "Software Development": 27.8,
+          "IT Services and IT Consulting": 26.4,
+          "Technology, Information and Internet": 12.2,
+          "Financial Services": 2.2,
+          "Business Consulting and Services": 1.6
+        },
+        "company_size": {
+          "51-200 employees": 16.5,
+          "11-50 employees": 14.3,
+          "10,001+ employees": 12.2,
+          "1-10 employees": 9.2,
+          "201-500 employees": 8.3
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 4.5,
+          "San Francisco Bay Area": 4.1,
+          "Greater Toronto Area, Canada": 3.5,
+          "Lviv": 3,
+          "New York City Metropolitan Area": 3
+        },
+        "company": {
+          "Speed and Function": 2.9,
+          "Meta": 0,
+          "EPAM Systems": 0,
+          "Microsoft": 0,
+          "SoftServe": 0
+        }
+      },
+      "comments": []
+    }
+  }
+}

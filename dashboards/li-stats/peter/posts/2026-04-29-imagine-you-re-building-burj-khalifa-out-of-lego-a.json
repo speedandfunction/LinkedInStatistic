@@ -1,0 +1,65 @@
+{
+  "urn": "urn:li:activity:7455199959148208129",
+  "id": "7455199959148208129",
+  "type": "post",
+  "posted_at": "2026-04-29T10:23:01Z",
+  "posted_date": "2026-04-29",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7455199959148208129/",
+  "preview": "Imagine you're building Burj Khalifa out of Lego 🧱. A complicated thing, 163 floors. You make a beautiful blueprint, hand it to the team, and they start building. Half a year later, they've reached fl",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:27:36Z",
+      "metrics": {
+        "impressions": 484,
+        "members_reached": 220,
+        "reactions": 3,
+        "comments": 1,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 1,
+        "followers_gained": 0,
+        "engagement_rate": 0.83
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 34.5,
+          "Senior": 26.8,
+          "Director": 6.8,
+          "CXO": 6.4,
+          "Owner": 5
+        },
+        "job_title": {
+          "Software Engineer": 10,
+          "Frontend Developer": 3.6,
+          "Product Manager": 3.6,
+          "Chief Executive Officer": 2.7
+        },
+        "industry": {
+          "IT Services and IT Consulting": 31.8,
+          "Software Development": 24.5,
+          "Technology, Information and Internet": 3.6
+        },
+        "company_size": {
+          "51-200 employees": 19.1,
+          "11-50 employees": 14.1,
+          "1-10 employees": 8.6,
+          "10,001+ employees": 8.6,
+          "1001-5000 employees": 7.7
+        },
+        "location": {
+          "Ljubljana Metropolitan Area": 7.3,
+          "Belgrade Metropolitan Area": 5.9,
+          "Zagreb Metropolitan Area": 3.2,
+          "Washington DC-Baltimore Area": 3.2,
+          "Greater Philadelphia": 2.7
+        },
+        "company": {
+          "Speed and Function": 5.9
+        }
+      },
+      "comments": []
+    }
+  }
+}

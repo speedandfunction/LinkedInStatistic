@@ -1,0 +1,58 @@
+{
+  "urn": "urn:li:activity:7485297316942409728",
+  "id": "7485297316942409728",
+  "type": "post",
+  "posted_at": "2026-07-21T11:39:10Z",
+  "posted_date": "2026-07-21",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7485297316942409728/",
+  "preview": "Fifteen years ago I had a client, one of my first ever. I got the task, I started doing it, and I did it. I was a good engineer, I could build everything he wanted. Spent two weeks on it, or let's say",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:29:50Z",
+      "metrics": {
+        "impressions": 264,
+        "members_reached": 109,
+        "reactions": 4,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 1,
+        "followers_gained": 0,
+        "engagement_rate": 1.52
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 32.1,
+          "Senior": 26.6,
+          "Director": 6.4,
+          "CXO": 5.5
+        },
+        "job_title": {
+          "Software Engineer": 13.8
+        },
+        "industry": {
+          "IT Services and IT Consulting": 38.5,
+          "Software Development": 22,
+          "Technology, Information and Internet": 11.9
+        },
+        "company_size": {
+          "51-200 employees": 32.1,
+          "1-10 employees": 11,
+          "11-50 employees": 9.2,
+          "10,001+ employees": 9.2,
+          "1001-5000 employees": 7.3
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 7.3,
+          "Lviv": 6.4
+        },
+        "company": {
+          "Speed and Function": 23.9
+        }
+      },
+      "comments": []
+    }
+  }
+}

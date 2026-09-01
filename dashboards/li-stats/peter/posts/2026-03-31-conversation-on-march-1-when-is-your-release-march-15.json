@@ -1,0 +1,72 @@
+{
+  "urn": "urn:li:activity:7444715876454641664",
+  "id": "7444715876454641664",
+  "type": "post",
+  "posted_at": "2026-03-31T12:03:01Z",
+  "posted_date": "2026-03-31",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7444715876454641664/",
+  "preview": "Conversation on March 1: — 𝘞𝘩𝘦𝘯 𝘪𝘴 𝘺𝘰𝘶𝘳 𝘳𝘦𝘭𝘦𝘢𝘴𝘦? — 𝘔𝘢𝘳𝘤𝘩 15. Conversation on April 1: — 𝘞𝘩𝘦𝘯 𝘪𝘴 𝘺𝘰𝘶𝘳 𝘳𝘦𝘭𝘦𝘢𝘴𝘦? — 𝘈𝘱𝘳𝘪𝘭 15. — 𝘉𝘶𝘵 𝘪𝘵 𝘸𝘢𝘴 𝘴𝘶𝘱𝘱𝘰𝘴𝘦𝘥 𝘵𝘰 𝘣𝘦 𝘔𝘢𝘳𝘤𝘩 15 🤔 — 𝘞𝘩𝘦𝘯 𝘸𝘦 𝘵𝘳𝘪𝘦𝘥 𝘵𝘰 𝘳𝘦𝘭𝘦𝘢𝘴𝘦, 𝘸𝘦 𝘥𝘪𝘴𝘤𝘰𝘷𝘦𝘳",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:26:28Z",
+      "metrics": {
+        "impressions": 6717,
+        "members_reached": 4970,
+        "reactions": 5,
+        "comments": 1,
+        "reposts": 0,
+        "saves": 2,
+        "sends": 0,
+        "profile_viewers": 8,
+        "followers_gained": 0,
+        "engagement_rate": 0.09
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 34.1,
+          "Entry": 26.7,
+          "Director": 7.5,
+          "Manager": 5.7,
+          "CXO": 4.3
+        },
+        "job_title": {
+          "Software Engineer": 15.3,
+          "Product Manager": 2.1,
+          "Project Manager": 2,
+          "Founder": 2,
+          "Chief Technology Officer": 1.5
+        },
+        "industry": {
+          "IT Services and IT Consulting": 31.7,
+          "Software Development": 28.2,
+          "Technology, Information and Internet": 6.3,
+          "Financial Services": 3.7,
+          "Computer Games": 1.6
+        },
+        "company_size": {
+          "10,001+ employees": 14.9,
+          "51-200 employees": 14.2,
+          "1001-5000 employees": 12,
+          "11-50 employees": 10.8,
+          "201-500 employees": 8.4
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 4.6,
+          "Sofia Metropolitan Area": 2.1,
+          "Lviv": 1.8,
+          "Berlin Metropolitan Area": 1.6,
+          "London Area, United Kingdom": 1.6
+        },
+        "company": {
+          "EPAM Systems": 0,
+          "Speed and Function": 0,
+          "SoftServe": 0,
+          "IBM": 0,
+          "SAP": 0
+        }
+      },
+      "comments": []
+    }
+  }
+}

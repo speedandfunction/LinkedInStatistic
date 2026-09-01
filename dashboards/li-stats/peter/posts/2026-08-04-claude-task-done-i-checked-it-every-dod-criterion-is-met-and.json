@@ -1,0 +1,56 @@
+{
+  "urn": "urn:li:activity:7490361400977039361",
+  "id": "7490361400977039361",
+  "type": "post",
+  "posted_at": "2026-08-04T11:02:02Z",
+  "posted_date": "2026-08-04",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7490361400977039361/",
+  "preview": "Claude: \"𝘛𝘢𝘴𝘬 𝘥𝘰𝘯𝘦. 𝘐 𝘤𝘩𝘦𝘤𝘬𝘦𝘥 𝘪𝘵. 𝘌𝘷𝘦𝘳𝘺 𝘋𝘰𝘋 𝘤𝘳𝘪𝘵𝘦𝘳𝘪𝘰𝘯 𝘪𝘴 𝘮𝘦𝘵, 𝘢𝘯𝘥 𝘤𝘰𝘥𝘦𝘹 𝘷𝘦𝘳𝘪𝘧𝘪𝘦𝘥 𝘪𝘵 𝘵𝘰𝘰.\" Me: \"𝘋𝘪𝘥 𝘺𝘰𝘶 𝘢𝘤𝘵𝘶𝘢𝘭𝘭𝘺 𝘰𝘱𝘦𝘯 𝘵𝘩𝘦 𝘱𝘢𝘨𝘦? 𝘐 𝘥𝘰𝘯'𝘵 𝘴𝘦𝘦 𝘪𝘵 𝘵𝘩𝘦𝘳𝘦. 𝘊𝘩𝘦𝘤𝘬 𝘢𝘨𝘢𝘪𝘯.\" Claude: \"𝘋𝘢𝘮𝘯, 𝘺𝘰𝘶'𝘳𝘦 𝘳𝘪𝘨𝘩𝘵.\" And thi",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:30:25Z",
+      "metrics": {
+        "impressions": 253,
+        "members_reached": 103,
+        "reactions": 1,
+        "comments": 1,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 0.79
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 35.9,
+          "Entry": 31.1
+        },
+        "job_title": {
+          "Software Engineer": 15.5,
+          "Quality Assurance Engineer": 6.8
+        },
+        "industry": {
+          "IT Services and IT Consulting": 34,
+          "Software Development": 30.1,
+          "Technology, Information and Internet": 9.7
+        },
+        "company_size": {
+          "51-200 employees": 25.2,
+          "10,001+ employees": 14.6,
+          "11-50 employees": 13.6,
+          "1001-5000 employees": 9.7,
+          "201-500 employees": 8.7
+        },
+        "location": {
+          "Lviv": 6.8
+        },
+        "company": {
+          "Speed and Function": 14.6
+        }
+      },
+      "comments": []
+    }
+  }
+}

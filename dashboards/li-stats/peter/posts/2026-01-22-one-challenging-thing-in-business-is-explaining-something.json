@@ -1,0 +1,57 @@
+{
+  "urn": "urn:li:activity:7420113588977192960",
+  "id": "7420113588977192960",
+  "type": "post",
+  "posted_at": "2026-01-22T14:42:18Z",
+  "posted_date": "2026-01-22",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7420113588977192960/",
+  "preview": "𝗢𝗻𝗲 𝗰𝗵𝗮𝗹𝗹𝗲𝗻𝗴𝗶𝗻𝗴 𝘁𝗵𝗶𝗻𝗴 𝗶𝗻 𝗯𝘂𝘀𝗶𝗻𝗲𝘀𝘀 𝗶𝘀 𝗲𝘅𝗽𝗹𝗮𝗶𝗻𝗶𝗻𝗴 𝘀𝗼𝗺𝗲𝘁𝗵𝗶𝗻𝗴 𝘆𝗼𝘂𝗿 𝘀𝘁𝗮𝗸𝗲𝗵𝗼𝗹𝗱𝗲𝗿𝘀 𝗵𝗮𝘃𝗲 𝗻𝗲𝘃𝗲𝗿 𝗮𝗰𝘁𝘂𝗮𝗹𝗹𝘆 𝗲𝘅𝗽𝗲𝗿𝗶𝗲𝗻𝗰𝗲𝗱 — like self-organization or culture in action. How do you explain something that doesn't exi",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:24:55Z",
+      "metrics": {
+        "impressions": 280,
+        "members_reached": 112,
+        "reactions": 4,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 1,
+        "followers_gained": 0,
+        "engagement_rate": 1.43
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 29.5,
+          "Entry": 25.9,
+          "Director": 6.2,
+          "CXO": 5.4
+        },
+        "job_title": {
+          "Software Engineer": 15.2,
+          "Project Manager": 5.4
+        },
+        "industry": {
+          "IT Services and IT Consulting": 44.6,
+          "Software Development": 26.8
+        },
+        "company_size": {
+          "51-200 employees": 24.1,
+          "11-50 employees": 15.2,
+          "10,001+ employees": 8.9,
+          "1001-5000 employees": 7.1,
+          "1-10 employees": 6.2
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 8
+        },
+        "company": {
+          "Speed and Function": 11.6
+        }
+      },
+      "comments": []
+    }
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "urn": "urn:li:activity:7432043122894761984",
+  "id": "7432043122894761984",
+  "type": "post",
+  "posted_at": "2026-02-24T12:46:01Z",
+  "posted_date": "2026-02-24",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7432043122894761984/",
+  "preview": "𝗔𝗜 𝗱𝗼𝗲𝘀𝗻'𝘁 𝗮𝗿𝗴𝘂𝗲 𝘄𝗶𝘁𝗵 𝘆𝗼𝘂𝗿 𝗯𝗮𝗱 𝗶𝗱𝗲𝗮𝘀. Whether you're a startup founder, a product owner, or anyone pushing something to market — 𝗶𝘁 𝗷𝘂𝘀𝘁 𝗯𝘂𝗶𝗹𝗱𝘀 𝘆𝗼𝘂𝗿 𝗯𝗮𝗱 𝗶𝗱𝗲𝗮𝘀 𝗳𝗮𝘀𝘁𝗲𝗿. 🤷 AI is great at executing what y",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:25:44Z",
+      "metrics": {
+        "impressions": 2725,
+        "members_reached": 1676,
+        "reactions": 18,
+        "comments": 1,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 3,
+        "followers_gained": 1,
+        "engagement_rate": 0.7
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 26.3,
+          "Entry": 22.5,
+          "CXO": 6.6,
+          "Director": 6.1,
+          "Owner": 5.3
+        },
+        "job_title": {
+          "Software Engineer": 8.1,
+          "Founder": 3.6,
+          "Chief Technology Officer": 2.6,
+          "Co-Founder": 2.4,
+          "Chief Executive Officer": 1.6
+        },
+        "industry": {
+          "IT Services and IT Consulting": 27,
+          "Software Development": 22.3,
+          "Technology, Information and Internet": 7,
+          "Financial Services": 1.5,
+          "Business Consulting and Services": 1.5
+        },
+        "company_size": {
+          "51-200 employees": 11.9,
+          "11-50 employees": 11,
+          "1-10 employees": 10.7,
+          "10,001+ employees": 9.3,
+          "1001-5000 employees": 7.8
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 2.1,
+          "Sofia Metropolitan Area": 1.9,
+          "London Area, United Kingdom": 1.8,
+          "Warsaw Metropolitan Area": 1.7,
+          "Greater Toronto Area, Canada": 1.7
+        },
+        "company": {
+          "Speed and Function": 0,
+          "EPAM Systems": 0,
+          "SoftServe": 0,
+          "Self Employed": 0
+        }
+      },
+      "comments": []
+    }
+  }
+}

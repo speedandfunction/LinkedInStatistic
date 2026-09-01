@@ -1,0 +1,56 @@
+{
+  "urn": "urn:li:activity:7477683742380134400",
+  "id": "7477683742380134400",
+  "type": "post",
+  "posted_at": "2026-06-30T11:25:32Z",
+  "posted_date": "2026-06-30",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7477683742380134400/",
+  "preview": "AI writes bad code? You just can't describe how it should behave. 🙃 For seventy years we were drowning in a sea of unstructured code, and slowly we learned to structure it, so that it becomes predicta",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:29:07Z",
+      "metrics": {
+        "impressions": 286,
+        "members_reached": 126,
+        "reactions": 2,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 0.7
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 33.3,
+          "Senior": 30.2,
+          "CXO": 7.1,
+          "Director": 7.1,
+          "Owner": 6.3
+        },
+        "job_title": {
+          "Software Engineer": 19.8
+        },
+        "industry": {
+          "IT Services and IT Consulting": 37.3,
+          "Software Development": 36.5,
+          "Technology, Information and Internet": 7.1
+        },
+        "company_size": {
+          "51-200 employees": 23,
+          "11-50 employees": 14.3,
+          "10,001+ employees": 11.1,
+          "1001-5000 employees": 8.7,
+          "1-10 employees": 6.3
+        },
+        "location": {},
+        "company": {
+          "Speed and Function": 14.3
+        }
+      },
+      "comments": []
+    }
+  }
+}

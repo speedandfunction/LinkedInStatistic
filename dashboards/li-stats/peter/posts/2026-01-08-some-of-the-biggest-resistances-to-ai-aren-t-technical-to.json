@@ -1,0 +1,58 @@
+{
+  "urn": "urn:li:activity:7415030743866929153",
+  "id": "7415030743866929153",
+  "type": "post",
+  "posted_at": "2026-01-08T14:04:53Z",
+  "posted_date": "2026-01-08",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7415030743866929153/",
+  "preview": "Some of the biggest resistances to AI aren't technical. To my mind, 𝘁𝗵𝗲𝘆'𝗿𝗲 𝗽𝘀𝘆𝗰𝗵𝗼𝗹𝗼𝗴𝗶𝗰𝗮𝗹. A few weeks ago, I gave a task to one of our experienced devs. Automation stuff — take content from one chann",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:24:22Z",
+      "metrics": {
+        "impressions": 384,
+        "members_reached": 88,
+        "reactions": 4,
+        "comments": 3,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 3,
+        "followers_gained": 0,
+        "engagement_rate": 1.82
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 36.4,
+          "Entry": 28.4,
+          "CXO": 9.1
+        },
+        "job_title": {
+          "Software Engineer": 11.4,
+          "Project Manager": 6.8
+        },
+        "industry": {
+          "IT Services and IT Consulting": 44.3,
+          "Software Development": 28.4,
+          "Technology, Information and Internet": 6.8
+        },
+        "company_size": {
+          "51-200 employees": 26.1,
+          "11-50 employees": 12.5,
+          "1-10 employees": 11.4,
+          "201-500 employees": 9.1,
+          "10,001+ employees": 8
+        },
+        "location": {
+          "New York City Metropolitan Area": 6.8,
+          "Odesa": 6.8
+        },
+        "company": {
+          "Speed and Function": 18.2
+        }
+      },
+      "comments": []
+    }
+  }
+}

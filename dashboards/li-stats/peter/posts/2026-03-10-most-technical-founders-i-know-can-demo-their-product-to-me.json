@@ -1,0 +1,72 @@
+{
+  "urn": "urn:li:activity:7437132495038603264",
+  "id": "7437132495038603264",
+  "type": "post",
+  "posted_at": "2026-03-10T13:49:22Z",
+  "posted_date": "2026-03-10",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7437132495038603264/",
+  "preview": "Most technical founders I know can demo their product to me perfectly — on 𝘵𝘩𝘦𝘪𝘳 laptop, in 𝘵𝘩𝘦𝘪𝘳 environment, with 𝘵𝘩𝘦𝘪𝘳 setup. 😅 And when I asked them to let me try it myself, there are suddenly twe",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:26:13Z",
+      "metrics": {
+        "impressions": 5040,
+        "members_reached": 3385,
+        "reactions": 10,
+        "comments": 3,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 8,
+        "followers_gained": 0,
+        "engagement_rate": 0.26
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 29.1,
+          "Entry": 28.5,
+          "Owner": 9.5,
+          "CXO": 8.7,
+          "Director": 3.9
+        },
+        "job_title": {
+          "Software Engineer": 26.4,
+          "Founder": 7.1,
+          "Co-Founder": 5.7,
+          "Full Stack Engineer": 3.4,
+          "Chief Technology Officer": 2.7
+        },
+        "industry": {
+          "Software Development": 43.2,
+          "IT Services and IT Consulting": 23.1,
+          "Technology, Information and Internet": 11.5,
+          "Financial Services": 2.3,
+          "Strategic Management Services": 0
+        },
+        "company_size": {
+          "11-50 employees": 17.8,
+          "1-10 employees": 16.1,
+          "51-200 employees": 12.9,
+          "10,001+ employees": 9.8,
+          "1001-5000 employees": 8.1
+        },
+        "location": {
+          "San Francisco Bay Area": 3.8,
+          "London Area, United Kingdom": 3.4,
+          "Greater Toronto Area, Canada": 3.4,
+          "Warsaw Metropolitan Area": 2.5,
+          "Greater Bengaluru Area": 2.3
+        },
+        "company": {
+          "Google": 0,
+          "Speed and Function": 0,
+          "Meta": 0,
+          "Stealth Startup": 0,
+          "Microsoft": 0
+        }
+      },
+      "comments": []
+    }
+  }
+}

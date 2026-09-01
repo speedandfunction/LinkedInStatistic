@@ -1,0 +1,67 @@
+{
+  "urn": "urn:li:activity:7419357068798832641",
+  "id": "7419357068798832641",
+  "type": "post",
+  "posted_at": "2026-01-20T12:36:10Z",
+  "posted_date": "2026-01-20",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7419357068798832641/",
+  "preview": "Looking for like-minded people! Someone 𝘵𝘩𝘪𝘯𝘬𝘪𝘯𝘨 𝘪𝘯 𝘵𝘩𝘦 𝘴𝘢𝘮𝘦 𝘥𝘪𝘳𝘦𝘤𝘵𝘪𝘰𝘯. 🎯 Some of my colleagues at Speed and Function are looking for new team members right now. Olga Mykhailova (Michai), our Chief Ex",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:24:52Z",
+      "metrics": {
+        "impressions": 588,
+        "members_reached": 263,
+        "reactions": 12,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 5,
+        "followers_gained": 0,
+        "engagement_rate": 2.04
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 31.6,
+          "Entry": 28.1,
+          "CXO": 9.1,
+          "Director": 7.6,
+          "VP": 3
+        },
+        "job_title": {
+          "Software Engineer": 9.1,
+          "Project Manager": 5.7,
+          "Founder": 4.2,
+          "Frontend Developer": 3,
+          "Chief Executive Officer": 2.7
+        },
+        "industry": {
+          "IT Services and IT Consulting": 35.4,
+          "Software Development": 22.1,
+          "Technology, Information and Internet": 9.1,
+          "Business Consulting and Services": 2.7
+        },
+        "company_size": {
+          "51-200 employees": 20.9,
+          "11-50 employees": 16.3,
+          "1-10 employees": 10.6,
+          "1001-5000 employees": 8.7,
+          "10,001+ employees": 8.7
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 10.6,
+          "Greater Philadelphia": 4.9,
+          "Lviv": 4.2,
+          "Wroclaw Metropolitan Area": 3,
+          "New York City Metropolitan Area": 2.7
+        },
+        "company": {
+          "Speed and Function": 10.3
+        }
+      },
+      "comments": []
+    }
+  }
+}

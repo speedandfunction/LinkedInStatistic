@@ -1,0 +1,57 @@
+{
+  "urn": "urn:li:activity:7479819344097751040",
+  "id": "7479819344097751040",
+  "type": "post",
+  "posted_at": "2026-07-06T08:51:39Z",
+  "posted_date": "2026-07-06",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7479819344097751040/",
+  "preview": "Just listened to Kent Beck reflect on 50 years of building software. What stayed with me: he spent the first part of his career trying to become the best programmer he could be — because that's what h",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:29:22Z",
+      "metrics": {
+        "impressions": 233,
+        "members_reached": 104,
+        "reactions": 2,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 0.86
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 37.5,
+          "Entry": 35.6,
+          "CXO": 8.7,
+          "Director": 6.7
+        },
+        "job_title": {
+          "Software Engineer": 19.2
+        },
+        "industry": {
+          "Software Development": 39.4,
+          "IT Services and IT Consulting": 30.8,
+          "Technology, Information and Internet": 5.8
+        },
+        "company_size": {
+          "51-200 employees": 25,
+          "11-50 employees": 13.5,
+          "1-10 employees": 10.6,
+          "201-500 employees": 9.6,
+          "10,001+ employees": 7.7
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 8.7
+        },
+        "company": {
+          "Speed and Function": 15.4
+        }
+      },
+      "comments": []
+    }
+  }
+}

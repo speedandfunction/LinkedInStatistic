@@ -1,0 +1,68 @@
+{
+  "urn": "urn:li:activity:7462112759053471744",
+  "id": "7462112759053471744",
+  "type": "post",
+  "posted_at": "2026-05-18T12:12:01Z",
+  "posted_date": "2026-05-18",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7462112759053471744/",
+  "preview": "𝗜𝗻 𝘁𝗵𝗲 𝗔𝗜 𝗲𝗿𝗮, 𝘀𝘁𝗮𝗰𝗸 𝗱𝗲𝗯𝗮𝘁𝗲𝘀 𝗮𝗿𝗲 𝗮𝗹𝗿𝗲𝗮𝗱𝘆 𝗱𝗲𝗮𝗱. Engineers love arguing: microservices or monolith, TypeScript or Python, Rust or Go. For years I just picked whatever fits the business better. 🤷 Now, wo",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:28:05Z",
+      "metrics": {
+        "impressions": 600,
+        "members_reached": 341,
+        "reactions": 4,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 1,
+        "followers_gained": 0,
+        "engagement_rate": 0.67
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 34.6,
+          "Senior": 27,
+          "Owner": 6.5,
+          "CXO": 5.6,
+          "Director": 5.3
+        },
+        "job_title": {
+          "Software Engineer": 13.5,
+          "Co-Founder": 3.8,
+          "Founder": 2.9,
+          "Frontend Developer": 2.9,
+          "Product Manager": 2.6
+        },
+        "industry": {
+          "Software Development": 25.5,
+          "IT Services and IT Consulting": 25.5,
+          "Technology, Information and Internet": 5.6,
+          "Financial Services": 2.6,
+          "Business Consulting and Services": 2.1
+        },
+        "company_size": {
+          "51-200 employees": 17,
+          "11-50 employees": 14.1,
+          "1-10 employees": 11.7,
+          "1001-5000 employees": 10.9,
+          "201-500 employees": 7.3
+        },
+        "location": {
+          "Ljubljana Metropolitan Area": 8.8,
+          "Zagreb Metropolitan Area": 7.9,
+          "Belgrade Metropolitan Area": 5.6,
+          "Maribor Metropolitan Area": 2.6,
+          "Kyiv Metropolitan Area": 2.3
+        },
+        "company": {
+          "Speed and Function": 3.8
+        }
+      },
+      "comments": []
+    }
+  }
+}

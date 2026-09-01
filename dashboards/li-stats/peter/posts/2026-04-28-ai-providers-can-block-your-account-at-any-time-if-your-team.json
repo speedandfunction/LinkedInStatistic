@@ -1,0 +1,55 @@
+{
+  "urn": "urn:li:activity:7454986157144203265",
+  "id": "7454986157144203265",
+  "type": "post",
+  "posted_at": "2026-04-28T20:13:26Z",
+  "posted_date": "2026-04-28",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7454986157144203265/",
+  "preview": "AI providers can block your account at any time. If your team depends on one, that's a real problem 🤔. Nick's post below shows what that actually looks like. Not a new problem either — companies treat",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:27:23Z",
+      "metrics": {
+        "impressions": 251,
+        "members_reached": 80,
+        "reactions": 3,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 2,
+        "followers_gained": 0,
+        "engagement_rate": 1.2
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 31.2,
+          "Entry": 30,
+          "CXO": 12.5,
+          "Owner": 7.5
+        },
+        "job_title": {
+          "Software Engineer": 12.5
+        },
+        "industry": {
+          "IT Services and IT Consulting": 33.8,
+          "Software Development": 28.7,
+          "Technology, Information and Internet": 8.7
+        },
+        "company_size": {
+          "51-200 employees": 22.5,
+          "11-50 employees": 13.8,
+          "1-10 employees": 8.7
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 7.5
+        },
+        "company": {
+          "Speed and Function": 10
+        }
+      },
+      "comments": []
+    }
+  }
+}

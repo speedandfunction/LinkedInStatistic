@@ -1,0 +1,70 @@
+{
+  "urn": "urn:li:activity:7416843539956797440",
+  "id": "7416843539956797440",
+  "type": "post",
+  "posted_at": "2026-01-13T14:08:18Z",
+  "posted_date": "2026-01-13",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7416843539956797440/",
+  "preview": "𝗜 𝘀𝗼𝗹𝗱 𝗺𝘆 𝗳𝗶𝗿𝘀𝘁 𝗰𝗼𝗺𝗽𝗮𝗻𝘆 𝗳𝗼𝗿 $𝟳𝟬𝗞. 𝗧𝗵𝗲𝗻 𝗯𝗹𝗲𝘄 𝗲𝘃𝗲𝗿𝘆 𝗱𝗼𝗹𝗹𝗮𝗿 𝗼𝗻 𝘁𝗵𝗲 𝗻𝗲𝘅𝘁 𝗼𝗻𝗲. My first attempt was 10 years ago, a service company with co-founders. We failed. But I walked away with connections and lesso",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:24:23Z",
+      "metrics": {
+        "impressions": 762,
+        "members_reached": 394,
+        "reactions": 16,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 1,
+        "sends": 0,
+        "profile_viewers": 6,
+        "followers_gained": 0,
+        "engagement_rate": 2.1
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 33.5,
+          "Senior": 31,
+          "Director": 6.3,
+          "CXO": 5.3,
+          "Owner": 3.3
+        },
+        "job_title": {
+          "Software Engineer": 12.7,
+          "Frontend Developer": 4.1,
+          "Project Manager": 3.6,
+          "Full Stack Engineer": 3.3,
+          "Founder": 3.3
+        },
+        "industry": {
+          "IT Services and IT Consulting": 37.3,
+          "Software Development": 25.6,
+          "Technology, Information and Internet": 10.2,
+          "IT System Custom Software Development": 3,
+          "Strategic Management Services": 2.3
+        },
+        "company_size": {
+          "51-200 employees": 19,
+          "11-50 employees": 18.3,
+          "10,001+ employees": 9.9,
+          "1001-5000 employees": 8.4,
+          "201-500 employees": 8.4
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 12.4,
+          "Lviv": 7.1,
+          "Greater Philadelphia": 3.8,
+          "Kharkiv Metropolitan Area": 2.8,
+          "Wroclaw Metropolitan Area": 2.8
+        },
+        "company": {
+          "Speed and Function": 6.3,
+          "EPAM Systems": 2.3,
+          "GlobalLogic": 1.5
+        }
+      },
+      "comments": []
+    }
+  }
+}

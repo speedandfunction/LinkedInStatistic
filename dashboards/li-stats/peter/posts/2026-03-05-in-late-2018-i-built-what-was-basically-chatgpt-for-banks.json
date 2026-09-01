@@ -1,0 +1,72 @@
+{
+  "urn": "urn:li:activity:7435303858349760512",
+  "id": "7435303858349760512",
+  "type": "post",
+  "posted_at": "2026-03-05T12:43:01Z",
+  "posted_date": "2026-03-05",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7435303858349760512/",
+  "preview": "In late 2018, I built what was basically \"ChatGPT for banks\", before ChatGPT existed. A self-hosted system that helped bank employees generate and validate investment and credit contracts in German, t",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:25:57Z",
+      "metrics": {
+        "impressions": 35688,
+        "members_reached": 23400,
+        "reactions": 26,
+        "comments": 3,
+        "reposts": 1,
+        "saves": 3,
+        "sends": 1,
+        "profile_viewers": 93,
+        "followers_gained": 3,
+        "engagement_rate": 0.08
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 36.5,
+          "Entry": 25,
+          "Director": 8,
+          "Manager": 6.3,
+          "CXO": 4.9
+        },
+        "job_title": {
+          "Software Engineer": 14.7,
+          "Founder": 2.4,
+          "Co-Founder": 2.1,
+          "Full Stack Engineer": 1.7,
+          "Product Manager": 1.4
+        },
+        "industry": {
+          "IT Services and IT Consulting": 26.7,
+          "Software Development": 24.7,
+          "Financial Services": 9.5,
+          "Technology, Information and Internet": 7.5,
+          "Banking": 2.9
+        },
+        "company_size": {
+          "10,001+ employees": 19.6,
+          "1001-5000 employees": 13.5,
+          "51-200 employees": 12.6,
+          "11-50 employees": 11.1,
+          "1-10 employees": 7.8
+        },
+        "location": {
+          "London Area, United Kingdom": 6.7,
+          "Zürich Metropolitan Area": 3.1,
+          "Kyiv Metropolitan Area": 2.7,
+          "Amsterdam Area": 2.5,
+          "New York City Metropolitan Area": 2.4
+        },
+        "company": {
+          "EPAM Systems": 0,
+          "Google": 0,
+          "Microsoft": 0,
+          "Deloitte": 0,
+          "Amazon": 0
+        }
+      },
+      "comments": []
+    }
+  }
+}

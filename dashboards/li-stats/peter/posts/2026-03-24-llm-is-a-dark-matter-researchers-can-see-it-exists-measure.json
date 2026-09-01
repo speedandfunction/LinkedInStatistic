@@ -1,0 +1,72 @@
+{
+  "urn": "urn:li:activity:7442194260919050240",
+  "id": "7442194260919050240",
+  "type": "post",
+  "posted_at": "2026-03-24T13:03:01Z",
+  "posted_date": "2026-03-24",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7442194260919050240/",
+  "preview": "𝗟𝗟𝗠 𝗶𝘀 𝗮 \"𝗱𝗮𝗿𝗸 𝗺𝗮𝘁𝘁𝗲𝗿\": researchers can see it exists, measure its effects, map around it, and still can't explain what it actually is. 🔭 I watched a YouTube breakdown of Anthropic's research \"𝘖𝘯 𝘵𝘩𝘦",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:26:25Z",
+      "metrics": {
+        "impressions": 28425,
+        "members_reached": 20213,
+        "reactions": 19,
+        "comments": 8,
+        "reposts": 0,
+        "saves": 4,
+        "sends": 0,
+        "profile_viewers": 18,
+        "followers_gained": 3,
+        "engagement_rate": 0.09
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 33.6,
+          "Entry": 30.2,
+          "Director": 4.8,
+          "Training": 4.6,
+          "Manager": 3.4
+        },
+        "job_title": {
+          "Software Engineer": 9.1,
+          "Professor": 3.3,
+          "Postdoctoral Researcher": 2.8,
+          "Data Scientist": 2.4,
+          "Founder": 1.6
+        },
+        "industry": {
+          "Software Development": 17.7,
+          "IT Services and IT Consulting": 15.6,
+          "Research Services": 11.7,
+          "Higher Education": 7.5,
+          "Technology, Information and Internet": 6.1
+        },
+        "company_size": {
+          "10,001+ employees": 15.7,
+          "1001-5000 employees": 14,
+          "51-200 employees": 11.8,
+          "11-50 employees": 10.8,
+          "201-500 employees": 7.3
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 6,
+          "Lviv": 2.4,
+          "San Francisco Bay Area": 2.2,
+          "Greater Paris Metropolitan Region": 2.1,
+          "Zürich Metropolitan Area": 1.8
+        },
+        "company": {
+          "EPAM Systems": 0,
+          "SoftServe": 0,
+          "Microsoft": 0,
+          "GlobalLogic": 0,
+          "NDA": 0
+        }
+      },
+      "comments": []
+    }
+  }
+}

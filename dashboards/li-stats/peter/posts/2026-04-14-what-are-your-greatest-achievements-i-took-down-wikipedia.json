@@ -1,0 +1,72 @@
+{
+  "urn": "urn:li:activity:7449791320329547776",
+  "id": "7449791320329547776",
+  "type": "post",
+  "posted_at": "2026-04-14T12:11:01Z",
+  "posted_date": "2026-04-14",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7449791320329547776/",
+  "preview": "— 𝘞𝘩𝘢𝘵 𝘢𝘳𝘦 𝘺𝘰𝘶𝘳 𝘨𝘳𝘦𝘢𝘵𝘦𝘴𝘵 𝘢𝘤𝘩𝘪𝘦𝘷𝘦𝘮𝘦𝘯𝘵𝘴? — 𝘐 𝘵𝘰𝘰𝘬 𝘥𝘰𝘸𝘯 𝘞𝘪𝘬𝘪𝘱𝘦𝘥𝘪𝘢. 𝘖𝘯𝘦 𝘥𝘢𝘺 𝘪𝘯 2020, 𝘞𝘪𝘬𝘪𝘱𝘦𝘥𝘪𝘢 𝘸𝘢𝘴 𝘶𝘯𝘳𝘦𝘢𝘤𝘩𝘢𝘣𝘭𝘦 𝘧𝘰𝘳 𝘢 𝘧𝘦𝘸 𝘩𝘰𝘶𝘳𝘴, 𝘢𝘯𝘥 𝘵𝘩𝘢𝘵 𝘸𝘢𝘴 𝘰𝘯 𝘮𝘦. Back then, I was working as a Senior Solutions Architect",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:26:54Z",
+      "metrics": {
+        "impressions": 1431,
+        "members_reached": 868,
+        "reactions": 15,
+        "comments": 7,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 1,
+        "profile_viewers": 7,
+        "followers_gained": 0,
+        "engagement_rate": 1.54
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 33.6,
+          "Entry": 20.7,
+          "Director": 8.6,
+          "CXO": 7.5,
+          "Owner": 5.8
+        },
+        "job_title": {
+          "Software Engineer": 11.1,
+          "Founder": 4.4,
+          "Co-Founder": 3.9,
+          "Frontend Developer": 2.1,
+          "Chief Technology Officer": 1.6
+        },
+        "industry": {
+          "Software Development": 26.6,
+          "IT Services and IT Consulting": 25.5,
+          "Technology, Information and Internet": 10.7,
+          "Hospitals and Health Care": 4.6,
+          "Financial Services": 3.5
+        },
+        "company_size": {
+          "51-200 employees": 14.5,
+          "11-50 employees": 14.4,
+          "1-10 employees": 14.3,
+          "10,001+ employees": 14.2,
+          "1001-5000 employees": 9.1
+        },
+        "location": {
+          "Copenhagen Metropolitan Area": 7,
+          "Kyiv Metropolitan Area": 6,
+          "Lviv": 4.5,
+          "San Francisco Bay Area": 4,
+          "New York City Metropolitan Area": 3.6
+        },
+        "company": {
+          "Speed and Function": 2.3,
+          "CloudLinux": 0,
+          "JetBlue": 0,
+          "Amazon": 0,
+          "Caliber": 0
+        }
+      },
+      "comments": []
+    }
+  }
+}

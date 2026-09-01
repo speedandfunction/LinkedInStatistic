@@ -1,0 +1,53 @@
+{
+  "urn": "urn:li:activity:7498711668579799041",
+  "id": "7498711668579799041",
+  "type": "post",
+  "posted_at": "2026-08-27T12:03:01Z",
+  "posted_date": "2026-08-27",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7498711668579799041/",
+  "preview": "Me: 𝘥𝘶𝘥𝘦, 𝘭𝘰𝘰𝘬, 𝘺𝘰𝘶 𝘩𝘢𝘷𝘦 𝘖𝘱𝘦𝘳𝘢𝘵𝘪𝘰𝘯 (𝘈𝘱𝘱𝘭𝘺, 𝘍𝘪𝘹, 𝘎𝘦𝘯𝘦𝘳𝘢𝘵𝘦, 𝘝𝘢𝘭𝘪𝘥𝘢𝘵𝘦), 𝘛𝘦𝘴𝘵 𝘐𝘋 (𝘐𝘕𝘛-900) 𝘢𝘯𝘥 𝘘𝘶𝘦𝘴𝘵𝘪𝘰𝘯 (𝘘[1], 𝘘[2]). 𝘛𝘶𝘳𝘯 𝘵𝘩𝘢𝘵 𝘪𝘯𝘵𝘰: \"𝙑𝙖𝙡𝙞𝙙𝙖𝙩𝙚 𝙄𝙉𝙏-𝟵𝟬𝟬 𝙖𝙜𝙖𝙞𝙣𝙨𝙩 𝙌[𝟭]\" 𝘢𝘯𝘥 𝘱𝘳𝘪𝘯𝘵 𝘪𝘵 𝘪𝘯 𝘵𝘩𝘦 𝘵𝘢𝘣𝘭𝘦. 𝘖𝘯𝘤𝘦 𝘥𝘰𝘯𝘦,",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:31:06Z",
+      "metrics": {
+        "impressions": 177,
+        "members_reached": 89,
+        "reactions": 2,
+        "comments": 2,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 2.26
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 49.4,
+          "Entry": 24.7
+        },
+        "job_title": {
+          "Software Engineer": 18
+        },
+        "industry": {
+          "Software Development": 31.5,
+          "IT Services and IT Consulting": 29.2,
+          "Technology, Information and Internet": 10.1
+        },
+        "company_size": {
+          "51-200 employees": 23.6,
+          "10,001+ employees": 19.1,
+          "11-50 employees": 14.6,
+          "1001-5000 employees": 9,
+          "501-1000 employees": 6.7
+        },
+        "location": {},
+        "company": {
+          "Speed and Function": 15.7
+        }
+      },
+      "comments": []
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "urn": "urn:li:activity:7436445465140899840",
+  "id": "7436445465140899840",
+  "type": "post",
+  "posted_at": "2026-03-08T16:19:21Z",
+  "posted_date": "2026-03-08",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7436445465140899840/",
+  "preview": "If you're curious how an LLM's inner workings resemble a human brain, watch this video. Here's what you'll learn: 1. 🔬 Anthropic built a \"digital microscope\" — the first real tool to peer inside an AI",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:25:57Z",
+      "metrics": {
+        "impressions": 431,
+        "members_reached": 170,
+        "reactions": 3,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 2,
+        "followers_gained": 0,
+        "engagement_rate": 0.7
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 35.9,
+          "Entry": 28.8,
+          "CXO": 7.1,
+          "Director": 5.9,
+          "VP": 4.1
+        },
+        "job_title": {
+          "Software Engineer": 11.2,
+          "Frontend Developer": 3.5,
+          "Full Stack Engineer": 3.5
+        },
+        "industry": {
+          "IT Services and IT Consulting": 34.7,
+          "Software Development": 32.4,
+          "Technology, Information and Internet": 8.2,
+          "Business Consulting and Services": 3.5
+        },
+        "company_size": {
+          "51-200 employees": 20,
+          "11-50 employees": 14.1,
+          "1-10 employees": 12.4,
+          "201-500 employees": 6.5,
+          "10,001+ employees": 5.9
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 10.6,
+          "Lviv": 6.5
+        },
+        "company": {
+          "Speed and Function": 6.5
+        }
+      },
+      "comments": []
+    }
+  }
+}
