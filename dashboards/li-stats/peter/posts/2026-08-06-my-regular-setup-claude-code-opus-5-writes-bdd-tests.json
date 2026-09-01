@@ -1,0 +1,62 @@
+{
+  "urn": "urn:li:activity:7491107000626507776",
+  "id": "7491107000626507776",
+  "type": "post",
+  "posted_at": "2026-08-06T12:24:46Z",
+  "posted_date": "2026-08-06",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7491107000626507776/",
+  "preview": "My regular setup: - Claude Code. - Opus 5 writes BDD tests (end-to-end, Playwright, CLI, etc.) according to the requirements. - Sonnet writes the code to fix tests. - Fable resolves disputes between S",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:30:33Z",
+      "metrics": {
+        "impressions": 412,
+        "members_reached": 205,
+        "reactions": 1,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 4,
+        "followers_gained": 0,
+        "engagement_rate": 0.24
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 40.5,
+          "Entry": 30.7,
+          "CXO": 5.9,
+          "Director": 5.9
+        },
+        "job_title": {
+          "Software Engineer": 22,
+          "Quality Assurance Engineer": 6.3,
+          "Quality Assurance Automation Engineer": 5.9,
+          "Founder": 2.9
+        },
+        "industry": {
+          "IT Services and IT Consulting": 39,
+          "Software Development": 29.3,
+          "Technology, Information and Internet": 8.3,
+          "Financial Services": 2.9
+        },
+        "company_size": {
+          "51-200 employees": 18,
+          "1001-5000 employees": 16.1,
+          "10,001+ employees": 11.2,
+          "11-50 employees": 11.2,
+          "1-10 employees": 9.8
+        },
+        "location": {
+          "Greater Bengaluru Area": 4.4,
+          "Lviv": 3.9
+        },
+        "company": {
+          "Speed and Function": 8.3
+        }
+      },
+      "comments": []
+    }
+  }
+}

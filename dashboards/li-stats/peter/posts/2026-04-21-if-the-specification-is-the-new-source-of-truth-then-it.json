@@ -1,0 +1,67 @@
+{
+  "urn": "urn:li:activity:7452326158773366784",
+  "id": "7452326158773366784",
+  "type": "post",
+  "posted_at": "2026-04-21T12:03:33Z",
+  "posted_date": "2026-04-21",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7452326158773366784/",
+  "preview": "𝘐𝘧 𝘵𝘩𝘦 𝘴𝘱𝘦𝘤𝘪𝘧𝘪𝘤𝘢𝘵𝘪𝘰𝘯 𝘪𝘴 𝘵𝘩𝘦 𝘯𝘦𝘸 𝘴𝘰𝘶𝘳𝘤𝘦 𝘰𝘧 𝘵𝘳𝘶𝘵𝘩, 𝘵𝘩𝘦𝘯 𝘪𝘵 𝘴𝘩𝘰𝘶𝘭𝘥 𝘨𝘪𝘷𝘦 𝘺𝘰𝘶 𝘵𝘩𝘦 𝘴𝘢𝘮𝘦 𝘣𝘦𝘩𝘢𝘷𝘪𝘰𝘳 𝘰𝘯 𝘔𝘰𝘯𝘥𝘢𝘺 𝘢𝘯𝘥 𝘰𝘯 𝘍𝘳𝘪𝘥𝘢𝘺. 𝘋𝘰𝘦𝘴 𝘪𝘵?🧭 I've been following Andrey Breslav and his project CodeSpeak with great in",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:27:08Z",
+      "metrics": {
+        "impressions": 563,
+        "members_reached": 299,
+        "reactions": 2,
+        "comments": 1,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 0.53
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 31.8,
+          "Senior": 27.8,
+          "Owner": 5.7,
+          "CXO": 5.4,
+          "Director": 5
+        },
+        "job_title": {
+          "Software Engineer": 13.4,
+          "Founder": 4.7,
+          "Co-Founder": 2.3,
+          "Full Stack Engineer": 2.3,
+          "Quality Assurance Engineer": 2.3
+        },
+        "industry": {
+          "IT Services and IT Consulting": 31.4,
+          "Software Development": 26.8,
+          "Technology, Information and Internet": 9.4
+        },
+        "company_size": {
+          "51-200 employees": 17.1,
+          "11-50 employees": 13.7,
+          "1-10 employees": 13,
+          "1001-5000 employees": 9.7,
+          "10,001+ employees": 9.4
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 5.4,
+          "Lviv": 5,
+          "Zagreb Metropolitan Area": 4,
+          "Belgrade Metropolitan Area": 3.3,
+          "Copenhagen Metropolitan Area": 3
+        },
+        "company": {
+          "Speed and Function": 6.7,
+          "EPAM Systems": 2
+        }
+      },
+      "comments": []
+    }
+  }
+}

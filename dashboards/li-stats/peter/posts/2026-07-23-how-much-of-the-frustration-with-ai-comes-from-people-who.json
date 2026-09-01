@@ -1,0 +1,67 @@
+{
+  "urn": "urn:li:activity:7486035888146329601",
+  "id": "7486035888146329601",
+  "type": "post",
+  "posted_at": "2026-07-23T12:33:59Z",
+  "posted_date": "2026-07-23",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7486035888146329601/",
+  "preview": "How much of the frustration with AI comes from people who have never managed anyone? 🤔 For about ten years I worked exclusively as an engineer, and I genuinely thought that team managers were losers,",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:29:52Z",
+      "metrics": {
+        "impressions": 509,
+        "members_reached": 291,
+        "reactions": 2,
+        "comments": 4,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 2,
+        "followers_gained": 0,
+        "engagement_rate": 1.18
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 34.4,
+          "Entry": 27.1,
+          "Manager": 7.9,
+          "Director": 5.8,
+          "CXO": 5.2
+        },
+        "job_title": {
+          "Software Engineer": 19.9,
+          "Product Manager": 2.4,
+          "Project Manager": 2.1,
+          "Founder": 2.1
+        },
+        "industry": {
+          "Software Development": 32.6,
+          "IT Services and IT Consulting": 28.9,
+          "Technology, Information and Internet": 7.6,
+          "Financial Services": 4.1,
+          "Business Consulting and Services": 2.4
+        },
+        "company_size": {
+          "51-200 employees": 19.2,
+          "1001-5000 employees": 15.5,
+          "10,001+ employees": 12.4,
+          "11-50 employees": 10,
+          "1-10 employees": 8.2
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 3.8,
+          "London Area, United Kingdom": 3.1,
+          "Amsterdam Area": 3.1,
+          "Greater Bengaluru Area": 2.7,
+          "Lviv": 2.4
+        },
+        "company": {
+          "Speed and Function": 7.9
+        }
+      },
+      "comments": []
+    }
+  }
+}

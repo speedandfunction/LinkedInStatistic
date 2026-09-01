@@ -1,0 +1,66 @@
+{
+  "urn": "urn:li:activity:7459938935289569280",
+  "id": "7459938935289569280",
+  "type": "post",
+  "posted_at": "2026-05-12T12:14:01Z",
+  "posted_date": "2026-05-12",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7459938935289569280/",
+  "preview": "Before Python, before GPUs 𝗺𝘆 𝗳𝗶𝗿𝘀𝘁 𝗔𝗜 𝘄𝗮𝘀 𝗯𝘂𝗶𝗹𝘁 𝘄𝗶𝘁𝗵 𝗮 𝘀𝗼𝗹𝗱𝗲𝗿𝗶𝗻𝗴 𝗶𝗿𝗼𝗻. 🔧 In the 1990s, a 𝗭𝗫 𝗦𝗽𝗲𝗰𝘁𝗿𝘂𝗺 — an 8-bit home computer — showed up in our house. ❤️ And that was it. Love! One that, honestly, h",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:27:51Z",
+      "metrics": {
+        "impressions": 459,
+        "members_reached": 197,
+        "reactions": 1,
+        "comments": 1,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 1,
+        "followers_gained": 0,
+        "engagement_rate": 0.44
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 32,
+          "Entry": 27.4,
+          "Director": 9.6,
+          "CXO": 7.6,
+          "Manager": 5.6
+        },
+        "job_title": {
+          "Software Engineer": 6.6,
+          "Project Manager": 3,
+          "Full Stack Engineer": 3
+        },
+        "industry": {
+          "IT Services and IT Consulting": 21.8,
+          "Aviation and Aerospace Component Manufacturing": 20.3,
+          "Software Development": 16.2,
+          "Technology, Information and Internet": 6.6,
+          "Business Consulting and Services": 3
+        },
+        "company_size": {
+          "10,001+ employees": 23.4,
+          "51-200 employees": 16.2,
+          "11-50 employees": 10.7,
+          "1-10 employees": 7.1,
+          "201-500 employees": 6.1
+        },
+        "location": {
+          "Berlin Metropolitan Area": 14.2,
+          "Greater Derby Area": 5.6,
+          "Lviv": 3.6,
+          "Frankfurt Rhine-Main Metropolitan Area": 3
+        },
+        "company": {
+          "Rolls-Royce": 11.2,
+          "Speed and Function": 7.1
+        }
+      },
+      "comments": []
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "urn": "urn:li:activity:7480584725795880961",
+  "id": "7480584725795880961",
+  "type": "post",
+  "posted_at": "2026-07-08T11:33:01Z",
+  "posted_date": "2026-07-08",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7480584725795880961/",
+  "preview": "\"𝗦𝗽𝗲𝗰-𝗱𝗿𝗶𝘃𝗲𝗻 𝗱𝗲𝘃𝗲𝗹𝗼𝗽𝗺𝗲𝗻𝘁 𝗶𝘀 𝘁𝗵𝗲 𝗿𝗲𝘃𝗲𝗻𝗴𝗲 𝗼𝗳 𝗪𝗮𝘁𝗲𝗿𝗳𝗮𝗹𝗹.\" I can see the worry behind it: write the full spec at the start, let an agent build everything from it, and you are back to big design up front,",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:29:23Z",
+      "metrics": {
+        "impressions": 286,
+        "members_reached": 126,
+        "reactions": 3,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 1,
+        "followers_gained": 0,
+        "engagement_rate": 1.05
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 37.3,
+          "Entry": 34.1
+        },
+        "job_title": {
+          "Software Engineer": 11.9,
+          "Full Stack Engineer": 4.8
+        },
+        "industry": {
+          "IT Services and IT Consulting": 34.9,
+          "Software Development": 34.9,
+          "Technology, Information and Internet": 6.3
+        },
+        "company_size": {
+          "51-200 employees": 23,
+          "11-50 employees": 13.5,
+          "10,001+ employees": 11.1,
+          "1001-5000 employees": 10.3,
+          "201-500 employees": 7.9
+        },
+        "location": {
+          "Prague Metropolitan Area": 5.6
+        },
+        "company": {
+          "Speed and Function": 11.1
+        }
+      },
+      "comments": []
+    }
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "urn": "urn:li:activity:7457394670176788480",
+  "id": "7457394670176788480",
+  "type": "post",
+  "posted_at": "2026-05-05T11:44:01Z",
+  "posted_date": "2026-05-05",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7457394670176788480/",
+  "preview": "𝗜𝗳 𝘆𝗼𝘂 𝘄𝗮𝗻𝘁 𝗔𝗜 𝗻𝗼𝘁 𝘁𝗼 𝗳𝗶𝗿𝗲 𝘆𝗼𝘂, 𝗱𝗲𝗹𝗲𝗴𝗮𝘁𝗲 𝗺𝗼𝗿𝗲 𝘁𝗼 𝗔𝗜. This is a bit of my pain right now, because I'm replacing people who don't automate their work with people who do. And it's not that I enjoy it — I",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:27:48Z",
+      "metrics": {
+        "impressions": 695,
+        "members_reached": 352,
+        "reactions": 5,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 4,
+        "followers_gained": 0,
+        "engagement_rate": 0.72
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 29.3,
+          "Senior": 27.8,
+          "Director": 8.2,
+          "Owner": 5.7,
+          "CXO": 4.3
+        },
+        "job_title": {
+          "Software Engineer": 10.5,
+          "Project Manager": 3.4,
+          "Full Stack Engineer": 2.8,
+          "Founder": 2.6,
+          "Co-Founder": 2.6
+        },
+        "industry": {
+          "IT Services and IT Consulting": 29.8,
+          "Software Development": 22.2,
+          "Technology, Information and Internet": 5.7,
+          "Industrial Machinery Manufacturing": 2.3,
+          "Telecommunications": 2.3
+        },
+        "company_size": {
+          "51-200 employees": 19.3,
+          "1-10 employees": 10.5,
+          "201-500 employees": 10.5,
+          "11-50 employees": 10.2,
+          "1001-5000 employees": 9.4
+        },
+        "location": {
+          "Belgrade Metropolitan Area": 7.7,
+          "Zagreb Metropolitan Area": 7.1,
+          "Ljubljana Metropolitan Area": 7.1,
+          "Kyiv Metropolitan Area": 4,
+          "Greater Kitchener-Cambridge-Waterloo Metropolitan Area": 3.1
+        },
+        "company": {
+          "Speed and Function": 4.5
+        }
+      },
+      "comments": []
+    }
+  }
+}

@@ -530,12 +530,13 @@ function slugify(preview) {
 }
 
 function cleanPreview(previewRaw) {
-  return previewRaw
+  const s = previewRaw
     .replace(/(…|\.{3})?\s*(see more|show more)\s*$/i, '')
     .replace(/\s+/g, ' ')
-    .trim()
-    .slice(0, 200)
     .trim();
+  // Code-point slice — UTF-16 slice() ріже emoji навпіл і лишає lone surrogate,
+  // який Python не може записати в UTF-8 (merge.py падає з UnicodeEncodeError).
+  return [...s].slice(0, 200).join('').trim();
 }
 
 async function phasePosts(page) {

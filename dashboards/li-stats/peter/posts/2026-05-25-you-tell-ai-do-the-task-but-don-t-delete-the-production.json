@@ -1,0 +1,72 @@
+{
+  "urn": "urn:li:activity:7464644189239091201",
+  "id": "7464644189239091201",
+  "type": "post",
+  "posted_at": "2026-05-25T11:51:01Z",
+  "posted_date": "2026-05-25",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7464644189239091201/",
+  "preview": "You tell AI \"𝘥𝘰 𝘵𝘩𝘦 𝘵𝘢𝘴𝘬. 𝘉𝘶𝘵 𝘥𝘰𝘯'𝘵 𝘥𝘦𝘭𝘦𝘵𝘦 𝘵𝘩𝘦 𝘱𝘳𝘰𝘥𝘶𝘤𝘵𝘪𝘰𝘯 𝘥𝘢𝘵𝘢𝘣𝘢𝘴𝘦, 𝘋𝘖𝘕’𝘛 𝘋𝘌𝘓𝘌𝘛𝘌 𝘐𝘛!\" And somewhere in the middle of solving your task, it goes: \"𝘰𝘩 𝘮𝘢𝘯, 𝘭𝘪𝘴𝘵𝘦𝘯 — 𝘵𝘰 𝘢𝘤𝘵𝘶𝘢𝘭𝘭𝘺 𝘧𝘪𝘯𝘪𝘴𝘩 𝘵𝘩𝘪𝘴, 𝘐 𝘵𝘩𝘪𝘯𝘬 𝘐 𝘴𝘩",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:28:23Z",
+      "metrics": {
+        "impressions": 3434,
+        "members_reached": 2553,
+        "reactions": 8,
+        "comments": 3,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 1,
+        "followers_gained": 0,
+        "engagement_rate": 0.32
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 38.7,
+          "Senior": 26.1,
+          "Director": 6.1,
+          "CXO": 4.4,
+          "Manager": 4.2
+        },
+        "job_title": {
+          "Software Engineer": 13.2,
+          "Project Manager": 2.8,
+          "Chief Executive Officer": 2.2,
+          "Founder": 1.8,
+          "Full Stack Engineer": 1.7
+        },
+        "industry": {
+          "IT Services and IT Consulting": 23.7,
+          "Software Development": 16.8,
+          "Technology, Information and Internet": 3.3,
+          "Banking": 2.8,
+          "Financial Services": 2.1
+        },
+        "company_size": {
+          "11-50 employees": 14.7,
+          "51-200 employees": 14.6,
+          "1001-5000 employees": 12.3,
+          "1-10 employees": 9.6,
+          "201-500 employees": 9.1
+        },
+        "location": {
+          "Ljubljana Metropolitan Area": 18.7,
+          "Belgrade Metropolitan Area": 11.7,
+          "Zagreb Metropolitan Area": 11.4,
+          "Novi Sad Metropolitan Area": 3.9,
+          "Maribor Metropolitan Area": 2.6
+        },
+        "company": {
+          "Speed and Function": 0,
+          "NLB d.d.": 0,
+          "OTP banka, Slovenija": 0,
+          "HTEC": 0,
+          "Telekom Slovenije": 0
+        }
+      },
+      "comments": []
+    }
+  }
+}

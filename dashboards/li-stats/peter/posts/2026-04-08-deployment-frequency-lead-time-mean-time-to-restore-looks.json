@@ -1,0 +1,67 @@
+{
+  "urn": "urn:li:activity:7447607429929844736",
+  "id": "7447607429929844736",
+  "type": "post",
+  "posted_at": "2026-04-08T11:33:01Z",
+  "posted_date": "2026-04-08",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7447607429929844736/",
+  "preview": "Deployment frequency, lead time, mean time to restore. Looks like a technical dashboard. My idea is this: it's actually a mirror of your business. I wrote code for years. Then, unexpectedly, I became",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:26:42Z",
+      "metrics": {
+        "impressions": 602,
+        "members_reached": 334,
+        "reactions": 5,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 1,
+        "sends": 0,
+        "profile_viewers": 1,
+        "followers_gained": 0,
+        "engagement_rate": 0.83
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 35.9,
+          "Entry": 30.2,
+          "CXO": 5.1,
+          "Director": 5.1,
+          "Manager": 3.3
+        },
+        "job_title": {
+          "Software Engineer": 17.4,
+          "Full Stack Engineer": 3,
+          "Chief Executive Officer": 2.1,
+          "Co-Founder": 2.1,
+          "Engineering Manager": 2.1
+        },
+        "industry": {
+          "IT Services and IT Consulting": 35.6,
+          "Software Development": 32,
+          "Technology, Information and Internet": 8.1,
+          "Financial Services": 2.7
+        },
+        "company_size": {
+          "51-200 employees": 17.4,
+          "11-50 employees": 13.2,
+          "1001-5000 employees": 10.5,
+          "10,001+ employees": 9.9,
+          "1-10 employees": 9.3
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 3.6,
+          "Sofia Metropolitan Area": 2.7,
+          "Warsaw Metropolitan Area": 2.7,
+          "Prague Metropolitan Area": 2.7,
+          "Lviv": 2.7
+        },
+        "company": {
+          "Speed and Function": 5.7
+        }
+      },
+      "comments": []
+    }
+  }
+}

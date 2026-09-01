@@ -1,0 +1,63 @@
+{
+  "urn": "urn:li:activity:7417559662964891649",
+  "id": "7417559662964891649",
+  "type": "post",
+  "posted_at": "2026-01-15T13:33:55Z",
+  "posted_date": "2026-01-15",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7417559662964891649/",
+  "preview": "𝗢𝗻𝗰𝗲 𝗮𝗴𝗮𝗶𝗻 𝗮𝗯𝗼𝘂𝘁 𝗔𝗜 𝗮𝗱𝗼𝗽𝘁𝗶𝗼𝗻 — 𝘄𝗵𝗮𝘁 𝗽𝗲𝗼𝗽𝗹𝗲 𝗮𝗿𝗲 𝗮𝗰𝘁𝘂𝗮𝗹𝗹𝘆 𝗮𝗱𝗮𝗽𝘁𝗶𝗻𝗴 𝗶𝗻𝘁𝗼. I came to LinkedIn to find people who think about AI's future the way I do — not through hype cycles, but as a long-term global s",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:24:25Z",
+      "metrics": {
+        "impressions": 514,
+        "members_reached": 191,
+        "reactions": 9,
+        "comments": 3,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 1,
+        "followers_gained": 0,
+        "engagement_rate": 2.33
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 31.4,
+          "Entry": 29.3,
+          "CXO": 6.8,
+          "Director": 6.8,
+          "Owner": 3.7
+        },
+        "job_title": {
+          "Software Engineer": 12,
+          "Co-Founder": 3.7
+        },
+        "industry": {
+          "IT Services and IT Consulting": 38.2,
+          "Software Development": 21.5,
+          "Technology, Information and Internet": 9.9,
+          "Business Consulting and Services": 3.1
+        },
+        "company_size": {
+          "51-200 employees": 25.1,
+          "11-50 employees": 14.1,
+          "1-10 employees": 12.6,
+          "10,001+ employees": 6.8,
+          "1001-5000 employees": 6.8
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 9.9,
+          "Prague Metropolitan Area": 4.7,
+          "Lviv": 4.2,
+          "Wroclaw Metropolitan Area": 3.1
+        },
+        "company": {
+          "Speed and Function": 9.9
+        }
+      },
+      "comments": []
+    }
+  }
+}

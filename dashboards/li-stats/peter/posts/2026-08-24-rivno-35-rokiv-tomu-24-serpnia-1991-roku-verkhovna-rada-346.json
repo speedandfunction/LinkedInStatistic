@@ -1,0 +1,60 @@
+{
+  "urn": "urn:li:activity:7497738380709998592",
+  "id": "7497738380709998592",
+  "type": "post",
+  "posted_at": "2026-08-24T19:35:31Z",
+  "posted_date": "2026-08-24",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7497738380709998592/",
+  "preview": "🇺🇦 Рівно 35 років тому, 24 серпня 1991 року, Верховна Рада 346 голосами ухвалила Акт проголошення незалежності України. 24 лютого 2022 року Росія розпочала повномасштабне вторгнення в Україну, щоб її",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:31:00Z",
+      "metrics": {
+        "impressions": 257,
+        "members_reached": 133,
+        "reactions": 5,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 2,
+        "followers_gained": 0,
+        "engagement_rate": 1.95
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 33.1,
+          "Entry": 30.1,
+          "CXO": 9,
+          "Manager": 6.8
+        },
+        "job_title": {
+          "Software Engineer": 15.8
+        },
+        "industry": {
+          "IT Services and IT Consulting": 35.3,
+          "Software Development": 20.3,
+          "Technology, Information and Internet": 6
+        },
+        "company_size": {
+          "51-200 employees": 28.6,
+          "10,001+ employees": 15.8,
+          "1001-5000 employees": 11.3,
+          "11-50 employees": 8.3,
+          "1-10 employees": 6.8
+        },
+        "location": {
+          "Lviv": 9.8,
+          "Kyiv Metropolitan Area": 8.3,
+          "Wroclaw Metropolitan Area": 5.3
+        },
+        "company": {
+          "Speed and Function": 12,
+          "Modern Expo": 4.5
+        }
+      },
+      "comments": []
+    }
+  }
+}

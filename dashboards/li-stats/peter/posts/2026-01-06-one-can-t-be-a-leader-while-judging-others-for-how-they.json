@@ -1,0 +1,67 @@
+{
+  "urn": "urn:li:activity:7414311440871833601",
+  "id": "7414311440871833601",
+  "type": "post",
+  "posted_at": "2026-01-06T14:26:38Z",
+  "posted_date": "2026-01-06",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7414311440871833601/",
+  "preview": "𝗢𝗻𝗲 𝗰𝗮𝗻'𝘁 𝗯𝗲 𝗮 𝗹𝗲𝗮𝗱𝗲𝗿 𝘄𝗵𝗶𝗹𝗲 𝗷𝘂𝗱𝗴𝗶𝗻𝗴 𝗼𝘁𝗵𝗲𝗿𝘀 𝗳𝗼𝗿 𝗵𝗼𝘄 𝘁𝗵𝗲𝘆 𝗯𝗲𝗵𝗮𝘃𝗲.🚫 This might be my biggest insight of the year. I thought I was a pretty good leader. Using progressive practices, reading the right book",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:23:49Z",
+      "metrics": {
+        "impressions": 510,
+        "members_reached": 215,
+        "reactions": 10,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 2,
+        "followers_gained": 0,
+        "engagement_rate": 1.96
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 33.5,
+          "Entry": 32.6,
+          "CXO": 6,
+          "Director": 5.1,
+          "Manager": 3.3
+        },
+        "job_title": {
+          "Software Engineer": 14,
+          "Frontend Developer": 4.7,
+          "Project Manager": 3.3,
+          "Founder": 3.3,
+          "Full Stack Engineer": 2.8
+        },
+        "industry": {
+          "IT Services and IT Consulting": 36.3,
+          "Software Development": 23.7,
+          "Technology, Information and Internet": 6.5,
+          "Business Consulting and Services": 2.8,
+          "IT System Custom Software Development": 2.8
+        },
+        "company_size": {
+          "51-200 employees": 23.3,
+          "11-50 employees": 16.3,
+          "10,001+ employees": 9.3,
+          "1001-5000 employees": 9.3,
+          "1-10 employees": 7.9
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 7.9,
+          "Lviv": 5.1,
+          "Greater Philadelphia": 3.7,
+          "Wroclaw Metropolitan Area": 3.3
+        },
+        "company": {
+          "Speed and Function": 9.8
+        }
+      },
+      "comments": []
+    }
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "urn": "urn:li:activity:7427694719650058240",
+  "id": "7427694719650058240",
+  "type": "post",
+  "posted_at": "2026-02-12T12:47:01Z",
+  "posted_date": "2026-02-12",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7427694719650058240/",
+  "preview": "AI ran a vending machine in SF. Lost money, had identity crises, got tricked into selling tungsten cubes at a loss. The experiment run by Anthropic adds another argument to an idea I keep coming back",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:25:25Z",
+      "metrics": {
+        "impressions": 2299,
+        "members_reached": 1528,
+        "reactions": 5,
+        "comments": 2,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 5,
+        "followers_gained": 0,
+        "engagement_rate": 0.3
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 30,
+          "Entry": 22.8,
+          "Director": 8.8,
+          "CXO": 6.9,
+          "Owner": 6.1
+        },
+        "job_title": {
+          "Software Engineer": 10.3,
+          "Founder": 4,
+          "Co-Founder": 3.7,
+          "Product Manager": 3.4,
+          "Chief Executive Officer": 1.2
+        },
+        "industry": {
+          "Software Development": 23.8,
+          "IT Services and IT Consulting": 17.9,
+          "Technology, Information and Internet": 13.1,
+          "Financial Services": 5.7,
+          "Business Consulting and Services": 4.5
+        },
+        "company_size": {
+          "10,001+ employees": 21.7,
+          "51-200 employees": 11.3,
+          "1-10 employees": 11.2,
+          "11-50 employees": 10.6,
+          "1001-5000 employees": 9.2
+        },
+        "location": {
+          "San Francisco Bay Area": 8.8,
+          "London Area, United Kingdom": 8.2,
+          "New York City Metropolitan Area": 6.7,
+          "Greater Seattle Area": 2.7,
+          "Greater Toronto Area, Canada": 2.1
+        },
+        "company": {
+          "Google": 1.3,
+          "Speed and Function": 1.1,
+          "Amazon": 0,
+          "Meta": 0,
+          "Apple": 0
+        }
+      },
+      "comments": []
+    }
+  }
+}

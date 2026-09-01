@@ -1,0 +1,61 @@
+{
+  "urn": "urn:li:activity:7470834593185624065",
+  "id": "7470834593185624065",
+  "type": "post",
+  "posted_at": "2026-06-11T13:49:28Z",
+  "posted_date": "2026-06-11",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7470834593185624065/",
+  "preview": "Building a tool whose whole point is to make the code safe to throw away and regenerate from the spec. AI generates code faster than any of us, but as long as code stays the source of truth, nothing f",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:28:24Z",
+      "metrics": {
+        "impressions": 430,
+        "members_reached": 196,
+        "reactions": 5,
+        "comments": 1,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 4,
+        "followers_gained": 0,
+        "engagement_rate": 1.4
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 32.7,
+          "Entry": 31.6,
+          "CXO": 5.1,
+          "Manager": 4.1,
+          "Director": 4.1
+        },
+        "job_title": {
+          "Software Engineer": 11.7,
+          "Full Stack Engineer": 3.6
+        },
+        "industry": {
+          "IT Services and IT Consulting": 34.7,
+          "Software Development": 29.1,
+          "Technology, Information and Internet": 3.6
+        },
+        "company_size": {
+          "51-200 employees": 23.5,
+          "10,001+ employees": 11.2,
+          "11-50 employees": 10.2,
+          "1-10 employees": 7.7,
+          "1001-5000 employees": 7.7
+        },
+        "location": {
+          "Ljubljana Metropolitan Area": 6.1,
+          "Kyiv Metropolitan Area": 5.6,
+          "Belgrade Metropolitan Area": 3.1
+        },
+        "company": {
+          "Speed and Function": 8.7
+        }
+      },
+      "comments": []
+    }
+  }
+}

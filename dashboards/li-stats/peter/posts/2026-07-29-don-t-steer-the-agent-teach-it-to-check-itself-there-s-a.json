@@ -1,0 +1,57 @@
+{
+  "urn": "urn:li:activity:7488189837460799489",
+  "id": "7488189837460799489",
+  "type": "post",
+  "posted_at": "2026-07-29T11:13:01Z",
+  "posted_date": "2026-07-29",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7488189837460799489/",
+  "preview": "Don't steer the agent — teach it to check itself. There's a debate going around about when to steer a coding agent. One camp says steer it early: a human in the loop in the first minutes, so it never",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:30:02Z",
+      "metrics": {
+        "impressions": 258,
+        "members_reached": 121,
+        "reactions": 1,
+        "comments": 1,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 0.78
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 30.6,
+          "Senior": 28.1,
+          "CXO": 5.8
+        },
+        "job_title": {
+          "Software Engineer": 19.8
+        },
+        "industry": {
+          "IT Services and IT Consulting": 38,
+          "Software Development": 29.8,
+          "Technology, Information and Internet": 8.3
+        },
+        "company_size": {
+          "51-200 employees": 29.8,
+          "11-50 employees": 11.6,
+          "10,001+ employees": 10.7,
+          "1001-5000 employees": 8.3,
+          "501-1000 employees": 7.4
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 7.4,
+          "Lviv": 6.6
+        },
+        "company": {
+          "Speed and Function": 16.5
+        }
+      },
+      "comments": []
+    }
+  }
+}

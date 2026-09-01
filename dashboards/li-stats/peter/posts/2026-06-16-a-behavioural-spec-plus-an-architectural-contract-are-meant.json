@@ -1,0 +1,58 @@
+{
+  "urn": "urn:li:activity:7472624945496457216",
+  "id": "7472624945496457216",
+  "type": "post",
+  "posted_at": "2026-06-16T12:23:41Z",
+  "posted_date": "2026-06-16",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7472624945496457216/",
+  "preview": "A behavioural spec 𝗽𝗹𝘂𝘀 an architectural contract are meant to be the source of truth, and the code gets regenerated. That's the idea behind 𝗧𝗿𝘂𝗲𝗕𝗗𝗗, a CLI I'm building. AI can generate code faster th",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:28:38Z",
+      "metrics": {
+        "impressions": 226,
+        "members_reached": 104,
+        "reactions": 2,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 2,
+        "followers_gained": 0,
+        "engagement_rate": 0.88
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 37.5,
+          "Entry": 25,
+          "CXO": 5.8
+        },
+        "job_title": {
+          "Software Engineer": 12.5
+        },
+        "industry": {
+          "Software Development": 37.5,
+          "IT Services and IT Consulting": 30.8,
+          "Technology, Information and Internet": 5.8
+        },
+        "company_size": {
+          "51-200 employees": 27.9,
+          "1001-5000 employees": 12.5,
+          "11-50 employees": 11.5,
+          "201-500 employees": 6.7,
+          "10,001+ employees": 6.7
+        },
+        "location": {
+          "Zagreb Metropolitan Area": 6.7,
+          "Kyiv Metropolitan Area": 5.8,
+          "Lviv": 5.8
+        },
+        "company": {
+          "Speed and Function": 12.5
+        }
+      },
+      "comments": []
+    }
+  }
+}

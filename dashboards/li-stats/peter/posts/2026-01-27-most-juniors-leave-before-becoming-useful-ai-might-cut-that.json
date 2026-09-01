@@ -1,0 +1,72 @@
+{
+  "urn": "urn:li:activity:7421897520596893696",
+  "id": "7421897520596893696",
+  "type": "post",
+  "posted_at": "2026-01-27T12:51:01Z",
+  "posted_date": "2026-01-27",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7421897520596893696/",
+  "preview": "𝗠𝗼𝘀𝘁 𝗷𝘂𝗻𝗶𝗼𝗿𝘀 𝗹𝗲𝗮𝘃𝗲 𝗯𝗲𝗳𝗼𝗿𝗲 𝗯𝗲𝗰𝗼𝗺𝗶𝗻𝗴 𝘂𝘀𝗲𝗳𝘂𝗹. 𝗔𝗜 𝗺𝗶𝗴𝗵𝘁 𝗰𝘂𝘁 𝘁𝗵𝗮𝘁 𝘄𝗶𝗻𝗱𝗼𝘄 𝗶𝗻 𝗵𝗮𝗹𝗳. I came across Kent Beck's article about juniors in the AI era. His main thesis: manage juniors for learning, not production",
+  "text": null,
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-01T19:24:58Z",
+      "metrics": {
+        "impressions": 8040,
+        "members_reached": 5674,
+        "reactions": 9,
+        "comments": 4,
+        "reposts": 1,
+        "saves": 1,
+        "sends": 0,
+        "profile_viewers": 9,
+        "followers_gained": 0,
+        "engagement_rate": 0.17
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 29.3,
+          "Entry": 26.1,
+          "Director": 8,
+          "Manager": 6.5,
+          "CXO": 4.7
+        },
+        "job_title": {
+          "Software Engineer": 10.3,
+          "Founder": 2.3,
+          "Project Manager": 1.9,
+          "Co-Founder": 1.8,
+          "Full Stack Engineer": 1.8
+        },
+        "industry": {
+          "IT Services and IT Consulting": 28.9,
+          "Software Development": 20.6,
+          "Technology, Information and Internet": 6.2,
+          "Business Consulting and Services": 4.2,
+          "Financial Services": 3.3
+        },
+        "company_size": {
+          "10,001+ employees": 13.1,
+          "51-200 employees": 12.6,
+          "1001-5000 employees": 11.6,
+          "11-50 employees": 11.5,
+          "201-500 employees": 8.8
+        },
+        "location": {
+          "Prague Metropolitan Area": 5,
+          "Ljubljana Metropolitan Area": 4,
+          "Sofia Metropolitan Area": 3.7,
+          "Zagreb Metropolitan Area": 3.7,
+          "Budapest Metropolitan Area": 2.9
+        },
+        "company": {
+          "EPAM Systems": 0,
+          "SoftServe": 0,
+          "Speed and Function": 0,
+          "Accenture": 0,
+          "IBM": 0
+        }
+      },
+      "comments": []
+    }
+  }
+}

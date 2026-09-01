@@ -17,12 +17,34 @@ stdout: KEY=VALUE result lines. Exit 0 on success, 1 on failure.
 import datetime
 import json
 import os
+import re
 import sys
 import tempfile
 from urllib.parse import quote
 
 
+_SURROGATES = re.compile(r"[\ud800-\udfff]")
+
+
+def strip_surrogates(obj):
+    """Drop lone surrogates before writing.
+
+    A UTF-16 slice on the Node side can split an emoji and leave half of it
+    ("\\ud83d"). json.dump would then die with UnicodeEncodeError and take the
+    whole phase down. Callers are fixed to slice by code point; this is the
+    backstop so one malformed post can never abort a scrape again.
+    """
+    if isinstance(obj, str):
+        return _SURROGATES.sub("", obj) if _SURROGATES.search(obj) else obj
+    if isinstance(obj, dict):
+        return {k: strip_surrogates(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [strip_surrogates(v) for v in obj]
+    return obj
+
+
 def write_atomic(path, data):
+    data = strip_surrogates(data)
     dir_ = os.path.dirname(path) or "."
     fd, tmp = tempfile.mkstemp(prefix=".fast-merge.", suffix=".json", dir=dir_)
     try:
