@@ -18,17 +18,19 @@ import { fileURLToPath } from "node:url";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(HERE, "..", "..");
-// --author <slug> робить скрипт per-author: пости беруться з папки автора,
-// а оновлюється його власний дашборд. Без прапора — стара однокористувацька
-// поведінка (спільна папка + дашборд linkedin-post).
-const AUTHOR_ARG = (() => {
+// --author <slug> обов'язковий: пости беруться з папки автора, оновлюється
+// його власний дашборд. Спільного дашборда linkedin-post більше не існує —
+// кожен автор має свій linkedin-<slug>-posts.
+const AUTHOR = (() => {
   const i = process.argv.indexOf("--author");
   return i > -1 && process.argv[i + 1] ? process.argv[i + 1] : null;
 })();
-const POSTS_DIR = AUTHOR_ARG
-  ? join(REPO_ROOT, "dashboards", "li-stats", AUTHOR_ARG, "posts")
-  : join(REPO_ROOT, "dashboards", "li-stats", "posts");
-const DASHBOARD_UID = AUTHOR_ARG ? `linkedin-${AUTHOR_ARG}-posts` : "linkedin-post";
+if (!AUTHOR) {
+  console.error("usage: update-post-variable.mjs --author <slug> [--snapshot <path>]");
+  process.exit(2);
+}
+const POSTS_DIR = join(REPO_ROOT, "dashboards", "li-stats", AUTHOR, "posts");
+const DASHBOARD_UID = `linkedin-${AUTHOR}-posts`;
 const VAR_NAME = "post";
 
 const GRAFANA_URL = (process.env.GRAFANA_URL ?? "").replace(/\/+$/, "");

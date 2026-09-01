@@ -1,0 +1,4346 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 2997586022825984,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Per-post view",
+      "tooltip": "Per-post stats with picker",
+      "type": "link",
+      "url": "/d/linkedin-post/linkedin-stats-e28094-per-post"
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 21,
+      "panels": [],
+      "title": "Engagement score — who engaged, weighted by tier",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          },
+          "unit": "locale"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 1
+      },
+      "id": 22,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^score$/",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "scope",
+              "text": "scope",
+              "type": "string"
+            },
+            {
+              "selector": "week",
+              "text": "week",
+              "type": "string"
+            },
+            {
+              "selector": "score",
+              "text": "score",
+              "type": "number"
+            },
+            {
+              "selector": "score_normal",
+              "text": "score_normal",
+              "type": "number"
+            },
+            {
+              "selector": "score_icp",
+              "text": "score_icp",
+              "type": "number"
+            },
+            {
+              "selector": "score_vip",
+              "text": "score_vip",
+              "type": "number"
+            },
+            {
+              "selector": "reactions",
+              "text": "reactions",
+              "type": "number"
+            },
+            {
+              "selector": "comments",
+              "text": "comments",
+              "type": "number"
+            },
+            {
+              "selector": "people",
+              "text": "people",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filterExpression": "scope == \"last_week\"",
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "engagement_score_totals",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Engagement score (last week)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          },
+          "unit": "locale"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 1
+      },
+      "id": 23,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^score_normal$/",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "scope",
+              "text": "scope",
+              "type": "string"
+            },
+            {
+              "selector": "week",
+              "text": "week",
+              "type": "string"
+            },
+            {
+              "selector": "score",
+              "text": "score",
+              "type": "number"
+            },
+            {
+              "selector": "score_normal",
+              "text": "score_normal",
+              "type": "number"
+            },
+            {
+              "selector": "score_icp",
+              "text": "score_icp",
+              "type": "number"
+            },
+            {
+              "selector": "score_vip",
+              "text": "score_vip",
+              "type": "number"
+            },
+            {
+              "selector": "reactions",
+              "text": "reactions",
+              "type": "number"
+            },
+            {
+              "selector": "comments",
+              "text": "comments",
+              "type": "number"
+            },
+            {
+              "selector": "people",
+              "text": "people",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filterExpression": "scope == \"last_week\"",
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "engagement_score_totals",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "…from normal audience",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "locale"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 12,
+        "y": 1
+      },
+      "id": 24,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^score_icp$/",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "scope",
+              "text": "scope",
+              "type": "string"
+            },
+            {
+              "selector": "week",
+              "text": "week",
+              "type": "string"
+            },
+            {
+              "selector": "score",
+              "text": "score",
+              "type": "number"
+            },
+            {
+              "selector": "score_normal",
+              "text": "score_normal",
+              "type": "number"
+            },
+            {
+              "selector": "score_icp",
+              "text": "score_icp",
+              "type": "number"
+            },
+            {
+              "selector": "score_vip",
+              "text": "score_vip",
+              "type": "number"
+            },
+            {
+              "selector": "reactions",
+              "text": "reactions",
+              "type": "number"
+            },
+            {
+              "selector": "comments",
+              "text": "comments",
+              "type": "number"
+            },
+            {
+              "selector": "people",
+              "text": "people",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filterExpression": "scope == \"last_week\"",
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "engagement_score_totals",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "…from ICP",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "purple",
+                "value": null
+              }
+            ]
+          },
+          "unit": "locale"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 1
+      },
+      "id": 25,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^score_vip$/",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "scope",
+              "text": "scope",
+              "type": "string"
+            },
+            {
+              "selector": "week",
+              "text": "week",
+              "type": "string"
+            },
+            {
+              "selector": "score",
+              "text": "score",
+              "type": "number"
+            },
+            {
+              "selector": "score_normal",
+              "text": "score_normal",
+              "type": "number"
+            },
+            {
+              "selector": "score_icp",
+              "text": "score_icp",
+              "type": "number"
+            },
+            {
+              "selector": "score_vip",
+              "text": "score_vip",
+              "type": "number"
+            },
+            {
+              "selector": "reactions",
+              "text": "reactions",
+              "type": "number"
+            },
+            {
+              "selector": "comments",
+              "text": "comments",
+              "type": "number"
+            },
+            {
+              "selector": "people",
+              "text": "people",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filterExpression": "scope == \"last_week\"",
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "engagement_score_totals",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "…from VIP list (4×)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          },
+          "unit": "locale"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 5
+      },
+      "id": 28,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^score$/",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "scope",
+              "text": "scope",
+              "type": "string"
+            },
+            {
+              "selector": "week",
+              "text": "week",
+              "type": "string"
+            },
+            {
+              "selector": "score",
+              "text": "score",
+              "type": "number"
+            },
+            {
+              "selector": "score_normal",
+              "text": "score_normal",
+              "type": "number"
+            },
+            {
+              "selector": "score_icp",
+              "text": "score_icp",
+              "type": "number"
+            },
+            {
+              "selector": "score_vip",
+              "text": "score_vip",
+              "type": "number"
+            },
+            {
+              "selector": "reactions",
+              "text": "reactions",
+              "type": "number"
+            },
+            {
+              "selector": "comments",
+              "text": "comments",
+              "type": "number"
+            },
+            {
+              "selector": "people",
+              "text": "people",
+              "type": "number"
+            },
+            {
+              "selector": "reactions_icp",
+              "text": "reactions_icp",
+              "type": "number"
+            },
+            {
+              "selector": "comments_icp",
+              "text": "comments_icp",
+              "type": "number"
+            },
+            {
+              "selector": "people_icp",
+              "text": "people_icp",
+              "type": "number"
+            },
+            {
+              "selector": "reactions_non_icp",
+              "text": "reactions_non_icp",
+              "type": "number"
+            },
+            {
+              "selector": "comments_non_icp",
+              "text": "comments_non_icp",
+              "type": "number"
+            },
+            {
+              "selector": "icp_reaction_pct",
+              "text": "icp_reaction_pct",
+              "type": "number"
+            },
+            {
+              "selector": "icp_comment_pct",
+              "text": "icp_comment_pct",
+              "type": "number"
+            },
+            {
+              "selector": "icp_engagement_pct",
+              "text": "icp_engagement_pct",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filterExpression": "scope == \"all_time\"",
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "engagement_score_totals",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Engagement score (all time)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          },
+          "unit": "locale"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 5
+      },
+      "id": 29,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^score_normal$/",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "scope",
+              "text": "scope",
+              "type": "string"
+            },
+            {
+              "selector": "week",
+              "text": "week",
+              "type": "string"
+            },
+            {
+              "selector": "score",
+              "text": "score",
+              "type": "number"
+            },
+            {
+              "selector": "score_normal",
+              "text": "score_normal",
+              "type": "number"
+            },
+            {
+              "selector": "score_icp",
+              "text": "score_icp",
+              "type": "number"
+            },
+            {
+              "selector": "score_vip",
+              "text": "score_vip",
+              "type": "number"
+            },
+            {
+              "selector": "reactions",
+              "text": "reactions",
+              "type": "number"
+            },
+            {
+              "selector": "comments",
+              "text": "comments",
+              "type": "number"
+            },
+            {
+              "selector": "people",
+              "text": "people",
+              "type": "number"
+            },
+            {
+              "selector": "reactions_icp",
+              "text": "reactions_icp",
+              "type": "number"
+            },
+            {
+              "selector": "comments_icp",
+              "text": "comments_icp",
+              "type": "number"
+            },
+            {
+              "selector": "people_icp",
+              "text": "people_icp",
+              "type": "number"
+            },
+            {
+              "selector": "reactions_non_icp",
+              "text": "reactions_non_icp",
+              "type": "number"
+            },
+            {
+              "selector": "comments_non_icp",
+              "text": "comments_non_icp",
+              "type": "number"
+            },
+            {
+              "selector": "icp_reaction_pct",
+              "text": "icp_reaction_pct",
+              "type": "number"
+            },
+            {
+              "selector": "icp_comment_pct",
+              "text": "icp_comment_pct",
+              "type": "number"
+            },
+            {
+              "selector": "icp_engagement_pct",
+              "text": "icp_engagement_pct",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filterExpression": "scope == \"all_time\"",
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "engagement_score_totals",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "…from normal audience",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "locale"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 12,
+        "y": 5
+      },
+      "id": 30,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^score_icp$/",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "scope",
+              "text": "scope",
+              "type": "string"
+            },
+            {
+              "selector": "week",
+              "text": "week",
+              "type": "string"
+            },
+            {
+              "selector": "score",
+              "text": "score",
+              "type": "number"
+            },
+            {
+              "selector": "score_normal",
+              "text": "score_normal",
+              "type": "number"
+            },
+            {
+              "selector": "score_icp",
+              "text": "score_icp",
+              "type": "number"
+            },
+            {
+              "selector": "score_vip",
+              "text": "score_vip",
+              "type": "number"
+            },
+            {
+              "selector": "reactions",
+              "text": "reactions",
+              "type": "number"
+            },
+            {
+              "selector": "comments",
+              "text": "comments",
+              "type": "number"
+            },
+            {
+              "selector": "people",
+              "text": "people",
+              "type": "number"
+            },
+            {
+              "selector": "reactions_icp",
+              "text": "reactions_icp",
+              "type": "number"
+            },
+            {
+              "selector": "comments_icp",
+              "text": "comments_icp",
+              "type": "number"
+            },
+            {
+              "selector": "people_icp",
+              "text": "people_icp",
+              "type": "number"
+            },
+            {
+              "selector": "reactions_non_icp",
+              "text": "reactions_non_icp",
+              "type": "number"
+            },
+            {
+              "selector": "comments_non_icp",
+              "text": "comments_non_icp",
+              "type": "number"
+            },
+            {
+              "selector": "icp_reaction_pct",
+              "text": "icp_reaction_pct",
+              "type": "number"
+            },
+            {
+              "selector": "icp_comment_pct",
+              "text": "icp_comment_pct",
+              "type": "number"
+            },
+            {
+              "selector": "icp_engagement_pct",
+              "text": "icp_engagement_pct",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filterExpression": "scope == \"all_time\"",
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "engagement_score_totals",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "…from ICP",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "purple",
+                "value": null
+              }
+            ]
+          },
+          "unit": "locale"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 5
+      },
+      "id": 31,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^score_vip$/",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "scope",
+              "text": "scope",
+              "type": "string"
+            },
+            {
+              "selector": "week",
+              "text": "week",
+              "type": "string"
+            },
+            {
+              "selector": "score",
+              "text": "score",
+              "type": "number"
+            },
+            {
+              "selector": "score_normal",
+              "text": "score_normal",
+              "type": "number"
+            },
+            {
+              "selector": "score_icp",
+              "text": "score_icp",
+              "type": "number"
+            },
+            {
+              "selector": "score_vip",
+              "text": "score_vip",
+              "type": "number"
+            },
+            {
+              "selector": "reactions",
+              "text": "reactions",
+              "type": "number"
+            },
+            {
+              "selector": "comments",
+              "text": "comments",
+              "type": "number"
+            },
+            {
+              "selector": "people",
+              "text": "people",
+              "type": "number"
+            },
+            {
+              "selector": "reactions_icp",
+              "text": "reactions_icp",
+              "type": "number"
+            },
+            {
+              "selector": "comments_icp",
+              "text": "comments_icp",
+              "type": "number"
+            },
+            {
+              "selector": "people_icp",
+              "text": "people_icp",
+              "type": "number"
+            },
+            {
+              "selector": "reactions_non_icp",
+              "text": "reactions_non_icp",
+              "type": "number"
+            },
+            {
+              "selector": "comments_non_icp",
+              "text": "comments_non_icp",
+              "type": "number"
+            },
+            {
+              "selector": "icp_reaction_pct",
+              "text": "icp_reaction_pct",
+              "type": "number"
+            },
+            {
+              "selector": "icp_comment_pct",
+              "text": "icp_comment_pct",
+              "type": "number"
+            },
+            {
+              "selector": "icp_engagement_pct",
+              "text": "icp_engagement_pct",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filterExpression": "scope == \"all_time\"",
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "engagement_score_totals",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "…from VIP list (4×)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 9
+      },
+      "id": 32,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^icp_reaction_pct$/",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "scope",
+              "text": "scope",
+              "type": "string"
+            },
+            {
+              "selector": "week",
+              "text": "week",
+              "type": "string"
+            },
+            {
+              "selector": "score",
+              "text": "score",
+              "type": "number"
+            },
+            {
+              "selector": "score_normal",
+              "text": "score_normal",
+              "type": "number"
+            },
+            {
+              "selector": "score_icp",
+              "text": "score_icp",
+              "type": "number"
+            },
+            {
+              "selector": "score_vip",
+              "text": "score_vip",
+              "type": "number"
+            },
+            {
+              "selector": "reactions",
+              "text": "reactions",
+              "type": "number"
+            },
+            {
+              "selector": "comments",
+              "text": "comments",
+              "type": "number"
+            },
+            {
+              "selector": "people",
+              "text": "people",
+              "type": "number"
+            },
+            {
+              "selector": "reactions_icp",
+              "text": "reactions_icp",
+              "type": "number"
+            },
+            {
+              "selector": "comments_icp",
+              "text": "comments_icp",
+              "type": "number"
+            },
+            {
+              "selector": "people_icp",
+              "text": "people_icp",
+              "type": "number"
+            },
+            {
+              "selector": "reactions_non_icp",
+              "text": "reactions_non_icp",
+              "type": "number"
+            },
+            {
+              "selector": "comments_non_icp",
+              "text": "comments_non_icp",
+              "type": "number"
+            },
+            {
+              "selector": "icp_reaction_pct",
+              "text": "icp_reaction_pct",
+              "type": "number"
+            },
+            {
+              "selector": "icp_comment_pct",
+              "text": "icp_comment_pct",
+              "type": "number"
+            },
+            {
+              "selector": "icp_engagement_pct",
+              "text": "icp_engagement_pct",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filterExpression": "scope == \"all_time\"",
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "engagement_score_totals",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "ICP share of reactions (all time)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 9
+      },
+      "id": 33,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^icp_comment_pct$/",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "scope",
+              "text": "scope",
+              "type": "string"
+            },
+            {
+              "selector": "week",
+              "text": "week",
+              "type": "string"
+            },
+            {
+              "selector": "score",
+              "text": "score",
+              "type": "number"
+            },
+            {
+              "selector": "score_normal",
+              "text": "score_normal",
+              "type": "number"
+            },
+            {
+              "selector": "score_icp",
+              "text": "score_icp",
+              "type": "number"
+            },
+            {
+              "selector": "score_vip",
+              "text": "score_vip",
+              "type": "number"
+            },
+            {
+              "selector": "reactions",
+              "text": "reactions",
+              "type": "number"
+            },
+            {
+              "selector": "comments",
+              "text": "comments",
+              "type": "number"
+            },
+            {
+              "selector": "people",
+              "text": "people",
+              "type": "number"
+            },
+            {
+              "selector": "reactions_icp",
+              "text": "reactions_icp",
+              "type": "number"
+            },
+            {
+              "selector": "comments_icp",
+              "text": "comments_icp",
+              "type": "number"
+            },
+            {
+              "selector": "people_icp",
+              "text": "people_icp",
+              "type": "number"
+            },
+            {
+              "selector": "reactions_non_icp",
+              "text": "reactions_non_icp",
+              "type": "number"
+            },
+            {
+              "selector": "comments_non_icp",
+              "text": "comments_non_icp",
+              "type": "number"
+            },
+            {
+              "selector": "icp_reaction_pct",
+              "text": "icp_reaction_pct",
+              "type": "number"
+            },
+            {
+              "selector": "icp_comment_pct",
+              "text": "icp_comment_pct",
+              "type": "number"
+            },
+            {
+              "selector": "icp_engagement_pct",
+              "text": "icp_engagement_pct",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filterExpression": "scope == \"all_time\"",
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "engagement_score_totals",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "ICP share of comments (all time)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 12,
+        "y": 9
+      },
+      "id": 34,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^icp_engagement_pct$/",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "scope",
+              "text": "scope",
+              "type": "string"
+            },
+            {
+              "selector": "week",
+              "text": "week",
+              "type": "string"
+            },
+            {
+              "selector": "score",
+              "text": "score",
+              "type": "number"
+            },
+            {
+              "selector": "score_normal",
+              "text": "score_normal",
+              "type": "number"
+            },
+            {
+              "selector": "score_icp",
+              "text": "score_icp",
+              "type": "number"
+            },
+            {
+              "selector": "score_vip",
+              "text": "score_vip",
+              "type": "number"
+            },
+            {
+              "selector": "reactions",
+              "text": "reactions",
+              "type": "number"
+            },
+            {
+              "selector": "comments",
+              "text": "comments",
+              "type": "number"
+            },
+            {
+              "selector": "people",
+              "text": "people",
+              "type": "number"
+            },
+            {
+              "selector": "reactions_icp",
+              "text": "reactions_icp",
+              "type": "number"
+            },
+            {
+              "selector": "comments_icp",
+              "text": "comments_icp",
+              "type": "number"
+            },
+            {
+              "selector": "people_icp",
+              "text": "people_icp",
+              "type": "number"
+            },
+            {
+              "selector": "reactions_non_icp",
+              "text": "reactions_non_icp",
+              "type": "number"
+            },
+            {
+              "selector": "comments_non_icp",
+              "text": "comments_non_icp",
+              "type": "number"
+            },
+            {
+              "selector": "icp_reaction_pct",
+              "text": "icp_reaction_pct",
+              "type": "number"
+            },
+            {
+              "selector": "icp_comment_pct",
+              "text": "icp_comment_pct",
+              "type": "number"
+            },
+            {
+              "selector": "icp_engagement_pct",
+              "text": "icp_engagement_pct",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filterExpression": "scope == \"all_time\"",
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "engagement_score_totals",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "ICP share of all engagement (all time)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "locale"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 9
+      },
+      "id": 35,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^people_icp$/",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "scope",
+              "text": "scope",
+              "type": "string"
+            },
+            {
+              "selector": "week",
+              "text": "week",
+              "type": "string"
+            },
+            {
+              "selector": "score",
+              "text": "score",
+              "type": "number"
+            },
+            {
+              "selector": "score_normal",
+              "text": "score_normal",
+              "type": "number"
+            },
+            {
+              "selector": "score_icp",
+              "text": "score_icp",
+              "type": "number"
+            },
+            {
+              "selector": "score_vip",
+              "text": "score_vip",
+              "type": "number"
+            },
+            {
+              "selector": "reactions",
+              "text": "reactions",
+              "type": "number"
+            },
+            {
+              "selector": "comments",
+              "text": "comments",
+              "type": "number"
+            },
+            {
+              "selector": "people",
+              "text": "people",
+              "type": "number"
+            },
+            {
+              "selector": "reactions_icp",
+              "text": "reactions_icp",
+              "type": "number"
+            },
+            {
+              "selector": "comments_icp",
+              "text": "comments_icp",
+              "type": "number"
+            },
+            {
+              "selector": "people_icp",
+              "text": "people_icp",
+              "type": "number"
+            },
+            {
+              "selector": "reactions_non_icp",
+              "text": "reactions_non_icp",
+              "type": "number"
+            },
+            {
+              "selector": "comments_non_icp",
+              "text": "comments_non_icp",
+              "type": "number"
+            },
+            {
+              "selector": "icp_reaction_pct",
+              "text": "icp_reaction_pct",
+              "type": "number"
+            },
+            {
+              "selector": "icp_comment_pct",
+              "text": "icp_comment_pct",
+              "type": "number"
+            },
+            {
+              "selector": "icp_engagement_pct",
+              "text": "icp_engagement_pct",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filterExpression": "scope == \"all_time\"",
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "engagement_score_totals",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "ICP engagers (all time)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "description": "Reactions are dated by comparing weekly reactor snapshots, so a target's first scan is a baseline and is excluded here; comments are dated exactly from their URN.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          },
+          "unit": "locale"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 13
+      },
+      "id": 26,
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "week",
+              "text": "week",
+              "type": "string"
+            },
+            {
+              "selector": "score",
+              "text": "score",
+              "type": "number"
+            },
+            {
+              "selector": "reactions",
+              "text": "reactions",
+              "type": "number"
+            },
+            {
+              "selector": "comments",
+              "text": "comments",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "engagement_score_weeks",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Engagement score per week",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD",
+                "destinationType": "time",
+                "targetField": "week"
+              }
+            ],
+            "fields": {}
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "comments": true,
+              "reactions": true
+            },
+            "indexByName": {
+              "score": 1,
+              "week": 0
+            },
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "left",
+            "cellOptions": {
+              "type": "auto",
+              "wrapText": true
+            },
+            "filterable": false,
+            "inspect": true
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "person_key"
+            },
+            "properties": [
+              {
+                "id": "custom.hidden",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "headline"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 260
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "profile_url"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 190
+              },
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": true,
+                    "title": "Open profile on LinkedIn",
+                    "url": "${__value.text}"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 13
+      },
+      "id": 27,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "person_key",
+              "text": "person_key",
+              "type": "string"
+            },
+            {
+              "selector": "name",
+              "text": "name",
+              "type": "string"
+            },
+            {
+              "selector": "headline",
+              "text": "headline",
+              "type": "string"
+            },
+            {
+              "selector": "tier",
+              "text": "tier",
+              "type": "string"
+            },
+            {
+              "selector": "reactions",
+              "text": "reactions",
+              "type": "number"
+            },
+            {
+              "selector": "comments",
+              "text": "comments",
+              "type": "number"
+            },
+            {
+              "selector": "score",
+              "text": "score",
+              "type": "number"
+            },
+            {
+              "selector": "score_last_week",
+              "text": "score_last_week",
+              "type": "number"
+            },
+            {
+              "selector": "profile_url",
+              "text": "profile_url",
+              "type": "string"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "engagement_people",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Top engagers",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {
+              "comments": 5,
+              "headline": 6,
+              "name": 0,
+              "profile_url": 7,
+              "reactions": 4,
+              "score": 3,
+              "score_last_week": 2,
+              "tier": 1
+            },
+            "renameByName": {
+              "name": "Person",
+              "score": "All time",
+              "score_last_week": "Last week",
+              "tier": "Tier"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "desc": true,
+                "field": "Last week"
+              }
+            ]
+          }
+        },
+        {
+          "id": "limit",
+          "options": {
+            "limitField": 15
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "week"
+            },
+            "properties": [
+              {
+                "id": "custom.hidden",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "scope"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Scope"
+              },
+              {
+                "id": "custom.width",
+                "value": 130
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "reactions"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Reactions — total"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "reactions_icp"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Reactions — ICP"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "comments"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Comments — total"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "comments_icp"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Comments — ICP"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "icp_reaction_pct"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "ICP share of reactions"
+              },
+              {
+                "id": "unit",
+                "value": "percent"
+              },
+              {
+                "id": "decimals",
+                "value": 1
+              },
+              {
+                "id": "min",
+                "value": 0
+              },
+              {
+                "id": "max",
+                "value": 100
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "gradient",
+                  "type": "gauge"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "icp_comment_pct"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "ICP share of comments"
+              },
+              {
+                "id": "unit",
+                "value": "percent"
+              },
+              {
+                "id": "decimals",
+                "value": 1
+              },
+              {
+                "id": "min",
+                "value": 0
+              },
+              {
+                "id": "max",
+                "value": 100
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "gradient",
+                  "type": "gauge"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "icp_engagement_pct"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "ICP share of all engagement"
+              },
+              {
+                "id": "unit",
+                "value": "percent"
+              },
+              {
+                "id": "decimals",
+                "value": 1
+              },
+              {
+                "id": "min",
+                "value": 0
+              },
+              {
+                "id": "max",
+                "value": 100
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "gradient",
+                  "type": "gauge"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 20
+      },
+      "id": 36,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "scope",
+              "text": "scope",
+              "type": "string"
+            },
+            {
+              "selector": "week",
+              "text": "week",
+              "type": "string"
+            },
+            {
+              "selector": "reactions",
+              "text": "reactions",
+              "type": "number"
+            },
+            {
+              "selector": "reactions_icp",
+              "text": "reactions_icp",
+              "type": "number"
+            },
+            {
+              "selector": "icp_reaction_pct",
+              "text": "icp_reaction_pct",
+              "type": "number"
+            },
+            {
+              "selector": "comments",
+              "text": "comments",
+              "type": "number"
+            },
+            {
+              "selector": "comments_icp",
+              "text": "comments_icp",
+              "type": "number"
+            },
+            {
+              "selector": "icp_comment_pct",
+              "text": "icp_comment_pct",
+              "type": "number"
+            },
+            {
+              "selector": "icp_engagement_pct",
+              "text": "icp_engagement_pct",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "engagement_score_totals",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Reactions & comments — total vs ICP (last week and all time)",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "week": true
+            },
+            "includeByName": {},
+            "indexByName": {
+              "comments": 4,
+              "comments_icp": 5,
+              "icp_comment_pct": 6,
+              "icp_engagement_pct": 7,
+              "icp_reaction_pct": 3,
+              "reactions": 1,
+              "reactions_icp": 2,
+              "scope": 0,
+              "week": 8
+            },
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 26
+      },
+      "id": 20,
+      "title": "Account view",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          },
+          "unit": "locale"
+        }
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 27
+      },
+      "id": 2,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^followers$/",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "week",
+              "text": "week",
+              "type": "string"
+            },
+            {
+              "selector": "followers",
+              "text": "followers",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "account_weeks",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Followers",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD",
+                "destinationType": "time",
+                "targetField": "week"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          },
+          "unit": "locale"
+        }
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 27
+      },
+      "id": 3,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^post_impressions_7d$/",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "week",
+              "text": "week",
+              "type": "string"
+            },
+            {
+              "selector": "post_impressions_7d",
+              "text": "post_impressions_7d",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "account_weeks",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Post impressions (7d)",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD",
+                "destinationType": "time",
+                "targetField": "week"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          },
+          "unit": "locale"
+        }
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 12,
+        "y": 27
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^profile_viewers_90d$/",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "week",
+              "text": "week",
+              "type": "string"
+            },
+            {
+              "selector": "profile_viewers_90d",
+              "text": "profile_viewers_90d",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "account_weeks",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Profile viewers (90d)",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD",
+                "destinationType": "time",
+                "targetField": "week"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          },
+          "unit": "locale"
+        }
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 27
+      },
+      "id": 5,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^search_appearances_previous_week$/",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "week",
+              "text": "week",
+              "type": "string"
+            },
+            {
+              "selector": "search_appearances_previous_week",
+              "text": "search_appearances_previous_week",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "account_weeks",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Search appearances (prev week)",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD",
+                "destinationType": "time",
+                "targetField": "week"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "always",
+            "spanNulls": true
+          },
+          "decimals": 0,
+          "unit": "locale"
+        }
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 31
+      },
+      "id": 6,
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "week",
+              "text": "week",
+              "type": "string"
+            },
+            {
+              "selector": "followers",
+              "text": "followers",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "account_weeks",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Followers",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD",
+                "destinationType": "time",
+                "targetField": "week"
+              }
+            ],
+            "fields": {}
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {
+              "followers": 1,
+              "week": 0
+            },
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "always",
+            "spanNulls": true
+          },
+          "decimals": 0,
+          "unit": "locale"
+        }
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 31
+      },
+      "id": 7,
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "week",
+              "text": "week",
+              "type": "string"
+            },
+            {
+              "selector": "post_impressions_7d",
+              "text": "post_impressions_7d",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "account_weeks",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Post impressions (7d)",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD",
+                "destinationType": "time",
+                "targetField": "week"
+              }
+            ],
+            "fields": {}
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {
+              "post_impressions_7d": 1,
+              "week": 0
+            },
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "always",
+            "spanNulls": true
+          },
+          "decimals": 0,
+          "unit": "locale"
+        }
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 39
+      },
+      "id": 8,
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "week",
+              "text": "week",
+              "type": "string"
+            },
+            {
+              "selector": "profile_viewers_90d",
+              "text": "profile_viewers_90d",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "account_weeks",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Profile viewers (90d)",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD",
+                "destinationType": "time",
+                "targetField": "week"
+              }
+            ],
+            "fields": {}
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {
+              "profile_viewers_90d": 1,
+              "week": 0
+            },
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "always",
+            "spanNulls": true
+          },
+          "decimals": 0,
+          "unit": "locale"
+        }
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 39
+      },
+      "id": 9,
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "week",
+              "text": "week",
+              "type": "string"
+            },
+            {
+              "selector": "search_appearances_previous_week",
+              "text": "search_appearances_previous_week",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "account_weeks",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Search appearances (prev week)",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD",
+                "destinationType": "time",
+                "targetField": "week"
+              }
+            ],
+            "fields": {}
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {
+              "search_appearances_previous_week": 1,
+              "week": 0
+            },
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "blue",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "lineWidth": 1,
+            "orientation": "horizontal"
+          },
+          "unit": "percent"
+        }
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 0,
+        "y": 47
+      },
+      "id": 10,
+      "options": {
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "displayMode": "hidden",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "orientation": "horizontal",
+        "showValue": "always",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "label"
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "week",
+              "text": "week",
+              "type": "string"
+            },
+            {
+              "selector": "dimension",
+              "text": "dimension",
+              "type": "string"
+            },
+            {
+              "selector": "label",
+              "text": "label",
+              "type": "string"
+            },
+            {
+              "selector": "pct",
+              "text": "pct",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "account_demographics",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Seniority",
+      "transformations": [
+        {
+          "id": "filterByValue",
+          "options": {
+            "filters": [
+              {
+                "config": {
+                  "id": "equal",
+                  "options": {
+                    "value": "seniority"
+                  }
+                },
+                "fieldName": "dimension"
+              }
+            ],
+            "match": "all",
+            "type": "include"
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "desc": true,
+                "field": "week"
+              }
+            ]
+          }
+        },
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "label": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "pct": {
+                "aggregations": [
+                  "firstNotNull"
+                ],
+                "operation": "aggregate"
+              }
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "renameByName": {
+              "pct (firstNotNull)": "pct"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "desc": true,
+                "field": "pct"
+              }
+            ]
+          }
+        }
+      ],
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "blue",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "lineWidth": 1,
+            "orientation": "horizontal"
+          },
+          "unit": "percent"
+        }
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 8,
+        "y": 47
+      },
+      "id": 11,
+      "options": {
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "displayMode": "hidden",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "orientation": "horizontal",
+        "showValue": "always",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "label"
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "week",
+              "text": "week",
+              "type": "string"
+            },
+            {
+              "selector": "dimension",
+              "text": "dimension",
+              "type": "string"
+            },
+            {
+              "selector": "label",
+              "text": "label",
+              "type": "string"
+            },
+            {
+              "selector": "pct",
+              "text": "pct",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "account_demographics",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Top job titles",
+      "transformations": [
+        {
+          "id": "filterByValue",
+          "options": {
+            "filters": [
+              {
+                "config": {
+                  "id": "equal",
+                  "options": {
+                    "value": "job_title"
+                  }
+                },
+                "fieldName": "dimension"
+              }
+            ],
+            "match": "all",
+            "type": "include"
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "desc": true,
+                "field": "week"
+              }
+            ]
+          }
+        },
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "label": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "pct": {
+                "aggregations": [
+                  "firstNotNull"
+                ],
+                "operation": "aggregate"
+              }
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "renameByName": {
+              "pct (firstNotNull)": "pct"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "desc": true,
+                "field": "pct"
+              }
+            ]
+          }
+        },
+        {
+          "id": "limit",
+          "options": {
+            "limitField": 10
+          }
+        }
+      ],
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "blue",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "lineWidth": 1,
+            "orientation": "horizontal"
+          },
+          "unit": "percent"
+        }
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 16,
+        "y": 47
+      },
+      "id": 12,
+      "options": {
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "displayMode": "hidden",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "orientation": "horizontal",
+        "showValue": "always",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "label"
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "week",
+              "text": "week",
+              "type": "string"
+            },
+            {
+              "selector": "dimension",
+              "text": "dimension",
+              "type": "string"
+            },
+            {
+              "selector": "label",
+              "text": "label",
+              "type": "string"
+            },
+            {
+              "selector": "pct",
+              "text": "pct",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "account_demographics",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Top locations",
+      "transformations": [
+        {
+          "id": "filterByValue",
+          "options": {
+            "filters": [
+              {
+                "config": {
+                  "id": "equal",
+                  "options": {
+                    "value": "location"
+                  }
+                },
+                "fieldName": "dimension"
+              }
+            ],
+            "match": "all",
+            "type": "include"
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "desc": true,
+                "field": "week"
+              }
+            ]
+          }
+        },
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "label": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "pct": {
+                "aggregations": [
+                  "firstNotNull"
+                ],
+                "operation": "aggregate"
+              }
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "renameByName": {
+              "pct (firstNotNull)": "pct"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "desc": true,
+                "field": "pct"
+              }
+            ]
+          }
+        },
+        {
+          "id": "limit",
+          "options": {
+            "limitField": 10
+          }
+        }
+      ],
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "lineWidth": 1
+          },
+          "unit": "short"
+        }
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 57
+      },
+      "id": 13,
+      "options": {
+        "barWidth": 0.7,
+        "groupWidth": 0.7,
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "vertical",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        },
+        "xField": "month"
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "month",
+              "text": "month",
+              "type": "string"
+            },
+            {
+              "selector": "posts",
+              "text": "Posts",
+              "type": "number"
+            },
+            {
+              "selector": "reposts",
+              "text": "Reposts",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "posts_per_month",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Posts published per month",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {
+              "Posts": 1,
+              "Reposts": 2,
+              "month": 0
+            },
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "lineWidth": 1
+          },
+          "unit": "short"
+        }
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 65
+      },
+      "id": 19,
+      "options": {
+        "barWidth": 0.7,
+        "groupWidth": 0.7,
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "orientation": "vertical",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        },
+        "xField": "month"
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "month",
+              "text": "month",
+              "type": "string"
+            },
+            {
+              "selector": "comments_posted",
+              "text": "Comments",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "comments_per_month",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Comments posted per month",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {
+              "Comments": 1,
+              "month": 0
+            },
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "lineWidth": 1
+          },
+          "unit": "short"
+        }
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 65
+      },
+      "id": 15,
+      "options": {
+        "barWidth": 0.7,
+        "groupWidth": 0.7,
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "orientation": "vertical",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        },
+        "xField": "month"
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "month",
+              "text": "month",
+              "type": "string"
+            },
+            {
+              "selector": "reactions_received",
+              "text": "Reactions",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "comments_per_month",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Reactions on my comments per month",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {
+              "Reactions": 1,
+              "month": 0
+            },
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "lineWidth": 1
+          },
+          "unit": "short"
+        }
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 65
+      },
+      "id": 16,
+      "options": {
+        "barWidth": 0.7,
+        "groupWidth": 0.7,
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "orientation": "vertical",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        },
+        "xField": "month"
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "month",
+              "text": "month",
+              "type": "string"
+            },
+            {
+              "selector": "impressions_received",
+              "text": "Impressions",
+              "type": "number"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "comments_per_month",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Impressions on my comments per month",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {
+              "Impressions": 1,
+              "month": 0
+            },
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 24,
+        "x": 0,
+        "y": 73
+      },
+      "id": 17,
+      "options": {
+        "configuration": "{\"displayModeBar\": false}",
+        "data": "[]",
+        "layout": "{}",
+        "onclick": "",
+        "script": "// ae3e-plotly-panel script — scatter + quadratic regression\nconst fields = (data && data.series && data.series[0] && data.series[0].fields) || [];\nconst get = (name) => {\n  const f = fields.find(x => x.name === name);\n  if (!f) return [];\n  const v = f.values;\n  if (Array.isArray(v)) return v;\n  if (v && typeof v.toArray === 'function') return v.toArray();\n  return Array.from(v || []);\n};\n\nconst xs = get('posts_in_month');\nconst ys = get('impressions');\nconst ids = get('id');\nconst dates = get('posted_date');\nconst types = get('type');\n\nconst n = xs.length;\n\n// Quadratic fit: solve normal equations for y = a + b*x + c*x^2\nlet S0 = n, S1 = 0, S2 = 0, S3 = 0, S4 = 0;\nlet T0 = 0, T1 = 0, T2 = 0;\nfor (let i = 0; i < n; i++) {\n  const x = xs[i], y = ys[i];\n  const x2 = x * x;\n  S1 += x; S2 += x2; S3 += x2 * x; S4 += x2 * x2;\n  T0 += y; T1 += x * y; T2 += x2 * y;\n}\n\n// Gaussian elimination on the 3x3 augmented matrix [S | T]\nconst M = [\n  [S0, S1, S2, T0],\n  [S1, S2, S3, T1],\n  [S2, S3, S4, T2]\n];\nfor (let i = 0; i < 3; i++) {\n  let maxRow = i;\n  for (let k = i + 1; k < 3; k++) if (Math.abs(M[k][i]) > Math.abs(M[maxRow][i])) maxRow = k;\n  [M[i], M[maxRow]] = [M[maxRow], M[i]];\n  for (let k = i + 1; k < 3; k++) {\n    const factor = M[i][i] ? M[k][i] / M[i][i] : 0;\n    for (let j = i; j < 4; j++) M[k][j] -= factor * M[i][j];\n  }\n}\nconst c = M[2][2] ? M[2][3] / M[2][2] : 0;\nconst b = M[1][1] ? (M[1][3] - M[1][2] * c) / M[1][1] : 0;\nconst a = M[0][0] ? (M[0][3] - M[0][1] * b - M[0][2] * c) / M[0][0] : 0;\n\n// R^2\nconst meanY = n ? T0 / n : 0;\nlet ssRes = 0, ssTot = 0;\nfor (let i = 0; i < n; i++) {\n  const pred = a + b * xs[i] + c * xs[i] * xs[i];\n  ssRes += (ys[i] - pred) ** 2;\n  ssTot += (ys[i] - meanY) ** 2;\n}\nconst r2 = ssTot ? 1 - ssRes / ssTot : 0;\n\n// Smooth curve across the x range\nconst xMin = xs.length ? Math.min(...xs) : 0;\nconst xMax = xs.length ? Math.max(...xs) : 1;\nconst steps = 50;\nconst curveX = [], curveY = [];\nfor (let i = 0; i <= steps; i++) {\n  const x = xMin + (xMax - xMin) * i / steps;\n  curveX.push(x);\n  curveY.push(a + b * x + c * x * x);\n}\n\nreturn {\n  data: [\n    {\n      x: xs, y: ys, mode: 'markers', type: 'scatter', name: 'Posts',\n      text: ids.map((id, i) => (dates[i] || '') + ' • ' + (types[i] || '') + ' • id=' + id),\n      hovertemplate: 'Posts in month: %{x}<br>Impressions: %{y:,}<br>%{text}<extra></extra>',\n      marker: { size: 10, color: '#5794f2', opacity: 0.75, line: { width: 1, color: '#3a6dbf' } }\n    },\n    {\n      x: curveX, y: curveY,\n      mode: 'lines', type: 'scatter',\n      name: 'Quadratic fit (R²=' + r2.toFixed(2) + ')',\n      line: { color: '#ff7f0e', width: 2, dash: 'dash' }\n    }\n  ],\n  layout: {\n    xaxis: { title: { text: 'Posts published that month' }, gridcolor: '#444', dtick: 1 },\n    yaxis: { title: { text: 'Impressions (latest snapshot)' }, gridcolor: '#444' },\n    showlegend: true,\n    legend: { orientation: 'h', y: -0.2, x: 0 },\n    plot_bgcolor: 'rgba(0,0,0,0)', paper_bgcolor: 'rgba(0,0,0,0)',\n    font: { color: '#ccc' },\n    margin: { l: 60, r: 20, t: 20, b: 80 }\n  }\n};\n"
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "posts_in_month",
+              "text": "posts_in_month",
+              "type": "number"
+            },
+            {
+              "selector": "impressions",
+              "text": "impressions",
+              "type": "number"
+            },
+            {
+              "selector": "id",
+              "text": "id",
+              "type": "string"
+            },
+            {
+              "selector": "posted_date",
+              "text": "posted_date",
+              "type": "string"
+            },
+            {
+              "selector": "type",
+              "text": "type",
+              "type": "string"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "correlation_points",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Posts published vs impressions (scatter + linear fit)",
+      "type": "ae3e-plotly-panel"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 24,
+        "x": 0,
+        "y": 85
+      },
+      "id": 18,
+      "options": {
+        "configuration": "{\"displayModeBar\": false}",
+        "data": "[]",
+        "layout": "{}",
+        "onclick": "",
+        "script": "// ae3e-plotly-panel script — impressions per post over time + median (L1) fit + bootstrap band\nconst fields = (data && data.series && data.series[0] && data.series[0].fields) || [];\nconst get = (name) => {\n  const f = fields.find(x => x.name === name);\n  if (!f) return [];\n  const v = f.values;\n  if (Array.isArray(v)) return v;\n  if (v && typeof v.toArray === 'function') return v.toArray();\n  return Array.from(v || []);\n};\n\nconst dates = get('posted_date');\nconst ysAll = get('impressions');\nconst idsAll = get('id');\nconst typesAll = get('type');\nconst ppmAll = get('posts_in_month');\n\n// Center x for numerical stability — use days since the earliest post\nconst day = 86400000;\nconst toMs = (d) => new Date(d + 'T00:00:00Z').getTime();\nconst msAll = dates.map(toMs);\nconst tMin = Math.min(...msAll);\nconst tMax = Math.max(...msAll);\n\n// Drop rows without a numeric Y (defensive; correlation_points should already be clean)\nconst xs = [], ys = [], rowDates = [], rowIds = [], rowTypes = [], rowPpm = [];\nfor (let i = 0; i < dates.length; i++) {\n  if (typeof ysAll[i] !== 'number' || !isFinite(ysAll[i])) continue;\n  xs.push((msAll[i] - tMin) / day);\n  ys.push(ysAll[i]);\n  rowDates.push(dates[i]);\n  rowIds.push(idsAll[i]);\n  rowTypes.push(typesAll[i]);\n  rowPpm.push(ppmAll[i]);\n}\nconst n = xs.length;\n\n// --- IRLS median (L1) regression -------------------------------------------\nfunction l1Fit(xs, ys, iters, eps) {\n  const n = xs.length;\n  if (n < 2) return [n ? (ys[0] || 0) : 0, 0];\n  let sX = 0, sY = 0, sXY = 0, sX2 = 0;\n  for (let i = 0; i < n; i++) {\n    sX += xs[i]; sY += ys[i];\n    sXY += xs[i] * ys[i]; sX2 += xs[i] * xs[i];\n  }\n  const den = n * sX2 - sX * sX;\n  let b = den ? (n * sXY - sX * sY) / den : 0;\n  let a = (sY - b * sX) / n;\n  for (let iter = 0; iter < iters; iter++) {\n    let w = 0, wx = 0, wy = 0, wxx = 0, wxy = 0;\n    for (let i = 0; i < n; i++) {\n      const r = Math.abs(ys[i] - (a + b * xs[i]));\n      const wi = 1 / Math.max(r, eps);\n      w += wi; wx += wi * xs[i]; wy += wi * ys[i];\n      wxx += wi * xs[i] * xs[i]; wxy += wi * xs[i] * ys[i];\n    }\n    const d = w * wxx - wx * wx;\n    if (!d) break;\n    const newB = (w * wxy - wx * wy) / d;\n    const newA = (wy - newB * wx) / w;\n    if (Math.abs(newA - a) < 1e-6 && Math.abs(newB - b) < 1e-6) { a = newA; b = newB; break; }\n    a = newA; b = newB;\n  }\n  return [a, b];\n}\n\nconst [a, b] = l1Fit(xs, ys, 50, 1e-6);\n\n// Pseudo-R^2 for L1: 1 - sum|y - yhat| / sum|y - median(y)|\nconst sortedY = [...ys].sort((p, q) => p - q);\nconst medY = sortedY.length % 2\n  ? sortedY[(sortedY.length - 1) >> 1]\n  : 0.5 * (sortedY[sortedY.length / 2 - 1] + sortedY[sortedY.length / 2]);\nlet sumDevFit = 0, sumDevNull = 0;\nfor (let i = 0; i < n; i++) {\n  sumDevFit += Math.abs(ys[i] - (a + b * xs[i]));\n  sumDevNull += Math.abs(ys[i] - medY);\n}\nconst r1 = sumDevNull ? 1 - sumDevFit / sumDevNull : 0;\n\n// --- Bootstrap band (B resamples, percentile band at curve nodes) ----------\nconst STEPS = 40, B = 200;\nconst xMaxN = (tMax - tMin) / day;\nconst curveXn = [];\nfor (let i = 0; i <= STEPS; i++) curveXn.push(xMaxN * i / STEPS);\n\n// Deterministic LCG seeded by N so the band stops shimmering on every refresh\nlet seed = 1234567 + n * 31;\nconst rand = () => { seed = (seed * 1664525 + 1013904223) & 0x7fffffff; return seed / 0x7fffffff; };\n\nconst bootCurves = [];\nfor (let bi = 0; bi < B; bi++) {\n  const bxs = new Array(n), bys = new Array(n);\n  for (let i = 0; i < n; i++) {\n    const k = Math.floor(rand() * n);\n    bxs[i] = xs[k]; bys[i] = ys[k];\n  }\n  const [ba, bb] = l1Fit(bxs, bys, 25, 1e-6);\n  bootCurves.push(curveXn.map(x => ba + bb * x));\n}\nconst lo = [], hi = [];\nfor (let i = 0; i < curveXn.length; i++) {\n  const col = bootCurves.map(c => c[i]).sort((p, q) => p - q);\n  lo.push(col[Math.floor(0.025 * B)]);\n  hi.push(col[Math.floor(0.975 * B)]);\n}\nconst median = curveXn.map(x => a + b * x);\n\nconst fromMs = (t) => new Date(t).toISOString().slice(0, 10);\nconst curveX = curveXn.map(x => fromMs(tMin + x * day));\nconst monthlyDelta = b * 30;\n\nreturn {\n  data: [\n    // Bootstrap band: upper edge (invisible line), then lower edge filled toward it\n    {\n      x: curveX, y: hi, type: 'scatter', mode: 'lines',\n      line: { width: 0 }, hoverinfo: 'skip', showlegend: false\n    },\n    {\n      x: curveX, y: lo, type: 'scatter', mode: 'lines',\n      line: { width: 0 }, fill: 'tonexty',\n      fillcolor: 'rgba(255, 127, 14, 0.18)',\n      name: '95% bootstrap band', hoverinfo: 'skip'\n    },\n    // Raw points\n    {\n      x: rowDates, y: ys, mode: 'markers', type: 'scatter', name: 'Posts',\n      text: rowIds.map((id, i) => (rowTypes[i] || '') + ' • posts/mo: ' + (rowPpm[i] != null ? rowPpm[i] : '') + ' • id=' + id),\n      hovertemplate: '%{x}<br>Impressions: %{y:,}<br>%{text}<extra></extra>',\n      marker: { size: 10, color: '#5794f2', opacity: 0.75, line: { width: 1, color: '#3a6dbf' } }\n    },\n    // Median (L1) fit line\n    {\n      x: curveX, y: median, mode: 'lines', type: 'scatter',\n      name: 'Median fit (pseudo-R²=' + r1.toFixed(2) + ', ' + (monthlyDelta >= 0 ? '+' : '') + monthlyDelta.toFixed(0) + ' impr/30d, 95% boot band)',\n      line: { color: '#ff7f0e', width: 2, dash: 'dash' }\n    }\n  ],\n  layout: {\n    xaxis: { title: { text: 'Date posted' }, gridcolor: '#444', type: 'date' },\n    yaxis: { title: { text: 'Impressions (latest snapshot)' }, gridcolor: '#444' },\n    showlegend: true,\n    legend: { orientation: 'h', y: -0.2, x: 0 },\n    plot_bgcolor: 'rgba(0,0,0,0)', paper_bgcolor: 'rgba(0,0,0,0)',\n    font: { color: '#ccc' },\n    margin: { l: 60, r: 20, t: 20, b: 80 }\n  }\n};\n"
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "posts_in_month",
+              "text": "posts_in_month",
+              "type": "number"
+            },
+            {
+              "selector": "impressions",
+              "text": "impressions",
+              "type": "number"
+            },
+            {
+              "selector": "id",
+              "text": "id",
+              "type": "string"
+            },
+            {
+              "selector": "posted_date",
+              "text": "posted_date",
+              "type": "string"
+            },
+            {
+              "selector": "type",
+              "text": "type",
+              "type": "string"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "A",
+          "root_selector": "correlation_points",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Impressions per post over time",
+      "type": "ae3e-plotly-panel"
+    }
+  ],
+  "preload": false,
+  "refresh": "",
+  "schemaVersion": 42,
+  "tags": [
+    "linkedin"
+  ],
+  "templating": {
+    "list": [
+      {
+        "allowCustomValue": true,
+        "current": {
+          "text": "2026-06-01",
+          "value": "2026-06-01"
+        },
+        "datasource": {
+          "type": "yesoreyeram-infinity-datasource",
+          "uid": "grafanacloud-infinity"
+        },
+        "hide": 2,
+        "includeAll": false,
+        "label": "Account latest week",
+        "multi": false,
+        "name": "account_latest_week",
+        "options": [],
+        "query": {
+          "columns": [
+            {
+              "selector": "week",
+              "text": "week",
+              "type": "string"
+            }
+          ],
+          "computed_columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "filters": [],
+          "format": "table",
+          "parser": "backend",
+          "refId": "acct_week_var",
+          "root_selector": "account_weeks",
+          "source": "url",
+          "type": "json",
+          "url": "https://boarlabsxyz.github.io/linkedin-ai/stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 2,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-180d/d",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "browser",
+  "title": "LinkedIn Stats",
+  "uid": "kiqz2fk",
+  "version": 1
+}
