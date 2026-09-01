@@ -46,7 +46,15 @@ async function api(path, init = {}) {
   return body ? JSON.parse(body) : {};
 }
 
-const live = await api(`/api/dashboards/uid/${uid}`);
+// Дашборда може ще не існувати (новий автор) — тоді GET дає 404, і це не
+// помилка, а сигнал «створити новий».
+let live = {};
+try {
+  live = await api(`/api/dashboards/uid/${uid}`);
+} catch (e) {
+  if (!/-> 404/.test(String(e.message))) throw e;
+  console.error(`no live dashboard for ${uid} — creating new`);
+}
 
 if (dump) {
   writeFileSync(dump, JSON.stringify(live.dashboard, null, 2) + "\n");
