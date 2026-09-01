@@ -50,7 +50,20 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: 22
-      - name: Refresh $post dashboard variable
+      - name: Refresh $post dashboard variable (per author)
         env:
+          GRAFANA_URL: ${{ vars.GRAFANA_URL }}
           GRAFANA_SERVICE_ACCOUNT_TOKEN: ${{ secrets.GRAFANA_SERVICE_ACCOUNT_TOKEN }}
-        run: node .github/scripts/update-post-variable.mjs
+        run: |
+          # Публікація даних від Grafana не залежить: без креденшелів просто
+          # пропускаємо крок, а не валимо весь деплой.
+          if [ -z "$GRAFANA_SERVICE_ACCOUNT_TOKEN" ] || [ -z "$GRAFANA_URL" ]; then
+            echo "GRAFANA_URL / GRAFANA_SERVICE_ACCOUNT_TOKEN not configured — skipping"
+            exit 0
+          fi
+          for dir in dashboards/li-stats/*/; do
+            author=$(basename "$dir")
+            [ -d "$dir/posts" ] || continue
+            echo "== $author =="
+            node .github/scripts/update-post-variable.mjs --author "$author"
+          done

@@ -157,7 +157,7 @@
           "root_selector": "posts",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -260,7 +260,7 @@
           "root_selector": "post_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -415,7 +415,7 @@
           "root_selector": "post_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -554,7 +554,7 @@
           "root_selector": "post_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -694,7 +694,7 @@
           "root_selector": "post_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -857,7 +857,7 @@
           "root_selector": "post_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -983,7 +983,7 @@
           "root_selector": "post_demographics",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -1148,7 +1148,7 @@
           "root_selector": "post_demographics",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -1319,7 +1319,7 @@
           "root_selector": "post_demographics",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -1490,7 +1490,7 @@
           "root_selector": "post_demographics",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -1655,7 +1655,7 @@
           "root_selector": "post_demographics",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -1826,7 +1826,7 @@
           "root_selector": "post_demographics",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -1921,14 +1921,273 @@
     "list": [
       {
         "allowCustomValue": true,
-        "current": {},
+        "current": {
+          "text": "2026-08-18 \u2014 Last Wednesday I announced in the company Slack from Q4 we c",
+          "value": "7495451131888934913"
+        },
         "hide": 0,
         "includeAll": false,
         "label": "Post",
         "multi": false,
         "name": "post",
-        "options": [],
-        "query": "",
+        "options": [
+          {
+            "selected": true,
+            "text": "2026-08-18 \u2014 Last Wednesday I announced in the company Slack from Q4 we c",
+            "value": "7495451131888934913"
+          },
+          {
+            "selected": false,
+            "text": "2026-08-11 \u2014 My Claude limits ran out on Wednesday last week. They are we",
+            "value": "7492904487343288320"
+          },
+          {
+            "selected": false,
+            "text": "2026-08-06 \u2014 My regular setup - Claude Code. - Opus 5 writes BDD tests (e",
+            "value": "7491107000626507776"
+          },
+          {
+            "selected": false,
+            "text": "2026-08-04 \u2014 Claude \"\ud835\ude1b\ud835\ude22\ud835\ude34\ud835\ude2c \ud835\ude25\ud835\ude30\ud835\ude2f\ud835\ude26. \ud835\ude10 \ud835\ude24\ud835\ude29\ud835\ude26\ud835\ude24\ud835\ude2c\ud835\ude26\ud835\ude25 \ud835\ude2a\ud835\ude35. \ud835\ude0c\ud835\ude37\ud835\ude26\ud835\ude33\ud835\ude3a \ud835\ude0b\ud835\ude30\ud835\ude0b \ud835\ude24\ud835\ude33\ud835\ude2a\ud835\ude35\ud835\ude26\ud835\ude33\ud835\ude2a\ud835\ude30\ud835\ude2f \ud835\ude2a\ud835\ude34 \ud835\ude2e\ud835\ude26\ud835\ude35",
+            "value": "7490361400977039361"
+          },
+          {
+            "selected": false,
+            "text": "2026-07-29 \u2014 Don't steer the agent \u2014 teach it to check itself. There's a",
+            "value": "7488189837460799489"
+          },
+          {
+            "selected": false,
+            "text": "2026-07-23 \u2014 How much of the frustration with AI comes from people who ha",
+            "value": "7486035888146329601"
+          },
+          {
+            "selected": false,
+            "text": "2026-07-21 \u2014 Fifteen years ago I had a client one of my first ever. I got",
+            "value": "7485297316942409728"
+          },
+          {
+            "selected": false,
+            "text": "2026-07-15 \u2014 When Fable dropped the feed lit up with \"\ud835\ude38\ud835\ude30\ud835\ude38 \ud835\ude38\ud835\ude29\ud835\ude22\ud835\ude35 \ud835\ude22 \ud835\ude23\ud835\ude26\ud835\ude22\ud835\ude34\ud835\ude35 \ud835\ude2d\ud835\ude30",
+            "value": "7483112297532665857"
+          },
+          {
+            "selected": false,
+            "text": "2026-07-08 \u2014 \"\ud835\udde6\ud835\uddfd\ud835\uddf2\ud835\uddf0-\ud835\uddf1\ud835\uddff\ud835\uddf6\ud835\ude03\ud835\uddf2\ud835\uddfb \ud835\uddf1\ud835\uddf2\ud835\ude03\ud835\uddf2\ud835\uddf9\ud835\uddfc\ud835\uddfd\ud835\uddfa\ud835\uddf2\ud835\uddfb\ud835\ude01 \ud835\uddf6\ud835\ude00 \ud835\ude01\ud835\uddf5\ud835\uddf2 \ud835\uddff\ud835\uddf2\ud835\ude03\ud835\uddf2\ud835\uddfb\ud835\uddf4\ud835\uddf2 \ud835\uddfc\ud835\uddf3 \ud835\uddea\ud835\uddee\ud835\ude01\ud835\uddf2\ud835\uddff\ud835\uddf3\ud835\uddee\ud835\uddf9\ud835\uddf9.\" I can",
+            "value": "7480584725795880961"
+          },
+          {
+            "selected": false,
+            "text": "2026-07-06 \u2014 Just listened to Kent Beck reflect on 50 years of building s",
+            "value": "7479819344097751040"
+          },
+          {
+            "selected": false,
+            "text": "2026-06-30 \u2014 AI writes bad code? You just can't describe how it should be",
+            "value": "7477683742380134400"
+          },
+          {
+            "selected": false,
+            "text": "2026-06-25 \u2014 Recently I read about an AI agent that wiped a company's pro",
+            "value": "7475878949659688961"
+          },
+          {
+            "selected": false,
+            "text": "2026-06-24 \u2014 Right now I have 2 projects where founders decided they need",
+            "value": "7475507577074696193"
+          },
+          {
+            "selected": false,
+            "text": "2026-06-16 \u2014 A behavioural spec \ud835\uddfd\ud835\uddf9\ud835\ude02\ud835\ude00 an architectural contract are meant",
+            "value": "7472624945496457216"
+          },
+          {
+            "selected": false,
+            "text": "2026-06-11 \u2014 Building a tool whose whole point is to make the code safe t",
+            "value": "7470834593185624065"
+          },
+          {
+            "selected": false,
+            "text": "2026-05-25 \u2014 You tell AI \"\ud835\ude25\ud835\ude30 \ud835\ude35\ud835\ude29\ud835\ude26 \ud835\ude35\ud835\ude22\ud835\ude34\ud835\ude2c. \ud835\ude09\ud835\ude36\ud835\ude35 \ud835\ude25\ud835\ude30\ud835\ude2f'\ud835\ude35 \ud835\ude25\ud835\ude26\ud835\ude2d\ud835\ude26\ud835\ude35\ud835\ude26 \ud835\ude35\ud835\ude29\ud835\ude26 \ud835\ude31\ud835\ude33\ud835\ude30\ud835\ude25\ud835\ude36\ud835\ude24\ud835\ude35\ud835\ude2a\ud835\ude30\ud835\ude2f \ud835\ude25\ud835\ude22",
+            "value": "7464644189239091201"
+          },
+          {
+            "selected": false,
+            "text": "2026-05-18 \u2014 \ud835\udddc\ud835\uddfb \ud835\ude01\ud835\uddf5\ud835\uddf2 \ud835\uddd4\ud835\udddc \ud835\uddf2\ud835\uddff\ud835\uddee \ud835\ude00\ud835\ude01\ud835\uddee\ud835\uddf0\ud835\uddf8 \ud835\uddf1\ud835\uddf2\ud835\uddef\ud835\uddee\ud835\ude01\ud835\uddf2\ud835\ude00 \ud835\uddee\ud835\uddff\ud835\uddf2 \ud835\uddee\ud835\uddf9\ud835\uddff\ud835\uddf2\ud835\uddee\ud835\uddf1\ud835\ude06 \ud835\uddf1\ud835\uddf2\ud835\uddee\ud835\uddf1. Engineers love",
+            "value": "7462112759053471744"
+          },
+          {
+            "selected": false,
+            "text": "2026-05-12 \u2014 Before Python before GPUs \ud835\uddfa\ud835\ude06 \ud835\uddf3\ud835\uddf6\ud835\uddff\ud835\ude00\ud835\ude01 \ud835\uddd4\ud835\udddc \ud835\ude04\ud835\uddee\ud835\ude00 \ud835\uddef\ud835\ude02\ud835\uddf6\ud835\uddf9\ud835\ude01 \ud835\ude04\ud835\uddf6\ud835\ude01\ud835\uddf5 \ud835\uddee \ud835\ude00\ud835\uddfc\ud835\uddf9\ud835\uddf1\ud835\uddf2",
+            "value": "7459938935289569280"
+          },
+          {
+            "selected": false,
+            "text": "2026-05-05 \u2014 \ud835\udddc\ud835\uddf3 \ud835\ude06\ud835\uddfc\ud835\ude02 \ud835\ude04\ud835\uddee\ud835\uddfb\ud835\ude01 \ud835\uddd4\ud835\udddc \ud835\uddfb\ud835\uddfc\ud835\ude01 \ud835\ude01\ud835\uddfc \ud835\uddf3\ud835\uddf6\ud835\uddff\ud835\uddf2 \ud835\ude06\ud835\uddfc\ud835\ude02 \ud835\uddf1\ud835\uddf2\ud835\uddf9\ud835\uddf2\ud835\uddf4\ud835\uddee\ud835\ude01\ud835\uddf2 \ud835\uddfa\ud835\uddfc\ud835\uddff\ud835\uddf2 \ud835\ude01\ud835\uddfc \ud835\uddd4\ud835\udddc. This is",
+            "value": "7457394670176788480"
+          },
+          {
+            "selected": false,
+            "text": "2026-04-29 \u2014 Imagine you're building Burj Khalifa out of Lego \ud83e\uddf1. A compli",
+            "value": "7455199959148208129"
+          },
+          {
+            "selected": false,
+            "text": "2026-04-28 \u2014 AI providers can block your account at any time. If your tea",
+            "value": "7454986157144203265"
+          },
+          {
+            "selected": false,
+            "text": "2026-04-24 \u2014 Last week Anthropic banned 31 Speed and Function from Claude",
+            "value": "7453510493186560000"
+          },
+          {
+            "selected": false,
+            "text": "2026-04-21 \u2014 Funny. I spent two years competing with OpenAI using a team",
+            "value": "7452456886655762433"
+          },
+          {
+            "selected": false,
+            "text": "2026-04-21 \u2014 \ud835\ude10\ud835\ude27 \ud835\ude35\ud835\ude29\ud835\ude26 \ud835\ude34\ud835\ude31\ud835\ude26\ud835\ude24\ud835\ude2a\ud835\ude27\ud835\ude2a\ud835\ude24\ud835\ude22\ud835\ude35\ud835\ude2a\ud835\ude30\ud835\ude2f \ud835\ude2a\ud835\ude34 \ud835\ude35\ud835\ude29\ud835\ude26 \ud835\ude2f\ud835\ude26\ud835\ude38 \ud835\ude34\ud835\ude30\ud835\ude36\ud835\ude33\ud835\ude24\ud835\ude26 \ud835\ude30\ud835\ude27 \ud835\ude35\ud835\ude33\ud835\ude36\ud835\ude35\ud835\ude29 \ud835\ude35\ud835\ude29\ud835\ude26\ud835\ude2f \ud835\ude2a\ud835\ude35 \ud835\ude34\ud835\ude29\ud835\ude30\ud835\ude36",
+            "value": "7452326158773366784"
+          },
+          {
+            "selected": false,
+            "text": "2026-04-14 \u2014 \u2014 \ud835\ude1e\ud835\ude29\ud835\ude22\ud835\ude35 \ud835\ude22\ud835\ude33\ud835\ude26 \ud835\ude3a\ud835\ude30\ud835\ude36\ud835\ude33 \ud835\ude28\ud835\ude33\ud835\ude26\ud835\ude22\ud835\ude35\ud835\ude26\ud835\ude34\ud835\ude35 \ud835\ude22\ud835\ude24\ud835\ude29\ud835\ude2a\ud835\ude26\ud835\ude37\ud835\ude26\ud835\ude2e\ud835\ude26\ud835\ude2f\ud835\ude35\ud835\ude34? \u2014 \ud835\ude10 \ud835\ude35\ud835\ude30\ud835\ude30\ud835\ude2c \ud835\ude25\ud835\ude30\ud835\ude38\ud835\ude2f \ud835\ude1e\ud835\ude2a\ud835\ude2c\ud835\ude2a\ud835\ude31\ud835\ude26\ud835\ude25",
+            "value": "7449791320329547776"
+          },
+          {
+            "selected": false,
+            "text": "2026-04-08 \u2014 Deployment frequency lead time mean time to restore. Looks l",
+            "value": "7447607429929844736"
+          },
+          {
+            "selected": false,
+            "text": "2026-03-31 \u2014 Conversation on March 1 \u2014 \ud835\ude1e\ud835\ude29\ud835\ude26\ud835\ude2f \ud835\ude2a\ud835\ude34 \ud835\ude3a\ud835\ude30\ud835\ude36\ud835\ude33 \ud835\ude33\ud835\ude26\ud835\ude2d\ud835\ude26\ud835\ude22\ud835\ude34\ud835\ude26? \u2014 \ud835\ude14\ud835\ude22\ud835\ude33\ud835\ude24\ud835\ude29 15.",
+            "value": "7444715876454641664"
+          },
+          {
+            "selected": false,
+            "text": "2026-03-24 \u2014 \ud835\udddf\ud835\udddf\ud835\udde0 \ud835\uddf6\ud835\ude00 \ud835\uddee \"\ud835\uddf1\ud835\uddee\ud835\uddff\ud835\uddf8 \ud835\uddfa\ud835\uddee\ud835\ude01\ud835\ude01\ud835\uddf2\ud835\uddff\" researchers can see it exists measure",
+            "value": "7442194260919050240"
+          },
+          {
+            "selected": false,
+            "text": "2026-03-10 \u2014 Most technical founders I know can demo their product to me",
+            "value": "7437132495038603264"
+          },
+          {
+            "selected": false,
+            "text": "2026-03-08 \u2014 If you're curious how an LLM's inner workings resemble a hum",
+            "value": "7436445465140899840"
+          },
+          {
+            "selected": false,
+            "text": "2026-03-05 \u2014 In late 2018 I built what was basically \"ChatGPT for banks\"",
+            "value": "7435303858349760512"
+          },
+          {
+            "selected": false,
+            "text": "2026-02-24 \u2014 \ud835\uddd4\ud835\udddc \ud835\uddf1\ud835\uddfc\ud835\uddf2\ud835\ude00\ud835\uddfb'\ud835\ude01 \ud835\uddee\ud835\uddff\ud835\uddf4\ud835\ude02\ud835\uddf2 \ud835\ude04\ud835\uddf6\ud835\ude01\ud835\uddf5 \ud835\ude06\ud835\uddfc\ud835\ude02\ud835\uddff \ud835\uddef\ud835\uddee\ud835\uddf1 \ud835\uddf6\ud835\uddf1\ud835\uddf2\ud835\uddee\ud835\ude00. Whether you're a start",
+            "value": "7432043122894761984"
+          },
+          {
+            "selected": false,
+            "text": "2026-02-17 \u2014 Two senior devs meet at the coffee machine. \ud83d\ude04 \"\ud835\ude20\ud835\ude30\ud835\ude36\ud835\ude33 \ud835\ude24\ud835\ude30\ud835\ude25\ud835\ude26 \ud835\ude2a\ud835\ude34",
+            "value": "7429507665682391040"
+          },
+          {
+            "selected": false,
+            "text": "2026-02-12 \u2014 AI ran a vending machine in SF. Lost money had identity cris",
+            "value": "7427694719650058240"
+          },
+          {
+            "selected": false,
+            "text": "2026-01-29 \u2014 What does company culture actually do in practice? \ud83e\udd14 Recentl",
+            "value": "7422633195491454976"
+          },
+          {
+            "selected": false,
+            "text": "2026-01-27 \u2014 \ud835\udde0\ud835\uddfc\ud835\ude00\ud835\ude01 \ud835\uddf7\ud835\ude02\ud835\uddfb\ud835\uddf6\ud835\uddfc\ud835\uddff\ud835\ude00 \ud835\uddf9\ud835\uddf2\ud835\uddee\ud835\ude03\ud835\uddf2 \ud835\uddef\ud835\uddf2\ud835\uddf3\ud835\uddfc\ud835\uddff\ud835\uddf2 \ud835\uddef\ud835\uddf2\ud835\uddf0\ud835\uddfc\ud835\uddfa\ud835\uddf6\ud835\uddfb\ud835\uddf4 \ud835\ude02\ud835\ude00\ud835\uddf2\ud835\uddf3\ud835\ude02\ud835\uddf9. \ud835\uddd4\ud835\udddc \ud835\uddfa\ud835\uddf6\ud835\uddf4\ud835\uddf5\ud835\ude01 \ud835\uddf0\ud835\ude02\ud835\ude01 \ud835\ude01\ud835\uddf5\ud835\uddee\ud835\ude01",
+            "value": "7421897520596893696"
+          },
+          {
+            "selected": false,
+            "text": "2026-01-22 \u2014 \ud835\udde2\ud835\uddfb\ud835\uddf2 \ud835\uddf0\ud835\uddf5\ud835\uddee\ud835\uddf9\ud835\uddf9\ud835\uddf2\ud835\uddfb\ud835\uddf4\ud835\uddf6\ud835\uddfb\ud835\uddf4 \ud835\ude01\ud835\uddf5\ud835\uddf6\ud835\uddfb\ud835\uddf4 \ud835\uddf6\ud835\uddfb \ud835\uddef\ud835\ude02\ud835\ude00\ud835\uddf6\ud835\uddfb\ud835\uddf2\ud835\ude00\ud835\ude00 \ud835\uddf6\ud835\ude00 \ud835\uddf2\ud835\ude05\ud835\uddfd\ud835\uddf9\ud835\uddee\ud835\uddf6\ud835\uddfb\ud835\uddf6\ud835\uddfb\ud835\uddf4 \ud835\ude00\ud835\uddfc\ud835\uddfa\ud835\uddf2\ud835\ude01\ud835\uddf5\ud835\uddf6\ud835\uddfb\ud835\uddf4 \ud835\ude06\ud835\uddfc",
+            "value": "7420113588977192960"
+          },
+          {
+            "selected": false,
+            "text": "2026-01-20 \u2014 Looking for like-minded people! Someone \ud835\ude35\ud835\ude29\ud835\ude2a\ud835\ude2f\ud835\ude2c\ud835\ude2a\ud835\ude2f\ud835\ude28 \ud835\ude2a\ud835\ude2f \ud835\ude35\ud835\ude29\ud835\ude26 \ud835\ude34\ud835\ude22\ud835\ude2e\ud835\ude26",
+            "value": "7419357068798832641"
+          },
+          {
+            "selected": false,
+            "text": "2026-01-15 \u2014 \ud835\udde2\ud835\uddfb\ud835\uddf0\ud835\uddf2 \ud835\uddee\ud835\uddf4\ud835\uddee\ud835\uddf6\ud835\uddfb \ud835\uddee\ud835\uddef\ud835\uddfc\ud835\ude02\ud835\ude01 \ud835\uddd4\ud835\udddc \ud835\uddee\ud835\uddf1\ud835\uddfc\ud835\uddfd\ud835\ude01\ud835\uddf6\ud835\uddfc\ud835\uddfb \u2014 \ud835\ude04\ud835\uddf5\ud835\uddee\ud835\ude01 \ud835\uddfd\ud835\uddf2\ud835\uddfc\ud835\uddfd\ud835\uddf9\ud835\uddf2 \ud835\uddee\ud835\uddff\ud835\uddf2 \ud835\uddee\ud835\uddf0\ud835\ude01\ud835\ude02\ud835\uddee\ud835\uddf9\ud835\uddf9\ud835\ude06 \ud835\uddee\ud835\uddf1\ud835\uddee\ud835\uddfd",
+            "value": "7417559662964891649"
+          },
+          {
+            "selected": false,
+            "text": "2026-01-13 \u2014 \ud835\udddc \ud835\ude00\ud835\uddfc\ud835\uddf9\ud835\uddf1 \ud835\uddfa\ud835\ude06 \ud835\uddf3\ud835\uddf6\ud835\uddff\ud835\ude00\ud835\ude01 \ud835\uddf0\ud835\uddfc\ud835\uddfa\ud835\uddfd\ud835\uddee\ud835\uddfb\ud835\ude06 \ud835\uddf3\ud835\uddfc\ud835\uddff $\ud835\udff3\ud835\udfec\ud835\uddde. \ud835\udde7\ud835\uddf5\ud835\uddf2\ud835\uddfb \ud835\uddef\ud835\uddf9\ud835\uddf2\ud835\ude04 \ud835\uddf2\ud835\ude03\ud835\uddf2\ud835\uddff\ud835\ude06 \ud835\uddf1\ud835\uddfc\ud835\uddf9\ud835\uddf9\ud835\uddee\ud835\uddff \ud835\uddfc\ud835\uddfb",
+            "value": "7416843539956797440"
+          },
+          {
+            "selected": false,
+            "text": "2026-01-10 \u2014 Don\u2019t post often. But this felt worth sharing. \ud835\uddea\ud835\uddf2 \ud835\uddf5\ud835\uddee\ud835\ude03\ud835\uddf2 \ud835\ude01\ud835\ude04\ud835\uddfc \ud835\uddfc",
+            "value": "7415704361466671104"
+          },
+          {
+            "selected": false,
+            "text": "2026-01-08 \u2014 Some of the biggest resistances to AI aren't technical. To m",
+            "value": "7415030743866929153"
+          },
+          {
+            "selected": false,
+            "text": "2026-01-06 \u2014 \ud835\udde2\ud835\uddfb\ud835\uddf2 \ud835\uddf0\ud835\uddee\ud835\uddfb'\ud835\ude01 \ud835\uddef\ud835\uddf2 \ud835\uddee \ud835\uddf9\ud835\uddf2\ud835\uddee\ud835\uddf1\ud835\uddf2\ud835\uddff \ud835\ude04\ud835\uddf5\ud835\uddf6\ud835\uddf9\ud835\uddf2 \ud835\uddf7\ud835\ude02\ud835\uddf1\ud835\uddf4\ud835\uddf6\ud835\uddfb\ud835\uddf4 \ud835\uddfc\ud835\ude01\ud835\uddf5\ud835\uddf2\ud835\uddff\ud835\ude00 \ud835\uddf3\ud835\uddfc\ud835\uddff \ud835\uddf5\ud835\uddfc\ud835\ude04 \ud835\ude01\ud835\uddf5\ud835\uddf2\ud835\ude06 \ud835\uddef\ud835\uddf2\ud835\uddf5\ud835\uddee",
+            "value": "7414311440871833601"
+          },
+          {
+            "selected": false,
+            "text": "2025-12-18 \u2014 I started exploring AI when I was still at school. Not with",
+            "value": "7407414588624998400"
+          },
+          {
+            "selected": false,
+            "text": "2025-12-16 \u2014 \"\ud835\ude45\ud835\ude6a\ud835\ude63\ud835\ude5e\ud835\ude64\ud835\ude67\ud835\ude68 \ud835\ude56\ud835\ude67\ud835\ude5a \ud835\ude59\ud835\ude5e\ud835\ude68\ud835\ude56\ud835\ude65\ud835\ude65\ud835\ude5a\ud835\ude56\ud835\ude67\ud835\ude5e\ud835\ude63\ud835\ude5c. \ud835\ude4f\ud835\ude5d\ud835\ude5a\ud835\ude67\ud835\ude5a'\ud835\ude68 \ud835\ude63\ud835\ude64 \ud835\ude6c\ud835\ude64\ud835\ude67\ud835\ude60 \ud835\ude5b\ud835\ude64\ud835\ude67 \ud835\ude69\ud835\ude5d\ud835\ude5a\ud835\ude62 \ud835\ude56\ud835\ude63\ud835\ude6e\ud835\ude62\ud835\ude64\ud835\ude67\ud835\ude5a.",
+            "value": "7406707512676147201"
+          },
+          {
+            "selected": false,
+            "text": "2025-12-11 \u2014 \"\ud835\udc80\ud835\udc86\ud835\udc94 \ud835\udc9a\ud835\udc90\ud835\udc96 \ud835\udc95\ud835\udc90\ud835\udc8d\ud835\udc85 \ud835\udc8e\ud835\udc86. \ud835\udc70 \ud835\udc8b\ud835\udc96\ud835\udc94\ud835\udc95 \ud835\udc85\ud835\udc8a\ud835\udc85\ud835\udc8f'\ud835\udc95 \ud835\udc85\ud835\udc90 \ud835\udc8a\ud835\udc95.\" That's AI responding",
+            "value": "7404885926641963008"
+          },
+          {
+            "selected": false,
+            "text": "2025-12-09 \u2014 An engineering book taught me management. Sounds weird but \"",
+            "value": "7404153601205473280"
+          },
+          {
+            "selected": false,
+            "text": "2025-12-04 \u2014 Imagine you're building \ud835\uddd5\ud835\ude02\ud835\uddff\ud835\uddf7 \ud835\uddde\ud835\uddf5\ud835\uddee\ud835\uddf9\ud835\uddf6\ud835\uddf3\ud835\uddee \ud835\uddfc\ud835\ude02\ud835\ude01 \ud835\uddfc\ud835\uddf3 \ud835\udddf\ud835\uddf2\ud835\uddf4\ud835\uddfc\ud83e\uddf1 A seriousl",
+            "value": "7402388577843605504"
+          },
+          {
+            "selected": false,
+            "text": "2025-12-02 \u2014 Conversation on April 1 \u2014 \ud835\ude1e\ud835\ude29\ud835\ude26\ud835\ude2f \ud835\ude2a\ud835\ude34 \ud835\ude3a\ud835\ude30\ud835\ude36\ud835\ude33 \ud835\ude33\ud835\ude26\ud835\ude2d\ud835\ude26\ud835\ude22\ud835\ude34\ud835\ude26? \u2014 \ud835\ude08\ud835\ude31\ud835\ude33\ud835\ude2a\ud835\ude2d 15.",
+            "value": "7401633143939575808"
+          },
+          {
+            "selected": false,
+            "text": "2025-11-25 \u2014 \ud83d\ude80 \ud835\udc03\ud835\udc1e\ud835\udc29\ud835\udc25\ud835\udc28\ud835\udc32 \ud835\udc1e\ud835\udc1a\ud835\udc2b\ud835\udc25\ud835\udc32 \ud835\udc2c\ud835\udc1a\ud835\udc2f\ud835\udc1e\ud835\udc2c \ud835\udc2c\ud835\udc2d\ud835\udc1a\ud835\udc2b\ud835\udc2d\ud835\udc2e\ud835\udc29\ud835\udc2c \ud835\udc26\ud835\udc28\ud835\udc2b\ud835\udc1e \ud835\udc28\ud835\udc1f\ud835\udc2d\ud835\udc1e\ud835\udc27 \ud835\udc2d\ud835\udc21\ud835\udc1a\ud835\udc27 \ud835\udc1a \ud835\udc2c\ud835\udc1e\ud835\udc1e\ud835\udc1d \ud835\udc2b\ud835\udc28\ud835\udc2e\ud835\udc27\ud835\udc1d.",
+            "value": "7399100453231386624"
+          },
+          {
+            "selected": false,
+            "text": "2025-11-11 \u2014 Attending the United Nations Forum on Business and Human Rig",
+            "value": "7394110933008216065"
+          }
+        ],
+        "query": "2026-08-18 \u2014 Last Wednesday I announced in the company Slack from Q4 we c : 7495451131888934913, 2026-08-11 \u2014 My Claude limits ran out on Wednesday last week. They are we : 7492904487343288320, 2026-08-06 \u2014 My regular setup - Claude Code. - Opus 5 writes BDD tests (e : 7491107000626507776, 2026-08-04 \u2014 Claude \"\ud835\ude1b\ud835\ude22\ud835\ude34\ud835\ude2c \ud835\ude25\ud835\ude30\ud835\ude2f\ud835\ude26. \ud835\ude10 \ud835\ude24\ud835\ude29\ud835\ude26\ud835\ude24\ud835\ude2c\ud835\ude26\ud835\ude25 \ud835\ude2a\ud835\ude35. \ud835\ude0c\ud835\ude37\ud835\ude26\ud835\ude33\ud835\ude3a \ud835\ude0b\ud835\ude30\ud835\ude0b \ud835\ude24\ud835\ude33\ud835\ude2a\ud835\ude35\ud835\ude26\ud835\ude33\ud835\ude2a\ud835\ude30\ud835\ude2f \ud835\ude2a\ud835\ude34 \ud835\ude2e\ud835\ude26\ud835\ude35 : 7490361400977039361, 2026-07-29 \u2014 Don't steer the agent \u2014 teach it to check itself. There's a : 7488189837460799489, 2026-07-23 \u2014 How much of the frustration with AI comes from people who ha : 7486035888146329601, 2026-07-21 \u2014 Fifteen years ago I had a client one of my first ever. I got : 7485297316942409728, 2026-07-15 \u2014 When Fable dropped the feed lit up with \"\ud835\ude38\ud835\ude30\ud835\ude38 \ud835\ude38\ud835\ude29\ud835\ude22\ud835\ude35 \ud835\ude22 \ud835\ude23\ud835\ude26\ud835\ude22\ud835\ude34\ud835\ude35 \ud835\ude2d\ud835\ude30 : 7483112297532665857, 2026-07-08 \u2014 \"\ud835\udde6\ud835\uddfd\ud835\uddf2\ud835\uddf0-\ud835\uddf1\ud835\uddff\ud835\uddf6\ud835\ude03\ud835\uddf2\ud835\uddfb \ud835\uddf1\ud835\uddf2\ud835\ude03\ud835\uddf2\ud835\uddf9\ud835\uddfc\ud835\uddfd\ud835\uddfa\ud835\uddf2\ud835\uddfb\ud835\ude01 \ud835\uddf6\ud835\ude00 \ud835\ude01\ud835\uddf5\ud835\uddf2 \ud835\uddff\ud835\uddf2\ud835\ude03\ud835\uddf2\ud835\uddfb\ud835\uddf4\ud835\uddf2 \ud835\uddfc\ud835\uddf3 \ud835\uddea\ud835\uddee\ud835\ude01\ud835\uddf2\ud835\uddff\ud835\uddf3\ud835\uddee\ud835\uddf9\ud835\uddf9.\" I can : 7480584725795880961, 2026-07-06 \u2014 Just listened to Kent Beck reflect on 50 years of building s : 7479819344097751040, 2026-06-30 \u2014 AI writes bad code? You just can't describe how it should be : 7477683742380134400, 2026-06-25 \u2014 Recently I read about an AI agent that wiped a company's pro : 7475878949659688961, 2026-06-24 \u2014 Right now I have 2 projects where founders decided they need : 7475507577074696193, 2026-06-16 \u2014 A behavioural spec \ud835\uddfd\ud835\uddf9\ud835\ude02\ud835\ude00 an architectural contract are meant : 7472624945496457216, 2026-06-11 \u2014 Building a tool whose whole point is to make the code safe t : 7470834593185624065, 2026-05-25 \u2014 You tell AI \"\ud835\ude25\ud835\ude30 \ud835\ude35\ud835\ude29\ud835\ude26 \ud835\ude35\ud835\ude22\ud835\ude34\ud835\ude2c. \ud835\ude09\ud835\ude36\ud835\ude35 \ud835\ude25\ud835\ude30\ud835\ude2f'\ud835\ude35 \ud835\ude25\ud835\ude26\ud835\ude2d\ud835\ude26\ud835\ude35\ud835\ude26 \ud835\ude35\ud835\ude29\ud835\ude26 \ud835\ude31\ud835\ude33\ud835\ude30\ud835\ude25\ud835\ude36\ud835\ude24\ud835\ude35\ud835\ude2a\ud835\ude30\ud835\ude2f \ud835\ude25\ud835\ude22 : 7464644189239091201, 2026-05-18 \u2014 \ud835\udddc\ud835\uddfb \ud835\ude01\ud835\uddf5\ud835\uddf2 \ud835\uddd4\ud835\udddc \ud835\uddf2\ud835\uddff\ud835\uddee \ud835\ude00\ud835\ude01\ud835\uddee\ud835\uddf0\ud835\uddf8 \ud835\uddf1\ud835\uddf2\ud835\uddef\ud835\uddee\ud835\ude01\ud835\uddf2\ud835\ude00 \ud835\uddee\ud835\uddff\ud835\uddf2 \ud835\uddee\ud835\uddf9\ud835\uddff\ud835\uddf2\ud835\uddee\ud835\uddf1\ud835\ude06 \ud835\uddf1\ud835\uddf2\ud835\uddee\ud835\uddf1. Engineers love : 7462112759053471744, 2026-05-12 \u2014 Before Python before GPUs \ud835\uddfa\ud835\ude06 \ud835\uddf3\ud835\uddf6\ud835\uddff\ud835\ude00\ud835\ude01 \ud835\uddd4\ud835\udddc \ud835\ude04\ud835\uddee\ud835\ude00 \ud835\uddef\ud835\ude02\ud835\uddf6\ud835\uddf9\ud835\ude01 \ud835\ude04\ud835\uddf6\ud835\ude01\ud835\uddf5 \ud835\uddee \ud835\ude00\ud835\uddfc\ud835\uddf9\ud835\uddf1\ud835\uddf2 : 7459938935289569280, 2026-05-05 \u2014 \ud835\udddc\ud835\uddf3 \ud835\ude06\ud835\uddfc\ud835\ude02 \ud835\ude04\ud835\uddee\ud835\uddfb\ud835\ude01 \ud835\uddd4\ud835\udddc \ud835\uddfb\ud835\uddfc\ud835\ude01 \ud835\ude01\ud835\uddfc \ud835\uddf3\ud835\uddf6\ud835\uddff\ud835\uddf2 \ud835\ude06\ud835\uddfc\ud835\ude02 \ud835\uddf1\ud835\uddf2\ud835\uddf9\ud835\uddf2\ud835\uddf4\ud835\uddee\ud835\ude01\ud835\uddf2 \ud835\uddfa\ud835\uddfc\ud835\uddff\ud835\uddf2 \ud835\ude01\ud835\uddfc \ud835\uddd4\ud835\udddc. This is : 7457394670176788480, 2026-04-29 \u2014 Imagine you're building Burj Khalifa out of Lego \ud83e\uddf1. A compli : 7455199959148208129, 2026-04-28 \u2014 AI providers can block your account at any time. If your tea : 7454986157144203265, 2026-04-24 \u2014 Last week Anthropic banned 31 Speed and Function from Claude : 7453510493186560000, 2026-04-21 \u2014 Funny. I spent two years competing with OpenAI using a team : 7452456886655762433, 2026-04-21 \u2014 \ud835\ude10\ud835\ude27 \ud835\ude35\ud835\ude29\ud835\ude26 \ud835\ude34\ud835\ude31\ud835\ude26\ud835\ude24\ud835\ude2a\ud835\ude27\ud835\ude2a\ud835\ude24\ud835\ude22\ud835\ude35\ud835\ude2a\ud835\ude30\ud835\ude2f \ud835\ude2a\ud835\ude34 \ud835\ude35\ud835\ude29\ud835\ude26 \ud835\ude2f\ud835\ude26\ud835\ude38 \ud835\ude34\ud835\ude30\ud835\ude36\ud835\ude33\ud835\ude24\ud835\ude26 \ud835\ude30\ud835\ude27 \ud835\ude35\ud835\ude33\ud835\ude36\ud835\ude35\ud835\ude29 \ud835\ude35\ud835\ude29\ud835\ude26\ud835\ude2f \ud835\ude2a\ud835\ude35 \ud835\ude34\ud835\ude29\ud835\ude30\ud835\ude36 : 7452326158773366784, 2026-04-14 \u2014 \u2014 \ud835\ude1e\ud835\ude29\ud835\ude22\ud835\ude35 \ud835\ude22\ud835\ude33\ud835\ude26 \ud835\ude3a\ud835\ude30\ud835\ude36\ud835\ude33 \ud835\ude28\ud835\ude33\ud835\ude26\ud835\ude22\ud835\ude35\ud835\ude26\ud835\ude34\ud835\ude35 \ud835\ude22\ud835\ude24\ud835\ude29\ud835\ude2a\ud835\ude26\ud835\ude37\ud835\ude26\ud835\ude2e\ud835\ude26\ud835\ude2f\ud835\ude35\ud835\ude34? \u2014 \ud835\ude10 \ud835\ude35\ud835\ude30\ud835\ude30\ud835\ude2c \ud835\ude25\ud835\ude30\ud835\ude38\ud835\ude2f \ud835\ude1e\ud835\ude2a\ud835\ude2c\ud835\ude2a\ud835\ude31\ud835\ude26\ud835\ude25 : 7449791320329547776, 2026-04-08 \u2014 Deployment frequency lead time mean time to restore. Looks l : 7447607429929844736, 2026-03-31 \u2014 Conversation on March 1 \u2014 \ud835\ude1e\ud835\ude29\ud835\ude26\ud835\ude2f \ud835\ude2a\ud835\ude34 \ud835\ude3a\ud835\ude30\ud835\ude36\ud835\ude33 \ud835\ude33\ud835\ude26\ud835\ude2d\ud835\ude26\ud835\ude22\ud835\ude34\ud835\ude26? \u2014 \ud835\ude14\ud835\ude22\ud835\ude33\ud835\ude24\ud835\ude29 15. : 7444715876454641664, 2026-03-24 \u2014 \ud835\udddf\ud835\udddf\ud835\udde0 \ud835\uddf6\ud835\ude00 \ud835\uddee \"\ud835\uddf1\ud835\uddee\ud835\uddff\ud835\uddf8 \ud835\uddfa\ud835\uddee\ud835\ude01\ud835\ude01\ud835\uddf2\ud835\uddff\" researchers can see it exists measure : 7442194260919050240, 2026-03-10 \u2014 Most technical founders I know can demo their product to me : 7437132495038603264, 2026-03-08 \u2014 If you're curious how an LLM's inner workings resemble a hum : 7436445465140899840, 2026-03-05 \u2014 In late 2018 I built what was basically \"ChatGPT for banks\" : 7435303858349760512, 2026-02-24 \u2014 \ud835\uddd4\ud835\udddc \ud835\uddf1\ud835\uddfc\ud835\uddf2\ud835\ude00\ud835\uddfb'\ud835\ude01 \ud835\uddee\ud835\uddff\ud835\uddf4\ud835\ude02\ud835\uddf2 \ud835\ude04\ud835\uddf6\ud835\ude01\ud835\uddf5 \ud835\ude06\ud835\uddfc\ud835\ude02\ud835\uddff \ud835\uddef\ud835\uddee\ud835\uddf1 \ud835\uddf6\ud835\uddf1\ud835\uddf2\ud835\uddee\ud835\ude00. Whether you're a start : 7432043122894761984, 2026-02-17 \u2014 Two senior devs meet at the coffee machine. \ud83d\ude04 \"\ud835\ude20\ud835\ude30\ud835\ude36\ud835\ude33 \ud835\ude24\ud835\ude30\ud835\ude25\ud835\ude26 \ud835\ude2a\ud835\ude34 : 7429507665682391040, 2026-02-12 \u2014 AI ran a vending machine in SF. Lost money had identity cris : 7427694719650058240, 2026-01-29 \u2014 What does company culture actually do in practice? \ud83e\udd14 Recentl : 7422633195491454976, 2026-01-27 \u2014 \ud835\udde0\ud835\uddfc\ud835\ude00\ud835\ude01 \ud835\uddf7\ud835\ude02\ud835\uddfb\ud835\uddf6\ud835\uddfc\ud835\uddff\ud835\ude00 \ud835\uddf9\ud835\uddf2\ud835\uddee\ud835\ude03\ud835\uddf2 \ud835\uddef\ud835\uddf2\ud835\uddf3\ud835\uddfc\ud835\uddff\ud835\uddf2 \ud835\uddef\ud835\uddf2\ud835\uddf0\ud835\uddfc\ud835\uddfa\ud835\uddf6\ud835\uddfb\ud835\uddf4 \ud835\ude02\ud835\ude00\ud835\uddf2\ud835\uddf3\ud835\ude02\ud835\uddf9. \ud835\uddd4\ud835\udddc \ud835\uddfa\ud835\uddf6\ud835\uddf4\ud835\uddf5\ud835\ude01 \ud835\uddf0\ud835\ude02\ud835\ude01 \ud835\ude01\ud835\uddf5\ud835\uddee\ud835\ude01 : 7421897520596893696, 2026-01-22 \u2014 \ud835\udde2\ud835\uddfb\ud835\uddf2 \ud835\uddf0\ud835\uddf5\ud835\uddee\ud835\uddf9\ud835\uddf9\ud835\uddf2\ud835\uddfb\ud835\uddf4\ud835\uddf6\ud835\uddfb\ud835\uddf4 \ud835\ude01\ud835\uddf5\ud835\uddf6\ud835\uddfb\ud835\uddf4 \ud835\uddf6\ud835\uddfb \ud835\uddef\ud835\ude02\ud835\ude00\ud835\uddf6\ud835\uddfb\ud835\uddf2\ud835\ude00\ud835\ude00 \ud835\uddf6\ud835\ude00 \ud835\uddf2\ud835\ude05\ud835\uddfd\ud835\uddf9\ud835\uddee\ud835\uddf6\ud835\uddfb\ud835\uddf6\ud835\uddfb\ud835\uddf4 \ud835\ude00\ud835\uddfc\ud835\uddfa\ud835\uddf2\ud835\ude01\ud835\uddf5\ud835\uddf6\ud835\uddfb\ud835\uddf4 \ud835\ude06\ud835\uddfc : 7420113588977192960, 2026-01-20 \u2014 Looking for like-minded people! Someone \ud835\ude35\ud835\ude29\ud835\ude2a\ud835\ude2f\ud835\ude2c\ud835\ude2a\ud835\ude2f\ud835\ude28 \ud835\ude2a\ud835\ude2f \ud835\ude35\ud835\ude29\ud835\ude26 \ud835\ude34\ud835\ude22\ud835\ude2e\ud835\ude26 : 7419357068798832641, 2026-01-15 \u2014 \ud835\udde2\ud835\uddfb\ud835\uddf0\ud835\uddf2 \ud835\uddee\ud835\uddf4\ud835\uddee\ud835\uddf6\ud835\uddfb \ud835\uddee\ud835\uddef\ud835\uddfc\ud835\ude02\ud835\ude01 \ud835\uddd4\ud835\udddc \ud835\uddee\ud835\uddf1\ud835\uddfc\ud835\uddfd\ud835\ude01\ud835\uddf6\ud835\uddfc\ud835\uddfb \u2014 \ud835\ude04\ud835\uddf5\ud835\uddee\ud835\ude01 \ud835\uddfd\ud835\uddf2\ud835\uddfc\ud835\uddfd\ud835\uddf9\ud835\uddf2 \ud835\uddee\ud835\uddff\ud835\uddf2 \ud835\uddee\ud835\uddf0\ud835\ude01\ud835\ude02\ud835\uddee\ud835\uddf9\ud835\uddf9\ud835\ude06 \ud835\uddee\ud835\uddf1\ud835\uddee\ud835\uddfd : 7417559662964891649, 2026-01-13 \u2014 \ud835\udddc \ud835\ude00\ud835\uddfc\ud835\uddf9\ud835\uddf1 \ud835\uddfa\ud835\ude06 \ud835\uddf3\ud835\uddf6\ud835\uddff\ud835\ude00\ud835\ude01 \ud835\uddf0\ud835\uddfc\ud835\uddfa\ud835\uddfd\ud835\uddee\ud835\uddfb\ud835\ude06 \ud835\uddf3\ud835\uddfc\ud835\uddff $\ud835\udff3\ud835\udfec\ud835\uddde. \ud835\udde7\ud835\uddf5\ud835\uddf2\ud835\uddfb \ud835\uddef\ud835\uddf9\ud835\uddf2\ud835\ude04 \ud835\uddf2\ud835\ude03\ud835\uddf2\ud835\uddff\ud835\ude06 \ud835\uddf1\ud835\uddfc\ud835\uddf9\ud835\uddf9\ud835\uddee\ud835\uddff \ud835\uddfc\ud835\uddfb : 7416843539956797440, 2026-01-10 \u2014 Don\u2019t post often. But this felt worth sharing. \ud835\uddea\ud835\uddf2 \ud835\uddf5\ud835\uddee\ud835\ude03\ud835\uddf2 \ud835\ude01\ud835\ude04\ud835\uddfc \ud835\uddfc : 7415704361466671104, 2026-01-08 \u2014 Some of the biggest resistances to AI aren't technical. To m : 7415030743866929153, 2026-01-06 \u2014 \ud835\udde2\ud835\uddfb\ud835\uddf2 \ud835\uddf0\ud835\uddee\ud835\uddfb'\ud835\ude01 \ud835\uddef\ud835\uddf2 \ud835\uddee \ud835\uddf9\ud835\uddf2\ud835\uddee\ud835\uddf1\ud835\uddf2\ud835\uddff \ud835\ude04\ud835\uddf5\ud835\uddf6\ud835\uddf9\ud835\uddf2 \ud835\uddf7\ud835\ude02\ud835\uddf1\ud835\uddf4\ud835\uddf6\ud835\uddfb\ud835\uddf4 \ud835\uddfc\ud835\ude01\ud835\uddf5\ud835\uddf2\ud835\uddff\ud835\ude00 \ud835\uddf3\ud835\uddfc\ud835\uddff \ud835\uddf5\ud835\uddfc\ud835\ude04 \ud835\ude01\ud835\uddf5\ud835\uddf2\ud835\ude06 \ud835\uddef\ud835\uddf2\ud835\uddf5\ud835\uddee : 7414311440871833601, 2025-12-18 \u2014 I started exploring AI when I was still at school. Not with : 7407414588624998400, 2025-12-16 \u2014 \"\ud835\ude45\ud835\ude6a\ud835\ude63\ud835\ude5e\ud835\ude64\ud835\ude67\ud835\ude68 \ud835\ude56\ud835\ude67\ud835\ude5a \ud835\ude59\ud835\ude5e\ud835\ude68\ud835\ude56\ud835\ude65\ud835\ude65\ud835\ude5a\ud835\ude56\ud835\ude67\ud835\ude5e\ud835\ude63\ud835\ude5c. \ud835\ude4f\ud835\ude5d\ud835\ude5a\ud835\ude67\ud835\ude5a'\ud835\ude68 \ud835\ude63\ud835\ude64 \ud835\ude6c\ud835\ude64\ud835\ude67\ud835\ude60 \ud835\ude5b\ud835\ude64\ud835\ude67 \ud835\ude69\ud835\ude5d\ud835\ude5a\ud835\ude62 \ud835\ude56\ud835\ude63\ud835\ude6e\ud835\ude62\ud835\ude64\ud835\ude67\ud835\ude5a. : 7406707512676147201, 2025-12-11 \u2014 \"\ud835\udc80\ud835\udc86\ud835\udc94 \ud835\udc9a\ud835\udc90\ud835\udc96 \ud835\udc95\ud835\udc90\ud835\udc8d\ud835\udc85 \ud835\udc8e\ud835\udc86. \ud835\udc70 \ud835\udc8b\ud835\udc96\ud835\udc94\ud835\udc95 \ud835\udc85\ud835\udc8a\ud835\udc85\ud835\udc8f'\ud835\udc95 \ud835\udc85\ud835\udc90 \ud835\udc8a\ud835\udc95.\" That's AI responding : 7404885926641963008, 2025-12-09 \u2014 An engineering book taught me management. Sounds weird but \" : 7404153601205473280, 2025-12-04 \u2014 Imagine you're building \ud835\uddd5\ud835\ude02\ud835\uddff\ud835\uddf7 \ud835\uddde\ud835\uddf5\ud835\uddee\ud835\uddf9\ud835\uddf6\ud835\uddf3\ud835\uddee \ud835\uddfc\ud835\ude02\ud835\ude01 \ud835\uddfc\ud835\uddf3 \ud835\udddf\ud835\uddf2\ud835\uddf4\ud835\uddfc\ud83e\uddf1 A seriousl : 7402388577843605504, 2025-12-02 \u2014 Conversation on April 1 \u2014 \ud835\ude1e\ud835\ude29\ud835\ude26\ud835\ude2f \ud835\ude2a\ud835\ude34 \ud835\ude3a\ud835\ude30\ud835\ude36\ud835\ude33 \ud835\ude33\ud835\ude26\ud835\ude2d\ud835\ude26\ud835\ude22\ud835\ude34\ud835\ude26? \u2014 \ud835\ude08\ud835\ude31\ud835\ude33\ud835\ude2a\ud835\ude2d 15. : 7401633143939575808, 2025-11-25 \u2014 \ud83d\ude80 \ud835\udc03\ud835\udc1e\ud835\udc29\ud835\udc25\ud835\udc28\ud835\udc32 \ud835\udc1e\ud835\udc1a\ud835\udc2b\ud835\udc25\ud835\udc32 \ud835\udc2c\ud835\udc1a\ud835\udc2f\ud835\udc1e\ud835\udc2c \ud835\udc2c\ud835\udc2d\ud835\udc1a\ud835\udc2b\ud835\udc2d\ud835\udc2e\ud835\udc29\ud835\udc2c \ud835\udc26\ud835\udc28\ud835\udc2b\ud835\udc1e \ud835\udc28\ud835\udc1f\ud835\udc2d\ud835\udc1e\ud835\udc27 \ud835\udc2d\ud835\udc21\ud835\udc1a\ud835\udc27 \ud835\udc1a \ud835\udc2c\ud835\udc1e\ud835\udc1e\ud835\udc1d \ud835\udc2b\ud835\udc28\ud835\udc2e\ud835\udc27\ud835\udc1d. : 7399100453231386624, 2025-11-11 \u2014 Attending the United Nations Forum on Business and Human Rig : 7394110933008216065",
         "skipUrlSync": false,
         "type": "custom"
       }
@@ -1953,7 +2212,7 @@
     ]
   },
   "timezone": "browser",
-  "title": "LinkedIn Stats — Oleksandr Orlyk · Per-post",
+  "title": "LinkedIn Stats \u2014 Oleksandr \u00b7 Per-post",
   "uid": "linkedin-oleksandr-posts",
   "version": 12
 }
