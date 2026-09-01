@@ -19,8 +19,12 @@ const GRAFANA_DIR = join(REPO_ROOT, "dashboards", "grafana");
 const PROFILES = JSON.parse(readFileSync(
   join(REPO_ROOT, ".claude", "skills", "linkedin-stats", "profiles.json"), "utf8"));
 
-const MAIN_TPL = readFileSync(join(GRAFANA_DIR, "linkedin-oleksandr.json"), "utf8");
-const POSTS_TPL = readFileSync(join(GRAFANA_DIR, "linkedin-oleksandr-posts.json"), "utf8");
+// Шаблони лежать окремо в _template/ і НЕ є виходом генерації. Якщо брати
+// за шаблон дашборд якогось автора, друга генерація успадкує його URL —
+// саме так у peter-posts колись потрапив фід oleksandr.
+const TPL_DIR = join(GRAFANA_DIR, "_template");
+const MAIN_TPL = readFileSync(join(TPL_DIR, "author.json"), "utf8");
+const POSTS_TPL = readFileSync(join(TPL_DIR, "author-posts.json"), "utf8");
 
 // Перекласти шаблон на конкретного автора: підмінити uid/title, URL даних і
 // внутрішні крос-лінки між дашбордами.
@@ -28,14 +32,25 @@ function render(tplText, { uid, title, author }) {
   const d = JSON.parse(tplText);
   d.uid = uid;
   d.title = title;
+  // $post — це статичний Custom-список, «запечений» у шаблоні. Без очистки
+  // кожен автор успадкував би чужі пости. Список наповнює update-post-variable
+  // з dashboards/li-stats/<author>/posts/ вже після публікації.
+  for (const v of d.templating?.list ?? []) {
+    if (v.name === "post") { v.query = ""; v.options = []; v.current = {}; }
+  }
   let s = JSON.stringify(d, null, 2);
-  // URL даних -> папка автора на Pages
-  s = s.split("github.io/LinkedInStatistic/stats.json")
-       .join(`github.io/LinkedInStatistic/${author}/stats.json`);
-  // Крос-лінки (довші токени першими, щоб не порізати частково)
-  s = s.split("/d/linkedin-oleksandr-posts").join(`/d/linkedin-${author}-posts`);
-  s = s.split("/d/linkedin-oleksandr").join(`/d/linkedin-${author}`);
-  s = s.split("/d/linkedin-post/").join(`/d/linkedin-${author}-posts/`);
+  // Заміни ідемпотентні: ловлять і кореневий URL шаблону, і вже підставленого
+  // автора — тож повторний прогін не «прилипає» до чужого фіда.
+  s = s.replace(
+    /github\.io\/LinkedInStatistic\/(?:[a-z0-9_-]+\/)?stats\.json/g,
+    `github.io/LinkedInStatistic/${author}/stats.json`);
+  // Крос-лінки: спершу per-post (довший токен), потім основний.
+  s = s.replace(/\/d\/linkedin-post(?![a-z0-9_-])/g, `/d/linkedin-${author}-posts`);
+  s = s.replace(/\/d\/linkedin-[a-z0-9_-]+-posts(?![a-z0-9_-])/g, `/d/linkedin-${author}-posts`);
+  // Основний лінк: не чіпати linkedin-page і вже підставлені *-posts.
+  s = s.replace(
+    /\/d\/linkedin-(?!page(?![a-z0-9_-]))(?![a-z0-9_-]*-posts(?![a-z0-9_-]))[a-z0-9_-]+(?![a-z0-9_-])/g,
+    `/d/linkedin-${author}`);
   return s + "\n";
 }
 

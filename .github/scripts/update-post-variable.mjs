@@ -18,8 +18,17 @@ import { fileURLToPath } from "node:url";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(HERE, "..", "..");
-const POSTS_DIR = join(REPO_ROOT, "dashboards", "li-stats", "posts");
-const DASHBOARD_UID = "linkedin-post";
+// --author <slug> робить скрипт per-author: пости беруться з папки автора,
+// а оновлюється його власний дашборд. Без прапора — стара однокористувацька
+// поведінка (спільна папка + дашборд linkedin-post).
+const AUTHOR_ARG = (() => {
+  const i = process.argv.indexOf("--author");
+  return i > -1 && process.argv[i + 1] ? process.argv[i + 1] : null;
+})();
+const POSTS_DIR = AUTHOR_ARG
+  ? join(REPO_ROOT, "dashboards", "li-stats", AUTHOR_ARG, "posts")
+  : join(REPO_ROOT, "dashboards", "li-stats", "posts");
+const DASHBOARD_UID = AUTHOR_ARG ? `linkedin-${AUTHOR_ARG}-posts` : "linkedin-post";
 const VAR_NAME = "post";
 
 const GRAFANA_URL = (process.env.GRAFANA_URL ?? "").replace(/\/+$/, "");
@@ -54,14 +63,17 @@ const entries = readdirSync(POSTS_DIR)
   .sort((a, b) => b.posted_date.localeCompare(a.posted_date) || b.id.localeCompare(a.id))
   .map(d => ({ text: displayText(d), value: d.id }));
 
+// Порожньо — це валідний стан (автора щойно додали, постів ще не зібрано).
+// Чистимо список, щоб у пікері не висіли чужі/застарілі пости, і виходимо 0.
 if (!entries.length) {
-  console.error(`no posts found in ${POSTS_DIR}`);
-  process.exit(2);
+  console.error(`no posts in ${POSTS_DIR} — clearing $post on ${DASHBOARD_UID}`);
 }
 
 const query = entries.map(e => `${e.text} : ${e.value}`).join(", ");
 const options = entries.map((e, i) => ({ selected: i === 0, text: e.text, value: e.value }));
-const current = { text: entries[0].text, value: entries[0].value };
+const current = entries.length
+  ? { text: entries[0].text, value: entries[0].value }
+  : {};
 
 function patchVariable(dashboard) {
   const v = (dashboard.templating?.list ?? []).find(x => x.name === VAR_NAME);
@@ -94,11 +106,11 @@ if (changed) {
     body: JSON.stringify({
       dashboard,
       folderUid: meta?.folderUid || undefined,
-      message: `auto: refresh $post variable (${entries.length} posts, newest ${entries[0].value})`,
+      message: `auto: refresh $post variable (${entries.length} posts${entries.length ? `, newest ${entries[0].value}` : ""})`,
       overwrite: true,
     }),
   });
-  console.error(`updated $post variable — ${entries.length} posts, newest ${entries[0].text}`);
+  console.error(`updated $post variable on ${DASHBOARD_UID} — ${entries.length} posts${entries.length ? `, newest ${entries[0].text}` : ""}`);
 } else {
   console.error(`$post variable already up to date — ${entries.length} posts`);
 }
