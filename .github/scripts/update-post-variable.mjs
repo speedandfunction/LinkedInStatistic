@@ -63,7 +63,14 @@ const entries = readdirSync(POSTS_DIR)
   .map(f => JSON.parse(readFileSync(join(POSTS_DIR, f), "utf8")))
   .filter(d => d.id && d.posted_date)
   .sort((a, b) => b.posted_date.localeCompare(a.posted_date) || b.id.localeCompare(a.id))
-  .map(d => ({ text: displayText(d), value: d.id }));
+  // hasData: у поста вже є виміряний тиждень. Пост без метрик (щойно
+  // опублікований, або пропущений фазою metrics) лишається в списку, але не
+  // може бути дефолтом — інакше дашборд відкривається порожнім.
+  .map(d => ({
+    text: displayText(d),
+    value: d.id,
+    hasData: Object.keys(d.weeks ?? {}).length > 0,
+  }));
 
 // Порожньо — це валідний стан (автора щойно додали, постів ще не зібрано).
 // Чистимо список, щоб у пікері не висіли чужі/застарілі пости, і виходимо 0.
@@ -72,15 +79,21 @@ if (!entries.length) {
 }
 
 const query = entries.map(e => `${e.text} : ${e.value}`).join(", ");
-const options = entries.map((e, i) => ({ selected: i === 0, text: e.text, value: e.value }));
+// Дефолт — найновіший пост, який РЕАЛЬНО має метрики.
+const defaultIdx = Math.max(0, entries.findIndex(e => e.hasData));
+const options = entries.map((e, i) => ({
+  selected: i === defaultIdx, text: e.text, value: e.value,
+}));
 const current = entries.length
-  ? { text: entries[0].text, value: entries[0].value }
+  ? { text: entries[defaultIdx].text, value: entries[defaultIdx].value }
   : {};
 
 function patchVariable(dashboard) {
   const v = (dashboard.templating?.list ?? []).find(x => x.name === VAR_NAME);
   if (!v) throw new Error(`variable "${VAR_NAME}" not found on dashboard`);
-  const changed = v.query !== query;
+  // Порівнюємо і список, і вибраний пост: список міг не змінитись, а дефолт
+  // мусить переїхати на пост, у якого з'явилися метрики.
+  const changed = v.query !== query || (v.current?.value ?? null) !== (current.value ?? null);
   v.query = query;
   v.options = options;
   v.current = current;
