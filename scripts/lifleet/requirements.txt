@@ -1,0 +1,3 @@
+browserbase
+playwright
+pytest

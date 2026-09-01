@@ -30,7 +30,7 @@
       "title": "Per-post view",
       "tooltip": "Per-post stats with picker",
       "type": "link",
-      "url": "/d/linkedin-oleksandr-posts/linkedin-stats-e28094-per-post"
+      "url": "/d/linkedin-peter-posts/linkedin-stats-e28094-per-post"
     }
   ],
   "liveNow": false,
@@ -155,7 +155,7 @@
           "root_selector": "engagement_score_totals",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -272,7 +272,7 @@
           "root_selector": "engagement_score_totals",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -389,7 +389,7 @@
           "root_selector": "engagement_score_totals",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -506,7 +506,7 @@
           "root_selector": "engagement_score_totals",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -663,7 +663,7 @@
           "root_selector": "engagement_score_totals",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -820,7 +820,7 @@
           "root_selector": "engagement_score_totals",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -977,7 +977,7 @@
           "root_selector": "engagement_score_totals",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -1134,7 +1134,7 @@
           "root_selector": "engagement_score_totals",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -1292,7 +1292,7 @@
           "root_selector": "engagement_score_totals",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -1450,7 +1450,7 @@
           "root_selector": "engagement_score_totals",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -1608,7 +1608,7 @@
           "root_selector": "engagement_score_totals",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -1765,7 +1765,7 @@
           "root_selector": "engagement_score_totals",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -1886,7 +1886,7 @@
           "root_selector": "engagement_score_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -2072,7 +2072,7 @@
           "root_selector": "engagement_people",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -2416,7 +2416,7 @@
           "root_selector": "engagement_score_totals",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -2531,7 +2531,7 @@
           "root_selector": "account_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -2626,7 +2626,7 @@
           "root_selector": "account_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -2721,7 +2721,7 @@
           "root_selector": "account_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -2816,7 +2816,7 @@
           "root_selector": "account_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -2909,7 +2909,7 @@
           "root_selector": "account_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -3013,7 +3013,7 @@
           "root_selector": "account_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -3117,7 +3117,7 @@
           "root_selector": "account_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -3221,7 +3221,7 @@
           "root_selector": "account_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -3338,7 +3338,7 @@
           "root_selector": "account_demographics",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -3497,7 +3497,7 @@
           "root_selector": "account_demographics",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -3662,7 +3662,7 @@
           "root_selector": "account_demographics",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -3820,7 +3820,7 @@
           "root_selector": "posts_per_month",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -3913,7 +3913,7 @@
           "root_selector": "comments_per_month",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -4005,7 +4005,7 @@
           "root_selector": "comments_per_month",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -4097,7 +4097,7 @@
           "root_selector": "comments_per_month",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -4181,7 +4181,7 @@
           "root_selector": "correlation_points",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -4252,7 +4252,7 @@
           "root_selector": "correlation_points",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -4307,7 +4307,7 @@
           "root_selector": "account_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/oleksandr/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -4340,7 +4340,7 @@
     ]
   },
   "timezone": "browser",
-  "title": "LinkedIn Stats — Oleksandr Orlyk",
-  "uid": "linkedin-oleksandr",
+  "title": "LinkedIn Stats — Peter Ovchynnikov",
+  "uid": "linkedin-peter",
   "version": 42
 }

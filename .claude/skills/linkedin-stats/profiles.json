@@ -1,0 +1,15 @@
+{
+  "_note": "Ідентичність кожного LinkedIn-профілю, який збирає пайплайн. Ключ = автор (той самий slug, що в lifleet authors.json). Скрапер читає запис за LI_AUTHOR і пише дані в dashboards/li-stats/<author>/. Публікація будує stats.json у <author>/ на Pages і генерує дашборд linkedin-<author> з цим URL. Додати людину = додати сюди запис; код міняти не треба. company_id читає лише company-page фаза.",
+  "oleksandr": {
+    "name": "Oleksandr Orlyk",
+    "profile_slug": "in/oleksandr-orlyk",
+    "company_id": "7948833",
+    "posts_cutoff": "2026-01-01"
+  },
+  "peter": {
+    "name": "Peter Ovchynnikov",
+    "profile_slug": "in/ovchyn",
+    "company_id": "7948833",
+    "posts_cutoff": "2026-01-01"
+  }
+}
