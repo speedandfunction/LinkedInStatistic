@@ -1,0 +1,53 @@
+{
+  "comments": {
+    "urn:li:comment:(activity:7497608704842850304,7500202470640619520)": {
+      "comment_urn": "urn:li:comment:(activity:7497608704842850304,7500202470640619520)",
+      "commented_at": "2026-08-31T14:46:56Z",
+      "verb": "commented",
+      "text": "+",
+      "comment_author_name": "Oleksandr Orlyk",
+      "comment_author_url": "https://www.linkedin.com/in/oleksandr-orlyk",
+      "post_urn": "urn:li:activity:7500202505750994944",
+      "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7500202505750994944/",
+      "post_author_name": "TrafficConnect",
+      "post_author_url": "https://www.linkedin.com/company/trafficconnect/posts",
+      "permalink": "https://www.linkedin.com/feed/update/urn:li:activity:7500202505750994944/?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7497608704842850304%2C7500202470640619520%29",
+      "weeks": {
+        "2026-08-31": {
+          "snapshot_at": "2026-09-01T16:29:35Z",
+          "reactions": 0,
+          "replies_count": 0,
+          "impressions": 12
+        }
+      }
+    },
+    "urn:li:comment:(activity:7472119045836828672,7473026150538137600)": {
+      "comment_urn": "urn:li:comment:(activity:7472119045836828672,7473026150538137600)",
+      "commented_at": "2026-06-17T14:57:56Z",
+      "verb": "commented",
+      "text": "Вітання! 🎉",
+      "comment_author_name": "Oleksandr Orlyk",
+      "comment_author_url": "https://www.linkedin.com/in/oleksandr-orlyk",
+      "post_urn": "urn:li:activity:7473026168640753664",
+      "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7473026168640753664/",
+      "post_author_name": "",
+      "post_author_url": "",
+      "permalink": "https://www.linkedin.com/feed/update/urn:li:activity:7473026168640753664/?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7472119045836828672%2C7473026150538137600%29",
+      "weeks": {}
+    },
+    "urn:li:comment:(activity:7072450932151578624,7072568297719787520)": {
+      "comment_urn": "urn:li:comment:(activity:7072450932151578624,7072568297719787520)",
+      "commented_at": "2023-06-08T13:41:24Z",
+      "verb": "commented",
+      "text": "Мої вітання",
+      "comment_author_name": "Oleksandr Orlyk",
+      "comment_author_url": "https://www.linkedin.com/in/oleksandr-orlyk",
+      "post_urn": "urn:li:activity:7072568342825295873",
+      "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7072568342825295873/",
+      "post_author_name": "Anton Levandovskiy",
+      "post_author_url": "https://www.linkedin.com/in/anton-levandovskiy",
+      "permalink": "https://www.linkedin.com/feed/update/urn:li:activity:7072568342825295873/?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7072450932151578624%2C7072568297719787520%29",
+      "weeks": {}
+    }
+  }
+}
