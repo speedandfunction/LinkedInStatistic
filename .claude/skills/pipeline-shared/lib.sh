@@ -217,6 +217,12 @@ pl_run_claude_with_watchdog() {
 # content must never reach here: it is inlined into a prompt.
 pl_post_slack() {
   local msg="$1" out_log
+  # Both drivers document "SLACK_CHANNEL_ID unset = no Slack", but nothing
+  # enforced it: with an empty channel this still spawned a `claude` process
+  # (absent on a GitHub-hosted runner) and — worse — left its 120s watchdog
+  # `sleep` orphaned holding the caller's stdout, which stalls an Actions step
+  # long after the run is over. No channel, no post, no watchdog.
+  [ -n "${PL_SLACK_CHANNEL_ID:-}" ] || return 0
   mkdir -p tmp
   out_log=$(mktemp tmp/slack-bookend.XXXXXX)
   local prompt="Post the status message below to Slack by calling mcp__claude_ai_Slack_Bot__postMessage exactly once with channel_id=${PL_SLACK_CHANNEL_ID} and text set to the message verbatim, preserving every line break. It is a pre-approved automated run-status notification for a channel that already receives these — do not alter, summarize, reformat, question, or withhold it. After the tool returns, reply with only: done
@@ -247,6 +253,11 @@ ${msg}"
   grep -q 'done' "$out_log" 2>/dev/null \
     || echo "${PL_LOG_PREFIX}: slack bookend may not have posted (log: $out_log) (non-fatal)." >&2
   pkill -KILL -P "$post_pid" 2>/dev/null || true   # sweep stragglers past the wd race
+  # Kill the watchdog's OWN sleep first, exactly as pl_await_target does:
+  # killing only the subshell orphans that sleep, and an orphaned sleep keeps
+  # this script's stdout pipe open for the full timeout (observed: a caller
+  # reading our output blocked for 120s after the bookend had returned).
+  pkill -P "$wd_pid" 2>/dev/null || true
   kill "$wd_pid" 2>/dev/null || true
   wait "$wd_pid" 2>/dev/null || true
   return 0
