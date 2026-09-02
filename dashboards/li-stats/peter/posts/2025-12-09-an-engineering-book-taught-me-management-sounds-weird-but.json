@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:32:27Z",
+      "snapshot_at": "2026-09-02T07:42:10Z",
       "metrics": {
-        "impressions": 534,
+        "impressions": 537,
         "members_reached": 219,
         "reactions": 7,
         "comments": 1,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 1,
         "followers_gained": 0,
-        "engagement_rate": 1.5
+        "engagement_rate": 1.49
       },
       "demographics": {
         "seniority": {
@@ -60,7 +60,29 @@
           "Speed and Function": 8.7
         }
       },
-      "comments": []
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/vitaliihoncharenko",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7404153601205473280,7405221004794429440)",
+          "text": "Vitalii Honcharenko Premium Profile 2nd\nVitalii Honcharenko\n• 2nd\nSoftware Development Services at Yael Acceptic | AI/LLMs/ML/NLP, Web & Mobile, IoT, E-commerce/learning, Fin/Insur/PropTech, Logistics\nFollow\nThe moment you connect engineering metrics to business outcomes, you stop “shipping code” and start building a real product.\n0",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "reactors": [
+        "https://www.linkedin.com/in/anatoly-chelyshev",
+        "https://www.linkedin.com/in/mcrae-williams-98673b1",
+        "https://www.linkedin.com/in/rajbharathi",
+        "https://www.linkedin.com/in/russzurba",
+        "https://www.linkedin.com/in/sergey-smaglyuk",
+        "https://www.linkedin.com/in/vitaliihoncharenko",
+        "https://www.linkedin.com/in/yana-nakonechna"
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/vitaliihoncharenko"
+      ]
     }
   }
 }

@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:19:25Z",
+      "snapshot_at": "2026-09-02T07:38:04Z",
       "metrics": {
-        "impressions": 1868,
+        "impressions": 1871,
         "members_reached": 981,
         "reactions": 32,
         "comments": 4,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 13,
         "followers_gained": 0,
-        "engagement_rate": 2.25
+        "engagement_rate": 2.24
       },
       "demographics": {
         "seniority": {
@@ -66,7 +66,50 @@
           "SoftServe": 0
         }
       },
-      "comments": []
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/felixjofre",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7453510493186560000,7453693039836897280)",
+          "text": "Félix Jofré Verified Profile 1st\nFélix Jofré\n• 1st\nProject Manager | Louder Than Ten Certified Digital Project Lead | Business Strategist\nThanks for sharing Peter and I’m sorry you’re all going through this, but it’s so valuable you share. I guess the lesson is never give too much power to a single provider, even less when their business model is a bubble built by vc, no matter how unbelievable the value seems like. I hope you’re new structure works out and good on you on not letting these dependencies get anywhere near critical al client delivery.\n1 reaction\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/arozhylo",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7453510493186560000,7453695611926683648)",
+          "text": "Andrii Rozhylo Verified Profile 1st\nAndrii Rozhylo\n• 1st\nAI Transformation Leader | Business Strategist | Entrepreneur | Delivery Manager | Product Manager | Marketing Expert\nThis could be titled like: \"From ambassadors to haters - how to kill your brand in one day\"\n4 reactions\n4",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/alex-ost-sf",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7453510493186560000,7453519343063273472)",
+          "text": "Alex Ost, Open to work Verified Profile 1st\nAlex Ost\n• 1st\nLead Developer at Speed and Function\nThere is never two many backups/copies/plans-B-C, etc.\n2 reactions\n2",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/anne-cantera",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7453510493186560000,7453631900885200896)",
+          "text": "Anne Cantera Verified Profile 2nd\nAnne Cantera\n• 2nd\n♾️ Director of Conversation / Omnimodal Design @ Stealth | AI Consulting | Agentic AI | Voice & Chat | Model Designer | Multimodal | Adaptive UI  | Spec-driven Developer | Founder, Elementyl Intelligence | Teacher\n(edited) 4mo\nFollow\nWas thinking about this last week. https://www.linkedin.com/posts/anne-cantera_ok-team-this-one-is-going-to-need-input-activity-7450968320884961282-tTzg?utm_source=share&utm_medium=member_android&rcm=ACoAADJQAdwBuIZKHtnP19CSFRTw-IX0k0yq68A\n1 reaction\n1",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/alex-ost-sf",
+        "https://www.linkedin.com/in/anne-cantera",
+        "https://www.linkedin.com/in/arozhylo",
+        "https://www.linkedin.com/in/felixjofre"
+      ]
     }
   }
 }

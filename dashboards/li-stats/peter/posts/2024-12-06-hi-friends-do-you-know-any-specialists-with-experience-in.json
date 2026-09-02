@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:29:35Z",
+      "snapshot_at": "2026-09-02T07:39:40Z",
       "metrics": {
-        "impressions": 979,
+        "impressions": 983,
         "members_reached": 0,
         "reactions": 6,
         "comments": 2,
@@ -32,7 +32,30 @@
         "location": {},
         "company": {}
       },
-      "comments": []
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/harasymiv",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7270748651860185088,7270821502134988800)",
+          "text": "Vladyslav Harasim Premium Profile 2nd\nVladyslav Harasim\n• 2nd\nCybersecurity Advisor for Founders | We find security gaps and tell you what they cost - in dollars, not CVE codes | Pentest · Smart Contracts · ISO27001 prep | @DATAMI Cybersecurity |  5.0 Clutch\nFollow\nYour focus on digital access is spot on\n! With SDKs needing robust security, incorporating pentesting can safeguard those systems. Our team at DATAMI specializes in penetration testing which might just add that needed layer of cybersecurity\nFancy a deeper dive into this? Let's chat!\n1 reaction\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/mohsan-gulzar-9b48bb205",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7270748651860185088,7273253501885894656)",
+          "text": "Mohsan Gulzar, Open to work  3rd+\nMohsan Gulzar • 3rd+\nSenior Account Manager @ Syecon Co. | Account Management | Financial Reporting, VAT & ZATCA  Compliance\nFollow\nGreat to see your focus on digital building access! 🏢 How do you foresee the integration of these technologies enhancing user experience in smart buildings? On a different note, I’d love to connect with you! Please feel free to send me a request.\n0",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/harasymiv",
+        "https://www.linkedin.com/in/mohsan-gulzar-9b48bb205"
+      ]
     }
   }
 }

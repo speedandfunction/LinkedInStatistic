@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:32:22Z",
+      "snapshot_at": "2026-09-02T07:49:51Z",
       "metrics": {
-        "impressions": 412,
+        "impressions": 415,
         "members_reached": 161,
         "reactions": 4,
         "comments": 0,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 0,
         "followers_gained": 0,
-        "engagement_rate": 0.97
+        "engagement_rate": 0.96
       },
       "demographics": {
         "seniority": {
@@ -59,7 +59,13 @@
           "Speed and Function": 11.8
         }
       },
-      "comments": []
+      "comments": [],
+      "reactors": [
+        "https://www.linkedin.com/in/anatoly-chelyshev",
+        "https://www.linkedin.com/in/batovskyi",
+        "https://www.linkedin.com/in/hazrat-omer",
+        "https://www.linkedin.com/in/rajbharathi"
+      ]
     }
   }
 }

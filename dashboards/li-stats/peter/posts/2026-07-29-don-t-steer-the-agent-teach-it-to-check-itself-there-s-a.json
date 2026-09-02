@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:22:34Z",
+      "snapshot_at": "2026-09-02T07:43:28Z",
       "metrics": {
-        "impressions": 261,
+        "impressions": 271,
         "members_reached": 121,
         "reactions": 1,
         "comments": 1,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 0,
         "followers_gained": 0,
-        "engagement_rate": 0.77
+        "engagement_rate": 0.74
       },
       "demographics": {
         "seniority": {
@@ -51,7 +51,20 @@
           "Speed and Function": 16.5
         }
       },
-      "comments": []
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7488189837460799489,7490814600452444160)",
+          "text": "Olga Mykhailova (Michai) Verified Profile 1st\nOlga Mykhailova (Michai)\n• 1st\nI design culture that works | Less drama and more movement | Helping C-level leaders turn resistance and difficult dynamics into collaboration and change | Developmental Culture | Nonviolent Communication\nI did it to some extent. Not for coding but for contract reading while designing new templates. Used 2 agents checking the work of each other and writing recommendations on what to check next time when we do regression testing of the updated template\n0",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b"
+      ]
     }
   }
 }

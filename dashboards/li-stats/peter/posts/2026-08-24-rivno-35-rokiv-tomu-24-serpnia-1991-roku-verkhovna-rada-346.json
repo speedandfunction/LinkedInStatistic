@@ -9,10 +9,10 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:36:50Z",
+      "snapshot_at": "2026-09-02T07:53:22Z",
       "metrics": {
-        "impressions": 261,
-        "members_reached": 133,
+        "impressions": 274,
+        "members_reached": 134,
         "reactions": 5,
         "comments": 0,
         "reposts": 0,
@@ -20,41 +20,48 @@
         "sends": 0,
         "profile_viewers": 2,
         "followers_gained": 0,
-        "engagement_rate": 1.92
+        "engagement_rate": 1.82
       },
       "demographics": {
         "seniority": {
-          "Senior": 33.1,
-          "Entry": 30.1,
+          "Senior": 33.6,
+          "Entry": 29.9,
           "CXO": 9,
-          "Manager": 6.8
+          "Manager": 6,
+          "Owner": 4.5
         },
         "job_title": {
-          "Software Engineer": 15.8
+          "Software Engineer": 15.7
         },
         "industry": {
-          "IT Services and IT Consulting": 35.3,
-          "Software Development": 20.3,
-          "Technology, Information and Internet": 6
+          "IT Services and IT Consulting": 35.8,
+          "Software Development": 20.1,
+          "Technology, Information and Internet": 6.7
         },
         "company_size": {
-          "51-200 employees": 28.6,
-          "10,001+ employees": 15.8,
-          "1001-5000 employees": 11.3,
-          "11-50 employees": 8.3,
-          "1-10 employees": 6.8
+          "51-200 employees": 28.4,
+          "10,001+ employees": 15.7,
+          "1001-5000 employees": 11.9,
+          "11-50 employees": 7.5,
+          "1-10 employees": 6.7
         },
         "location": {
-          "Lviv": 9.8,
-          "Kyiv Metropolitan Area": 8.3,
-          "Wroclaw Metropolitan Area": 5.3
+          "Lviv": 9.7,
+          "Kyiv Metropolitan Area": 9.7,
+          "Wroclaw Metropolitan Area": 4.5
         },
         "company": {
-          "Speed and Function": 12,
+          "Speed and Function": 11.9,
           "Modern Expo": 4.5
         }
       },
-      "comments": []
+      "comments": [],
+      "reactors": [
+        "https://www.linkedin.com/in/anastasiiast",
+        "https://www.linkedin.com/in/oleksandr-mazur-005441174",
+        "https://www.linkedin.com/in/oleksandr-orlyk",
+        "https://www.linkedin.com/in/timerhali-abdullin"
+      ]
     }
   }
 }

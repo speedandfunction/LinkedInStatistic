@@ -9,10 +9,10 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:20:02Z",
+      "snapshot_at": "2026-09-02T07:39:02Z",
       "metrics": {
-        "impressions": 35690,
-        "members_reached": 23400,
+        "impressions": 35698,
+        "members_reached": 23401,
         "reactions": 26,
         "comments": 3,
         "reposts": 1,
@@ -66,7 +66,40 @@
           "Amazon": 0
         }
       },
-      "comments": []
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/roman-cipov-167aba53",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7435303858349760512,7435623361629724673)",
+          "text": "Roman Cipov  2nd\nRoman Cipov • 2nd\nSenior Solution Architect at Redis\nFollow\ngreat analogy! When I hear someone say \"we are F1 of XYZ\" I always chuckle a bit...as there are literally like 30 people on this world able to drive F1 car on it's limit to get the most of it....you see the point? 😊\n1 reaction\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/ronald-s-0585b7b",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7435303858349760512,7435360950506942465)",
+          "text": "Ronald S. Verified Profile 2nd\nRonald S.\n• 2nd\nCritical Affairs Adviser to international decision makers, providing tailored full-scope problem solving and troubleshooting, across situations, industries, stakeholders, channels, for DE-AT-CSEE-UK-US\nFollow\nNa mal schauen, wie die Rennstrecke aussieht. Auf einem Gocart Kurs gewinnt „us“. :-)\nShow translation\n1 reaction\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/calvinfuss",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7435303858349760512,7435439637638168576)",
+          "text": "Calvin Fuss Premium Profile 2nd\nCalvin Fuss\n• 2nd\nAI Architecture & Strategy | Head of AI\nFollow\nLove this Peter. Great reminder to ‘nichify’ and not get disheartened by the big players.\n1 reaction\n1",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/calvinfuss",
+        "https://www.linkedin.com/in/roman-cipov-167aba53",
+        "https://www.linkedin.com/in/ronald-s-0585b7b"
+      ]
     }
   }
 }

@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:29:00Z",
+      "snapshot_at": "2026-09-02T07:41:39Z",
       "metrics": {
-        "impressions": 1472,
+        "impressions": 1476,
         "members_reached": 0,
         "reactions": 18,
         "comments": 1,
@@ -36,7 +36,20 @@
         "location": {},
         "company": {}
       },
-      "comments": []
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/vitalii-pikozh",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7254561384724652035,7254775640204169216)",
+          "text": "Vitalii Pikozh, Open to work Verified Profile 1st\nVitalii Pikozh\n• 1st\nFull-stack JavaScript Engineer | React, Next.js, Node.js | CI/CD, Docker | End-to-End Development\nДякую. З радістю поширю.\nShow translation\n0",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/vitalii-pikozh"
+      ]
     }
   }
 }

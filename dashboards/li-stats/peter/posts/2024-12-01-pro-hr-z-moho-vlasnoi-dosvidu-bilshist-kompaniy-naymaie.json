@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:29:23Z",
+      "snapshot_at": "2026-09-02T07:42:04Z",
       "metrics": {
-        "impressions": 819,
+        "impressions": 823,
         "members_reached": 0,
         "reactions": 12,
         "comments": 1,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 4,
         "followers_gained": 0,
-        "engagement_rate": 1.59
+        "engagement_rate": 1.58
       },
       "demographics": {
         "seniority": {},
@@ -30,7 +30,20 @@
         "location": {},
         "company": {}
       },
-      "comments": []
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/vitaly-gapontsev",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7269061795187707904,7269124976455090176)",
+          "text": "Vitaly Gapontsev, Open to work  1st\nVitaly Gapontsev • 1st\nFront-End / Fullstack (React + Node.js)\n\"Як би поміняти, але щоб нічого не міняти\".\nShow translation\n2 reactions\n2",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/vitaly-gapontsev"
+      ]
     }
   }
 }

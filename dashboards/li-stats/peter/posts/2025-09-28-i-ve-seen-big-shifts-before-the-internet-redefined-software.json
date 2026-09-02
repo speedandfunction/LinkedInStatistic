@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:31:38Z",
+      "snapshot_at": "2026-09-02T07:49:23Z",
       "metrics": {
-        "impressions": 687,
+        "impressions": 691,
         "members_reached": 260,
         "reactions": 11,
         "comments": 0,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 0,
         "followers_gained": 0,
-        "engagement_rate": 1.6
+        "engagement_rate": 1.59
       },
       "demographics": {
         "seniority": {
@@ -63,7 +63,20 @@
           "NDA": 2.3
         }
       },
-      "comments": []
+      "comments": [],
+      "reactors": [
+        "https://www.linkedin.com/company/casenine",
+        "https://www.linkedin.com/in/alexv-pro",
+        "https://www.linkedin.com/in/anastasiia-vitrychenko-357636363",
+        "https://www.linkedin.com/in/anastasiiast",
+        "https://www.linkedin.com/in/batovskyi",
+        "https://www.linkedin.com/in/ksenia-fihas",
+        "https://www.linkedin.com/in/mcrae-williams-98673b1",
+        "https://www.linkedin.com/in/nstas",
+        "https://www.linkedin.com/in/sergey-smaglyuk",
+        "https://www.linkedin.com/in/yana-nakonechna",
+        "https://www.linkedin.com/in/yurii-puzichenko"
+      ]
     }
   }
 }

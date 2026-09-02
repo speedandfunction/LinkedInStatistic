@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:19:21Z",
+      "snapshot_at": "2026-09-02T07:37:52Z",
       "metrics": {
-        "impressions": 8043,
+        "impressions": 8049,
         "members_reached": 5674,
         "reactions": 9,
         "comments": 4,
@@ -66,7 +66,49 @@
           "IBM": 0
         }
       },
-      "comments": []
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/ovchyn",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7421897520596893696,7421897689933475841)",
+          "text": "Peter Ovchynnikov\nAuthor\nBuilding TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function\nhttps://tidyfirst.substack.com/p/the-bet-on-juniors-just-got-better\nThe Bet On Juniors Just Got Better\ntidyfirst.substack.com\n0\n194 impressions\n194",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/adistan",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7421897520596893696,7421907297867694080)",
+          "text": "Adi Stan Premium Profile 1st\nAdi Stan\n• 1st\nWorking in/with AI since ’97. Autor: Cognitive Divergence Theory CDT,  Information Gravity Theory IGT,   Minimal Ethical Governance MEG, FCPT; Books: THE AGE OF COGNITIVE DIVERGENCE; METEORAIT; ssrn.com/author=7778480\nHi, Peter!\nBeck talks about the \"valley of regret\" from an organizational investment angle. I see something else: a fundamental cognitive shift. When a junior works with AI, they are not just compressing search time, they are building their mental models differently. In \"Cognitive Divergence Theory \" I show this is exactly the kind of early exposure that creates cognitive patterns different from seniors who learned without AI. It is not about productivity, it is about how technical thinking forms in a world where the tool is already intelligent.\nhttps://zenodo.org/records/17776131\nCognitive Divergence Theory of AI Adoption\nzenodo.org\n0",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/maxim-geraskin-1634b6127",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7421897520596893696,7421937845977825280)",
+          "text": "Maxim Geraskin  3rd+\nMaxim Geraskin • 3rd+\nCTO & Systems Architect at unTill | Founder at Voedger\n(edited) 7mo\nFollow\nPeter, could you share your ideas about the requirements for juniors? What should they be able to do? What shouldn't they do?\n1 reaction\n1\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/ovchyn",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7421897520596893696,7429530337493368832)",
+          "text": "Peter Ovchynnikov\nAuthor\nBuilding TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function\nMaxim Geraskin I’m not sure I have an answer right now. In general, they’ll need to be able to explain to the LLM how it should work: what the intended behavior is, not what code needs to be written.\nI believe that, in the future, system design and architecture for simple projects will be handled by AI. To handle complex, large-scale solutions, juniors will need to become seniors anyway. so it's not a case.\n0\n7 impressions\n7",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/adistan",
+        "https://www.linkedin.com/in/maxim-geraskin-1634b6127",
+        "https://www.linkedin.com/in/ovchyn"
+      ]
     }
   }
 }

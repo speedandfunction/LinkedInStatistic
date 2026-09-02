@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:31:17Z",
+      "snapshot_at": "2026-09-02T07:42:00Z",
       "metrics": {
-        "impressions": 1211,
+        "impressions": 1213,
         "members_reached": 633,
         "reactions": 24,
         "comments": 1,
@@ -66,7 +66,46 @@
           "DataArt": 0
         }
       },
-      "comments": []
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/sachinpadhiyar",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7371658609128042496,7373566370661261312)",
+          "text": "Sachin Padhiyar Verified Profile 2nd\nSachin Padhiyar\n• 2nd\nBusiness & Delivery Lead | Turning Business Ideas into Working Systems | AI Automation, Product Delivery & Operations | EU & India\nFollow\nЦікава можливість! Ваша команда справді виглядає надихаюче.\nShow translation\n0",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "reactors": [
+        "https://www.linkedin.com/in/anastasiiast",
+        "https://www.linkedin.com/in/darina-yatsuk-5800b331a",
+        "https://www.linkedin.com/in/igor-demihovskiy-699641185",
+        "https://www.linkedin.com/in/julia-syzonenko",
+        "https://www.linkedin.com/in/kathryn-v-16507831b",
+        "https://www.linkedin.com/in/kathy-marchenko",
+        "https://www.linkedin.com/in/kristina-lukianenko-lead-business-analyst",
+        "https://www.linkedin.com/in/lazorenko-nataliia",
+        "https://www.linkedin.com/in/m-naveed-web3",
+        "https://www.linkedin.com/in/marioavilaessence",
+        "https://www.linkedin.com/in/md-sohag-hossain-169125330",
+        "https://www.linkedin.com/in/oleksandr-mazur-005441174",
+        "https://www.linkedin.com/in/ovchyn",
+        "https://www.linkedin.com/in/oxana-bagro-116a438a",
+        "https://www.linkedin.com/in/roman-stoliarchuk-16969210b",
+        "https://www.linkedin.com/in/sachinpadhiyar",
+        "https://www.linkedin.com/in/sid-sarkar",
+        "https://www.linkedin.com/in/viknesh81",
+        "https://www.linkedin.com/in/viktoriia-recruiter",
+        "https://www.linkedin.com/in/yana-nakonechna",
+        "https://www.linkedin.com/in/yulia-dzundza-ba5896105",
+        "https://www.linkedin.com/in/yuliia-osova",
+        "https://www.linkedin.com/in/yura-komlyk-a6b4b929",
+        "https://www.linkedin.com/in/yurii-puzichenko"
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/sachinpadhiyar"
+      ]
     }
   }
 }

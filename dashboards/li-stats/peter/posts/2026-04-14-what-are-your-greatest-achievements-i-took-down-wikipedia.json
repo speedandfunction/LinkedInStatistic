@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:18:53Z",
+      "snapshot_at": "2026-09-02T07:36:50Z",
       "metrics": {
-        "impressions": 1433,
+        "impressions": 1438,
         "members_reached": 868,
         "reactions": 15,
         "comments": 7,
@@ -20,7 +20,7 @@
         "sends": 1,
         "profile_viewers": 7,
         "followers_gained": 0,
-        "engagement_rate": 1.54
+        "engagement_rate": 1.53
       },
       "demographics": {
         "seniority": {
@@ -66,7 +66,50 @@
           "Caliber": 0
         }
       },
-      "comments": []
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/nimish-g%C3%A5tam-44125512",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7449791320329547776,7449803321902559232)",
+          "text": "Nimish Gåtam Verified Profile 1st\nNimish Gåtam\n• 1st\nVP of AI Engineering | Fractional CTO consultant | Policy and Responsible AI | Ex-CTO | Ex-Wikipedia\nI think many of us have an 'accidentally made enwiki unreachable' story somewhere... almost a rite of passage!\n0\n4\n4",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/johanevj",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7449791320329547776,7449876023262789634)",
+          "text": "Johan Jönsson  2nd\nJohan Jönsson • 2nd\nManager, Movement Communications, Wikimedia Foundation – Working in the intersection of product development, communications and community\nFollow\nStill an exclusive tribe, though.\n0",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/rajbharathi",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7449791320329547776,7449833318843383808)",
+          "text": "Raj Bharathi, Hiring Premium Profile 1st\nRaj Bharathi\n• 1st\nCEO @KronosX AI | Building the agentic data layer that makes Healthcare AI-Ready.\nWow great story any day!\n1 reaction\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/vitaly-gapontsev",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7449791320329547776,7449897619772022786)",
+          "text": "Vitaly Gapontsev, Open to work  1st\nVitaly Gapontsev • 1st\nFront-End / Fullstack (React + Node.js)\nYep. The system is defined not by whether it makes mistakes (every system does), but by how it processes them.\n1 reaction\n1",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/johanevj",
+        "https://www.linkedin.com/in/nimish-g%C3%A5tam-44125512",
+        "https://www.linkedin.com/in/rajbharathi",
+        "https://www.linkedin.com/in/vitaly-gapontsev"
+      ]
     }
   }
 }

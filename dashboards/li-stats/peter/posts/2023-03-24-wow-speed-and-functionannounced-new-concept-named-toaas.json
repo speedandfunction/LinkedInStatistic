@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:23:58Z",
+      "snapshot_at": "2026-09-02T07:41:08Z",
       "metrics": {
-        "impressions": 19,
+        "impressions": 25,
         "members_reached": 0,
         "reactions": 9,
         "comments": 1,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 0,
         "followers_gained": 0,
-        "engagement_rate": 63.16
+        "engagement_rate": 48
       },
       "demographics": {
         "seniority": {},
@@ -30,7 +30,20 @@
         "location": {},
         "company": {}
       },
-      "comments": []
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/dstorozhuk",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7045009149381730304,7046786286430388225)",
+          "text": "Dmytro Storozhuk Verified Profile 1st\nDmytro Storozhuk\n• 1st\nCTO at iTech4Web | Build and Transforming Non-Profit, Education, & Corporate Web Experiences\nWow, this sounds exciting! I just checked out the TOaaS concept on the website and I'm really intrigued. Looking forward to seeing the progress!\n0",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/dstorozhuk"
+      ]
     }
   }
 }

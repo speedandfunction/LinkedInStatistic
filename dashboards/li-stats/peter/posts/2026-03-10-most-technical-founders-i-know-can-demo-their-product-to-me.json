@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:20:25Z",
+      "snapshot_at": "2026-09-02T07:39:05Z",
       "metrics": {
-        "impressions": 5042,
+        "impressions": 5047,
         "members_reached": 3385,
         "reactions": 10,
         "comments": 3,
@@ -66,7 +66,40 @@
           "Microsoft": 0
         }
       },
-      "comments": []
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/valerietsarenko",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7437132495038603264,7439636087905615872)",
+          "text": "Valerie Tsarenko 🇺🇦  2nd\nValerie Tsarenko 🇺🇦 • 2nd\nConnecting startups & enterprises with senior-only AI & SaaS engineering teams | Wamisoftware\nFollow\n100%. Early user access to a product quickly shifts development from hypotheses to real-world application. It provides live feedback, highlights actual usage scenarios, and helps teams make more accurate product decisions from the very beginning.\n1 reaction\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/olivia-mltn",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7437132495038603264,7439384244243677184)",
+          "text": "Olga Minko Verified Profile 2nd\nOlga Minko\n• 2nd\n2x CMO | SaaS Growth Strategist | I bring scalable systems and a “what’s next?” mindset to optimize operations and growth\nFollow\nA good test for any early product: can someone try it without you being there? If not, you’re probably still building infrastructure, not a product.\n1 reaction\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/ali-f-2b4540227",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7437132495038603264,7439613988662960128)",
+          "text": "Ali F. Verified Profile 2nd\nAli F.\n• 2nd\nTurning startup ideas into production-ready SaaS | Full-Stack Engineer — React, Node.js, AI, AWS\nFollow\nThis is so true. If someone outside your environment can’t use it, it’s not a product yet it’s just a demo. Distribution and usability should start way earlier than most founders think.\n1 reaction\n1",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/ali-f-2b4540227",
+        "https://www.linkedin.com/in/olivia-mltn",
+        "https://www.linkedin.com/in/valerietsarenko"
+      ]
     }
   }
 }

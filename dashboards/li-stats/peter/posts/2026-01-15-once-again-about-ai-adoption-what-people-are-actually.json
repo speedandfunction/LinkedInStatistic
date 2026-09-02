@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:19:59Z",
+      "snapshot_at": "2026-09-02T07:38:54Z",
       "metrics": {
-        "impressions": 517,
+        "impressions": 522,
         "members_reached": 191,
         "reactions": 9,
         "comments": 3,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 1,
         "followers_gained": 0,
-        "engagement_rate": 2.32
+        "engagement_rate": 2.3
       },
       "demographics": {
         "seniority": {
@@ -57,7 +57,39 @@
           "Speed and Function": 9.9
         }
       },
-      "comments": []
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/ovchyn",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7417559662964891649,7417560104364855296)",
+          "text": "Peter Ovchynnikov\nAuthor\nBuilding TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function\nTHE AGE OF COGNITIVE DIVERGENCE: Surviving the Split between Human Rhythms and Artificial Speed by Adi Stan (thanks for sharing!)\nhttps://zenodo.org/records/17965801\nTHE AGE OF COGNITIVE DIVERGENCE: Surviving the Split between Human Rhythms and Artificial Speed\nzenodo.org\n0\n90 impressions\n90",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/ivan-savitskyi",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7417559662964891649,7417700566266470400)",
+          "text": "Ivan Savitskyi Premium Profile 2nd\nIvan Savitskyi\n• 2nd\nАІ для МСБ | Будуємо системи, завдяки яким бізнес здатен розвиватися самостійно\nFollow\nYour L1, L2, L3 split makes a lot of sense. It clearly shows that using AI more doesn’t mean thinking better. Speed and convenience create a feeling of progress, but they don’t change how people reason. The real difference shows up where AI becomes a thinking tool, not a shortcut.\n1 reaction\n1\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/ovchyn",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7417559662964891649,7418013108419530752)",
+          "text": "Peter Ovchynnikov\nAuthor\nBuilding TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function\nExactly!\n0\n15 impressions\n15",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/ivan-savitskyi",
+        "https://www.linkedin.com/in/ovchyn"
+      ]
     }
   }
 }

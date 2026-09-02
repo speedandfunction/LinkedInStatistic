@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:18:50Z",
+      "snapshot_at": "2026-09-02T07:36:47Z",
       "metrics": {
-        "impressions": 28427,
+        "impressions": 28432,
         "members_reached": 20213,
         "reactions": 19,
         "comments": 8,
@@ -66,7 +66,68 @@
           "NDA": 0
         }
       },
-      "comments": []
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/ovchyn",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7442194260919050240,7442195133925597184)",
+          "text": "Peter Ovchynnikov\nAuthor\nBuilding TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function\nOn the Biology of a LLM\nhttps://www.youtube.com/watch?v=PwAcQTyZZ7I\nOn the Biology of a LLM\nyoutube.com\n1 reaction\n1\n342 impressions\n342",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/arozhylo",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7442194260919050240,7442857389055332352)",
+          "text": "Andrii Rozhylo Verified Profile 1st\nAndrii Rozhylo\n• 1st\nAI Transformation Leader | Business Strategist | Entrepreneur | Delivery Manager | Product Manager | Marketing Expert\nWhen you work a lot with models, with time, a certain internal feeling appears, as if you already know in advance what response will come from the system, so you adjust your prompt in a way that steers that response in the direction you need.\nHope is what drives us when we launch a new AI process for the first time. But after a few iterations this feeling starts to emerge.\nLook deeper within yourself 🧘😇\n1 reaction\n1\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/ovchyn",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7442194260919050240,7442893084218241024)",
+          "text": "Peter Ovchynnikov\nAuthor\nBuilding TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function\nAhaha… Looks like a new term is being born. It’s all feeling-driven development now. No conscious choice anymore :)\n0\n62 impressions\n62",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/untanglingsystems",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7442194260919050240,7442267219591442433)",
+          "text": "Kate Chapman Premium Profile 1st\nKate Chapman\n• 1st\nFractional CTO | Platform, Product & AI strategy | Sociotechnical Systems | Open Source Governance |  Helping Humans & Tech Collaborate\nThis very point of we can't understand why it does things leads me down the path of does that mean it is conscious? I haven't decided yet.\n1 reaction\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/gianluigi-fliri",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7442194260919050240,7442238230151770115)",
+          "text": "Gianluigi Fliri  3rd+\nGianluigi Fliri • 3rd+\nData and AI Lead at HModa\nFollow\nIn the eighties researchers hypothized that neural networks could one day produce intelligent behaviour. Back then they only could run tiny perceptrons, but the intuition was there. In recent years it has been proved right. So I believe that, yes, we don't fully understand the magic, but it doesn't come from pure empirism. It is by design.\n1 reaction\n1\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/ovchyn",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7442194260919050240,7442501592597159936)",
+          "text": "Peter Ovchynnikov\nAuthor\nBuilding TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function\n(edited) 5mo\nGianluigi Fliri I know how it works. I know even every weight (out of 30M). But... I still can't understand why it does this, not that. This still comes to me from \"stochastic empirism\", not from understanding. With some probability.\n0\n123 impressions\n123",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/arozhylo",
+        "https://www.linkedin.com/in/gianluigi-fliri",
+        "https://www.linkedin.com/in/ovchyn",
+        "https://www.linkedin.com/in/untanglingsystems"
+      ]
     }
   }
 }

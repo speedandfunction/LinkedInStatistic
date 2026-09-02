@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:22:10Z",
+      "snapshot_at": "2026-09-02T07:43:12Z",
       "metrics": {
-        "impressions": 434,
+        "impressions": 444,
         "members_reached": 196,
         "reactions": 5,
         "comments": 1,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 4,
         "followers_gained": 0,
-        "engagement_rate": 1.38
+        "engagement_rate": 1.35
       },
       "demographics": {
         "seniority": {
@@ -55,7 +55,20 @@
           "Speed and Function": 8.7
         }
       },
-      "comments": []
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/ovchyn",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7470834593185624065,7470835123442118656)",
+          "text": "Peter Ovchynnikov\nAuthor\nBuilding TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function\n𝗥𝗲𝗽𝗼: https://github.com/ondatra-ai/true-bdd\nFair warning: it's a prototype, not a polished tool. Behavioural spec + architecture management is real; full regeneration isn't there yet. Feedback from people building in this space is what I'm after.\nGitHub - ondatra-ai/true-bdd\ngithub.com\n0\n70 impressions\n70",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/ovchyn"
+      ]
     }
   }
 }

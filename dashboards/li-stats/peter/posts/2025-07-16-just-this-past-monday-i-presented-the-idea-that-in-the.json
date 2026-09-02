@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:30:14Z",
+      "snapshot_at": "2026-09-02T07:40:09Z",
       "metrics": {
-        "impressions": 631,
+        "impressions": 635,
         "members_reached": 0,
         "reactions": 10,
         "comments": 2,
@@ -20,39 +20,71 @@
         "sends": 0,
         "profile_viewers": 7,
         "followers_gained": 0,
-        "engagement_rate": 1.9
+        "engagement_rate": 1.89
       },
       "demographics": {
         "seniority": {
-          "Senior": 36.8,
-          "Entry": 31.6,
-          "CXO": 6.8,
-          "Manager": 6
+          "Senior": 33.8,
+          "Entry": 32.4,
+          "CXO": 8.8
         },
         "job_title": {
-          "Software Engineer": 16.2
+          "Software Engineer": 10.3
         },
         "industry": {
-          "Software Development": 35.9,
-          "IT Services and IT Consulting": 29.1,
-          "Technology, Information and Internet": 7.7
+          "IT Services and IT Consulting": 44.1,
+          "Software Development": 20.6
         },
         "company_size": {
-          "51-200 employees": 23.1,
-          "10,001+ employees": 16.2,
-          "11-50 employees": 12,
-          "1-10 employees": 8.5,
-          "1001-5000 employees": 7.7
+          "51-200 employees": 30.9,
+          "10,001+ employees": 13.2,
+          "11-50 employees": 11.8,
+          "1-10 employees": 10.3
         },
         "location": {
-          "Lviv": 15.4,
-          "Kyiv Metropolitan Area": 9.4
+          "Kyiv Metropolitan Area": 16.2,
+          "Lviv": 10.3
         },
         "company": {
-          "Speed and Function": 10.3
+          "Speed and Function": 13.2
         }
       },
-      "comments": []
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/yostapchuk",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7351255940483923968,7355735056218210304)",
+          "text": "Yuri Ostapchuk, Open to work Verified Profile 1st\nYuri Ostapchuk\n• 1st\nTech Lead | Data · ML · Cloud | Speaker | Lecturer\nThe next step then would be to automate requirements discovery phase and eliminate middle man between creator and finished product 😛 though I'll be the last one to debug that code when it breaks😁\n0\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/ovchyn",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7351255940483923968,7355976954988183552)",
+          "text": "Peter Ovchynnikov\nAuthor\nBuilding TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function\nYuri Ostapchuk wow, nice to hear you!\n1 reaction\n1\n24 impressions\n24",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "reactors": [
+        "https://www.linkedin.com/in/alyona-pugolovok",
+        "https://www.linkedin.com/in/anastasiiakovalenko886",
+        "https://www.linkedin.com/in/arozhylo",
+        "https://www.linkedin.com/in/julia-syzonenko",
+        "https://www.linkedin.com/in/kathy-marchenko",
+        "https://www.linkedin.com/in/mcrae-williams-98673b1",
+        "https://www.linkedin.com/in/nataliyamazurchak",
+        "https://www.linkedin.com/in/nstas",
+        "https://www.linkedin.com/in/roman-stoliarchuk-16969210b",
+        "https://www.linkedin.com/in/uliana-krainska"
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/ovchyn",
+        "https://www.linkedin.com/in/yostapchuk"
+      ]
     }
   }
 }

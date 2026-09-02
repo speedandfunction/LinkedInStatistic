@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:20:42Z",
+      "snapshot_at": "2026-09-02T07:40:23Z",
       "metrics": {
-        "impressions": 2301,
+        "impressions": 2307,
         "members_reached": 1528,
         "reactions": 5,
         "comments": 2,
@@ -66,7 +66,30 @@
           "Apple": 0
         }
       },
-      "comments": []
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/ovchyn",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7427694719650058240,7427696263569223680)",
+          "text": "Peter Ovchynnikov\nAuthor\nBuilding TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function\nProject Vend: Phase two \\ Anthropic\nhttps://www.anthropic.com/research/project-vend-2\nProject Vend: Phase two\nanthropic.com\n0\n88 impressions\n88",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/nikolay-mironchenko",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7427694719650058240,7430162369592348672)",
+          "text": "Nikolay Mironchenko  2nd\nNikolay Mironchenko • 2nd\nJava Software Engineer\nFollow\nThis advice, at first glance, looks like a silver bullet. But it seems a real world is not so simple. For the example, how can I decide the net step at a reception without AI?\n0",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/nikolay-mironchenko",
+        "https://www.linkedin.com/in/ovchyn"
+      ]
     }
   }
 }
