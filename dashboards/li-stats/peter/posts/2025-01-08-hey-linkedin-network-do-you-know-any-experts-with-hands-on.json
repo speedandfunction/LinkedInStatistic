@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:30:08Z",
+      "snapshot_at": "2026-09-02T07:48:50Z",
       "metrics": {
-        "impressions": 631,
+        "impressions": 635,
         "members_reached": 0,
         "reactions": 10,
         "comments": 0,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 9,
         "followers_gained": 0,
-        "engagement_rate": 1.58
+        "engagement_rate": 1.57
       },
       "demographics": {
         "seniority": {},
@@ -30,7 +30,19 @@
         "location": {},
         "company": {}
       },
-      "comments": []
+      "comments": [],
+      "reactors": [
+        "https://www.linkedin.com/in/igor-demihovskiy-699641185",
+        "https://www.linkedin.com/in/inesadruzhkova",
+        "https://www.linkedin.com/in/ishchuk",
+        "https://www.linkedin.com/in/maciej-ohnsorge",
+        "https://www.linkedin.com/in/mlisivka",
+        "https://www.linkedin.com/in/nstas",
+        "https://www.linkedin.com/in/olya-matviyiv-5a2759134",
+        "https://www.linkedin.com/in/umang-thakkar-esparkbiz",
+        "https://www.linkedin.com/in/yana-nakonechna",
+        "https://www.linkedin.com/in/yulya-kaukh-887a86258"
+      ]
     }
   }
 }

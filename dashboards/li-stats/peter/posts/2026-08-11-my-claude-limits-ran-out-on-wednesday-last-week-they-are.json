@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:20:57Z",
+      "snapshot_at": "2026-09-02T07:40:39Z",
       "metrics": {
-        "impressions": 332,
+        "impressions": 351,
         "members_reached": 165,
         "reactions": 4,
         "comments": 2,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 1,
         "followers_gained": 0,
-        "engagement_rate": 1.81
+        "engagement_rate": 1.71
       },
       "demographics": {
         "seniority": {
@@ -57,7 +57,36 @@
           "Speed and Function": 11.5
         }
       },
-      "comments": []
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/vasilyyaremchuk",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7492904487343288320,7497719034486992896)",
+          "text": "Vasyl Yaremchuk Verified Profile 1st\nVasyl Yaremchuk\n• 1st\nResults-Driven Solutions Designer  | IT Consultant | Web Development Expert\nYou can run you model on your Mac mini. It could be not so smart but without any limits.\n0\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/ovchyn",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7492904487343288320,7497740882662715393)",
+          "text": "Peter Ovchynnikov\nAuthor\nBuilding TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function\nVasyl Yaremchuk aha. And die young :)\n0\n36 impressions\n36",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "reactors": [
+        "https://www.linkedin.com/in/anastasiiast",
+        "https://www.linkedin.com/in/anatoly-chelyshev",
+        "https://www.linkedin.com/in/dc-ukr",
+        "https://www.linkedin.com/in/thearslaniqbal"
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/ovchyn",
+        "https://www.linkedin.com/in/vasilyyaremchuk"
+      ]
     }
   }
 }

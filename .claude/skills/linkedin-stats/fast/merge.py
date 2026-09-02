@@ -330,6 +330,143 @@ def merge_engagement(p):
           f"EVENTS_NEW={events_new} ICP_SET={icp_set} TARGETS_NEW={targets_new}")
 
 
+def merge_week_people(p):
+    """Attach the week's reactor / commenter ROSTERS to post files and to the
+    outbound-comments file.
+
+    engagement.json holds the events; these lists are the projection of them
+    onto the corpus, so a post file describes on its own who engaged with it in
+    a given week. Both sides are lists of canonical profile URLs, each
+    resolving to a file under dashboards/profiles/.
+
+    Read-modify-write, not part of the snapshot: the metrics phase writes
+    weeks[WEEK] BEFORE the people phase runs.
+
+    Three rules earn their keep here:
+
+      * None means NOT MEASURED, [] means measured-and-nobody. The people phase
+        harvests commenters for every post but opens the reaction overlay only
+        for its selected targets, so writing [] for an unscanned post would
+        assert "nobody reacted", which is a lie.
+      * UNION, never overwrite — the same reason events are append-only. A
+        partial re-read of a lazily-paged dialog must not shrink a good list.
+      * A missing weeks[WEEK] is CREATED, carrying no metrics/demographics/
+        comments. A --phases=people run has no metrics phase to create it, and
+        losing a scanned target's roster would be worse. Consumers key on the
+        ABSENCE of `metrics` to skip such an entry (see
+        .github/scripts/build-stats-json.mjs).
+
+    A person LinkedIn showed but that could not be given a profile URL is NOT
+    recorded here. There is no "and N others we could not name" counter: the
+    scraper fails the run instead, and the revalidation session decides whether
+    it was a genuinely private member or a parser that stopped finding links
+    (upstream, 2026-08-19). In practice it has never happened — 12 of 12 resolved
+    on the first real corpus — so a non-zero count means something broke.
+
+    Payload:
+      week            "YYYY-MM-DD"
+      comments_path   outbound comments file (optional if `comments` is empty)
+      posts[]         {path, reactors|None, commenters|None}
+      comments[]      {comment_urn, reactors|None, commenters|None}
+    """
+    week = p["week"]
+    if not re.match(r"^\d{4}-\d{2}-\d{2}$", str(week)):
+        raise SystemExit(f"SCRAPE_BAD_SHAPE: week is not a date: {week!r}")
+    now_iso = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    POST_REQUIRED = {"path", "reactors", "commenters"}
+    COMMENT_REQUIRED = {"comment_urn", "reactors", "commenters"}
+    SIDES = ("reactors", "commenters")
+
+    def check(row, required, label):
+        missing = required - set(row.keys())
+        if missing:
+            raise SystemExit(
+                f"SCRAPE_BAD_SHAPE: {label} missing fields {sorted(missing)}")
+        for side in SIDES:
+            urls = row[side]
+            if urls is None:
+                continue
+            if not isinstance(urls, list) or any(
+                    not isinstance(u, str) or not u.strip() for u in urls):
+                raise SystemExit(f"SCRAPE_BAD_SHAPE: {label} {side} is not a list of urls")
+
+    incoming_posts = p.get("posts", [])
+    incoming_comments = p.get("comments", [])
+    for row in incoming_posts:
+        check(row, POST_REQUIRED, f"post row {row.get('path')}")
+    for row in incoming_comments:
+        check(row, COMMENT_REQUIRED, f"comment row {row.get('comment_urn')}")
+
+    counts = {"reactors": 0, "commenters": 0}
+
+    def apply_roster(entry, row):
+        for side in SIDES:
+            if row[side] is None:
+                continue
+            merged = sorted(set(entry.get(side) or []) | set(row[side]))
+            entry[side] = merged
+            counts[side] += len(merged)
+            # Legacy shape: these counters were stored until 2026-08-19. They
+            # are a defect signal now, not data — drop them on touch.
+            entry.pop(f"{side}_unresolved", None)
+
+    def week_entry(weeks):
+        if week not in weeks:
+            weeks[week] = {"snapshot_at": now_iso, "people_only": True}
+            return weeks[week], True
+        return weeks[week], False
+
+    posts_updated = 0
+    comments_updated = 0
+    weeks_created = 0
+    missing = 0
+
+    by_path = {}
+    for row in incoming_posts:
+        by_path.setdefault(row["path"], []).append(row)
+    for post_path, rows in by_path.items():
+        try:
+            with open(post_path) as f:
+                data = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            missing += len(rows)
+            continue
+        entry, created = week_entry(data.setdefault("weeks", {}))
+        weeks_created += 1 if created else 0
+        for row in rows:
+            apply_roster(entry, row)
+        write_atomic(post_path, data)
+        posts_updated += 1
+
+    if incoming_comments:
+        comments_path = p["comments_path"]
+        try:
+            with open(comments_path) as f:
+                cdata = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            cdata = None
+        if cdata is None:
+            missing += len(incoming_comments)
+        else:
+            comments = cdata.setdefault("comments", {})
+            for row in incoming_comments:
+                entry = comments.get(row["comment_urn"])
+                if entry is None:
+                    # The comments phase has not discovered it yet.
+                    missing += 1
+                    continue
+                wentry, created = week_entry(entry.setdefault("weeks", {}))
+                weeks_created += 1 if created else 0
+                apply_roster(wentry, row)
+                comments_updated += 1
+            write_atomic(comments_path, cdata)
+
+    print(f"POSTS_UPDATED={posts_updated} COMMENTS_UPDATED={comments_updated} "
+          f"WEEKS_CREATED={weeks_created} MISSING={missing} "
+          f"REACTOR_URLS={counts['reactors']} COMMENTER_URLS={counts['commenters']}")
+
+
 def main():
     payload = json.load(sys.stdin)
     mode = payload["mode"]
@@ -343,6 +480,8 @@ def main():
         merge_comments(payload)
     elif mode == "engagement":
         merge_engagement(payload)
+    elif mode == "week_people":
+        merge_week_people(payload)
     else:
         raise SystemExit(f"unknown mode: {mode}")
 

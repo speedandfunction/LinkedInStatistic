@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:19:54Z",
+      "snapshot_at": "2026-09-02T07:38:33Z",
       "metrics": {
-        "impressions": 387,
+        "impressions": 392,
         "members_reached": 88,
         "reactions": 4,
         "comments": 3,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 3,
         "followers_gained": 0,
-        "engagement_rate": 1.81
+        "engagement_rate": 1.79
       },
       "demographics": {
         "seniority": {
@@ -52,7 +52,30 @@
           "Speed and Function": 18.2
         }
       },
-      "comments": []
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/untanglingsystems",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7415030743866929153,7415057236110176256)",
+          "text": "Kate Chapman Premium Profile 1st\nKate Chapman\n• 1st\nFractional CTO | Platform, Product & AI strategy | Sociotechnical Systems | Open Source Governance |  Helping Humans & Tech Collaborate\nExactly, the first round isn't the final round when working with AI to code. People often plan the AI, but are they using the tool in an optimal way? It is easier for someone that doesn't have 10 years of experience I think though. Habits are deep and it can feel easier to do it themselves. I wonder how the senior dev would be with a junior dev that didn't do it their way.\n1 reaction\n1\n2\n2",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/adistan",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7415030743866929153,7415327725869305856)",
+          "text": "Adi Stan Premium Profile 1st\nAdi Stan\n• 1st\nWorking in/with AI since ’97. Autor: Cognitive Divergence Theory CDT,  Information Gravity Theory IGT,   Minimal Ethical Governance MEG, FCPT; Books: THE AGE OF COGNITIVE DIVERGENCE; METEORAIT; ssrn.com/author=7778480\nPeter Ovchynnikov Thank you! And, on my zenodo page, I also recommend the article about FCPT and the book MeteorAIte\n0",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/adistan",
+        "https://www.linkedin.com/in/untanglingsystems"
+      ]
     }
   }
 }

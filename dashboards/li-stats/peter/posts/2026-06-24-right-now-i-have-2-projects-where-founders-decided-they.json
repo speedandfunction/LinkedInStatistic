@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:18:54Z",
+      "snapshot_at": "2026-09-02T07:37:20Z",
       "metrics": {
-        "impressions": 1472,
+        "impressions": 1482,
         "members_reached": 652,
         "reactions": 31,
         "comments": 6,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 3,
         "followers_gained": 1,
-        "engagement_rate": 2.92
+        "engagement_rate": 2.9
       },
       "demographics": {
         "seniority": {
@@ -63,7 +63,60 @@
           "EPAM Systems": 1.4
         }
       },
-      "comments": []
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/kentgregoire",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7475507577074696193,7475563030198538241)",
+          "text": "Kent Gregoire Premium Profile 1st\nKent Gregoire\n• 1st\nThe CEO to CEOs™ | I help mission-driven founders of $5M–$250M companies scale their impact and innovations | Serial entrepreneur, 15+ companies founded, $250M+ raised | Conscious Capitalism advisor\nGuilty as charged, Peter. Show me a founder who has not started building before asking whether it needed building. The entrepreneurial instinct that makes us good at shipping is the same one that gets us in trouble. A tool that forces the pause is something most of us quietly need.  I'll be using this tool.  Thanks, Peter.\n0\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/ovchyn",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7475507577074696193,7475567936775303168)",
+          "text": "Peter Ovchynnikov\nAuthor\nBuilding TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function\nKent Gregoire Thank you too :)\n0\n87 impressions\n87",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/arozhylo",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7475507577074696193,7475597810936168448)",
+          "text": "Andrii Rozhylo Verified Profile 1st\nAndrii Rozhylo\n• 1st\nAI Transformation Leader | Business Strategist | Entrepreneur | Delivery Manager | Product Manager | Marketing Expert\nI tested the bot on my pet project and was amazed by how clearly and accurately it consulted me. Now whenever someone asks me to explain how AI can help them, I just send them this link.\n1 reaction\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/yana-nakonechna",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7475507577074696193,7475573226069213184)",
+          "text": "Yana Nakonechna 🇺🇦  1st\nYana Nakonechna 🇺🇦 • 1st\nTalent Acquisition Specialist\n📢 📢 📢\n0",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/nstas",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7475507577074696193,7475610480514985986)",
+          "text": "Stas Nikitin Verified Profile 1st\nStas Nikitin\n• 1st\nOS Integrator at Speed and Function\nTom the bot is thoughtful and engaging! Nice work, guys 👏 Thank you.\n0",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/arozhylo",
+        "https://www.linkedin.com/in/kentgregoire",
+        "https://www.linkedin.com/in/nstas",
+        "https://www.linkedin.com/in/ovchyn",
+        "https://www.linkedin.com/in/yana-nakonechna"
+      ]
     }
   }
 }

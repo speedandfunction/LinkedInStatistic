@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:21:14Z",
+      "snapshot_at": "2026-09-02T07:42:29Z",
       "metrics": {
-        "impressions": 2728,
+        "impressions": 2734,
         "members_reached": 1676,
         "reactions": 18,
         "comments": 1,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 3,
         "followers_gained": 1,
-        "engagement_rate": 0.7
+        "engagement_rate": 0.69
       },
       "demographics": {
         "seniority": {
@@ -65,7 +65,20 @@
           "Self Employed": 0
         }
       },
-      "comments": []
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/kentgregoire",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7432043122894761984,7442531564913049600)",
+          "text": "Kent Gregoire Premium Profile 1st\nKent Gregoire\n• 1st\nThe CEO to CEOs™ | I help mission-driven founders of $5M–$250M companies scale their impact and innovations | Serial entrepreneur, 15+ companies founded, $250M+ raised | Conscious Capitalism advisor\nSpot on, my friend.  AI is an incredible accelerator, but it doesn't care if you're accelerating toward a cliff. The real value is using that saved time to stress-test the riskiest assumptions before building, as AI only helps you ship failure at record speed.\n0",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/kentgregoire"
+      ]
     }
   }
 }

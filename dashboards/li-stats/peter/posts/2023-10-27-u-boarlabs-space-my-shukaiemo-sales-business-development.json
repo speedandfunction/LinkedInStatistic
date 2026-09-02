@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:27:28Z",
+      "snapshot_at": "2026-09-02T07:47:29Z",
       "metrics": {
-        "impressions": 182,
+        "impressions": 186,
         "members_reached": 0,
         "reactions": 10,
         "comments": 0,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 0,
         "followers_gained": 0,
-        "engagement_rate": 5.49
+        "engagement_rate": 5.38
       },
       "demographics": {
         "seniority": {},

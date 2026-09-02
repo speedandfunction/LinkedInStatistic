@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:21:58Z",
+      "snapshot_at": "2026-09-02T07:43:08Z",
       "metrics": {
-        "impressions": 465,
+        "impressions": 468,
         "members_reached": 197,
         "reactions": 1,
         "comments": 1,
@@ -60,7 +60,20 @@
           "Speed and Function": 7.1
         }
       },
-      "comments": []
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/klausgpaul",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7459938935289569280,7459995283813228545)",
+          "text": "Klaus Paul  1st\nKlaus Paul • 1st\nTrustworthy AI & data architectures for complex solutions including safety-critical systems. Translate advanced analytics into reliable, data-driven solutions that drive measurable business value and customer impact.\nYou'll love this one: https://archive.org/details/artificial-intelligence-on-the-commodore-64 dating back to 1984\n0",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/klausgpaul"
+      ]
     }
   }
 }

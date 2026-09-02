@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:21:43Z",
+      "snapshot_at": "2026-09-02T07:42:58Z",
       "metrics": {
-        "impressions": 489,
+        "impressions": 492,
         "members_reached": 220,
         "reactions": 3,
         "comments": 1,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 1,
         "followers_gained": 0,
-        "engagement_rate": 0.82
+        "engagement_rate": 0.81
       },
       "demographics": {
         "seniority": {
@@ -59,7 +59,20 @@
           "Speed and Function": 5.9
         }
       },
-      "comments": []
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/untanglingsystems",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7455199959148208129,7455463000712351745)",
+          "text": "Kate Chapman Premium Profile 1st\nKate Chapman\n• 1st\nFractional CTO | Platform, Product & AI strategy | Sociotechnical Systems | Open Source Governance |  Helping Humans & Tech Collaborate\nI think key will be some level of token efficiency. At least for a while. Perhaps there are two components building towards the future where you are saving requirements and making it as cheap as possible to rebuild the code delivering on them.\n1 reaction\n1",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/untanglingsystems"
+      ]
     }
   }
 }

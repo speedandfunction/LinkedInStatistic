@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:21:39Z",
+      "snapshot_at": "2026-09-02T07:42:41Z",
       "metrics": {
-        "impressions": 566,
+        "impressions": 572,
         "members_reached": 299,
         "reactions": 2,
         "comments": 1,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 0,
         "followers_gained": 0,
-        "engagement_rate": 0.53
+        "engagement_rate": 0.52
       },
       "demographics": {
         "seniority": {
@@ -61,7 +61,20 @@
           "EPAM Systems": 2
         }
       },
-      "comments": []
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/nimish-g%C3%A5tam-44125512",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7452326158773366784,7453351488019611649)",
+          "text": "Nimish Gåtam Verified Profile 1st\nNimish Gåtam\n• 1st\nVP of AI Engineering | Fractional CTO consultant | Policy and Responsible AI | Ex-CTO | Ex-Wikipedia\nI've been thinking about the same a lot, and I think part of the puzzle is also thinking about the lifecycle of the specs themselves. Once you've built a prototype or tested assumptions, the specs (if you had to do it over) will be different. With AI as it is, rebuilding is cheap, but then the state of the specs change in some way from \"this was an educated guess\" to \"this has been iterated on and some things have been learned the hard way\". It's still half an idea but I think there's something about the fact that specs are \"living\" in a way when prototyping becomes cheap\n0",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/nimish-g%C3%A5tam-44125512"
+      ]
     }
   }
 }

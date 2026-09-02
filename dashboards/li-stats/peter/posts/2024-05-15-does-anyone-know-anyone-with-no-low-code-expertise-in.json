@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:28:32Z",
+      "snapshot_at": "2026-09-02T07:37:33Z",
       "metrics": {
-        "impressions": 656,
+        "impressions": 660,
         "members_reached": 0,
         "reactions": 2,
         "comments": 5,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 2,
         "followers_gained": 0,
-        "engagement_rate": 1.07
+        "engagement_rate": 1.06
       },
       "demographics": {
         "seniority": {},
@@ -30,7 +30,40 @@
         "location": {},
         "company": {}
       },
-      "comments": []
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/oleksandr-kachynskyi",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7196529241818071042,7196817086684266497)",
+          "text": "Oleksandr Kachynskyi Verified Profile 1st\nOleksandr Kachynskyi\n• 1st\nBusiness Development Manager | Kyivstar.Tech\nHi Peter, I send you a message.\n0",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/nav10million",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7196529241818071042,7196608997544603649)",
+          "text": "Nav Rao Verified Profile 2nd\nNav Rao\n• 2nd\nTechnology Consulting Manager | Building scalable embedded teams for my clients | AI | Data | ERP | Legacy Mordanization | Software Development\nFollow\nPeter Ovchinnikov 🇺🇦\nHey Peter, I've some candidates from USA with no/low-code expertise in Microsoft stack, Would you like to review the resumes?\n0\n3\n3",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/ovchyn",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7196529241818071042,7196889861243490305)",
+          "text": "Peter Ovchynnikov\nAuthor\nBuilding TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function\nplease reach me in DM\n0\n2 impressions\n2",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/nav10million",
+        "https://www.linkedin.com/in/oleksandr-kachynskyi",
+        "https://www.linkedin.com/in/ovchyn"
+      ]
     }
   }
 }

@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:18:15Z",
+      "snapshot_at": "2026-09-02T07:36:09Z",
       "metrics": {
-        "impressions": 39200,
+        "impressions": 39206,
         "members_reached": 24831,
         "reactions": 70,
         "comments": 90,
@@ -66,7 +66,87 @@
           "Oracle": 0
         }
       },
-      "comments": []
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/christof-donat-b03b262",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7429507665682391040,7429554638460342272)",
+          "text": "Christof Donat, Open to work Premium Profile 3rd+\nChristof Donat\n• 3rd+\n„Fearless when facing complex challenges“\nFollow\nThat's not how senior devs talk. More like managers imagine, senior devs talk. Senior devs know, that there are different tools for different jobs, and there's no such thing as a \"wrong library\".\n14 reactions\n14\n8\n8",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/ovchyn",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7429507665682391040,7429630056672546816)",
+          "text": "Peter Ovchynnikov\nAuthor\nBuilding TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function\n1. Ok. I have no exact data how many troll on Reddit.\n2. Yes. Sorry for confusion, US - USA.\n3. Agree. It would be great to create a definition of senior, but its a topic for another holy war :) So let's stop here :)\n2 reactions\n2\n263 impressions\n263",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/lenjaffe",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7429507665682391040,7429586001544785920)",
+          "text": "Len Jaffe Verified Profile 3rd+\nLen Jaffe\n• 3rd+\nNon-fungible, Pragmatic, Wizened - Cloud Whisperer / Perl Monger / IaC DevOps Platform Engineer at Labcorp\n(edited) 7mo\nFollow\nThe difference between developer's idea of \"can be changed in the future\"  and business' idea of it are that the developer values it more than the business values it. In fact, the business typically only values \"solves the problem now\". Maintainability is clawed back one enhancement crisis at a time.\nLook at how long it took the US auto industry to adopt quality as a real metric alongside quantity.  We bought Japanese cars despite heavy tariffs, because they'd last as long as three cars from the the US big three.\nAnd then, when we do need to add a feature, we get told off by the PM and the Product owner for needing to do the refactoring that should have happened previously. Because refactoring isn't adding a new feature, and they have convenient amnesia regarding \"We'll fix that later when we need to. Right now, we need to ship.\"\n1 reaction\n1\n3\n3",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/ovchyn",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7429507665682391040,7429621231441637376)",
+          "text": "Peter Ovchynnikov\nAuthor\nBuilding TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function\nLen Jaffe good catch.\n1 reaction\n1\n173 impressions\n173",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/oleksandr-don-0457b034a",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7429507665682391040,7429607761207980032)",
+          "text": "Oleksandr Don Verified Profile 3rd+\nOleksandr Don\n• 3rd+\nSoftware Engineer at UKRSIBBANK BNP Paribas Group\nFollow\nIMO \"Can be changed in the future\" leads to accumulating \"Architectural debt\", rarely addressed in the future until major issue emerges. Chicken or egg situation, has little impact on business unless risk can be estimated and proven quantitatively.\n1 reaction\n1\n4\n4",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/oleksandr-don-0457b034a",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7429507665682391040,7429623768240689152)",
+          "text": "Oleksandr Don Verified Profile 3rd+\nOleksandr Don\n• 3rd+\nSoftware Engineer at UKRSIBBANK BNP Paribas Group\nFollow\nPeter Ovchynnikov I will read through the suggested methodology. Thanks. Adapter (DB gateway) was in place so the problem was more or less contained.\n1 reaction\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/maryna-tochkova-7657375b",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7429507665682391040,7429551869007425536)",
+          "text": "Maryna Tochkova Verified Profile 2nd\nMaryna Tochkova\n• 2nd\nIT Consultant & Developer | Frontend-Focused | UX/UI-Minded | Fintech & Insurance Domain Experience | Author of „Von Früchten gesüßt“\nFollow\nBut the time for change can be from 15 minutes up to months in case code duplicates are used everywhere etc..\n2 reactions\n2\n9\n9",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/ovchyn",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7429507665682391040,7429885505598644224)",
+          "text": "Peter Ovchynnikov\nAuthor\nBuilding TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function\nMaryna Tochkova right, thank you for article, I read it already.\nWe have a transition now. AI is writing code. His is the reality. We both saw tons of such code. Good it or bad? From human perspective definitely bad. Why? Because it’s repetitive, not SOLID, hardly understood. Etc.\nFrom businesses perspective. Also bad. Why? Because AI can’t make any changes not introducing mistakes.\nFrom human perspective AI should create code to be understood by humans. From business perspective ai should create code without mistakes. Such as you don’t care what is created by balbel: it just works and works predictably.\nIt had past decades until compilers started producing predictable results.We have couple more years to reach similar with AI.\n1 reaction\n1\n42 impressions\n42",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/christof-donat-b03b262",
+        "https://www.linkedin.com/in/lenjaffe",
+        "https://www.linkedin.com/in/maryna-tochkova-7657375b",
+        "https://www.linkedin.com/in/oleksandr-don-0457b034a",
+        "https://www.linkedin.com/in/ovchyn"
+      ]
     }
   }
 }

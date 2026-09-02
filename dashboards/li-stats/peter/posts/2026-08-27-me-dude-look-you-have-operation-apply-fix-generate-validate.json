@@ -9,10 +9,10 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:21:07Z",
+      "snapshot_at": "2026-09-02T07:40:43Z",
       "metrics": {
-        "impressions": 184,
-        "members_reached": 89,
+        "impressions": 208,
+        "members_reached": 91,
         "reactions": 2,
         "comments": 2,
         "reposts": 0,
@@ -20,34 +20,61 @@
         "sends": 0,
         "profile_viewers": 0,
         "followers_gained": 0,
-        "engagement_rate": 2.17
+        "engagement_rate": 1.92
       },
       "demographics": {
         "seniority": {
-          "Senior": 49.4,
-          "Entry": 24.7
+          "Senior": 49.5,
+          "Entry": 26.4
         },
         "job_title": {
-          "Software Engineer": 18
+          "Software Engineer": 17.6
         },
         "industry": {
-          "Software Development": 31.5,
-          "IT Services and IT Consulting": 29.2,
-          "Technology, Information and Internet": 10.1
+          "Software Development": 30.8,
+          "IT Services and IT Consulting": 29.7,
+          "Technology, Information and Internet": 11
         },
         "company_size": {
-          "51-200 employees": 23.6,
-          "10,001+ employees": 19.1,
-          "11-50 employees": 14.6,
-          "1001-5000 employees": 9,
-          "501-1000 employees": 6.7
+          "51-200 employees": 25.3,
+          "10,001+ employees": 18.7,
+          "11-50 employees": 15.4,
+          "1001-5000 employees": 8.8,
+          "501-1000 employees": 6.6
         },
         "location": {},
         "company": {
-          "Speed and Function": 15.7
+          "Speed and Function": 16.5
         }
       },
-      "comments": []
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7498711668579799041,7498778015695429632)",
+          "text": "Olga Mykhailova (Michai) Verified Profile 1st\nOlga Mykhailova (Michai)\n• 1st\nI design culture that works | Less drama and more movement | Helping C-level leaders turn resistance and difficult dynamics into collaboration and change | Developmental Culture | Nonviolent Communication\nexactly! It drafts great, helps to brainstorm, but final polishing.... the devil is in the details!\n1 reaction\n1\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/ovchyn",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7498711668579799041,7498807679990071296)",
+          "text": "Peter Ovchynnikov\nAuthor\nBuilding TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function\nOlga Mykhailova (Michai) The Devil Wears Prada\n0\n38 impressions\n38",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "reactors": [
+        "https://www.linkedin.com/in/maria-umen-a58169a2",
+        "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b"
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b",
+        "https://www.linkedin.com/in/ovchyn"
+      ]
     }
   }
 }

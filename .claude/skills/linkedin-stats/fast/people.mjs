@@ -96,7 +96,18 @@ export function personRecord({ name, url, headline }) {
   if (!key) return null;
   let profile_url = '';
   try {
-    if (url) { const u = new URL(url, 'https://www.linkedin.com'); profile_url = u.origin + u.pathname.replace(/\/+$/, ''); }
+    if (url) {
+      const u = new URL(url, 'https://www.linkedin.com');
+      let p = u.pathname.replace(/\/+$/, '');
+      // Trailing segments are noise, not identity: LinkedIn hands out locale
+      // suffixes ("/in/dc-ukr/en") and activity paths
+      // ("/in/x/recent-activity/all"). Keep only "/in/<slug>" so this URL and
+      // the profileKey that names the person's file agree — otherwise a
+      // roster entry points at a profile file that does not exist.
+      const m = p.match(/^(\/in\/[^/]+)/i);
+      if (m) p = m[1];
+      profile_url = u.origin + p;
+    }
   } catch { profile_url = ''; }
   return {
     key,
@@ -119,8 +130,14 @@ export { targetIdForPost, targetIdForComment };
  * never scanned (the baseline backlog). Everything is newest-first inside its
  * band, and the caller caps the list — the number dropped is reported, never
  * silently swallowed.
+ *
+ * `recentOnly` drops the never-scanned band entirely, so a run can be scoped
+ * to "the last N days" instead of dragging in the whole back catalogue as
+ * baselines. Used by the one-off roster backfill.
  */
-export function selectPostTargets(entries, { week, maxPosts = 25, recentDays = 30, scannedTargets = {} } = {}) {
+export function selectPostTargets(entries, {
+  week, maxPosts = 25, recentDays = 30, scannedTargets = {}, recentOnly = false,
+} = {}) {
   const weekMs = weekToMs(week);
   const scored = [];
   for (const { file, data } of entries) {
@@ -135,7 +152,8 @@ export function selectPostTargets(entries, { week, maxPosts = 25, recentDays = 3
       && ((latest.metrics?.reactions ?? 0) !== (prev.metrics?.reactions ?? 0)
         || (latest.metrics?.comments ?? 0) !== (prev.metrics?.comments ?? 0)));
     const recent = Number.isFinite(postedMs) && (weekMs - postedMs) <= recentDays * DAY_MS;
-    const neverScanned = !scannedTargets[targetIdForPost(data.urn)];
+    const neverScanned = !recentOnly && !scannedTargets[targetIdForPost(data.urn)];
+    if (recentOnly && !recent) continue;
     if (!changed && !recent && !neverScanned) continue;
     scored.push({
       file,
@@ -247,6 +265,88 @@ export function buildCommentReactionEvents({ comment, reactors, attributedWeek, 
   return { people, events };
 }
 
+// ------------------------------------------------------------------ rosters
+
+/**
+ * The account owner is not an engager with themselves.
+ *
+ * The owner is NEVER hardcoded here. `selfKey` is the `profile_slug`
+ * ("in/<slug>") the caller read out of profiles.json for the LI_AUTHOR being
+ * scraped, so one copy of this code serves every profile in the pool. With no
+ * selfKey nobody is self — the honest default, because inventing an owner
+ * would silently delete a real stranger from somebody else's roster.
+ */
+export function isSelf(person, selfKey = '') {
+  const self = String(selfKey || '').trim().replace(/^\/+|\/+$/g, '').toLowerCase();
+  if (!self || !person) return false;
+  if (String(person.key || '').toLowerCase() === self) return true;
+  const url = String(person.profile_url || '').trim().toLowerCase().replace(/\/+$/, '');
+  return !!url && url.endsWith(`/${self}`);
+}
+
+/**
+ * The "who engaged" list a week snapshot carries: canonical profile URLs, one
+ * per person, deduped and sorted so a week's diff shows only real change. Each
+ * URL resolves to a file under dashboards/profiles/.
+ *
+ * `unresolved` counts the people LinkedIn showed that could NOT be given a URL
+ * — computed here, but deliberately NOT stored (upstream author, 2026-08-19:
+ * "let's just drop them. if face such stuff, just break pipeline and fix
+ * during self-improving stuff"). A roster is a list of profile links; a person
+ * who has no link is a hole in it, and carrying a "some people are missing"
+ * number next to the array forever just normalizes the hole. So the caller
+ * treats a non-zero count as a DEFECT that blocks the merge and goes to the
+ * revalidation session, which can open a browser and say whether it is a
+ * genuinely private "LinkedIn Member" or a parser that stopped finding links.
+ *
+ * `expected` is the reaction dialog's own total. Private profiles render with
+ * no anchor at all — they never reach `records` — so that total minus the URLs
+ * found is the only evidence they were there.
+ *
+ * Expected to be 0 essentially always (12 of 12 on the first real corpus), so
+ * a non-zero here reads as "a parser stopped finding links", not "someone was
+ * shy". That is the whole reason it is worth failing on.
+ *
+ * `dropSelf` needs `selfKey` to mean anything: asking to drop an owner nobody
+ * named is a caller bug, and it throws rather than quietly keeping the owner
+ * in the roster.
+ */
+export function rosterUrls(records, { expected = null, dropSelf = false, selfKey = '' } = {}) {
+  if (dropSelf && !String(selfKey || '').trim()) {
+    throw new Error('rosterUrls: dropSelf needs selfKey (profile_slug of the LI_AUTHOR being scraped)');
+  }
+  const urls = new Set();
+  let blank = 0;
+  for (const r of records ?? []) {
+    const p = personRecord(r);
+    if (!p) { blank++; continue; }
+    if (dropSelf && isSelf(p, selfKey)) continue;
+    if (p.profile_url) urls.add(p.profile_url); else blank++;
+  }
+  const list = [...urls].sort();
+  return {
+    urls: list,
+    unresolved: expected === null ? blank : Math.max(blank, expected - list.length),
+  };
+}
+
+/**
+ * Commenters on one of the owner's posts, from the snapshot the metrics phase
+ * wrote. Unlike buildPostCommentEvents this KEEPS entries with no comment URN:
+ * a comment that cannot be DATED is still a commenter.
+ */
+export const rosterFromComments = (comments) => rosterUrls(
+  (comments ?? []).map((c) => ({ name: c.author_name, url: c.author_url, headline: c.author_headline })));
+
+/**
+ * Repliers to one of the owner's own comments. `selfKey` is required — the
+ * whole point of this roster is that the owner's own replies are not
+ * engagement with the owner, and which slug that is depends on LI_AUTHOR.
+ */
+export const rosterFromReplies = (replies, selfKey) => rosterUrls(
+  (replies ?? []).map((r) => ({ name: r.name, url: r.url, headline: r.headline })),
+  { dropSelf: true, selfKey });
+
 /** Replies to one of the owner's own comments — dated exactly by their own URN. */
 export function buildReplyEvents({ comment, replies, selfKey = '' }) {
   const people = [];
@@ -258,7 +358,7 @@ export function buildReplyEvents({ comment, replies, selfKey = '' }) {
     const person = personRecord({ name: r.name, url: r.url, headline: r.headline });
     if (!person) { undated++; continue; }
     // The account owner replying to themselves is not engagement with them.
-    if (selfKey && person.key === String(selfKey).toLowerCase()) continue;
+    if (isSelf(person, selfKey)) continue;
     people.push(person);
     events.push({
       event_id: `reply:${r.reply_urn}`,

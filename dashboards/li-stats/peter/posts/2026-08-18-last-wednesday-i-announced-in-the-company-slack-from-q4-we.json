@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:36:32Z",
+      "snapshot_at": "2026-09-02T07:53:10Z",
       "metrics": {
-        "impressions": 253,
+        "impressions": 265,
         "members_reached": 94,
         "reactions": 1,
         "comments": 0,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 2,
         "followers_gained": 0,
-        "engagement_rate": 0.79
+        "engagement_rate": 0.75
       },
       "demographics": {
         "seniority": {
@@ -50,7 +50,10 @@
           "Speed and Function": 18.1
         }
       },
-      "comments": []
+      "comments": [],
+      "reactors": [
+        "https://www.linkedin.com/in/anastasiiast"
+      ]
     }
   }
 }

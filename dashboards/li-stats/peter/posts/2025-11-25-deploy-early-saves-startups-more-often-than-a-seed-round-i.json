@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:31:52Z",
+      "snapshot_at": "2026-09-02T07:49:32Z",
       "metrics": {
-        "impressions": 725,
+        "impressions": 728,
         "members_reached": 325,
         "reactions": 11,
         "comments": 0,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 4,
         "followers_gained": 0,
-        "engagement_rate": 1.52
+        "engagement_rate": 1.51
       },
       "demographics": {
         "seniority": {
@@ -61,7 +61,20 @@
           "Speed and Function": 6.2
         }
       },
-      "comments": []
+      "comments": [],
+      "reactors": [
+        "https://www.linkedin.com/in/alyona-pugolovok",
+        "https://www.linkedin.com/in/anastasiiast",
+        "https://www.linkedin.com/in/anatoly-chelyshev",
+        "https://www.linkedin.com/in/artyrsavytskyy",
+        "https://www.linkedin.com/in/batovskyi",
+        "https://www.linkedin.com/in/germanadutskevich",
+        "https://www.linkedin.com/in/julia-syzonenko",
+        "https://www.linkedin.com/in/massimo-fusari-43aa3a6",
+        "https://www.linkedin.com/in/olegminaev",
+        "https://www.linkedin.com/in/rajbharathi",
+        "https://www.linkedin.com/in/sergey-smaglyuk"
+      ]
     }
   }
 }

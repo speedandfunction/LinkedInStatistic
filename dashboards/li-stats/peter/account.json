@@ -1,19 +1,19 @@
 {
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T17:02:01Z",
+      "snapshot_at": "2026-09-02T07:35:40Z",
       "dashboard": {
-        "post_impressions_7d": 592,
-        "post_impressions_delta_pct_7d": 31,
+        "post_impressions_7d": 1389,
+        "post_impressions_delta_pct_7d": 158,
         "followers": 3599,
         "followers_delta_pct_7d": 0,
-        "profile_viewers_90d": 84,
+        "profile_viewers_90d": 83,
         "search_appearances_previous_week": 54
       },
       "content_7d": {
-        "impressions_7d": 596,
-        "impressions_delta_pct": 31,
-        "members_reached_7d": 124,
+        "impressions_7d": 1389,
+        "impressions_delta_pct": 158,
+        "members_reached_7d": 0,
         "social_engagements_7d": 4,
         "reactions_7d": 2,
         "comments_7d": 2,
@@ -105,9 +105,9 @@
           "search_pct": 4.3
         },
         "profile_engagement": {
-          "impressions_90d": 352,
+          "impressions_90d": 350,
           "clicks_90d": 29,
-          "avg_view_time_s": 91
+          "avg_view_time_s": 92
         },
         "clicks_per_section": {
           "Activity": {
@@ -125,8 +125,8 @@
         }
       },
       "profile_views": {
-        "viewers_90d": 84,
-        "viewers_delta_pct_7d": 46,
+        "viewers_90d": 83,
+        "viewers_delta_pct_7d": 40,
         "highlights": {
           "top_location": "Pustomyty Raion, Lviv, Ukraine",
           "top_industry": "IT Services and IT Consulting",

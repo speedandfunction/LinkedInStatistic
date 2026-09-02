@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:31:00Z",
+      "snapshot_at": "2026-09-02T07:38:25Z",
       "metrics": {
-        "impressions": 483,
+        "impressions": 487,
         "members_reached": 238,
         "reactions": 7,
         "comments": 3,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 1,
         "followers_gained": 1,
-        "engagement_rate": 2.07
+        "engagement_rate": 2.05
       },
       "demographics": {
         "seniority": {
@@ -60,7 +60,49 @@
           "Speed and Function": 8.8
         }
       },
-      "comments": []
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/mcrae-williams-98673b1",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7368317216699703296,7368574831690162177)",
+          "text": "McRae Williams Premium Profile 1st\nMcRae Williams\n• 1st\nChief Experience Officer @ Local Legend Charters | Driving Business Development\nBrilliant!\n0",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/gabrieljperezirizarry",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7368317216699703296,7368331324782170113)",
+          "text": "Gabe Perez Premium Profile 2nd\nGabe Perez\n• 2nd\nEveryone’s an AI expert. I just ship with it | Led tech at CITYROW through acquisition | 10k+ users at GaTech | Rock climber, boricua 🇵🇷\nFollow\nExactly what we see in legal tech too. Define your requirements clearly first, then let the testing feedback drive the refinements.\n1 reaction\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/dmytro-veretennik-207129333",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7368317216699703296,7371145541046390784)",
+          "text": "Dmytro Veretennik, Open to work Verified Profile 2nd\nDmytro Veretennik\n• 2nd\nProject & Operations Manager | 5+ Years in E-commerce Management, Process Automation & Team Leadership\nFollow\nSounds like a smart workflow. Do you think this way of iterating with feedback could work outside of coding too?\n0",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "reactors": [
+        "https://www.linkedin.com/in/andrew-rabchun",
+        "https://www.linkedin.com/in/anna-krigan-87327b47",
+        "https://www.linkedin.com/in/dmytro-veretennik-207129333",
+        "https://www.linkedin.com/in/igor-demihovskiy-699641185",
+        "https://www.linkedin.com/in/mcrae-williams-98673b1",
+        "https://www.linkedin.com/in/yana-lushch",
+        "https://www.linkedin.com/in/yura-komlyk-a6b4b929"
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/dmytro-veretennik-207129333",
+        "https://www.linkedin.com/in/gabrieljperezirizarry",
+        "https://www.linkedin.com/in/mcrae-williams-98673b1"
+      ]
     }
   }
 }

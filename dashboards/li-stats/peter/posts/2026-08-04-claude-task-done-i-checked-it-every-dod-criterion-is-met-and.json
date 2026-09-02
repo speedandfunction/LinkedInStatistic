@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:22:49Z",
+      "snapshot_at": "2026-09-02T07:43:36Z",
       "metrics": {
-        "impressions": 257,
+        "impressions": 270,
         "members_reached": 103,
         "reactions": 1,
         "comments": 1,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 0,
         "followers_gained": 0,
-        "engagement_rate": 0.78
+        "engagement_rate": 0.74
       },
       "demographics": {
         "seniority": {
@@ -50,7 +50,23 @@
           "Speed and Function": 14.6
         }
       },
-      "comments": []
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7490361400977039361,7493357461475860480)",
+          "text": "Olga Mykhailova (Michai) Verified Profile 1st\nOlga Mykhailova (Michai)\n• 1st\nI design culture that works | Less drama and more movement | Helping C-level leaders turn resistance and difficult dynamics into collaboration and change | Developmental Culture | Nonviolent Communication\nnot to mention that there could be personal preferences, simply like/dislike, that is hard to put in an acceptance criteria or definition of done\n0",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "reactors": [
+        "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b"
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b"
+      ]
     }
   }
 }

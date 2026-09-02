@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:19:26Z",
+      "snapshot_at": "2026-09-02T07:38:24Z",
       "metrics": {
-        "impressions": 513,
+        "impressions": 523,
         "members_reached": 291,
         "reactions": 2,
         "comments": 4,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 2,
         "followers_gained": 0,
-        "engagement_rate": 1.17
+        "engagement_rate": 1.15
       },
       "demographics": {
         "seniority": {
@@ -61,7 +61,39 @@
           "Speed and Function": 7.9
         }
       },
-      "comments": []
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7486035888146329601,7488953767074263040)",
+          "text": "Olga Mykhailova (Michai) Verified Profile 1st\nOlga Mykhailova (Michai)\n• 1st\nI design culture that works | Less drama and more movement | Helping C-level leaders turn resistance and difficult dynamics into collaboration and change | Developmental Culture | Nonviolent Communication\nI assume teachers and pedagogues are the best AI learners then\n0",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/vitaly-gapontsev",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7486035888146329601,7486053525467222016)",
+          "text": "Vitaly Gapontsev, Open to work  1st\nVitaly Gapontsev • 1st\nFront-End / Fullstack (React + Node.js)\n...the thing is, engineers aren't supposed to manage. Many, like me, went engineering precisely because they did not want to manage people.\nAnd if we put a manager to steer an AI, they can't control the quality and fix problems because they lack engineering skills.\nWhich was exactly what they needed engineers for.\nSo it turns out, not only can't we remove any of them from the equation, we now need a person who can do both. Which kinda undermines the entire \"specialization\" thing.\n0\n2\n2",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/vitaly-gapontsev",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7486035888146329601,7491468373667799040)",
+          "text": "Vitaly Gapontsev, Open to work  1st\nVitaly Gapontsev • 1st\nFront-End / Fullstack (React + Node.js)\n(edited) 3w\nPeter Ovchynnikov\nIt is obvious, however, that this is a rather specific case. Good docs, established codebase with consistent choices in architecture and code styling, etc. When a project lacks these, code discipline, architectural choices, prioritization, and task decomposition decisions *must* come from or be thoroughly reviewed by a human. A tech-proficient human.\nPlus, for big projects, security-wise, I think it may be better to eventually have a local AI model specifically adapted to this codebase. An external \"big\" AI from a \"big\" company may be a quick start, but having a custom-tailored model softens external dependencies and guarantees ownership of the end product.\nNo idea if I'm right. Just a hunch.\nPS. As a side bonus, a local model would probably burn through tokens more slowly (stable context) and cut a lot on subscription costs.\n0",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b",
+        "https://www.linkedin.com/in/vitaly-gapontsev"
+      ]
     }
   }
 }

@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:26:49Z",
+      "snapshot_at": "2026-09-02T07:41:31Z",
       "metrics": {
-        "impressions": 20,
+        "impressions": 24,
         "members_reached": 0,
         "reactions": 31,
         "comments": 1,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 0,
         "followers_gained": 0,
-        "engagement_rate": 160
+        "engagement_rate": 133.33
       },
       "demographics": {
         "seniority": {},
@@ -30,7 +30,20 @@
         "location": {},
         "company": {}
       },
-      "comments": []
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/inesadruzhkova",
+          "author_headline": "",
+          "comment_urn": "",
+          "text": "Inesa Druzhkova Verified Profile 1st\nInesa Druzhkova\n• 1st\nFull Stack Engineer\nCongrats!\n0",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/inesadruzhkova"
+      ]
     }
   }
 }

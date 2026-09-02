@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:30:33Z",
+      "snapshot_at": "2026-09-02T07:48:52Z",
       "metrics": {
-        "impressions": 658,
+        "impressions": 661,
         "members_reached": 362,
         "reactions": 7,
         "comments": 0,
@@ -62,7 +62,16 @@
           "Speed and Function": 3.9
         }
       },
-      "comments": []
+      "comments": [],
+      "reactors": [
+        "https://www.linkedin.com/in/altima-natsevych-152621388",
+        "https://www.linkedin.com/in/kathy-marchenko",
+        "https://www.linkedin.com/in/nstas",
+        "https://www.linkedin.com/in/oksana-fedorchuk-a1170579",
+        "https://www.linkedin.com/in/olena-kovach",
+        "https://www.linkedin.com/in/techsd",
+        "https://www.linkedin.com/in/vitalii-hromyk"
+      ]
     }
   }
 }

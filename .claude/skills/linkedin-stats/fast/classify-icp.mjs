@@ -11,9 +11,9 @@
 // is the no-code tuning knob: it IS the rubric, verbatim, and re-syncing it
 // re-tiers everyone whose headline changes afterwards.
 //
-// SHARED CACHE (the owner, 2026-08-18): before spending a call on a person, this
-// consults dashboards/li-stats/icp-authors.json — the same file
-// linkedin-comment-hourly's feed gate writes. Two wins. A verdict reached
+// SHARED PROFILE STORE (the owner, 2026-08-18/19): before spending a call on a
+// person, this consults dashboards/profiles/ — one file per person, the same
+// store linkedin-comment-hourly's feed gate writes. Two wins. A verdict reached
 // there is reused here for free, and where that pipeline actually OPENED the
 // person's profile, this one judges from that scraped page text instead of a
 // bare headline — which is the documented weakness of this classifier (it
@@ -31,6 +31,7 @@
 //   node classify-icp.mjs                        # classify what needs it, write back
 //   node classify-icp.mjs --dry-run --limit=20   # print verdicts, write nothing
 //   node classify-icp.mjs --input=people.json    # probe an arbitrary [{key,name,headline}]
+//   node classify-icp.mjs --profiles-dir=<dir>   # point the shared store elsewhere
 //
 // Exit codes: 0 ok · 23 fs/merge failure · 31 classifier never produced a
 // verdict (same meaning as gather-feed.mjs: if `claude -p` is dead here, it is
@@ -44,10 +45,9 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 import {
-  ICP_CACHE_REL_PATH, DEFAULT_TTL_DAYS, profileKey, readProfileList, rubricHash,
-  cachedProfileData, icpCacheGet as sharedCacheGet, icpCacheSet as sharedCacheSet,
-  loadIcpCache, saveIcpCache,
-} from '../../pipeline-shared/icp-cache.mjs';
+  PROFILES_REL_DIR, DEFAULT_TTL_DAYS, profileKey, readProfileList, rubricHash,
+  openProfileStore,
+} from '../../pipeline-shared/profile-store.mjs';
 
 const execFile = promisify(execFileCb);
 
@@ -66,7 +66,7 @@ const ICP_FILE = path.resolve(REPO_ROOT, String(args['icp-file'] || 'sources/icp
 // the other's verdicts as stale forever.
 const ICP_FILTER_FILE = path.resolve(REPO_ROOT, String(args['icp-filter-file']
   || '.claude/skills/linkedin-comment-hourly/icp-filter.md'));
-const SHARED_CACHE_FILE = path.resolve(REPO_ROOT, String(args['icp-cache-file'] || ICP_CACHE_REL_PATH));
+const PROFILES_DIR = path.resolve(REPO_ROOT, String(args['profiles-dir'] || PROFILES_REL_DIR));
 const CACHE_TTL_DAYS = Math.max(1, parseInt(args['icp-cache-ttl-days'] || String(DEFAULT_TTL_DAYS), 10));
 const ENGAGEMENT_FILE = args['engagement-file']
   ? path.resolve(String(args['engagement-file']))
@@ -109,7 +109,7 @@ let ICP_TEXT = '';
 // deadline); it must load the rubric first, exactly as main() does.
 export let ICP_FILTER_TEXT = '';
 export let RUBRIC_HASH = '';
-export let sharedCache = {};
+export let store = null;
 export let icpAllow = new Set();
 export let icpDeny = new Set();
 
@@ -122,8 +122,14 @@ export function loadIcpText(file = ICP_FILE) {
   RUBRIC_HASH = rubricHash(ICP_TEXT, ICP_FILTER_TEXT);
   icpAllow = readProfileList(ICP_FILTER_TEXT, 'always accept');
   icpDeny = readProfileList(ICP_FILTER_TEXT, 'never accept');
-  sharedCache = loadIcpCache(SHARED_CACHE_FILE);
-  log(`shared icp cache: ${Object.keys(sharedCache).length} authors from ${path.relative(REPO_ROOT, SHARED_CACHE_FILE)}`
+  // A dry run READS the real store but parks its writes elsewhere, so probing
+  // the classifier never dirties the tracked tree.
+  store = openProfileStore(PROFILES_DIR, {
+    writeDir: (DRY_RUN || INPUT_FILE) ? path.join(REPO_ROOT, 'tmp', 'classify-icp-dry', 'profiles') : null,
+    ttlDays: CACHE_TTL_DAYS,
+    rubricHash: RUBRIC_HASH,
+  });
+  log(`profile store: ${store.count()} files in ${path.relative(REPO_ROOT, PROFILES_DIR)}`
     + ` · rubric ${RUBRIC_HASH} · ${icpAllow.size} always-accept, ${icpDeny.size} never-accept`);
   return ICP_TEXT;
 }
@@ -145,9 +151,7 @@ export function resolveFromShared(person) {
   if (icpAllow.has(pkey)) {
     return { pkey, hit: { verdict: true, reason: 'allowlisted in icp-filter.md', model: 'list' }, profileText: null };
   }
-  const cached = sharedCacheGet(sharedCache, pkey, person.headline, {
-    rubricHash: RUBRIC_HASH, ttlDays: CACHE_TTL_DAYS,
-  });
+  const cached = store.verdict(pkey, person.headline);
   if (cached) {
     return {
       pkey,
@@ -155,7 +159,7 @@ export function resolveFromShared(person) {
       profileText: null,
     };
   }
-  return { pkey, hit: null, profileText: cachedProfileData(sharedCache[pkey], CACHE_TTL_DAYS) };
+  return { pkey, hit: null, profileText: store.profileText(pkey) };
 }
 
 function classifyPrompt(people) {
@@ -371,27 +375,31 @@ export async function classifyPeople(people) {
     log(`classified ${verdicts.size}/${people.length}`);
   }
 
-  // 4. Write every verdict we COMPUTED back to the shared cache, so the feed
-  //    gate never re-derives it. Cached hits are skipped — rewriting them
-  //    would only churn the file.
-  let written = 0;
+  // 4. Record every person in the shared store, and write back every verdict
+  //    we COMPUTED so the feed gate never re-derives it. A person whose
+  //    verdict came FROM the store is still written — with no verdict fields,
+  //    which leaves their existing verdict untouched and just refreshes what
+  //    we know of their name and headline. The store drops a write whose
+  //    record is unchanged, so this cannot churn the tree.
   for (const p of people) {
+    if (!p.pkey) continue;
     const v = verdicts.get(p.key);
-    if (!p.pkey || !v || v.evidence === 'shared') continue;
-    sharedCacheSet(sharedCache, p.pkey, p.headline, {
-      verdict: v.verdict,
-      confidence: 'high',
-      reason: v.reason,
-      evidence: v.evidence === 'profile' ? 'profile' : 'card',
-      model: v.model,
-    }, { rubricHash: RUBRIC_HASH });
-    written++;
+    const carriesVerdict = v && v.evidence !== 'shared';
+    store.set(p.pkey, p.headline, {
+      name: p.name || '',
+      profileUrl: p.profile_url || '',
+      ...(carriesVerdict ? {
+        verdict: v.verdict,
+        confidence: 'high',
+        reason: v.reason,
+        evidence: v.evidence === 'profile' ? 'profile' : 'card',
+        model: v.model,
+      } : {}),
+    });
   }
-  if (written) {
-    const err = saveIcpCache(SHARED_CACHE_FILE, sharedCache);
-    if (err) log(`shared icp cache write failed: ${err}`);
-    else log(`shared icp cache: +${written} verdict(s) -> ${path.relative(REPO_ROOT, SHARED_CACHE_FILE)}`);
-  }
+  const res = store.flush();
+  if (res.failed) log(`profile store: ${res.failed} write(s) failed — ${res.errors[0]}`);
+  if (res.written) log(`profile store: ${res.written} profile(s) -> ${path.relative(REPO_ROOT, PROFILES_DIR)}`);
   return verdicts;
 }
 
