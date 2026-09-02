@@ -45,6 +45,7 @@ import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright-core';
 import * as People from './people.mjs';
 import { classifyPeople, headlineHash, loadIcpText, needsClassification } from './classify-icp.mjs';
+import { openProfileStore, profileKey } from '../../pipeline-shared/profile-store.mjs';
 import { openBrowserbaseSession } from './browserbase-backend.mjs';
 
 // ---------------------------------------------------------------- constants
@@ -100,6 +101,13 @@ fs.mkdirSync(POSTS_DIR, { recursive: true }); // папка автора ств�
 const ACCOUNT_FILE = path.join(DATA_ROOT, 'account.json');
 const COMMENTS_FILE = path.join(DATA_ROOT, 'comments.json');
 const ENGAGEMENT_FILE = path.join(DATA_ROOT, 'engagement.json');
+// One file per person, SHARED with linkedin-comment-hourly. A --data-root run
+// sandboxes it too, so a probe never writes tracked profile files.
+const PROFILES_DIR = earlyArgs['profiles-dir']
+  ? path.resolve(String(earlyArgs['profiles-dir']))
+  : (earlyArgs['data-root']
+    ? path.join(DATA_ROOT, 'profiles')
+    : path.join(REPO_ROOT, 'dashboards', 'profiles'));
 const ICP_FILE = path.join(REPO_ROOT, 'sources', 'icp.md');
 const AGENTS_DIR = path.join(REPO_ROOT, '.claude', 'agents');
 const MERGE_PY = path.join(SCRIPT_DIR, 'merge.py');
@@ -133,6 +141,10 @@ const PHASES = String(args.phases || 'posts,metrics,account,comments,people').sp
 const PEOPLE_MAX_POSTS = Math.max(0, parseInt(args['people-max-posts'] || '25', 10));
 const PEOPLE_MAX_COMMENTS = Math.max(0, parseInt(args['people-max-comments'] || '25', 10));
 const PEOPLE_RECENT_DAYS = Math.max(1, parseInt(args['people-recent-days'] || '30', 10));
+// Scope the phase to the recency window only, dropping the never-scanned
+// backlog. Used by the one-off roster backfill so "the last 30 days" does not
+// drag in the whole back catalogue as baselines.
+const PEOPLE_RECENT_ONLY = !!args['people-recent-only'];
 const NO_ICP = !!args['no-icp'];
 const ICP_MAX = Math.max(0, parseInt(args['icp-max'] || '200', 10));
 const CONCURRENCY = Math.max(1, parseInt(args.concurrency || '3', 10));
@@ -204,6 +216,38 @@ function loadCanonicalScrape(name) {
 }
 const SCRAPE_POST_COMMENTS = asFn(loadCanonicalScrape('linkedin-stats-gather-metrics.scrape-comments.js'));
 const SCRAPE_COMMENTS_OUT = asFn(loadCanonicalScrape('linkedin-stats-gather-comments-out.scrape.js'));
+
+/**
+ * Expand and read the top-level comments on a post page that is ALREADY open.
+ *
+ * Shared by the metrics phase (which navigates to the public post for the text
+ * backfill) and the people phase (which navigates to the same page for the
+ * reaction overlay). The people phase harvesting its own commenters is what
+ * decouples the roster from the metrics phase — on 2026-08-17 that phase
+ * returned zero comments for all 50 posts while the analytics counters said
+ * otherwise, and the roster must not inherit that.
+ */
+async function loadAndScrapePostComments(page) {
+  // Load more comments until the button disappears (cap 30 clicks / 200 comments)
+  for (let i = 0; i < 30; i++) {
+    const before = await page.evaluate(TOP_LEVEL_COMMENT_COUNT);
+    const clicked = await page.evaluate(LOAD_MORE_COMMENTS_CLICK);
+    if (clicked === 'no-button') break;
+    await page.waitForFunction(
+      (prev) => Array.from(document.querySelectorAll('article.comments-comment-entity'))
+        .filter((a) => !a.closest('.comments-replies-list, .comments-comment-replies'))
+        .length > prev,
+      before, { timeout: 4000 },
+    ).catch(() => {});
+    const after = await page.evaluate(TOP_LEVEL_COMMENT_COUNT);
+    if (after >= 200) break;
+    if (after === before) await sleep(800);
+  }
+  const expanded = await page.evaluate(SEE_MORE_EXPAND);
+  if (expanded > 0) await sleep(800);
+  const out = await page.evaluate(SCRAPE_POST_COMMENTS);
+  return Array.isArray(out) ? out : [];
+}
 
 class AuthError extends Error {}
 class BreakerError extends Error {}
@@ -758,45 +802,76 @@ function parseDemoLines(lines) {
   return out;
 }
 
+// The comment list lost `article.comments-comment-entity` (and every `article`
+// element) in LinkedIn's 2026-08 post-page migration — which is what silently
+// emptied `weeks[WEEK].comments` for all 50 posts. The repeating unit is now
+// `div[id^="replaceableComment_urn:li:comment:..."]`, and a reply is the same
+// node NESTED inside its parent's, so there is no separate replies container.
+// Old selectors kept as a fallback for A/B buckets. Verified live 2026-08-19.
+const COMMENT_UNIT_SEL = 'div[id^="replaceableComment_urn:li:comment:"]';
+
+// "the post page has rendered". `.feed-shared-update-v2` and the `data-urn`
+// attribute both disappeared in the same 2026-08 migration; `data-view-name`
+// is LinkedIn's own hook and survived. All three are accepted so an A/B bucket
+// on either markup still passes.
+const POST_PAGE_MARKER = '[data-view-name="feed-full-update"], [data-view-name="feed-detail-page"],'
+  + ' .feed-shared-update-v2, [data-urn^="urn:li:activity"]';
+
 const LOAD_MORE_COMMENTS_CLICK = asFn(`() => {
   const btns = Array.from(document.querySelectorAll('button')).filter(b => {
     if (b.offsetParent === null || b.disabled) return false;
     const a = b.getAttribute('aria-label') || '';
     const t = (b.innerText || b.textContent || '').trim();
-    return /^Load more comments$/i.test(a) || /^Load more comments$/i.test(t);
+    return /^(Load more comments|Load previous comments|Show more comments)$/i.test(a)
+      || /^(Load more comments|Load previous comments|Show more comments)$/i.test(t);
   });
   if (btns.length) { btns[0].click(); return 'clicked'; }
   return 'no-button';
 }`);
 
-const TOP_LEVEL_COMMENT_COUNT = asFn(`() =>
-  Array.from(document.querySelectorAll('article.comments-comment-entity'))
-    .filter(a => !a.closest('.comments-replies-list, .comments-comment-replies')).length`);
+const TOP_LEVEL_COMMENT_COUNT = asFn(`() => {
+  const UNIT = 'div[id^="replaceableComment_urn:li:comment:"]';
+  const units = Array.from(document.querySelectorAll(UNIT));
+  if (units.length) return units.filter(u => !u.parentElement || !u.parentElement.closest(UNIT)).length;
+  return Array.from(document.querySelectorAll('article.comments-comment-entity'))
+    .filter(a => !a.closest('.comments-replies-list, .comments-comment-replies')).length;
+}`);
 
 const SEE_MORE_EXPAND = asFn(`() => {
-  const isTopLevel = (el) =>
-    el && !el.closest('.comments-replies-list, .comments-comment-replies');
-  const btns = Array.from(document.querySelectorAll(
-    'button.comments-comment-item__see-more-text, button.feed-shared-inline-show-more-text__see-more-less-toggle'
-  )).filter(b => isTopLevel(b) && b.offsetParent !== null);
+  const UNIT = 'div[id^="replaceableComment_urn:li:comment:"]';
+  const isTopLevel = (el) => {
+    if (el.closest('.comments-replies-list, .comments-comment-replies')) return false;
+    const unit = el.closest(UNIT);
+    return !unit || !unit.parentElement || !unit.parentElement.closest(UNIT);
+  };
+  const btns = Array.from(document.querySelectorAll('button')).filter(b => {
+    if (b.offsetParent === null || b.disabled) return false;
+    if (!isTopLevel(b)) return false;
+    const t = (b.innerText || '').replace(/\\s+/g, ' ').trim().toLowerCase();
+    return /^(…\\s*more|\\.\\.\\.\\s*more|see more)$/.test(t)
+      || /comments-comment-item__see-more-text|feed-shared-inline-show-more-text__see-more-less-toggle/.test(b.className);
+  });
   btns.forEach(b => b.click());
   return btns.length;
 }`);
 
 const POST_TEXT_EVAL = asFn(`async () => {
   const sleep = ms => new Promise(r => setTimeout(r, ms));
-  const container = document.querySelector('.feed-shared-update-v2')
+  const container = document.querySelector('[data-view-name="feed-full-update"]')
+    || document.querySelector('.feed-shared-update-v2')
     || document.querySelector('[data-urn^="urn:li:activity"]')
     || document;
   const btn = Array.from(container.querySelectorAll('button')).find(b => {
     if (b.offsetParent === null || b.disabled) return false;
-    if (b.closest('.comments-comments-list, .comments-comment-item, .comments-comment-entity')) return false;
+    if (b.closest('.comments-comments-list, .comments-comment-item, .comments-comment-entity,'
+      + ' [data-view-name="comment-container"], div[id^="replaceableComment_"]')) return false;
     const t = (b.innerText || '').trim().toLowerCase();
-    return t === 'see more' || t === '…see more'
+    return t === 'see more' || t === '…see more' || t === '…more' || t === '... more'
       || /feed-shared-inline-show-more-text__see-more-less-toggle/.test(b.className);
   });
   if (btn) { btn.click(); await sleep(800); }
-  const bodyEl = container.querySelector('.feed-shared-update-v2__description, .update-components-text');
+  const bodyEl = container.querySelector('[data-view-name="feed-commentary"]')
+    || container.querySelector('.feed-shared-update-v2__description, .update-components-text');
   const text = (bodyEl ? bodyEl.innerText : '').trim();
   return { found: !!bodyEl, len: text.length, text };
 }`);
@@ -878,7 +953,7 @@ async function scrapeOnePost(page, postFile) {
   let postText = null;
   try {
     await pacedGotoRetry(page, data.post_url, null);
-    await page.waitForSelector('.feed-shared-update-v2, [data-urn^="urn:li:activity"]',
+    await page.waitForSelector(POST_PAGE_MARKER,
       { timeout: 10000 }).catch(() => {});
     await sleep(600);
 
@@ -892,25 +967,7 @@ async function scrapeOnePost(page, postFile) {
       } catch { /* best-effort */ }
     }
 
-    // Load more comments until the button disappears (cap 30 clicks / 200 comments)
-    for (let i = 0; i < 30; i++) {
-      const before = await page.evaluate(TOP_LEVEL_COMMENT_COUNT);
-      const clicked = await page.evaluate(LOAD_MORE_COMMENTS_CLICK);
-      if (clicked === 'no-button') break;
-      await page.waitForFunction(
-        (prev) => Array.from(document.querySelectorAll('article.comments-comment-entity'))
-          .filter((a) => !a.closest('.comments-replies-list, .comments-comment-replies'))
-          .length > prev,
-        before, { timeout: 4000 },
-      ).catch(() => {});
-      const after = await page.evaluate(TOP_LEVEL_COMMENT_COUNT);
-      if (after >= 200) break;
-      if (after === before) await sleep(800);
-    }
-    const expanded = await page.evaluate(SEE_MORE_EXPAND);
-    if (expanded > 0) await sleep(800);
-    comments = await page.evaluate(SCRAPE_POST_COMMENTS);
-    if (!Array.isArray(comments)) comments = [];
+    comments = await loadAndScrapePostComments(page);
   } catch (e) {
     if (e instanceof AuthError || e instanceof BreakerError || e instanceof RateLimitError) throw e;
     vlog(`comments scrape failed for ${id}: ${e.message}`);
@@ -1491,24 +1548,52 @@ async function phaseCommentsOut(page) {
 // 2026-08-17. Keep the legacy selectors as fallbacks.
 const DIALOG_SEL = 'dialog[open], [data-testid="dialog"], [role="dialog"], [aria-modal="true"], .artdeco-modal';
 
-// Open the post's reaction list. In 2026 the counts row lost every semantic
-// class (`social-details-social-counts__*` matches nothing) and carries no
-// aria-label, so the only stable handle left is the TEXT: an anchor reading
-// "70 reactions 70". The whole counts row ("70 reactions 70 90 comments …")
-// matches that prefix too, hence the length bound plus the requirement that a
-// real clickable ancestor exists — the row wrapper is an unclickable DIV.
+// Open the post's reaction list.
+//
+// 2026-08-19: the counts row stopped rendering a reaction COUNT at all. It now
+// reads "<Name> and N others reacted", so the old text anchor
+// (/^\d+\s+reactions?/) matched nothing and every target came back 'no-button'.
+// What survived the obfuscation is `data-view-name` — LinkedIn's own hook —
+// and the reaction summary is `a[data-view-name="feed-reaction-count"]`.
+// Verified live 2026-08-19: clicking it mounts <dialog data-testid="dialog">
+// with the reactor list inside.
+//
+// The 2026-08-17 text anchor is kept as a fallback: these migrations roll out
+// per A/B bucket, and a bucket still serving "70 reactions 70" must keep
+// working.
 async function openPostReactors(page, dialogSel) {
   return page.evaluate(async (sel) => {
     const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     const root = document.querySelector('main') || document.body;
-    const hit = Array.from(root.querySelectorAll('*')).find((el) => {
-      if (el.offsetParent === null) return false;
-      if (el.closest('.comments-comment-entity, .comments-comment-item, .comments-comments-list')) return false;
-      const t = (el.innerText || '').replace(/\s+/g, ' ').trim();
-      return t.length <= 40 && /^\d[\d,]*\s+reactions?\b/i.test(t) && !!el.closest('a, button, [role="button"]');
-    });
-    if (!hit) return 'no-button';
-    hit.closest('a, button, [role="button"]').click();
+    const inComment = (el) => !!el.closest(
+      '[data-view-name="comment-container"], div[id^="replaceableComment_"],'
+      + ' .comments-comment-entity, .comments-comment-item, .comments-comments-list');
+
+    let target = Array.from(root.querySelectorAll(
+      'a[data-view-name="feed-reaction-count"], [data-view-name="feed-reaction-count"] a,'
+      + ' a[data-view-name="view-likers"], [data-view-name="view-likers"] a',
+    )).find((el) => !inComment(el));
+
+    if (!target) {
+      // Two shapes, two length bounds. The pre-2026-08 counts row reads
+      // "70 reactions 70" and stays short — 40 chars keeps the whole row
+      // ("70 reactions 70 90 comments …") from matching. The 2026-08 summary
+      // is a NAME list ("Anastasiia Stetsenko and 3 others reacted" — 41
+      // chars, which the old bound silently rejected), so it gets room for a
+      // long display name. Not every post carries the data-view-name hook;
+      // this branch is what covers those.
+      const hit = Array.from(root.querySelectorAll('*')).find((el) => {
+        if (el.offsetParent === null) return false;
+        if (inComment(el)) return false;
+        if (!el.closest('a, button, [role="button"]')) return false;
+        const t = (el.innerText || '').replace(/\s+/g, ' ').trim();
+        if (/\breacted$/i.test(t)) return t.length <= 160;
+        return t.length <= 40 && /^\d[\d,]*\s+reactions?\b/i.test(t);
+      });
+      target = hit?.closest('a, button, [role="button"]') || null;
+    }
+    if (!target) return 'no-button';
+    target.click();
     for (let i = 0; i < 10; i++) {           // the dialog mounts async
       await sleep(400);
       if (document.querySelector(sel)) return 'open';
@@ -1540,10 +1625,21 @@ async function readReactorDialog(page, dialogSel) {
       if (!label) continue;
       if (!out.has(url)) out.set(url, { url, label });
     }
+    // The "All" tab carries the true total, which is what makes a short read
+    // visible instead of silent. Its aria-label used to read "<n> All
+    // reactions"; since 2026-08 the tab renders as text "All <n>" (the dialog
+    // heads "Reactions All 2 2"). Try both, aria first.
     let expected = null;
-    for (const b of dialog.querySelectorAll('button, [role="button"]')) {
+    for (const b of dialog.querySelectorAll('button, [role="button"], [role="tab"]')) {
       const m = (b.getAttribute('aria-label') || '').match(/^(\d[\d,]*)\s+All reactions?$/i);
       if (m) { expected = parseInt(m[1].replace(/,/g, ''), 10); break; }
+    }
+    if (expected === null) {
+      for (const b of dialog.querySelectorAll('button, [role="button"], [role="tab"]')) {
+        const t = (b.innerText || '').replace(/\s+/g, ' ').trim();
+        const m = t.match(/^All\s+(\d[\d,]*)$/i) || t.match(/^(\d[\d,]*)\s+All$/i);
+        if (m) { expected = parseInt(m[1].replace(/,/g, ''), 10); break; }
+      }
     }
     return { error: null, people: [...out.values()], expected };
   }, dialogSel);
@@ -1609,27 +1705,53 @@ async function closeDialog(page, dialogSel) {
   await sleep(400);
 }
 
-// the owner's own comment lives on someone else's post. Open its reaction count.
-// The comments subtree still has semantic classes, so try those first and fall
-// back to the same text handle the post-level counts row needs.
+// Locate ONE comment's DOM node by its URN, under either markup. Injected into
+// the page as a source string because page.evaluate cannot close over helpers.
+//
+// The 2026-08 unit spells the URN `(urn:li:activity:A,B)` in its id where the
+// stored form is `(activity:A,B)` — the `urn:li:` prefix is optional on BOTH
+// sides, so the pattern must allow it independently or the two never meet.
+// Matching is on the id PAIR, never on the string.
+const FIND_COMMENT_FN = `(urn) => {
+  const UNIT = 'div[id^="replaceableComment_urn:li:comment:"]';
+  const PAIR = /\\((?:urn:li:)?(?:activity:)?(\\d+),(\\d+)\\)/;
+  const ids = String(urn || '').match(PAIR);
+  if (ids) {
+    for (const u of document.querySelectorAll(UNIT)) {
+      const m = (u.getAttribute('id') || '').match(PAIR);
+      if (m && m[1] === ids[1] && m[2] === ids[2]) return u;
+    }
+  }
+  return document.querySelector('article.comments-comment-entity[data-id="' + urn + '"]')
+    || Array.from(document.querySelectorAll('article.comments-comment-entity'))
+      .find((a) => (a.getAttribute('data-id') || '') === urn)
+    || null;
+}`;
+
+// The owner's own comment lives on someone else's post. Open its reaction count.
 async function openCommentReactors(page, commentUrn, dialogSel) {
-  return page.evaluate(async ({ urn, sel }) => {
+  return page.evaluate(async ({ urn, sel, findSrc }) => {
     const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-    const article = document.querySelector(`article.comments-comment-entity[data-id="${urn}"]`)
-      || Array.from(document.querySelectorAll('article.comments-comment-entity'))
-        .find((a) => (a.getAttribute('data-id') || '') === urn);
-    if (!article) return 'no-comment';
-    let target = Array.from(article.querySelectorAll('button, span[role="button"], a')).find((b) => {
+    // eslint-disable-next-line no-new-func
+    const find = new Function(`return (${findSrc})`)();
+    const node = find(urn);
+    if (!node) return 'no-comment';
+    let target = Array.from(node.querySelectorAll('button, span[role="button"], a')).find((b) => {
       if (b.offsetParent === null) return false;
       const cls = String(b.className || '');
+      const view = b.getAttribute('data-view-name') || '';
       const al = (b.getAttribute('aria-label') || '').toLowerCase();
-      return /comments-comment-social-bar__reactions-count/.test(cls) || /reaction/.test(al);
+      return /comments-comment-social-bar__reactions-count/.test(cls)
+        || /reaction-count|view-likers/.test(view)
+        || /reaction/.test(al);
     });
     if (!target) {
-      const hit = Array.from(article.querySelectorAll('*')).find((el) => {
+      const hit = Array.from(node.querySelectorAll('*')).find((el) => {
         if (el.offsetParent === null) return false;
         const t = (el.innerText || '').replace(/\s+/g, ' ').trim();
-        return t.length <= 40 && /^\d[\d,]*\s+reactions?\b/i.test(t) && !!el.closest('a, button, [role="button"]');
+        return t.length <= 40
+          && (/^\d[\d,]*\s+reactions?\b/i.test(t) || /\breacted$/i.test(t))
+          && !!el.closest('a, button, [role="button"]');
       });
       target = hit ? hit.closest('a, button, [role="button"]') : null;
     }
@@ -1640,26 +1762,27 @@ async function openCommentReactors(page, commentUrn, dialogSel) {
       if (document.querySelector(sel)) return 'open';
     }
     return 'no-dialog';
-  }, { urn: commentUrn, sel: dialogSel });
+  }, { urn: commentUrn, sel: dialogSel, findSrc: FIND_COMMENT_FN });
 }
 
 // Expand and read the replies under the owner's own comment. Each reply carries
 // its own comment URN, so replies are dated exactly.
 async function scrapeCommentReplies(page, commentUrn) {
-  return page.evaluate(async (urn) => {
+  return page.evaluate(async ({ urn, findSrc }) => {
+    const UNIT = 'div[id^="replaceableComment_urn:li:comment:"]';
     const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-    const findArticle = () =>
-      document.querySelector(`article.comments-comment-entity[data-id="${urn}"]`)
-      || Array.from(document.querySelectorAll('article.comments-comment-entity'))
-        .find((a) => (a.getAttribute('data-id') || '') === urn);
-    let article = findArticle();
-    if (!article) return { error: 'no-comment', replies: [] };
+    // eslint-disable-next-line no-new-func
+    const find = new Function(`return (${findSrc})`)();
+    const clean = (s) => (s || '').replace(/\s+/g, ' ').trim();
+
+    let node = find(urn);
+    if (!node) return { error: 'no-comment', replies: [] };
 
     // "N replies" / "Load more replies" — click until nothing new appears.
     for (let i = 0; i < 6; i++) {
-      article = findArticle();
-      if (!article) break;
-      const scope = article.parentElement || article;
+      node = find(urn);
+      if (!node) break;
+      const scope = node.parentElement || node;
       const btn = Array.from(scope.querySelectorAll('button')).find((b) => {
         if (b.offsetParent === null || b.disabled) return false;
         const t = (b.innerText || b.textContent || '').trim().toLowerCase();
@@ -1671,37 +1794,99 @@ async function scrapeCommentReplies(page, commentUrn) {
       await sleep(1200);
     }
 
-    article = findArticle();
-    if (!article) return { error: 'no-comment', replies: [] };
-    const scope = article.parentElement || article;
-    const replyEls = Array.from(scope.querySelectorAll(
-      '.comments-replies-list article.comments-comment-entity, .comments-comment-replies article.comments-comment-entity',
-    ));
+    node = find(urn);
+    if (!node) return { error: 'no-comment', replies: [] };
+
+    // Where a reply lives, and whether we can tell it IS one.
+    //
+    // Legacy markup put replies in a `.comments-replies-list` container — a
+    // positive signal. The 2026-08 markup sometimes nests the reply unit
+    // inside its parent (also positive), but on a comment PERMALINK page it
+    // renders the whole thread FLAT: measured live 2026-08-19, every unit had
+    // the same parent, the same DOM depth (20) and the same left offset (397px)
+    // whether it was a top-level comment or a reply. There is no structural,
+    // geometric or attribute signal left to separate them.
+    //
+    // So when the page is flat we report `measured: false` and the caller
+    // writes `null` — "not measured" — instead of `[]`. Guessing from document
+    // order would fabricate repliers, and asserting "nobody replied" on a
+    // thread we simply could not parse is the same class of lie that put
+    // `comments: []` on 50 post files.
+    const legacyScope = node.parentElement || node;
+    let replyEls = Array.from(node.querySelectorAll(UNIT));
+    let modern = replyEls.length > 0;
+    let measured = modern;
+    if (!modern) {
+      const legacyContainer = legacyScope.querySelector('.comments-replies-list, .comments-comment-replies');
+      replyEls = legacyContainer ? Array.from(legacyScope.querySelectorAll(
+        '.comments-replies-list article.comments-comment-entity, .comments-comment-replies article.comments-comment-entity',
+      )) : [];
+      // A legacy container that exists but is empty IS a measurement.
+      measured = !!legacyContainer
+        // A modern page with no nested units at all and no legacy container:
+        // if this node has no reply affordance either, there are genuinely no
+        // replies to find. Otherwise we cannot tell — leave it unmeasured.
+        || (document.querySelector(UNIT) === null);
+    }
+
     const replies = [];
     for (const el of replyEls.slice(0, 100)) {
-      const reply_urn = el.getAttribute('data-id') || '';
+      let reply_urn = '';
+      if (modern) {
+        const m = (el.getAttribute('id') || '').match(/\((?:urn:li:)?(?:activity:)?(\d+),(\d+)\)/);
+        if (m) reply_urn = `urn:li:comment:(activity:${m[1]},${m[2]})`;
+      } else {
+        reply_urn = el.getAttribute('data-id') || '';
+      }
       if (!/^urn:li:comment:\(/.test(reply_urn)) continue;
-      const nameEl = el.querySelector('.comments-comment-meta__description-title');
-      const linkEl = el.querySelector('a.comments-comment-meta__description-container')
-        || el.querySelector('a.comments-comment-meta__image-link');
-      const headlineEl = el.querySelector('.comments-comment-meta__description-subtitle')
-        || el.querySelector('[class*="comments-comment-meta__description-subtitle"]');
-      const textEl = el.querySelector('.comments-comment-item__main-content');
-      let url = linkEl?.getAttribute('href') || '';
+
+      let name = '';
+      let headline = '';
+      let url = '';
+      let text = '';
+      if (modern) {
+        const nestedDeeper = Array.from(el.querySelectorAll(UNIT));
+        const linkEl = Array.from(el.querySelectorAll('a[href*="/in/"]'))
+          .find((a) => !nestedDeeper.some((n) => n.contains(a)));
+        url = linkEl?.getAttribute('href') || '';
+        const lines = (linkEl?.innerText || '').split('\n').map(clean).filter(Boolean);
+        name = (lines[0] || '').replace(/,\s*(Open to work|Hiring|Verified)\s*$/i, '').trim();
+        const dotIdx = lines.findIndex((l) => /\s•\s/.test(l));
+        headline = (dotIdx >= 0 ? lines[dotIdx + 1] : '') || '';
+        const own = el.innerText || '';
+        let body = linkEl && own.startsWith(linkEl.innerText) ? own.slice(linkEl.innerText.length) : own;
+        for (const n of nestedDeeper) {
+          const nt = n.innerText || '';
+          if (nt && body.includes(nt)) body = body.replace(nt, '');
+        }
+        text = body.split('\n').map((l) => l.trim())
+          .filter((l) => l && !/^(Like|Reply|Reply privately|…\s*more|\(edited\))$/i.test(l))
+          .filter((l) => !/^\d+\s*(s|m|h|d|w|mo|yr)$/i.test(l))
+          .join('\n').trim();
+      } else {
+        const nameEl = el.querySelector('.comments-comment-meta__description-title');
+        const linkEl = el.querySelector('a.comments-comment-meta__description-container')
+          || el.querySelector('a.comments-comment-meta__image-link');
+        const headlineEl = el.querySelector('.comments-comment-meta__description-subtitle')
+          || el.querySelector('[class*="comments-comment-meta__description-subtitle"]');
+        const textEl = el.querySelector('.comments-comment-item__main-content');
+        url = linkEl?.getAttribute('href') || '';
+        name = clean(nameEl?.textContent);
+        headline = clean(headlineEl?.textContent);
+        text = (textEl?.innerText || '').trim();
+      }
       try {
         const u = new URL(url, 'https://www.linkedin.com');
         url = u.origin + u.pathname;
       } catch { /* keep raw */ }
       replies.push({
-        reply_urn,
-        name: (nameEl?.textContent || '').replace(/\s+/g, ' ').trim(),
-        url,
-        headline: (headlineEl?.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 400),
-        text: (textEl?.innerText || '').trim().slice(0, 500),
+        reply_urn, name, url,
+        headline: headline.slice(0, 400),
+        text: text.slice(0, 500),
       });
     }
-    return { error: null, replies };
-  }, commentUrn);
+    return { error: null, replies, measured };
+  }, { urn: commentUrn, findSrc: FIND_COMMENT_FN });
 }
 
 function isDeadlineStop() { return /deadline/.test(breakerTripped ?? ''); }
@@ -1724,11 +1909,25 @@ async function phasePeople(page) {
   const eventsAll = [];
   const targetRecords = [];
 
+  // Per-week ROSTERS: who engaged, projected onto the post/comment corpus so a
+  // file describes its own week without a join against engagement.json.
+  // `null` means "not measured this run" — see merge.py's week_people mode.
+  const rosterPosts = new Map();    // post file path -> row
+  const rosterComments = new Map(); // comment urn    -> row
+  const rosterRow = (m, k) => {
+    if (!m.has(k)) m.set(k, { reactors: null, commenters: null });
+    return m.get(k);
+  };
+  // People LinkedIn showed that we could not name. NOT stored — a non-zero
+  // count breaks the run instead (see People.rosterUrls).
+  let rosterUnresolved = 0;
+
   // 1. Commenters — free. The metrics phase already wrote this week's comment
   //    snapshots, and each entry now carries its own URN, so every comment
   //    LinkedIn still shows is dated exactly, right back through history.
   let commentEvents = 0;
   let commentsUndated = 0;
+  let commentersRecovered = 0;
   for (const e of entries) {
     const snap = (e.data.weeks ?? {})[WEEK];
     if (!snap || !Array.isArray(snap.comments) || !e.data.urn) continue;
@@ -1737,11 +1936,25 @@ async function phasePeople(page) {
     eventsAll.push(...r.events);
     commentEvents += r.events.length;
     commentsUndated += r.undated;
+    // The roster keeps entries the event log skips: a comment with no URN
+    // cannot be DATED, but its author still commented.
+    //
+    // An EMPTY array is deliberately not treated as a measurement. In a
+    // snapshot it is indistinguishable from "the comment scrape came back
+    // blank", which is exactly what happened to all 50 posts on 2026-08-17 —
+    // writing `commenters: []` would assert "nobody commented" on that
+    // evidence. Left null, so the on-page harvest below (or a later run) can
+    // still fill it.
+    if (!snap.comments.length) continue;
+    const cr = People.rosterFromComments(snap.comments);
+    rosterUnresolved += cr.unresolved;
+    rosterRow(rosterPosts, e.file).commenters = cr.urls;
   }
 
   // 2. Reactors on in-scope posts — one paced navigation each.
   const { selected: postTargets, dropped: postsDropped } = People.selectPostTargets(entries, {
     week: WEEK, maxPosts: PEOPLE_MAX_POSTS, recentDays: PEOPLE_RECENT_DAYS, scannedTargets,
+    recentOnly: PEOPLE_RECENT_ONLY,
   });
   log(`people: ${postTargets.length} post targets (${postsDropped} over the cap), `
     + `${commentEvents} comment events, attributing reactions to ${attributedWeek}`);
@@ -1758,9 +1971,33 @@ async function phasePeople(page) {
     if (breakerTripped) { stopped = isDeadlineStop() ? 'deadline' : 'breaker'; break; }
     try {
       await pacedGotoRetry(page, t.data.post_url, null);
-      await page.waitForSelector('.feed-shared-update-v2, [data-urn^="urn:li:activity"]', { timeout: 10000 })
+      await page.waitForSelector(POST_PAGE_MARKER, { timeout: 10000 })
         .catch(() => {});
       await sleep(500);
+
+      // While we are on the page anyway: harvest the commenters ourselves.
+      // Zero extra navigations, and it means the roster does not inherit an
+      // empty metrics-phase comment scrape (the 2026-08-17 regression).
+      if (!(rosterPosts.get(t.file)?.commenters ?? []).length) {
+        try {
+          const onPage = await loadAndScrapePostComments(page);
+          if (onPage.length) {
+            const cr = People.rosterFromComments(onPage);
+            rosterUnresolved += cr.unresolved;
+            rosterRow(rosterPosts, t.file).commenters = cr.urls;
+            const ev = People.buildPostCommentEvents({ post: t.data, comments: onPage });
+            peopleAll.push(...ev.people);
+            eventsAll.push(...ev.events);
+            commentEvents += ev.events.length;
+            commentsUndated += ev.undated;
+            commentersRecovered += cr.urls.length;
+          }
+        } catch (e) {
+          if (e instanceof AuthError || e instanceof BreakerError || e instanceof RateLimitError) throw e;
+          vlog(`people: on-page comments for ${t.data.id} failed: ${String(e.message).slice(0, 120)}`);
+        }
+      }
+
       const opened = await openPostReactors(page, DIALOG_SEL);
       if (opened !== 'open') { dialogFailures++; failed++; vlog(`people: post ${t.data.id} — ${opened}`); continue; }
       const { error, people: reactors, expected } = await scrapeOpenReactorDialog(page, 30, 500, DIALOG_SEL);
@@ -1787,6 +2024,9 @@ async function phasePeople(page) {
         target_urn: t.data.urn, target_url: t.data.post_url,
         week: WEEK, reactor_count: reactors.length,
       });
+      const rr = People.rosterUrls(reactors, { expected });
+      rosterUnresolved += rr.unresolved;
+      rosterRow(rosterPosts, t.file).reactors = rr.urls;
       reactorsSeen += reactors.length;
       scanned++;
       vlog(`people: post ${t.data.id} (${t.reason}) — ${reactors.length} reactors${isBaseline ? ' [baseline]' : ''}`);
@@ -1804,6 +2044,7 @@ async function phasePeople(page) {
   // 3. Reactors and repliers on the owner's OWN recent comments.
   let commentTargetsScanned = 0;
   let replyEvents = 0;
+  let repliesUnmeasured = 0;
   let commentsDropped = 0;
   if (!stopped) {
     let outbound = {};
@@ -1820,13 +2061,27 @@ async function phasePeople(page) {
         await sleep(600);
 
         const replyRes = await scrapeCommentReplies(page, comment.comment_urn);
-        if (!replyRes.error && replyRes.replies.length) {
-          const r = People.buildReplyEvents({
-            comment, replies: replyRes.replies, selfKey: PROFILE_SLUG,
-          });
-          peopleAll.push(...r.people);
-          eventsAll.push(...r.events);
-          replyEvents += r.events.length;
+        if (!replyRes.error) {
+          if (replyRes.replies.length) {
+            const r = People.buildReplyEvents({
+              comment, replies: replyRes.replies, selfKey: PROFILE_SLUG,
+            });
+            peopleAll.push(...r.people);
+            eventsAll.push(...r.events);
+            replyEvents += r.events.length;
+          }
+          // Written even when empty — a successful read of zero replies IS a
+          // measurement, and [] says so where null would mean "never looked".
+          // But only when the DOM could actually tell replies apart from
+          // top-level comments; on a flat thread `measured` is false and the
+          // side stays null rather than claiming nobody replied.
+          if (replyRes.measured) {
+            const cr = People.rosterFromReplies(replyRes.replies, PROFILE_SLUG);
+            rosterUnresolved += cr.unresolved;
+            rosterRow(rosterComments, comment.comment_urn).commenters = cr.urls;
+          } else {
+            repliesUnmeasured++;
+          }
         }
 
         const opened = await openCommentReactors(page, comment.comment_urn, DIALOG_SEL);
@@ -1850,6 +2105,9 @@ async function phasePeople(page) {
               target_urn: comment.comment_urn, target_url: comment.permalink,
               week: WEEK, reactor_count: reactors.length,
             });
+            const rr = People.rosterUrls(reactors, { expected });
+            rosterUnresolved += rr.unresolved;
+            rosterRow(rosterComments, comment.comment_urn).reactors = rr.urls;
             reactorsSeen += reactors.length;
           } else { dialogFailures++; }
         } else if (opened !== 'no-button') {
@@ -1881,6 +2139,45 @@ async function phasePeople(page) {
   }
   const mergeVal = (k) => (mergeOut.match(new RegExp(`${k}=(\\d+)`))?.[1] ?? '0');
 
+  // 4b. Everyone this phase saw gets a file under dashboards/profiles/ —
+  //     name, headline, link, dates. NO profile page is ever opened here
+  //     (upstream, 2026-08-19); this records only what the reaction overlay and
+  //     the comment cards already handed us. The store drops a write whose
+  //     record is unchanged, so re-seeing the same people cannot churn git.
+  let profilesWritten = 0;
+  try {
+    const profiles = openProfileStore(PROFILES_DIR);
+    for (const p of mergedPeople) {
+      if (!p.profile_url) continue; // name-only identities have no stable file
+      profiles.set(profileKey(p.profile_url), p.headline, {
+        name: p.name, profileUrl: p.profile_url,
+      });
+    }
+    const res = profiles.flush();
+    profilesWritten = res.written;
+    if (res.failed) log(`people: ${res.failed} profile write(s) failed — ${res.errors[0]}`);
+  } catch (err) {
+    log(`people: profile store skipped — ${String(err.message).slice(0, 140)}`);
+  }
+
+  // 4c. The per-week rosters. AFTER the engagement merge on purpose:
+  //     engagement.json is the event source of truth, and these lists are a
+  //     projection of it that a rerun can always re-derive.
+  // A row whose every side is null carries no measurement — sending it would
+  // only rewrite files to no effect.
+  const hasData = (r) => r.reactors !== null || r.commenters !== null;
+  const rosterPostRows = [...rosterPosts].filter(([, r]) => hasData(r)).map(([p, r]) => ({ path: p, ...r }));
+  const rosterCommentRows = [...rosterComments].filter(([, r]) => hasData(r)).map(([u, r]) => ({ comment_urn: u, ...r }));
+  let rosterOut = '';
+  if (rosterPostRows.length || rosterCommentRows.length) {
+    rosterOut = mergeViaPython({
+      mode: 'week_people', week: WEEK, comments_path: COMMENTS_FILE,
+      posts: rosterPostRows, comments: rosterCommentRows,
+    });
+    log(`people: roster ${rosterOut}`);
+  }
+  const rosterVal = (k) => (rosterOut.match(new RegExp(`${k}=(\\d+)`))?.[1] ?? '0');
+
   // 5. ICP tiering — cached per person, so this is a no-op once steady.
   let icpClassified = 0;
   let icpPending = 0;
@@ -1889,8 +2186,13 @@ async function phasePeople(page) {
       const after = readJson(ENGAGEMENT_FILE);
       const pending = Object.values(after.people ?? {}).filter(needsClassification);
       icpPending = pending.length;
+      // profile_url must travel: the shared store is keyed by profileKey(url),
+      // and a percent-encoded slug ("in/nimish-g%c3%a5tam-...") does not equal
+      // the decoded key engagement.json holds — dropping the URL would mint a
+      // SECOND profile file for the same human.
       const batch = pending.slice(0, ICP_MAX).map((p) => ({
         key: p.key, name: p.name || '', headline: p.headline || '',
+        profile_url: p.profile_url || '',
       }));
       if (batch.length) {
         loadIcpText(ICP_FILE);
@@ -1914,11 +2216,16 @@ async function phasePeople(page) {
     }
   }
 
+  const rosterMissing = Number(rosterVal('MISSING'));
   const attempted = postTargets.length;
   let status = 'OK';
   if (stopped) status = stopped.toUpperCase();
+  // The dialog TOLD us how many reactors there were and we read none: that is
+  // drift, not a quiet week, so it escalates without waiting for a session.
   else if (attempted > 0 && scanned === 0 && dialogFailures >= attempted) status = 'SELECTOR_DRIFT';
-  else if (failed > 0 || postsDropped > 0 || commentsDropped > 0 || reactorsShort > 0) status = 'PARTIAL';
+  else if (scanned > 0 && reactorsSeen === 0 && reactorsExpected > 0) status = 'SELECTOR_DRIFT';
+  else if (failed > 0 || postsDropped > 0 || commentsDropped > 0 || reactorsShort > 0
+    || rosterMissing > 0) status = 'PARTIAL';
 
   return {
     PEOPLE_STATUS: status,
@@ -1935,8 +2242,18 @@ async function phasePeople(page) {
     COMMENT_EVENTS: commentEvents,
     REPLY_EVENTS: replyEvents,
     COMMENTS_UNDATED: commentsUndated,
+    COMMENTERS_RECOVERED: commentersRecovered,
+    REPLIES_UNMEASURED: repliesUnmeasured,
+    ROSTER_UNRESOLVED: rosterUnresolved,
     PEOPLE_NEW: mergeVal('PEOPLE_NEW'),
     EVENTS_NEW: mergeVal('EVENTS_NEW'),
+    PROFILES_WRITTEN: profilesWritten,
+    ROSTER_POSTS: rosterVal('POSTS_UPDATED'),
+    ROSTER_COMMENTS: rosterVal('COMMENTS_UPDATED'),
+    ROSTER_WEEKS_CREATED: rosterVal('WEEKS_CREATED'),
+    ROSTER_MISSING: rosterMissing,
+    REACTOR_URLS: rosterVal('REACTOR_URLS'),
+    COMMENTER_URLS: rosterVal('COMMENTER_URLS'),
     ICP_PENDING: icpPending,
     ICP_CLASSIFIED: icpClassified,
     ICP_UNCLASSIFIED: Math.max(0, icpPending - icpClassified),
@@ -1946,8 +2263,89 @@ async function phasePeople(page) {
 // ---------------------------------------------------------------- main
 
 const contractSections = new Map(); // section -> obj | {ERROR}
+
+/**
+ * The `[selfcheck]` section: which of the four headline counters came back
+ * ZERO (upstream, 2026-08-19).
+ *
+ * On 2026-08-17 every post's comment array came back empty — 85 comments
+ * across 50 files the week before, 0 that week — and the run exited 0,
+ * auto-merged and published. Not one counter the acceptance gate reads moved.
+ * A zero is the one shape a scraper produces just as happily when it is broken
+ * as when the week was quiet.
+ *
+ * So a zero is REPORTED here and never escalated: `[selfcheck]` touches
+ * neither `sev` nor the exit code, because a genuinely quiet week must still
+ * exit 0 and publish. run-weekly.sh routes it to a session that can open a
+ * browser and tell the two apart (references/zero-revalidation.md). That is
+ * the deliberate contrast with the account canary, where zero followers can
+ * never be real and therefore IS an exit-code matter.
+ */
+function computeSelfcheck() {
+  const sectionOf = (s) => contractSections.get(s);
+  // A phase that errored or was skipped is already the existing machinery's
+  // problem; double-reporting it as a zero would send the session chasing a
+  // failure someone else has already flagged.
+  const ran = (s) => { const o = sectionOf(s); return !!o && !o.ERROR && !o.SKIPPED; };
+  const out = {};
+  const zero = [];
+  const check = (name, section, key) => {
+    if (!ran(section)) return;
+    const raw = sectionOf(section)?.[key];
+    if (raw === undefined || raw === '' || raw === '-') return;
+    const v = Number(raw);
+    if (!Number.isFinite(v)) return;
+    out[key] = v;
+    if (v === 0) zero.push(name);
+  };
+  // Non-zero DEFECTS get the same treatment as a suspicious zero: reported,
+  // never escalated to an exit code, and routed to the session that can open a
+  // browser and tell a real-world explanation from a broken parser.
+  const anomaly = [];
+  const flag = (name, section, key) => {
+    if (!ran(section)) return;
+    const v = Number(sectionOf(section)?.[key]);
+    if (!Number.isFinite(v)) return;
+    out[key] = v;
+    if (v > 0) anomaly.push(name);
+  };
+
+  check('posts_new', 'posts', 'POSTS_NEW');
+  check('comments_new', 'comments', 'COMMENTS_NEW');
+  check('reactors', 'people', 'REACTORS_SEEN');
+  // The UPSTREAM counter, not [people] COMMENT_EVENTS: the people phase merely
+  // inherits an empty comment scrape, and COMMENT_EVENTS can also be 0 for the
+  // unrelated reason that older snapshots carry no comment_urn.
+  check('commenters', 'metrics', 'COMMENTS_SCRAPED_TOTAL');
+  // A roster entry LinkedIn showed but we could not name. Expected to be 0
+  // always — private members render no anchor at all, so they never even
+  // reach the parser — which is exactly why a non-zero is worth breaking on
+  // rather than storing as an "and N others" footnote.
+  flag('roster_unresolved', 'people', 'ROSTER_UNRESOLVED');
+  if (ran('people')) {
+    const v = sectionOf('people')?.COMMENTER_URLS;
+    if (v !== undefined) out.COMMENTER_URLS = Number(v); // cross-check, not a gate
+  }
+  out.PHASES_RUN = PHASES.join(',');
+  out.ZERO_SIGNALS = zero.join(',') || '-';
+  out.ANOMALY_SIGNALS = anomaly.join(',') || '-';
+  return out;
+}
+
 function flushContracts() {
-  for (const section of ['posts', 'metrics', 'account', 'comments', 'people']) {
+  // A selfcheck bug must never eat the contract the wrapper parses.
+  try {
+    const sc = computeSelfcheck();
+    contractSections.set('selfcheck', sc);
+    manifest.selfcheck = sc;
+  } catch (e) {
+    contractSections.set('selfcheck', {
+      ZERO_SIGNALS: '-',
+      ANOMALY_SIGNALS: '-',
+      SELFCHECK_ERROR: String(e?.message || e).split('\n')[0].slice(0, 120),
+    });
+  }
+  for (const section of ['posts', 'metrics', 'account', 'comments', 'people', 'selfcheck']) {
     const obj = contractSections.get(section);
     if (!obj) continue;
     console.log(`[${section}]`);
