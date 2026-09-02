@@ -3,25 +3,36 @@
 Weekly LinkedIn analytics collection and dashboarding. A paced Playwright run
 scrapes post discovery, per-post metrics, account analytics, outbound comments
 and the people behind each engagement into git-tracked JSON under
-`dashboards/li-stats/`; a build step flattens that corpus into a single
-`stats.json` published to GitHub Pages, which Grafana reads over HTTP.
+`dashboards/li-stats/<author>/`; a build step flattens that corpus into one
+`stats.json` per author, published to GitHub Pages and read by Grafana over
+HTTP. Any number of authors is supported — the roster is `profiles.json`.
 
 ```
-scrape  ->  dashboards/li-stats/*.json  ->  PR  ->  stats.json on Pages  ->  Grafana
+scrape  ->  dashboards/li-stats/<author>/*.json  ->  PR  ->  <author>/stats.json on Pages  ->  Grafana
 ```
 
 ## Setup
 
 1. `cp .env.example .env` and fill in the Grafana values.
-2. Set the tracked account in `.claude/skills/linkedin-stats/config.json`:
+2. Add one entry per tracked person to
+   `.claude/skills/linkedin-stats/profiles.json` — the key is the author slug
+   and it is the only place the roster is defined; every consumer (scraper,
+   weekly driver, Pages build) discovers authors from it, so adding someone is
+   a data change, not a code change:
 
 ```json
 {
-  "profile_slug": "in/your-linkedin-slug",
-  "company_id": "0000000",
-  "posts_cutoff": "2026-01-01"
+  "your-slug": {
+    "name": "Your Name",
+    "profile_slug": "in/your-linkedin-slug",
+    "company_id": "0000000",
+    "posts_cutoff": "2026-01-01"
+  }
 }
 ```
+
+   `config.json` is the single-account fallback, used only when `LI_AUTHOR` is
+   unset. Each author writes to `dashboards/li-stats/<author>/`.
 
 3. Install the scraper deps:
 
@@ -29,9 +40,15 @@ scrape  ->  dashboards/li-stats/*.json  ->  PR  ->  stats.json on Pages  ->  Gra
 cd .claude/skills/linkedin-stats/fast && npm install --no-audit
 ```
 
-4. Log the Chrome profile at `LI_CHROME_PROFILE_DIR` (or the macOS default)
-   into LinkedIn once, interactively. The session lives in that profile — the
-   pipeline never handles credentials.
+4. Give each author a logged-in browser session. The default backend is
+   **Browserbase** (`LI_BACKEND=browserbase`): the session lives in a remote,
+   persistent Browserbase context whose id is held in the lifleet registry
+   (`scripts/lifleet/authors.json`, gitignored), and you log a person in once
+   with `lifleet import <slug> <cookies.json>`. Set `BROWSERBASE_API_KEY` and
+   `BROWSERBASE_PROJECT_ID` (see `.env.example`). Any other value of
+   `LI_BACKEND` — including **unset**, which is what a bare
+   `node scrape-weekly.mjs` gets — falls back to a local Chrome profile at
+   `LI_CHROME_PROFILE_DIR`; `run-weekly.sh` defaults it to `browserbase`.
 
 ## Running
 
@@ -54,13 +71,22 @@ node .claude/skills/linkedin-stats/fast/test-people.mjs
 ## Scheduled runs
 
 `.github/workflows/linkedin-stats-weekly.yml` fires Monday 00:00 UTC on a
-self-hosted runner and drives `.claude/skills/linkedin-stats/run-weekly.sh`:
-retries with headless heal sessions between failed attempts, writes an incident
-to `doc/incidents/`, and opens a PR. Only a clean first-attempt run auto-merges
-and triggers the Pages publish.
+stock **`ubuntu-latest`** runner. No self-hosted runner is needed: the browser
+is remote (Browserbase), so the runner is a thin client and an ephemeral CI
+box keeps no session of its own — the LinkedIn session lives in the
+Browserbase context, not on the runner. The workflow scrapes every author in
+`profiles.json` sequentially, validates the snapshots, and opens a PR; only a
+run where every author exits 0 auto-merges and triggers the Pages publish, and
+any other outcome leaves the PR open **and fails the run red** so a missed
+week cannot pass as a green tick.
 
-The runner must be a persistent machine holding the logged-in Chrome profile —
-ephemeral CI runners cannot keep a LinkedIn session alive.
+Operator setup — required secrets, variables and recovery runbook — is in
+[`.claude/skills/linkedin-stats/WEEKLY-CADENCE.md`](.claude/skills/linkedin-stats/WEEKLY-CADENCE.md).
+
+`.claude/skills/linkedin-stats/run-weekly.sh` is the richer driver for the same
+job (per-author retries, headless self-heal sessions between failed attempts,
+an incident in `doc/incidents/`, Slack bookends). It needs the `claude` CLI, so
+it is run manually rather than by the workflow.
 
 ## Scoring
 

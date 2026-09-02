@@ -14,33 +14,510 @@ concurrency:
   group: pages
   cancel-in-progress: false
 
+env:
+  FAST_DIR: .claude/skills/linkedin-stats/fast
+  PROFILES_FILE: .claude/skills/linkedin-stats/profiles.json
+  # Soft deadline handed to the scraper (checked between navigations) — the
+  # same 1500s run-weekly.sh used. HARD_CAP is the `timeout` backstop: the
+  # scraper's own deadline cannot fire while a browser call is hung, and on
+  # Browserbase "hung" means we are also burning a paid session.
+  DEADLINE_SECS: "1500"
+  HARD_CAP_SECS: "2100"
+  # Deliberate idle between authors. One Browserbase session at a time, and a
+  # visibly human cadence between accounts — the pacing IS the anti-ban story.
+  PAUSE_BETWEEN_AUTHORS_SECS: "60"
+  # Wall-clock budget for the WHOLE author loop. The loop stops STARTING new
+  # authors past this point so the commit/PR steps still run and the authors
+  # that DID finish keep their week. Without it, a roster that outgrows
+  # timeout-minutes is killed at the job level and the entire week's collected
+  # data is discarded silently — the one loss this pipeline cannot backfill.
+  # 5400s + one author's 2100s overshoot + the commit chain fits in 180 min.
+  RUN_BUDGET_SECS: "5400"
+
+# WHY THIS WORKFLOW DOES NOT CALL run-weekly.sh
+# ------------------------------------------------------------------------
+# Upstream's scrape step was `./.claude/skills/linkedin-stats/run-weekly.sh`.
+# That driver's first act is `pl_require_cmds claude node npm gh git jq`, and
+# its commit path calls common-pr-commit/commit.sh, which also hard-requires
+# the `claude` CLI (it asks a model to write the commit message). Neither the
+# CLI nor a Claude credential exists on a stock ubuntu-latest runner, and this
+# repo currently has NO Actions secrets at all — so calling it would fail at
+# preflight before a single page was scraped.
+# The steps below therefore drive the deterministic scraper directly. What is
+# consciously given up: the self-heal retry loop, the codex review session,
+# the Slack bookends and the incident write-up. What is kept: sequential
+# per-author scraping, the truncated-snapshot guard, PR-not-direct-to-main,
+# and "only a boring clean run auto-merges".
+# NOTE: run-weekly.sh is concurrently being reworked to do the multi-author
+# Browserbase loop itself. If it is ever made runnable without `claude`
+# (or the runner is given a Claude credential), the right move is to delete
+# the loop below and call that script again — do not maintain two loops.
+# ------------------------------------------------------------------------
 jobs:
   scrape:
-    runs-on: [self-hosted, macOS]
-    # Generous backstop: the in-script watchdogs (per-attempt deadline, heal
-    # and review caps) are what bound the run — they must win over this or
-    # partial commits and the incident doc are lost to a runner-level kill.
-    # Capped at 20h (not the old 6000 min): a run stuck OUTSIDE those
-    # watchdogs (npm, git, PR chain) would otherwise occupy the single
-    # runner past Tuesday 04:00 — GitHub silently cancels self-hosted jobs
-    # queued >24h, so the hourly fire would vanish without a Slack bookend.
-    # Worst legitimate run (5 attempts + 4 heals + review + chains) is ~9h.
-    timeout-minutes: 1200
+    # ubuntu-latest, not [self-hosted, macOS]: upstream drove a local Chrome
+    # profile on one Mac. We drive a REMOTE browser — browserbase-backend.mjs
+    # only does chromium.connectOverCDP(session.connectUrl), so the browser
+    # lives in Browserbase's cloud and the runner is just a thin client.
+    # Nothing here needs macOS, and no self-hosted runner is registered.
+    runs-on: ubuntu-latest
+    # 180 min, not 1200. The 20h backstop existed because a single shared Mac
+    # ran claude-driven self-heal sessions (5 attempts + 4 heals + review
+    # ~= 9h) and a runner-level kill would have lost the incident doc. This
+    # job has no heal layer and no queue to protect.
+    # This number is NOT "authors x 36 min" — that formula silently breaks the
+    # week as soon as a 4th author is added (4 x 36 = 144 > 120, job killed,
+    # every author's data thrown away). The loop instead self-bounds on
+    # RUN_BUDGET_SECS (90 min) and always reaches the commit step, so this is
+    # only a backstop: 90 min budget + one 35 min overshoot + npm/checkout/PR
+    # ~= 135 min. 180 keeps real headroom and is roster-independent.
+    timeout-minutes: 180
     outputs:
-      main_updated: ${{ steps.scrape.outputs.main_updated }}
+      main_updated: ${{ steps.commit.outputs.main_updated }}
     steps:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - name: Run weekly scrape
+
+      # Preflight: fail here with a readable message rather than 25 minutes
+      # later inside the scraper, where a missing key surfaces as a Ukrainian
+      # throw from requireEnv().
+      - name: Check required secrets
+        env:
+          BROWSERBASE_API_KEY: ${{ secrets.BROWSERBASE_API_KEY }}
+          BROWSERBASE_PROJECT_ID: ${{ secrets.BROWSERBASE_PROJECT_ID }}
+          LIFLEET_AUTHORS_JSON: ${{ secrets.LIFLEET_AUTHORS_JSON }}
+        run: |
+          set -uo pipefail
+          missing=""
+          [ -n "${BROWSERBASE_API_KEY}" ]   || missing="${missing} BROWSERBASE_API_KEY"
+          [ -n "${BROWSERBASE_PROJECT_ID}" ]|| missing="${missing} BROWSERBASE_PROJECT_ID"
+          [ -n "${LIFLEET_AUTHORS_JSON}" ]  || missing="${missing} LIFLEET_AUTHORS_JSON"
+          if [ -n "${missing}" ]; then
+            echo "::error::missing repo secret(s):${missing} — set them under Settings > Secrets and variables > Actions"
+            exit 1
+          fi
+          echo "all required secrets present"
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      # Resolve the ISO-Monday ONCE, here, and use that single value for the
+      # scrape (--week), the did-the-week-land assertion, and the branch/PR
+      # name. Recomputing it per step is a real race, not a theoretical one:
+      # RUN_BUDGET_SECS lets the author loop run 90 min and a final author
+      # overshoot another 35, so a dispatch late on a Sunday can cross 00:00
+      # UTC mid-run. Author 1 would then be keyed to last week, author 2 to
+      # this week, the assertion would check a key only half the run wrote,
+      # and the branch would be named after whichever side of midnight the
+      # commit step happened to land on. The expression is scrape-weekly.mjs's
+      # own isoWeekMonday() verbatim, so pinning changes nothing except that
+      # every consumer now provably agrees.
+      - name: Resolve ISO week
+        id: week
+        run: |
+          set -uo pipefail
+          WEEK=$(node -e '
+            const d = new Date();
+            const day = (d.getUTCDay() + 6) % 7; // Mon=0
+            const m = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() - day));
+            console.log(m.toISOString().slice(0, 10));
+          ')
+          case "${WEEK}" in
+            [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]) ;;
+            *) echo "::error::could not resolve the ISO week (got '${WEEK}')"; exit 1 ;;
+          esac
+          echo "week=${WEEK}" >> "${GITHUB_OUTPUT}"
+          echo "week pinned to ${WEEK}"
+
+      - name: Install scraper deps
+        run: npm ci --no-audit --no-fund --prefix "${FAST_DIR}"
+        # NO `playwright install` on purpose. package.json pins playwright-core
+        # (not playwright), and browserbase-backend.mjs never launches a local
+        # browser — it calls chromium.connectOverCDP() against the Browserbase
+        # session URL. Downloading ~400MB of browser binaries here would add
+        # minutes per run and be used by nothing.
+
+      - name: Verify python3 (merge.py writes every snapshot)
+        run: |
+          set -uo pipefail
+          # scrape-weekly.mjs shells out to `python3 merge.py` for ALL
+          # dashboards/li-stats writes (byte-parity with the corpus), so the
+          # binary must exist under that exact name. merge.py imports only
+          # stdlib (datetime, json, os, re, sys, tempfile, urllib.parse) —
+          # verified — so ubuntu-latest's preinstalled python3 needs no pip.
+          python3 --version
+          python3 -c "import datetime, json, os, re, sys, tempfile; from urllib.parse import quote; print('merge.py imports OK')"
+
+      # The lifleet registry maps author slug -> Browserbase context_id (the
+      # logged-in cookie jar). It is gitignored (scripts/lifleet/.gitignore)
+      # and MUST stay that way — this repo is public and the file is
+      # effectively a set of session credentials. So CI materialises it from a
+      # secret, OUTSIDE the working tree, and points the backend at it with
+      # LIFLEET_AUTHORS (an override browserbase-backend.mjs already honours).
+      # Writing it outside the repo means no `git add` can ever capture it.
+      - name: Materialise lifleet author registry
+        env:
+          LIFLEET_AUTHORS_JSON: ${{ secrets.LIFLEET_AUTHORS_JSON }}
+        run: |
+          set -uo pipefail
+          dest="${RUNNER_TEMP}/lifleet-authors.json"
+          umask 077
+          printf '%s' "${LIFLEET_AUTHORS_JSON}" > "${dest}"
+          # Validate shape, then cross-check against profiles.json: every
+          # author we are about to scrape must have a registry record WITH a
+          # context_id, or browserbase-backend.mjs throws 25 minutes in.
+          # Scoped to the scraped authors on purpose — the registry legitimately
+          # holds not-yet-logged-in people (alex, olga) who are not in
+          # profiles.json, and they must not fail this run.
+          # Parse errors are swallowed deliberately — a JSON.parse message can
+          # quote the offending input, and that input is a credential.
+          node -e '
+            const fs = require("fs");
+            let reg;
+            try { reg = JSON.parse(fs.readFileSync(process.argv[1], "utf8")); }
+            catch { console.error("LIFLEET_AUTHORS_JSON is not valid JSON"); process.exit(1); }
+            if (!reg || typeof reg !== "object" || Array.isArray(reg) || !Object.keys(reg).length) {
+              console.error("LIFLEET_AUTHORS_JSON is not a non-empty JSON object"); process.exit(1);
+            }
+            const profiles = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
+            const wanted = Object.keys(profiles).filter((k) => !k.startsWith("_"));
+            const missing = wanted.filter((a) => !reg[a]);
+            const noCtx = wanted.filter((a) => reg[a] && !reg[a].context_id);
+            if (missing.length || noCtx.length) {
+              if (missing.length) console.error("not in the lifleet registry: " + missing.join(", "));
+              if (noCtx.length) console.error("no context_id (log them in: lifleet import <slug> <cookies.json>): " + noCtx.join(", "));
+              process.exit(1);
+            }
+            console.log("registry OK for " + wanted.length + " scraped author(s): " + wanted.join(", "));
+          ' "${dest}" "${PROFILES_FILE}"
+
+      - name: Scrape every author (sequential)
         id: scrape
         env:
+          # The whole point of this rewrite: remote browser, no local Chrome.
+          LI_BACKEND: browserbase
+          BROWSERBASE_API_KEY: ${{ secrets.BROWSERBASE_API_KEY }}
+          BROWSERBASE_PROJECT_ID: ${{ secrets.BROWSERBASE_PROJECT_ID }}
+          LIFLEET_AUTHORS: ${{ runner.temp }}/lifleet-authors.json
+          # Documented in WEEKLY-CADENCE.md as `gh variable set LIFLEET_PROXIES off`
+          # for the free Browserbase plan. Unset -> "" -> the backend's own
+          # `|| 'on'` default, so this is safe to always pass.
+          LIFLEET_PROXIES: ${{ vars.LIFLEET_PROXIES }}
+          # WEEKLY-CADENCE.md tells the operator to `gh variable set
+          # LI_SESSION_TIMEOUT 2400`, but a repo variable reaches the scraper
+          # ONLY if a step maps it into env — without this line that command
+          # was a silent no-op and the backend kept its 1800s default while
+          # HARD_CAP_SECS allows 2100s, so a slow author could outlive its own
+          # Browserbase session and lose the week. Unset -> "" -> the
+          # backend's `|| 1800` default, so this is safe to always pass.
+          LI_SESSION_TIMEOUT: ${{ vars.LI_SESSION_TIMEOUT }}
+          WEEK: ${{ steps.week.outputs.week }}
+          # merge.py performs EVERY dashboards/li-stats write and opens its
+          # files with no explicit encoding=, so it inherits the process
+          # locale. The corpus is Cyrillic-heavy (Ukrainian/Russian post
+          # bodies); under a C/POSIX locale that is a UnicodeEncodeError,
+          # which the scraper reports as reason FS -> exit 23 -> a lost week.
+          # PEP 540 UTF-8 mode makes the write locale-independent instead of
+          # relying on ubuntu-latest happening to set LANG=C.UTF-8.
+          PYTHONUTF8: "1"
+        run: |
+          set -uo pipefail
+          # Every author in profiles.json; "_note" and friends are metadata.
+          authors=$(node -e '
+            const p = JSON.parse(require("fs").readFileSync(process.argv[1], "utf8"));
+            console.log(Object.keys(p).filter((k) => !k.startsWith("_")).join("\n"));
+          ' "${PROFILES_FILE}")
+          if [ -z "${authors}" ]; then
+            echo "::error::no authors in ${PROFILES_FILE}"
+            exit 1
+          fi
+          echo "authors:" $(echo "${authors}" | tr '\n' ' ')
+
+          clean=1
+          notes=""
+          first=1
+          loop_start=${SECONDS}
+          for author in ${authors}; do
+            # Stop STARTING authors once the budget is spent. Falling off the
+            # end of the step is what keeps the already-collected weeks: a
+            # job-level timeout kill would skip the commit step entirely.
+            if [ "$(( SECONDS - loop_start ))" -ge "${RUN_BUDGET_SECS}" ]; then
+              echo "::error::${author}: SKIPPED — the ${RUN_BUDGET_SECS}s run budget is spent; committing what finished"
+              clean=0; notes="${notes} ${author}:skipped-budget"
+              continue
+            fi
+            if [ "${first}" -eq 0 ]; then
+              echo "pausing ${PAUSE_BETWEEN_AUTHORS_SECS}s before the next author"
+              sleep "${PAUSE_BETWEEN_AUTHORS_SECS}"
+            fi
+            first=0
+
+            echo "::group::scrape ${author}"
+            # Strictly one at a time: a single Browserbase session is in flight
+            # at any moment (the free plan allows exactly one), and serial runs
+            # keep the request pace gentle.
+            # set +e is REQUIRED: GitHub runs this step as `bash -e {0}`, so a
+            # non-zero scraper exit would kill the step before we could read
+            # $? — losing both the classification and the other authors.
+            set +e
+            LI_AUTHOR="${author}" timeout --signal=TERM --kill-after=60 "${HARD_CAP_SECS}s" \
+              node "${FAST_DIR}/scrape-weekly.mjs" \
+                --deadline-secs="${DEADLINE_SECS}" --week="${WEEK}"
+            rc=$?
+            set -e
+            echo "::endgroup::"
+
+            case "${rc}" in
+              0)
+                echo "${author}: clean (exit 0)" ;;
+              10)
+                # Partial: snapshots are still written and worth keeping, but
+                # the run is not "boring green" so it must not auto-merge.
+                echo "::warning::${author}: partial data (exit 10)"
+                clean=0; notes="${notes} ${author}:partial" ;;
+              20)
+                echo "::error::${author}: AUTH — the Browserbase context is logged out; re-import cookies via lifleet"
+                clean=0; notes="${notes} ${author}:auth" ;;
+              21)
+                echo "::error::${author}: profile locked — only reachable on the LOCAL backend; on Browserbase this means launchBrowser() fell through, so check LI_BACKEND"
+                clean=0; notes="${notes} ${author}:locked" ;;
+              22)
+                echo "::error::${author}: rate-limited by LinkedIn"
+                clean=0; notes="${notes} ${author}:ratelimit" ;;
+              23)
+                echo "::error::${author}: filesystem/merge.py failure — the snapshot write itself failed"
+                clean=0; notes="${notes} ${author}:fs" ;;
+              30)
+                # The signal this pipeline most needs named out loud: the DOM
+                # moved and the selectors no longer match. Losing the self-heal
+                # layer means nobody fixes this automatically any more, so it
+                # must not hide inside a generic "exit 30".
+                echo "::error::${author}: SELECTOR DRIFT (exit 30) — LinkedIn's DOM changed and the scrapers need updating; every later week will keep failing until they are"
+                clean=0; notes="${notes} ${author}:drift" ;;
+              124|137)
+                echo "::error::${author}: killed at the ${HARD_CAP_SECS}s hard cap"
+                clean=0; notes="${notes} ${author}:hardcap" ;;
+              *)
+                echo "::error::${author}: exit ${rc}"
+                clean=0; notes="${notes} ${author}:exit${rc}" ;;
+            esac
+
+            # THE SILENT-EMPTY-WEEK GUARD. An exit code is not evidence that
+            # data was collected: a soft-blocked or shadow-throttled session
+            # renders empty pages, every phase "succeeds", and the scraper
+            # exits 0 having written nothing. Without this check that author is
+            # dropped from a clean=1 run, auto-merged and published — a fully
+            # green Monday with a permanently missing week. run-weekly.sh has
+            # always scoped a "did the scrape write anything" check to
+            # dashboards/li-stats/<author>/; this restores it.
+            # Only checked for the codes that CLAIM success (0/10) — a failed
+            # author is already demoted and does not need a second note.
+            case "${rc}" in
+              0|10)
+                if [ -z "$(git status --porcelain -- "dashboards/li-stats/${author}")" ]; then
+                  echo "::error::${author}: exit ${rc} but NOTHING was written to dashboards/li-stats/${author} — treating as a failed week"
+                  clean=0; notes="${notes} ${author}:nodata"
+                # "a file changed" is NOT "the week landed". merge.py rewrites
+                # snapshot_at and re-serialises posts on every run, so the git
+                # check above goes non-empty even when the account phase
+                # produced nothing for THIS Monday. The only falsifiable
+                # evidence is the key itself: account.json is {"weeks": {...}}
+                # and dashboards are read by that key, so a missing
+                # weeks[WEEK] is precisely the permanently-unbackfillable hole
+                # this pipeline exists to prevent.
+                elif ! node -e '
+                  const fs = require("fs");
+                  const [file, week] = process.argv.slice(1);
+                  let d;
+                  try { d = JSON.parse(fs.readFileSync(file, "utf8")); } catch { process.exit(1); }
+                  process.exit(d && d.weeks && Object.prototype.hasOwnProperty.call(d.weeks, week) ? 0 : 1);
+                ' "dashboards/li-stats/${author}/account.json" "${WEEK}"; then
+                  echo "::error::${author}: exit ${rc} but dashboards/li-stats/${author}/account.json has no weeks[${WEEK}] entry — this week did NOT land and cannot be backfilled"
+                  clean=0; notes="${notes} ${author}:noweek"
+                fi ;;
+            esac
+            # One bad account must not cost the other its week: the loop
+            # continues, and the acceptance decision happens after all authors.
+          done
+
+          echo "clean=${clean}" >> "${GITHUB_OUTPUT}"
+          echo "notes=${notes# }" >> "${GITHUB_OUTPUT}"
+
+      # A hard-cap kill can land mid-write. Upstream's guard: never let a
+      # truncated snapshot reach the PR, and demote the run if one is found.
+      - name: Validate snapshots
+        id: jsoncheck
+        run: |
+          set -uo pipefail
+          # One node walk over dashboards/ instead of spawning a parser per
+          # file — dashboards/profiles/ alone holds 400+ JSONs.
+          node -e '
+            const fs = require("fs"), path = require("path");
+            const bad = [];
+            (function walk(dir) {
+              for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+                const f = path.join(dir, e.name);
+                if (e.isDirectory()) walk(f);
+                else if (e.name.endsWith(".json")) {
+                  try { JSON.parse(fs.readFileSync(f, "utf8")); } catch { bad.push(f); }
+                }
+              }
+            })("dashboards");
+            // Trailing newline per entry is load-bearing: `while read` does
+            // NOT run its body for a final unterminated line, so join("\n")
+            // would skip the revert in the single-bad-file case.
+            fs.writeFileSync(process.argv[1], bad.map((f) => f + "\n").join(""));
+            console.log(bad.length + " invalid JSON file(s)");
+          ' "${RUNNER_TEMP}/bad-json.txt"
+
+          bad=0
+          while IFS= read -r f; do
+            [ -n "${f}" ] || continue
+            bad=1
+            git checkout -- "${f}" 2>/dev/null || rm -f "${f}"
+            echo "::error::${f} was not valid JSON — reverted"
+          done < "${RUNNER_TEMP}/bad-json.txt"
+          echo "invalid_json=${bad}" >> "${GITHUB_OUTPUT}"
+
+      - name: Commit, open PR, and merge only a clean run
+        id: commit
+        env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./.claude/skills/linkedin-stats/run-weekly.sh
+          CLEAN: ${{ steps.scrape.outputs.clean }}
+          NOTES: ${{ steps.scrape.outputs.notes }}
+          INVALID_JSON: ${{ steps.jsoncheck.outputs.invalid_json }}
+          WEEK: ${{ steps.week.outputs.week }}
+        run: |
+          set -uo pipefail
+          # main_updated is written exactly ONCE, at the end. An output that is
+          # never written reads as empty, and the publish gate gates on
+          # == 'true' — so any abort in this step fails safe (no publish)
+          # without relying on duplicate-key precedence in $GITHUB_OUTPUT.
+          merged=false
+
+          # A truncated snapshot demotes the whole run — a run that discarded
+          # one of its own outputs is not "clean" however green the exits look.
+          clean="${CLEAN}"
+          if [ "${INVALID_JSON}" = "1" ]; then clean=0; fi
+
+          # WEEK is the value pinned by the "Resolve ISO week" step and handed
+          # to every scrape as --week, so the branch name, the PR title and
+          # the data key are the same string by construction rather than by
+          # three independent clock reads.
+          if [ -z "${WEEK}" ]; then
+            echo "::error::WEEK is empty — the 'Resolve ISO week' step did not run"
+            exit 1
+          fi
+
+          if [ -z "$(git status --porcelain -- dashboards/)" ]; then
+            echo "::error::no changes under dashboards/ after the scrape — nothing was collected"
+            exit 1
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          BRANCH="chore/linkedin-stats-${WEEK}"
+          # A rerun while last run's PR is still open must not collide.
+          if git ls-remote --exit-code origin "refs/heads/${BRANCH}" >/dev/null 2>&1; then
+            BRANCH="${BRANCH}-$(date -u +%H%M%S)"
+          fi
+          # -B (not -b): idempotent if the local branch somehow already exists.
+          # The remote check above is what protects an open PR's branch.
+          git checkout -B "${BRANCH}"
+
+          # Scoped to the data dirs the scraper owns (li-stats + profiles);
+          # never a blanket `git add .` on a runner holding secrets.
+          git add dashboards/li-stats dashboards/profiles
+          if git diff --cached --quiet; then
+            echo "::error::nothing staged under dashboards/ — refusing to open an empty PR"
+            exit 1
+          fi
+
+          summary="clean run"
+          if [ "${clean}" != "1" ]; then
+            summary="needs review: ${NOTES:-see log}"
+            # Explicit test, not ${VAR:+...}: "0" is a NON-empty string, so the
+            # :+ form appended "invalid-json=0" to every partial run's PR body.
+            [ "${INVALID_JSON}" = "1" ] && summary="${summary} invalid-json=1"
+          fi
+
+          git commit -m "chore: linkedin stats for week ${WEEK}" \
+                     -m "Automated weekly scrape via Browserbase (${summary})."
+          git push -u origin "${BRANCH}"
+
+          # `|| true` on create is deliberate — a rerun hits "a pull request
+          # already exists", which is fine. What is NOT fine is swallowing a
+          # real refusal (the repo setting "Allow GitHub Actions to create and
+          # approve pull requests" is OFF by default): the branch would be
+          # pushed, no PR would exist, the step would print a warning claiming
+          # the PR was "left open", and the job would go GREEN. So the PR is
+          # verified to exist below and its absence is a hard failure.
+          set +e
+          create_out=$(gh pr create \
+            --title "chore: linkedin stats for week ${WEEK}" \
+            --body "Automated weekly scrape (ubuntu-latest + Browserbase).
+
+          Week: ${WEEK}
+          Outcome: ${summary}
+
+          Auto-merges only when every author exits 0 and all snapshots parse." 2>&1)
+          create_rc=$?
+          set -e
+          [ "${create_rc}" = "0" ] || echo "gh pr create exited ${create_rc}: ${create_out}"
+
+          # Small retry: the PR is queryable a beat after creation.
+          PR_URL=""
+          for _ in 1 2 3; do
+            PR_URL=$(gh pr view "${BRANCH}" --json url -q .url 2>/dev/null || true)
+            [ -n "${PR_URL}" ] && break
+            sleep 5
+          done
+          if [ -z "${PR_URL}" ]; then
+            echo "::error::no pull request exists for ${BRANCH}. The week's data is pushed to that branch but is NOT reviewable or mergeable. Most likely cause: Settings > Actions > General > 'Allow GitHub Actions to create and approve pull requests' is disabled."
+            exit 1
+          fi
+          echo "PR: ${PR_URL}"
+
+          # Upstream's gate, minus the heal layer it can no longer consult:
+          # auto-merge ONLY the boring case. Anything partial, rate-limited,
+          # timed out or truncated leaves the PR OPEN for human eyes — a
+          # permanent regression must not quietly merge thin data every Monday.
+          if [ "${clean}" = "1" ]; then
+            gh pr merge "${BRANCH}" --squash --delete-branch || exit 1
+            merged=true
+            echo "merged to main"
+          fi
+
+          echo "main_updated=${merged}" >> "${GITHUB_OUTPUT}"
+
+          # THE RUN MUST BE RED WHEN THE WEEK IS NOT SAFE.
+          # ------------------------------------------------------------------
+          # `::error::` annotations do NOT change a step's exit status: they
+          # only decorate the log. So before this, a dead Browserbase context
+          # for one author produced a PR nobody merged, a week nobody
+          # collected — and a workflow run whose conclusion was SUCCESS, with
+          # no failure email, no red mark in `gh run list`, and a green tick
+          # in the Actions tab. That is the exact shape of the miss that
+          # already cost this project a month of empty data, and a weekly
+          # cadence gives you seven days to not notice it.
+          #
+          # Failing here is safe and loses nothing: the branch is already
+          # pushed and the PR already open above, so the partial data is
+          # preserved and reviewable. All this changes is that the operator
+          # is TOLD. The publish job is gated on main_updated == 'true' and
+          # `needs:` success, so it stays skipped either way — no new
+          # behaviour there, just an honest conclusion.
+          if [ "${clean}" != "1" ]; then
+            echo "::error::WEEK ${WEEK} IS NOT COMPLETE (${summary}). The data collected so far is on ${BRANCH} and its PR is open at ${PR_URL} — review and merge it by hand, then dispatch pages-deploy.yml. LinkedIn exposes only current analytics, so an unmerged week can never be backfilled: fix the cause (see WEEKLY-CADENCE.md section 6) and re-dispatch BEFORE next Monday."
+            exit 1
+          fi
 
   publish:
     needs: scrape
-    # A healed/partial run leaves its data on an unmerged PR — republishing
+    # A partial/failed run leaves its data on an unmerged PR — republishing
     # stale main would be a no-op; skip until the PR is merged (then use
     # pages-deploy.yml to publish manually).
     if: needs.scrape.outputs.main_updated == 'true'
@@ -59,23 +536,43 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: 22
-      - name: Emit flat stats.json for Grafana
+      # Multi-profile build, matching pages-deploy.yml. The old single-account
+      # `build-stats-json.mjs --out pages-dist/stats.json` reads a FLAT
+      # dashboards/li-stats/ — our data lives in per-author subfolders, so it
+      # would publish an empty snapshot. build-pages.mjs emits one
+      # <author>/stats.json per author folder plus the shared page-stats.json.
+      - name: Emit per-author stats.json for Grafana
         run: |
           mkdir -p pages-dist
-          node .github/scripts/build-stats-json.mjs --out pages-dist/stats.json
+          node .github/scripts/build-pages.mjs --out-dir pages-dist
       - uses: actions/upload-pages-artifact@v5
         with:
           path: pages-dist
       - id: deployment
         uses: actions/deploy-pages@v5
       # After the new stats.json is live: push the regenerated $post
-      # Custom-variable list to the Grafana per-post dashboard so the picker
+      # Custom-variable list to each author's Grafana dashboard so the picker
       # always includes the week's new posts (Query variables can't read
       # Infinity data in v0alpha1 dashboards, so the list must be pushed).
-      - name: Refresh $post dashboard variable
+      - name: Refresh $post dashboard variable (per author)
         env:
-          # update-post-variable.mjs requires BOTH — it exits 2 if GRAFANA_URL
-          # is unset (the de-personalised script dropped the hardcoded default).
+          # update-post-variable.mjs exits 2 without BOTH of these (the
+          # de-personalised script dropped its hardcoded default).
           GRAFANA_URL: ${{ vars.GRAFANA_URL || 'https://speedandfunction.grafana.net' }}
           GRAFANA_SERVICE_ACCOUNT_TOKEN: ${{ secrets.GRAFANA_SERVICE_ACCOUNT_TOKEN }}
-        run: node .github/scripts/update-post-variable.mjs
+        run: |
+          set -uo pipefail
+          # Publishing the data does not depend on Grafana: with no credentials
+          # we skip rather than fail an otherwise good deploy.
+          if [ -z "${GRAFANA_SERVICE_ACCOUNT_TOKEN}" ] || [ -z "${GRAFANA_URL}" ]; then
+            echo "GRAFANA_URL / GRAFANA_SERVICE_ACCOUNT_TOKEN not configured — skipping"
+            exit 0
+          fi
+          # --author is REQUIRED by the script (exit 2 without it); the old
+          # bare call in this workflow could never have worked on our layout.
+          for dir in dashboards/li-stats/*/; do
+            author=$(basename "${dir}")
+            [ -d "${dir}/posts" ] || continue
+            echo "== ${author} =="
+            node .github/scripts/update-post-variable.mjs --author "${author}"
+          done
