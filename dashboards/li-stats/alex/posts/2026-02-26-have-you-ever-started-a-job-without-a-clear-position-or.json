@@ -1,0 +1,135 @@
+{
+  "urn": "urn:li:activity:7432772025972269056",
+  "id": "7432772025972269056",
+  "type": "post",
+  "posted_at": "2026-02-26T13:02:25Z",
+  "posted_date": "2026-02-26",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7432772025972269056/",
+  "preview": "Have you ever started a job without a clear position or title at all? My interview at Speed and Function had no job description and no technical assessment. Just a coffee with the CEO and a department",
+  "text": "Have you ever started a job without a clear position or title at all? \n\nMy interview at Speed and Function had no job description and no technical assessment.\n\nJust a coffee with the CEO and a department head. We talked about spiral dynamics, organizational development, and how we see the world. We also discussed my idea of creating a new department within the company.\n\nThat was it. I got the offer.\n\nThe plan was clear: join pre-sales, win deals, and fill my new department with projects. But the idea was shattered by reality.\n\nI discovered that the company had solid revenue, loyal clients, and strong referrals – but zero marketing function. No strategy. No content pipeline. A website that was essentially a single page with almost no information. Not even anyone responsible for sales. Every client in the company’s history had come through referrals and the CEO’s personal network.\n\nMy department plan had no foundation to stand on.\nWhen I raised this with leadership, the response was 5 words:\n\n“Define your own role”.\n\nWithin two months, I became the marketing manager. Nobody assigned me. The role emerged from the intersection of what the company needed and what I could bring.\n\nSpeed and Function does hire for specific roles, especially developers. But in my case, the company hired for values and trusted me to find where I could contribute most. The result was a capability nobody had planned for.\n\nThat's what happens in a teal organization with a real culture of trust and self-organization. You don't fill positions. You create the conditions for the right things to emerge.\n\nNot every organization works this way. But some do. And it changes things.",
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-03T13:52:17Z",
+      "metrics": {
+        "impressions": 1249,
+        "members_reached": 622,
+        "reactions": 28,
+        "comments": 4,
+        "reposts": 3,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 21,
+        "followers_gained": 0,
+        "engagement_rate": 2.8
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 32.3,
+          "Entry": 24.3,
+          "Director": 7.6,
+          "Manager": 6.6,
+          "CXO": 6.1
+        },
+        "job_title": {
+          "Software Engineer": 5.5,
+          "Project Manager": 4.5,
+          "Founder": 3.2,
+          "Product Manager": 1.9,
+          "Quality Assurance Engineer": 1.8
+        },
+        "industry": {
+          "IT Services and IT Consulting": 33.9,
+          "Software Development": 18.8,
+          "Technology, Information and Internet": 7.1,
+          "Business Consulting and Services": 2.6,
+          "Human Resources Services": 2.6
+        },
+        "company_size": {
+          "51-200 employees": 22.3,
+          "11-50 employees": 13,
+          "10,001+ employees": 12.4,
+          "1-10 employees": 8.8,
+          "1001-5000 employees": 8.7
+        },
+        "location": {
+          "Lviv": 14.3,
+          "Kyiv Metropolitan Area": 8.2,
+          "Greater Philadelphia": 2.9,
+          "Warsaw Metropolitan Area": 2.4,
+          "Kharkiv Metropolitan Area": 2.4
+        },
+        "company": {
+          "Speed and Function": 5.3,
+          "SoftServe": 2.9,
+          "EPAM Systems": 1.1,
+          "N-iX": 1.1,
+          "GlobalLogic": 0
+        }
+      },
+      "comments": [
+        {
+          "author_name": "Peter Ovchynnikov",
+          "author_url": "https://www.linkedin.com/in/ovchyn",
+          "author_headline": "Building TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function",
+          "comment_urn": "urn:li:comment:(activity:7432772025972269056,7432809002146746368)",
+          "text": "That's the thing about culture — it's hard to understand how it works until you find yourself inside.",
+          "reactions": 1,
+          "replies_count": 0
+        },
+        {
+          "author_name": "McRae Williams",
+          "author_url": "https://www.linkedin.com/in/mcrae-williams-98673b1",
+          "author_headline": "Chief Experience Officer @ Local Legend Charters | Driving Business Development",
+          "comment_urn": "urn:li:comment:(activity:7432772025972269056,7432902102508728320)",
+          "text": "Blue suits you!",
+          "reactions": 1,
+          "replies_count": 0
+        },
+        {
+          "author_name": "Maged Mostafa",
+          "author_url": "https://www.linkedin.com/in/magmostafa",
+          "author_headline": "Operator-Builder · Enterprise AI",
+          "comment_urn": "urn:li:comment:(activity:7432772025972269056,7432810301105963008)",
+          "text": "Every international market entry role I've taken started exactly this way — no playbook, no defined scope. The ambiguity isn't a bug, it's the job. The people who thrive in undefined roles are usually the ones who end up defining the function for everyone after them.",
+          "reactions": 2,
+          "replies_count": 1
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/magmostafa",
+        "https://www.linkedin.com/in/mcrae-williams-98673b1",
+        "https://www.linkedin.com/in/ovchyn"
+      ],
+      "reactors": [
+        "https://www.linkedin.com/company/speed-and-function",
+        "https://www.linkedin.com/in/ACoAAAAGQHoBQMGjuRUQ-3WIZnRlzeg3Fbbqlfk",
+        "https://www.linkedin.com/in/ACoAAAAqnDUB7Gcud4XR3qYHR4_8diXMe3q4zps",
+        "https://www.linkedin.com/in/ACoAAAEbWu8BTj5J2YVLZOaKFl5Qv_luMV131io",
+        "https://www.linkedin.com/in/ACoAAAMAX5oBb5itI2iewtKJbyjTB1gsnUzfe2k",
+        "https://www.linkedin.com/in/ACoAAANJyWQByU0ECVRsiEIcrU9Rlil0EEpUQr8",
+        "https://www.linkedin.com/in/ACoAAAPccA8B23_HNQySLrSMH5gxGQidMv1yY58",
+        "https://www.linkedin.com/in/ACoAAAQWXnMB5G5-HVS_UjCV7xTHdyqUtQ5cTyk",
+        "https://www.linkedin.com/in/ACoAAAcgFowBL4srq-X3Q6mZXUiIOGfEissMhMQ",
+        "https://www.linkedin.com/in/ACoAAAfVql8BvA3EvhUg7D_GS35q3pjm_Pk-E-8",
+        "https://www.linkedin.com/in/ACoAAAj29CoB1r9KRxmYV3hXrRmI5JKVPap7Mro",
+        "https://www.linkedin.com/in/ACoAAAqUgLsBMjjr1evGW9ylnNSkUAGh06eUn5k",
+        "https://www.linkedin.com/in/ACoAAB4-_KABlwAg0I_fK6-dg0DPT6jeBjtZVI0",
+        "https://www.linkedin.com/in/ACoAAB981U8Bw_Vl_IFCBy-Uu3Y0UND6YWy-vqo",
+        "https://www.linkedin.com/in/ACoAABIqk7IBjIOcBW6jlldPeCCFceu5RPzIvpo",
+        "https://www.linkedin.com/in/ACoAABW8lKQB0QrxIhivHfM0-9R5Trzh9d7dwVc",
+        "https://www.linkedin.com/in/ACoAABi55P4BXuHjvdSzhGl-whK16dXXlYSYImo",
+        "https://www.linkedin.com/in/ACoAABq1KT4B4W8_xtckyJazCPO8uSXEenkM1b8",
+        "https://www.linkedin.com/in/ACoAACB2GrMBEpOAok8kDMdvKHaZIkbUqC_TLjU",
+        "https://www.linkedin.com/in/ACoAACIXgCQBczWlzFI0vwvzK6-MZ53MB2bbbsA",
+        "https://www.linkedin.com/in/ACoAACSZb1MBqNectBY32uA6Gb8Bkp_1oJrI-Qg",
+        "https://www.linkedin.com/in/ACoAACWTZOoBjqBpLMHzw5DEaYNoGXzQxFihUJo",
+        "https://www.linkedin.com/in/ACoAACf5EmIBDJdrb_smKA1WM4yn1Q_hrVljV4Q",
+        "https://www.linkedin.com/in/ACoAACm2JOMBYg0qqhkcZlAbS9WhVHU-XJ5xGcA",
+        "https://www.linkedin.com/in/ACoAACyiGuIBpOQErntNZiddXyXhcZlnXUrKXYI",
+        "https://www.linkedin.com/in/ACoAADFN0rkBmv9dqRxDJE8-rR1tAXaJdOwLVT0",
+        "https://www.linkedin.com/in/ACoAADupHWcB-SdiENoCgYFwUd73cYMPYGaiGZY",
+        "https://www.linkedin.com/in/ACoAAF13SYMBiBDMCUe9CJwKX1lVynpPOA1jPQA"
+      ]
+    }
+  }
+}

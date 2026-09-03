@@ -1,0 +1,76 @@
+{
+  "urn": "urn:li:activity:7493606500985274368",
+  "id": "7493606500985274368",
+  "type": "post",
+  "posted_at": "2026-08-13T09:56:54Z",
+  "posted_date": "2026-08-13",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7493606500985274368/",
+  "preview": "\"This AI thing can't do my job\" almost always means you never explained to it how you actually do that job 😀 My love and partner Iryna Honcharenko does interior design, among other things. She had alr",
+  "text": "\"This AI thing can't do my job\" almost always means you never explained to it how you actually do that job 😀\n\nMy love and partner Iryna Honcharenko does interior design, among other things. She had already \"tried AI in her work, and it doesn't work\" (sarcasm 😁)\n\nShe used to spend weeks on 3D visualizations at every key stage of a project, starting from different conceptual design options, moving through an iterative process of additions, changes and detailing, all the way to the technical specs for the craftsmen and builders.\n\nWhat I suggested was to try AI only at the early concept stage, where precision matters far less than variety and the speed of changes, and to develop the option the client picks in 3ds Max.\n\nFor prototypes and concepts, plain Nano Banana or the latest ChatGPT model is enough. I gave her a few starting principles, and you can apply them in your own field:\n\n1️⃣ Give the chat context. Send it a photo of the actual space and examples of what you want to end up with.\n\n2️⃣ Run deep research. Look at what solutions already exist for similar tasks.\n\n3️⃣ Do a self-interview. Ask the chat to interview you in detail, so it can pull out the information it's missing.\n\n4️⃣ Create an action plan. Let the chat help you plan the project and walk you through that plan.\n\n5️⃣ Separate generating the image from writing the prompt. Build prompts in one chat trained for it, run them in another.\n\n6️⃣ Spell out every constraint. Give a full list of what must not change, even when it seems obvious.\n\n7️⃣ Iterate. Make changes gradually, don't try to change every detail at once.\n\n8️⃣ Drop the perfectionism. Generate plenty of options and keep only the best ones. Quantity turns into quality in the end.\n\nWorking with AI takes a particular kind of information hygiene. It’s sometimes boring, as it’s not about advanced prompt hacking or some genius tools, but it builds the skills you need to get the most out of AI. \n\n👉 As a result, concepts Iryna used to develop over two weeks or more now take about an hour. And they cost the client significantly less.\n\nShe still doesn't pick specific furniture models or materials from the generated images, she quickly visualizes the closest matching options. The ideas chosen for each room and zone then go to visualizers and architects, who develop them in AutoCAD and 3ds Max, where all the details, joints and connections get engineered.\n\n\"For now AI can't replace a human in interior design. A human has to choose and buy the materials, engineer the technical joints and produce the technical drawings. But I think all of this is temporary.\"\n\nAnd that comes from someone who started at \"this AI thing can't do my job\" 😁\n\nAI isn't \"raw\" anymore. It already speeds up work processes and saves money in almost any industry today. And if it still feels like your field is too specific for AI, describe your case in the comments and I'll try to help. 👇",
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-03T13:52:59Z",
+      "metrics": {
+        "impressions": 448,
+        "members_reached": 245,
+        "reactions": 4,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 3,
+        "followers_gained": 1,
+        "engagement_rate": 0.89
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 29.4,
+          "Entry": 27.3,
+          "Director": 10.2,
+          "Manager": 8.6,
+          "CXO": 6.1
+        },
+        "job_title": {
+          "Software Engineer": 5.7,
+          "Project Manager": 4.1,
+          "Chief Executive Officer": 2.4,
+          "Founder": 2.4,
+          "Product Manager": 2.4
+        },
+        "industry": {
+          "IT Services and IT Consulting": 25.3,
+          "Software Development": 15.1,
+          "Technology, Information and Internet": 6.9,
+          "Advertising Services": 5.3,
+          "Architecture and Planning": 4.5
+        },
+        "company_size": {
+          "51-200 employees": 16.7,
+          "10,001+ employees": 15.5,
+          "11-50 employees": 12.7,
+          "1001-5000 employees": 12.2,
+          "1-10 employees": 9.4
+        },
+        "location": {
+          "Lviv": 12.2,
+          "Kyiv Metropolitan Area": 3.7,
+          "Greater Stockholm Metropolitan Area": 3.3,
+          "Trondheim Region": 3.3,
+          "Prague Metropolitan Area": 2.4
+        },
+        "company": {
+          "Speed and Function": 3.7,
+          "SoftServe": 3.3,
+          "Vend": 2.4
+        }
+      },
+      "comments": [],
+      "reactors": [
+        "https://www.linkedin.com/in/ACoAAAAqnDUB7Gcud4XR3qYHR4_8diXMe3q4zps",
+        "https://www.linkedin.com/in/ACoAAAVllbgBMRFv0yEYG5BqjkCFUP8k8dUMdmk",
+        "https://www.linkedin.com/in/ACoAABi55P4BXuHjvdSzhGl-whK16dXXlYSYImo",
+        "https://www.linkedin.com/in/ACoAAF13SYMBiBDMCUe9CJwKX1lVynpPOA1jPQA"
+      ]
+    }
+  }
+}

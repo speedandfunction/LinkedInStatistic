@@ -1,0 +1,85 @@
+{
+  "urn": "urn:li:activity:7442515479958589440",
+  "id": "7442515479958589440",
+  "type": "post",
+  "posted_at": "2026-03-25T10:19:25Z",
+  "posted_date": "2026-03-25",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7442515479958589440/",
+  "preview": "The developers on my project escalated against me. And they were right to do so. I was managing a website development project at Speed and Function. The team were outsourced developers, contractors wh",
+  "text": "The developers on my project escalated against me. And they were right to do so.\n\nI was managing a website development project at Speed and Function. The team were outsourced developers, contractors who weren't part of S&F's culture.\n\nThe project was dragging. Budget was inflating. Results were mediocre. I couldn't rely on self-organization with this team the way I normally would at S&F.\n\nSo I made a deliberate choice: micromanagement and pressure. Stay within budget. Squeeze out results. I saw the team as a short-term necessity, not a long-term investment. I know how to build relationships. But I didn't believe relationship-building could work with the Junior team.\n\nThe developers were frustrated. They went to leadership.\n\nIn most organizations, this ends one way: \"force the team to work.\" Or the underperformers get replaced. I've experienced both. I've done both.\n\nSpeed and Function did neither.\n\nLeadership told me: \"Andy, the team will deliver if you find the right approach to them. Regardless of who they are and what their professional qualities are.\"\n\nTheir logic: if people are unhappy, delivering results becomes harder, not easier. Together with them, you can achieve the same outcome with less effort. So find another way.\n\nThe company chose to develop the manager instead of reshuffling the team.\n\nI already knew about the importance of relationships. What I didn't believe was that it could apply to an unprofessional team. I chose the directive path deliberately. But ultimately, I had to return to building relationships.\n\nWe ended up stopping the project, but brought it to production-ready. The team walked away happy with the collaboration. And I walked away with something I didn't expect: proof that collaboration and results aren't a tradeoff. You get both.\n\nThat's the fundamental difference at S&F. Results are achieved through collaboration, not coercion. It's not written on a wall. It's what happened when my team complained about me.",
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-03T13:52:18Z",
+      "metrics": {
+        "impressions": 650,
+        "members_reached": 345,
+        "reactions": 14,
+        "comments": 0,
+        "reposts": 1,
+        "saves": 0,
+        "sends": 1,
+        "profile_viewers": 6,
+        "followers_gained": 1,
+        "engagement_rate": 2.31
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 31.9,
+          "Senior": 29.3,
+          "Director": 7.5,
+          "CXO": 6.1,
+          "Manager": 3.5
+        },
+        "job_title": {
+          "Software Engineer": 7,
+          "Project Manager": 6.1,
+          "Product Manager": 2.6,
+          "Founder": 2.3,
+          "Delivery Manager": 2
+        },
+        "industry": {
+          "IT Services and IT Consulting": 37.7,
+          "Software Development": 19.7,
+          "Technology, Information and Internet": 7.2,
+          "Business Consulting and Services": 2.6,
+          "IT System Custom Software Development": 2.3
+        },
+        "company_size": {
+          "51-200 employees": 24.9,
+          "10,001+ employees": 12.2,
+          "11-50 employees": 11.9,
+          "1001-5000 employees": 9.9,
+          "201-500 employees": 7.5
+        },
+        "location": {
+          "Lviv": 2.3,
+          "Kyiv Metropolitan Area": 12.8,
+          "Kharkiv Metropolitan Area": 3.2,
+          "Sofia Metropolitan Area": 2
+        },
+        "company": {
+          "Speed and Function": 4.6,
+          "SoftServe": 2.3,
+          "EPAM Systems": 1.7
+        }
+      },
+      "comments": [],
+      "reactors": [
+        "https://www.linkedin.com/company/speed-and-function",
+        "https://www.linkedin.com/in/ACoAAA4x5D8B8dLdIZPCP_0z1pWVdR4YHC6ZUy0",
+        "https://www.linkedin.com/in/ACoAAAQWXnMB5G5-HVS_UjCV7xTHdyqUtQ5cTyk",
+        "https://www.linkedin.com/in/ACoAAAVllbgBMRFv0yEYG5BqjkCFUP8k8dUMdmk",
+        "https://www.linkedin.com/in/ACoAAAsEBosBilxj2y8y1ov4MogxqWTNkEOFZa4",
+        "https://www.linkedin.com/in/ACoAAAxbGjgBUTF3V2SNG3ArZAt2D9BzMxtrRqg",
+        "https://www.linkedin.com/in/ACoAABPXGYcBT9CFC-UeXGEdT_bwtxrZ1uyowIs",
+        "https://www.linkedin.com/in/ACoAABXFzI8BzIBPp9Ze5Y46__x8-TjjXzoBqxE",
+        "https://www.linkedin.com/in/ACoAABq1KT4B4W8_xtckyJazCPO8uSXEenkM1b8",
+        "https://www.linkedin.com/in/ACoAAC6b5e8BxEu-r8Te3xqIxP8xE7Gg1o5IgGI",
+        "https://www.linkedin.com/in/ACoAACWjphcBSmQdEyROuAFWbw4orxDUYzYnZY8",
+        "https://www.linkedin.com/in/ACoAACyiGuIBpOQErntNZiddXyXhcZlnXUrKXYI",
+        "https://www.linkedin.com/in/ACoAADFN0rkBmv9dqRxDJE8-rR1tAXaJdOwLVT0",
+        "https://www.linkedin.com/in/ACoAAF13SYMBiBDMCUe9CJwKX1lVynpPOA1jPQA"
+      ]
+    }
+  }
+}
