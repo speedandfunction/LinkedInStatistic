@@ -1,0 +1,69 @@
+{
+  "urn": "urn:li:activity:7470860945817505792",
+  "id": "7470860945817505792",
+  "type": "post",
+  "posted_at": "2026-06-11T15:34:11Z",
+  "posted_date": "2026-06-11",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7470860945817505792/",
+  "preview": "I taught AI to do my job. Instead of letting me go, the company kept my salary 💥 💸 Would you like to know how much the Speed and Function and Function saved on this? When I joined S&F in April 2024, t",
+  "text": "I taught AI to do my job. Instead of letting me go, the company kept my salary 💥\n\n💸 Would you like to know how much the Speed and Function and Function saved on this? \n\nWhen I joined S&F in April 2024, the organisation had hundreds of completed projects over many years of existence. But almost no published case studies. The stories existed only in memory and meeting notes.\n\nProcessing all that historical project documentation manually looked like a task that would take years. So I started using AI 🦾\n\nFirst, I built a GPT that took project documentation as input and generated a table with copywriting for one-siders, the presentation slides for S&F's website, and a slide deck. It could be written in the company's Tone of Voice, in a clear tabular structure matching our standard format. Many of the 120+ case studies were produced by this GPT alone.\n\nLater, I migrated to Claude and built a more advanced content engine. It creates a knowledge base from interviews and documents, then generates different content from it, from one-pagers to social media series like this one.\n\n➡️ Results: Over 120 published case study slides on the S&F website. First time in the company's history. At least 10 times faster than manual work. \n\nAround the same time, I took on a second job in parallel in defence tech and started working significantly fewer hours at S&F, switching to an hourly basis. \n\n😮 The company preserved my average salary despite my reduced involvement. They told me the value I'd already delivered through the content engine and marketing exceeded my cost at full-time rates.\n\nWhen one person with the right tools produces what previously required months of manual work from a dedicated employee, the conversation moves from \"hours worked\" to \"value created\" 🏆\n\n🪅 What made this possible – wasn't the AI, It was Speed and Function’s culture. The freedom to work on what I found most valuable and determine my own approach to achieving results. That autonomy is what produced the dramatically increased productivity. And that's what sets this company apart.\n\n💸 Now guess, how much money did we saved thanks to this automation?",
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-03T13:52:44Z",
+      "metrics": {
+        "impressions": 615,
+        "members_reached": 368,
+        "reactions": 6,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 2,
+        "profile_viewers": 2,
+        "followers_gained": 0,
+        "engagement_rate": 0.98
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 36.2,
+          "Entry": 23.2,
+          "Director": 9.7,
+          "Manager": 4.8,
+          "VP": 4.3
+        },
+        "job_title": {},
+        "industry": {
+          "IT Services and IT Consulting": 32.9,
+          "Software Development": 22.7,
+          "Technology, Information and Internet": 5.8,
+          "Financial Services": 5.8,
+          "Business Consulting and Services": 3.9
+        },
+        "company_size": {
+          "51-200 employees": 21.3,
+          "11-50 employees": 15,
+          "10,001+ employees": 13.5,
+          "1001-5000 employees": 13,
+          "501-1000 employees": 6.3
+        },
+        "location": {
+          "Lviv": 14.5,
+          "Kyiv Metropolitan Area": 10.1,
+          "Greater Boston": 2.9
+        },
+        "company": {
+          "Speed and Function": 6.8,
+          "EPAM Systems": 2.9
+        }
+      },
+      "comments": [],
+      "reactors": [
+        "https://www.linkedin.com/in/ACoAAAY6qPkBCmhBwsqaCMoRKxgRv6P_VydjsWA",
+        "https://www.linkedin.com/in/ACoAAAfVql8BvA3EvhUg7D_GS35q3pjm_Pk-E-8",
+        "https://www.linkedin.com/in/ACoAAAr5lJwBX0fgWHISHlSe92YxYUmwoC0hEKk",
+        "https://www.linkedin.com/in/ACoAACm2JOMBYg0qqhkcZlAbS9WhVHU-XJ5xGcA",
+        "https://www.linkedin.com/in/ACoAADFN0rkBmv9dqRxDJE8-rR1tAXaJdOwLVT0",
+        "https://www.linkedin.com/in/ACoAAF13SYMBiBDMCUe9CJwKX1lVynpPOA1jPQA"
+      ]
+    }
+  }
+}

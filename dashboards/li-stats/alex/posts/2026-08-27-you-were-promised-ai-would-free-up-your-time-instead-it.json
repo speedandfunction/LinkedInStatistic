@@ -1,0 +1,123 @@
+{
+  "urn": "urn:li:activity:7498693207849975808",
+  "id": "7498693207849975808",
+  "type": "post",
+  "posted_at": "2026-08-27T10:49:39Z",
+  "posted_date": "2026-08-27",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7498693207849975808/",
+  "preview": "You were promised AI would free up your time. Instead it relocated the problem from your calendar straight into your head 🧠 AI removes the limit on how much you can produce. In an hour you can generat",
+  "text": "You were promised AI would free up your time. Instead it relocated the problem from your calendar straight into your head 🧠\n\nAI removes the limit on how much you can produce. In an hour you can generate a dozen drafts, analyses, or plans that used to take a week. Reading each one, checking it, and turning it into an actual decision? Still you.\n\nSo you attach AI to everything it technically fits, and instead of freeing up time you build yourself a review queue with no bottom. You've become an editor on a conveyor belt that never stops.\n\nThree things that changed how this feels for me:\n\n1️⃣ Get the task right before you touch the prompt. Ask for a twenty-page market analysis when what you really needed was to pick between two vendors, and you'll get twenty genuinely good pages and zero decisions made. The prompt was fine, but the task was wrong. \n\nThis is where most \"AI just isn't that smart\" complaints actually come from.\n\n2️⃣ AI processes information, you make the decisions. Searching, collecting, structuring, comparing, first drafts, hand all of that over, it's good at it and you'll get hours back 🦾 But picking a direction, weighing trade-offs, deciding what actually matters, that's yours 🫵 \n\nSomewhere around task number 37 of the day, \"here's a solid draft\" quietly turns into \"sure, ship it\", and that's the part worth watching for.\n\n3️⃣ You can hand off the work. Not the blame. You sent the proposal, you made the call on your team, you put the AI's recommendation into production. The consequences are yours.\n\n \"AI suggested it\" isn't an explanation your client or your boss is going to accept, and it shouldn't be one you accept from yourself either.\n\nMy own morning brief pulls tasks out of the previous day's calls and assembles the standup with one command. But it works not because it's fast, it works because it hands me the day as \"here are the decisions to make\" instead of \"here's a pile of material, good luck\".\n\nSo the real metric isn't how many tools you're running. It's whether your actual day got shorter. If AI added more steps, more queues, more tabs to babysit, that's not a transformation, that's just a fancier mess.\n\nAI isn't the end result. The result is a better way to live and work 🐈\n\nHonestly: since you brought AI in, do you have more free time or more inbound queue? One word in the comments👇",
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-03T13:53:03Z",
+      "metrics": {
+        "impressions": 434,
+        "members_reached": 273,
+        "reactions": 8,
+        "comments": 11,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 3,
+        "followers_gained": 0,
+        "engagement_rate": 4.38
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 33.7,
+          "Entry": 19.4,
+          "Director": 11,
+          "Manager": 8.1,
+          "CXO": 7.3
+        },
+        "job_title": {
+          "Software Engineer": 5.5,
+          "Founder": 5.1,
+          "Project Manager": 4.4,
+          "Chief Executive Officer": 3.7,
+          "Product Manager": 2.6
+        },
+        "industry": {
+          "IT Services and IT Consulting": 31.1,
+          "Software Development": 17.9,
+          "Technology, Information and Internet": 7,
+          "Financial Services": 2.6,
+          "Business Consulting and Services": 2.6
+        },
+        "company_size": {
+          "51-200 employees": 22,
+          "10,001+ employees": 17.6,
+          "11-50 employees": 15.4,
+          "1-10 employees": 7.7,
+          "1001-5000 employees": 7
+        },
+        "location": {
+          "Lviv": 15.4,
+          "Kyiv Metropolitan Area": 4.8,
+          "Greater Boston": 3.3,
+          "Warsaw Metropolitan Area": 2.9,
+          "Atlanta Metropolitan Area": 2.9
+        },
+        "company": {
+          "Speed and Function": 7,
+          "SoftServe": 3.7,
+          "EPAM Systems": 2.2
+        }
+      },
+      "comments": [
+        {
+          "author_name": "Daria Malova",
+          "author_url": "https://www.linkedin.com/in/dariamalova",
+          "author_headline": "Content Manager & Social Media Creator",
+          "comment_urn": "urn:li:comment:(activity:7498693207849975808,7498696278042808320)",
+          "text": "Life has definitely gotten more convenient, but it's sometimes really hard to keep the balance between letting AI help me and giving it the tiniest tasks that I could just do myself in 5 minutes and then getting annoyed that it doesn't understand what I want from it 😁",
+          "reactions": 1,
+          "replies_count": 3
+        },
+        {
+          "author_name": "Max Kozyra",
+          "author_url": "https://www.linkedin.com/in/max-kozyra",
+          "author_headline": "From Code to Vision. Driving product innovation at INCORA",
+          "comment_urn": "urn:li:comment:(activity:7498693207849975808,7499018173191548928)",
+          "text": "AI has definitely increased what I can produce, but the real productivity gain only happens when it reduces the number of decisions and reviews I have to carry - not when it simply gives me more output to process.",
+          "reactions": 1,
+          "replies_count": 2
+        },
+        {
+          "author_name": "Kent Gregoire",
+          "author_url": "https://www.linkedin.com/in/kentgregoire",
+          "author_headline": "The CEO to CEOs™ | I help mission-driven founders of $5M–$250M companies scale their impact and innovations | Serial entrepreneur, 15+ companies founded, $250M+ raised | Conscious Capitalism advisor",
+          "comment_urn": "urn:li:comment:(activity:7498693207849975808,7498713773344567296)",
+          "text": "Andrii Rozhylo, while experiencing AI's positives and negatives and noticing shifts in my behavior, has helped me identify where to evolve while not letting AI become my hidden persona 😆 and thus a burden. \n\nA mentor writes on AI topics and you may find value in following her -> https://www.linkedin.com/in/carinknoop?utm_source=share_via&utm_content=profile&utm_medium=member_ios",
+          "reactions": 1,
+          "replies_count": 1
+        },
+        {
+          "author_name": "Olena Kuibida 🇺🇦",
+          "author_url": "https://www.linkedin.com/in/olenakuibida",
+          "author_headline": "Manual QA Engineer | Test Analyst | Software Testing | API and Backend testing | fluent in English and French | willing to learn QA Automation",
+          "comment_urn": "urn:li:comment:(activity:7498693207849975808,7498713796233068544)",
+          "text": "Hello! I would like to ask if by any chance your business need a QA engineer who is easy to work with, who is having a good energy and who is ready to learn everything that the project requires (just as usual! ;) ). If the answer is \"yes\", would you please consider myself? Thank you! Cheers!",
+          "reactions": 0,
+          "replies_count": 1
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/dariamalova",
+        "https://www.linkedin.com/in/kentgregoire",
+        "https://www.linkedin.com/in/max-kozyra",
+        "https://www.linkedin.com/in/olenakuibida"
+      ],
+      "reactors": [
+        "https://www.linkedin.com/in/ACoAAAVllbgBMRFv0yEYG5BqjkCFUP8k8dUMdmk",
+        "https://www.linkedin.com/in/ACoAAAY6qPkBCmhBwsqaCMoRKxgRv6P_VydjsWA",
+        "https://www.linkedin.com/in/ACoAAAfVql8BvA3EvhUg7D_GS35q3pjm_Pk-E-8",
+        "https://www.linkedin.com/in/ACoAAAi6L4ABG5WBnv9TXVDNYqT37zBTTD-qpCg",
+        "https://www.linkedin.com/in/ACoAAAqUgLsBMjjr1evGW9ylnNSkUAGh06eUn5k",
+        "https://www.linkedin.com/in/ACoAABW8lKQB0QrxIhivHfM0-9R5Trzh9d7dwVc",
+        "https://www.linkedin.com/in/ACoAADsDv7IBnCGKEMttIooxJQazT3GKYM0EoGM",
+        "https://www.linkedin.com/in/ACoAAF13SYMBiBDMCUe9CJwKX1lVynpPOA1jPQA"
+      ]
+    }
+  }
+}

@@ -1571,7 +1571,13 @@ async function openPostReactors(page, dialogSel) {
 
     let target = Array.from(root.querySelectorAll(
       'a[data-view-name="feed-reaction-count"], [data-view-name="feed-reaction-count"] a,'
-      + ' a[data-view-name="view-likers"], [data-view-name="view-likers"] a',
+      + ' a[data-view-name="view-likers"], [data-view-name="view-likers"] a,'
+      // Third DOM variant, found 2026-09-03 on an A/B bucket carrying
+      // NEITHER the data-view-name hook NOR "reacted"-suffixed text (the
+      // summary reads bare "<Name> and N others"): the reaction-proof
+      // button itself carries `data-reaction-details`, LinkedIn's own
+      // semantic hook for this exact control, independent of text/locale.
+      + ' button[data-reaction-details], [data-reaction-details] button',
     )).find((el) => !inComment(el));
 
     if (!target) {
