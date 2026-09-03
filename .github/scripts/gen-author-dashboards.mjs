@@ -28,10 +28,18 @@ const POSTS_TPL = readFileSync(join(TPL_DIR, "author-posts.json"), "utf8");
 
 // Перекласти шаблон на конкретного автора: підмінити uid/title, URL даних і
 // внутрішні крос-лінки між дашбордами.
-function render(tplText, { uid, title, author }) {
+function render(tplText, { uid, title, author, isPosts }) {
   const d = JSON.parse(tplText);
   d.uid = uid;
   d.title = title;
+  // Крос-лінки задаємо ЯВНО, а не заміною по тексту: у шаблоні вони вказують
+  // на дашборди апстріму (kiqz2fk / linkedin-post), яких у нас немає — і саме
+  // тому кнопка "Account view" вела в нікуди.
+  for (const l of d.links ?? []) {
+    if (typeof l.url === 'string' && l.url.startsWith('/d/')) {
+      l.url = isPosts ? `/d/linkedin-${author}` : `/d/linkedin-${author}-posts`;
+    }
+  }
   // $post — це статичний Custom-список, «запечений» у шаблоні. Без очистки
   // кожен автор успадкував би чужі пости. Список наповнює update-post-variable
   // з dashboards/li-stats/<author>/posts/ вже після публікації.
@@ -61,11 +69,13 @@ for (const author of authors) {
     uid: `linkedin-${author}`,
     title: `LinkedIn Stats — ${name}`,
     author,
+    isPosts: false,
   });
   const posts = render(POSTS_TPL, {
     uid: `linkedin-${author}-posts`,
     title: `LinkedIn Stats — ${name} · Per-post`,
     author,
+    isPosts: true,
   });
   writeFileSync(join(GRAFANA_DIR, `linkedin-${author}.json`), main);
   writeFileSync(join(GRAFANA_DIR, `linkedin-${author}-posts.json`), posts);
