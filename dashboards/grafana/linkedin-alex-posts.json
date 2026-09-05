@@ -1921,14 +1921,78 @@
     "list": [
       {
         "allowCustomValue": true,
-        "current": {},
+        "current": {
+          "text": "2026-08-27 — You were promised AI would free up your time. Instead it rel",
+          "value": "7498693207849975808"
+        },
         "hide": 0,
         "includeAll": false,
         "label": "Post",
         "multi": false,
         "name": "post",
-        "options": [],
-        "query": "",
+        "options": [
+          {
+            "selected": true,
+            "text": "2026-08-27 — You were promised AI would free up your time. Instead it rel",
+            "value": "7498693207849975808"
+          },
+          {
+            "selected": false,
+            "text": "2026-08-13 — \"This AI thing can't do my job\" almost always means you neve",
+            "value": "7493606500985274368"
+          },
+          {
+            "selected": false,
+            "text": "2026-06-26 — Some lessons only land when you've failed enough times to st",
+            "value": "7476214344721002496"
+          },
+          {
+            "selected": false,
+            "text": "2026-06-11 — I taught AI to do my job. Instead of letting me go the compa",
+            "value": "7470860945817505792"
+          },
+          {
+            "selected": false,
+            "text": "2026-04-10 — ⛔️ \"Stop spreading democracy here. Communicate with people i",
+            "value": "7448345552549003264"
+          },
+          {
+            "selected": false,
+            "text": "2026-03-25 — The developers on my project escalated against me. And they",
+            "value": "7442515479958589440"
+          },
+          {
+            "selected": false,
+            "text": "2026-02-26 — Have you ever started a job without a clear position or titl",
+            "value": "7432772025972269056"
+          },
+          {
+            "selected": false,
+            "text": "2024-06-02 — I’m happy to share that I’m holding a new position as Projec",
+            "value": "7202994958977351681"
+          },
+          {
+            "selected": false,
+            "text": "2024-03-06 — Excited to announce I’m hashtag #OpenForBusiness and providi",
+            "value": "7171181075799519233"
+          },
+          {
+            "selected": false,
+            "text": "2023-07-15 — That is what we really need in Ukraine",
+            "value": "7086001330363748353"
+          },
+          {
+            "selected": false,
+            "text": "2023-07-04 — Please help Ukraine to win this bloody war and put an end to",
+            "value": "7082032385877237761"
+          },
+          {
+            "selected": false,
+            "text": "2023-05-29 — My personal pet project is launched. Who wants to manage his",
+            "value": "7068958976884797440"
+          }
+        ],
+        "query": "2026-08-27 — You were promised AI would free up your time. Instead it rel : 7498693207849975808, 2026-08-13 — \"This AI thing can't do my job\" almost always means you neve : 7493606500985274368, 2026-06-26 — Some lessons only land when you've failed enough times to st : 7476214344721002496, 2026-06-11 — I taught AI to do my job. Instead of letting me go the compa : 7470860945817505792, 2026-04-10 — ⛔️ \"Stop spreading democracy here. Communicate with people i : 7448345552549003264, 2026-03-25 — The developers on my project escalated against me. And they : 7442515479958589440, 2026-02-26 — Have you ever started a job without a clear position or titl : 7432772025972269056, 2024-06-02 — I’m happy to share that I’m holding a new position as Projec : 7202994958977351681, 2024-03-06 — Excited to announce I’m hashtag #OpenForBusiness and providi : 7171181075799519233, 2023-07-15 — That is what we really need in Ukraine : 7086001330363748353, 2023-07-04 — Please help Ukraine to win this bloody war and put an end to : 7082032385877237761, 2023-05-29 — My personal pet project is launched. Who wants to manage his : 7068958976884797440",
         "skipUrlSync": false,
         "type": "custom"
       }

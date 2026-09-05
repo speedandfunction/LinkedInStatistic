@@ -1921,14 +1921,53 @@
     "list": [
       {
         "allowCustomValue": true,
-        "current": {},
+        "current": {
+          "text": "2026-08-31 — It’s fascinating that AI is making us more aware of the cost",
+          "value": "7500116105856749568"
+        },
         "hide": 0,
         "includeAll": false,
         "label": "Post",
         "multi": false,
         "name": "post",
-        "options": [],
-        "query": "",
+        "options": [
+          {
+            "selected": true,
+            "text": "2026-08-31 — It’s fascinating that AI is making us more aware of the cost",
+            "value": "7500116105856749568"
+          },
+          {
+            "selected": false,
+            "text": "2026-08-27 — What if the future isn't about choosing between AI and human",
+            "value": "7498789820241010688"
+          },
+          {
+            "selected": false,
+            "text": "2026-07-17 — Somewhere between Prompt №37 and \"Why isn't this working?\" I",
+            "value": "7483822620136640513"
+          },
+          {
+            "selected": false,
+            "text": "2026-07-03 — I don't know how it happens but almost every time exactly on",
+            "value": "7478717734739107840"
+          },
+          {
+            "selected": false,
+            "text": "2026-06-29 — When I became a mom I thought the challenge would be finding",
+            "value": "7477289819551887361"
+          },
+          {
+            "selected": false,
+            "text": "2026-06-19 — To survive motherhood find that one mom who matches your lev",
+            "value": "7473694999071637504"
+          },
+          {
+            "selected": false,
+            "text": "2026-06-11 — The moment you become a parent everyone suddenly becomes an",
+            "value": "7470799833595797504"
+          }
+        ],
+        "query": "2026-08-31 — It’s fascinating that AI is making us more aware of the cost : 7500116105856749568, 2026-08-27 — What if the future isn't about choosing between AI and human : 7498789820241010688, 2026-07-17 — Somewhere between Prompt №37 and \"Why isn't this working?\" I : 7483822620136640513, 2026-07-03 — I don't know how it happens but almost every time exactly on : 7478717734739107840, 2026-06-29 — When I became a mom I thought the challenge would be finding : 7477289819551887361, 2026-06-19 — To survive motherhood find that one mom who matches your lev : 7473694999071637504, 2026-06-11 — The moment you become a parent everyone suddenly becomes an : 7470799833595797504",
         "skipUrlSync": false,
         "type": "custom"
       }
