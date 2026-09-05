@@ -30,7 +30,7 @@
       "title": "Account view",
       "tooltip": "Account-level KPIs and demographics",
       "type": "link",
-      "url": "/d/linkedin-alex"
+      "url": "/d/linkedin-maria"
     }
   ],
   "liveNow": false,
@@ -157,7 +157,7 @@
           "root_selector": "posts",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/alex/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -260,7 +260,7 @@
           "root_selector": "post_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/alex/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -415,7 +415,7 @@
           "root_selector": "post_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/alex/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -554,7 +554,7 @@
           "root_selector": "post_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/alex/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -694,7 +694,7 @@
           "root_selector": "post_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/alex/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -857,7 +857,7 @@
           "root_selector": "post_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/alex/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -983,7 +983,7 @@
           "root_selector": "post_demographics",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/alex/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -1148,7 +1148,7 @@
           "root_selector": "post_demographics",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/alex/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -1319,7 +1319,7 @@
           "root_selector": "post_demographics",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/alex/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -1490,7 +1490,7 @@
           "root_selector": "post_demographics",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/alex/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -1655,7 +1655,7 @@
           "root_selector": "post_demographics",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/alex/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -1826,7 +1826,7 @@
           "root_selector": "post_demographics",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/alex/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -1922,8 +1922,8 @@
       {
         "allowCustomValue": true,
         "current": {
-          "text": "2026-08-27 — You were promised AI would free up your time. Instead it rel",
-          "value": "7498693207849975808"
+          "text": "2026-08-31 — It’s fascinating that AI is making us more aware of the cost",
+          "value": "7500116105856749568"
         },
         "hide": 0,
         "includeAll": false,
@@ -1933,66 +1933,41 @@
         "options": [
           {
             "selected": true,
-            "text": "2026-08-27 — You were promised AI would free up your time. Instead it rel",
-            "value": "7498693207849975808"
+            "text": "2026-08-31 — It’s fascinating that AI is making us more aware of the cost",
+            "value": "7500116105856749568"
           },
           {
             "selected": false,
-            "text": "2026-08-13 — \"This AI thing can't do my job\" almost always means you neve",
-            "value": "7493606500985274368"
+            "text": "2026-08-27 — What if the future isn't about choosing between AI and human",
+            "value": "7498789820241010688"
           },
           {
             "selected": false,
-            "text": "2026-06-26 — Some lessons only land when you've failed enough times to st",
-            "value": "7476214344721002496"
+            "text": "2026-07-17 — Somewhere between Prompt №37 and \"Why isn't this working?\" I",
+            "value": "7483822620136640513"
           },
           {
             "selected": false,
-            "text": "2026-06-11 — I taught AI to do my job. Instead of letting me go the compa",
-            "value": "7470860945817505792"
+            "text": "2026-07-03 — I don't know how it happens but almost every time exactly on",
+            "value": "7478717734739107840"
           },
           {
             "selected": false,
-            "text": "2026-04-10 — ⛔️ \"Stop spreading democracy here. Communicate with people i",
-            "value": "7448345552549003264"
+            "text": "2026-06-29 — When I became a mom I thought the challenge would be finding",
+            "value": "7477289819551887361"
           },
           {
             "selected": false,
-            "text": "2026-03-25 — The developers on my project escalated against me. And they",
-            "value": "7442515479958589440"
+            "text": "2026-06-19 — To survive motherhood find that one mom who matches your lev",
+            "value": "7473694999071637504"
           },
           {
             "selected": false,
-            "text": "2026-02-26 — Have you ever started a job without a clear position or titl",
-            "value": "7432772025972269056"
-          },
-          {
-            "selected": false,
-            "text": "2024-06-02 — I’m happy to share that I’m holding a new position as Projec",
-            "value": "7202994958977351681"
-          },
-          {
-            "selected": false,
-            "text": "2024-03-06 — Excited to announce I’m hashtag #OpenForBusiness and providi",
-            "value": "7171181075799519233"
-          },
-          {
-            "selected": false,
-            "text": "2023-07-15 — That is what we really need in Ukraine",
-            "value": "7086001330363748353"
-          },
-          {
-            "selected": false,
-            "text": "2023-07-04 — Please help Ukraine to win this bloody war and put an end to",
-            "value": "7082032385877237761"
-          },
-          {
-            "selected": false,
-            "text": "2023-05-29 — My personal pet project is launched. Who wants to manage his",
-            "value": "7068958976884797440"
+            "text": "2026-06-11 — The moment you become a parent everyone suddenly becomes an",
+            "value": "7470799833595797504"
           }
         ],
-        "query": "2026-08-27 — You were promised AI would free up your time. Instead it rel : 7498693207849975808, 2026-08-13 — \"This AI thing can't do my job\" almost always means you neve : 7493606500985274368, 2026-06-26 — Some lessons only land when you've failed enough times to st : 7476214344721002496, 2026-06-11 — I taught AI to do my job. Instead of letting me go the compa : 7470860945817505792, 2026-04-10 — ⛔️ \"Stop spreading democracy here. Communicate with people i : 7448345552549003264, 2026-03-25 — The developers on my project escalated against me. And they : 7442515479958589440, 2026-02-26 — Have you ever started a job without a clear position or titl : 7432772025972269056, 2024-06-02 — I’m happy to share that I’m holding a new position as Projec : 7202994958977351681, 2024-03-06 — Excited to announce I’m hashtag #OpenForBusiness and providi : 7171181075799519233, 2023-07-15 — That is what we really need in Ukraine : 7086001330363748353, 2023-07-04 — Please help Ukraine to win this bloody war and put an end to : 7082032385877237761, 2023-05-29 — My personal pet project is launched. Who wants to manage his : 7068958976884797440",
+        "query": "2026-08-31 — It’s fascinating that AI is making us more aware of the cost : 7500116105856749568, 2026-08-27 — What if the future isn't about choosing between AI and human : 7498789820241010688, 2026-07-17 — Somewhere between Prompt №37 and \"Why isn't this working?\" I : 7483822620136640513, 2026-07-03 — I don't know how it happens but almost every time exactly on : 7478717734739107840, 2026-06-29 — When I became a mom I thought the challenge would be finding : 7477289819551887361, 2026-06-19 — To survive motherhood find that one mom who matches your lev : 7473694999071637504, 2026-06-11 — The moment you become a parent everyone suddenly becomes an : 7470799833595797504",
         "skipUrlSync": false,
         "type": "custom"
       }
@@ -2017,7 +1992,7 @@
     ]
   },
   "timezone": "browser",
-  "title": "LinkedIn Stats — Andrii (Andy) Rozhylo · Per-post",
-  "uid": "linkedin-alex-posts",
+  "title": "LinkedIn Stats — Maria Umen · Per-post",
+  "uid": "linkedin-maria-posts",
   "version": 12
 }
