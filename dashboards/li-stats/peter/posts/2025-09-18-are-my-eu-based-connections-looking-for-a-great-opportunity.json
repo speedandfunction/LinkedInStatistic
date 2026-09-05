@@ -6,12 +6,12 @@
   "posted_date": "2025-09-18",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7374477133995290625/",
   "preview": "Are my EU based connections looking for a great opportunity with awesome Howie Ross?",
-  "text": null,
+  "text": "Are my EU based connections looking for a great opportunity with awesome Howie Ross?",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:49:19Z",
+      "snapshot_at": "2026-09-05T13:05:09Z",
       "metrics": {
-        "impressions": 404,
+        "impressions": 408,
         "members_reached": 133,
         "reactions": 6,
         "comments": 0,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 1,
         "followers_gained": 1,
-        "engagement_rate": 1.49
+        "engagement_rate": 1.47
       },
       "demographics": {
         "seniority": {
@@ -54,15 +54,7 @@
           "Speed and Function": 9
         }
       },
-      "comments": [],
-      "reactors": [
-        "https://www.linkedin.com/in/alexv-pro",
-        "https://www.linkedin.com/in/le-grybanova",
-        "https://www.linkedin.com/in/sergey-smaglyuk",
-        "https://www.linkedin.com/in/umang-thakkar-esparkbiz",
-        "https://www.linkedin.com/in/yana-nakonechna",
-        "https://www.linkedin.com/in/yaroslav-dvorovenko"
-      ]
+      "comments": []
     }
   }
 }

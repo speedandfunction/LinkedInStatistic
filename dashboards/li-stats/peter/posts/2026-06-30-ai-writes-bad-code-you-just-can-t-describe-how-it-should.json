@@ -6,12 +6,12 @@
   "posted_date": "2026-06-30",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7477683742380134400/",
   "preview": "AI writes bad code? You just can't describe how it should behave. 🙃 For seventy years we were drowning in a sea of unstructured code, and slowly we learned to structure it, so that it becomes predicta",
-  "text": null,
+  "text": "AI writes bad code? You just can't describe how it should behave. 🙃\nFor seventy years we were drowning in a sea of unstructured code, and slowly we learned to structure it, so that it becomes predictable, maintainable, and behaves the way we want. \n\nNow that AI writes 10K lines of code a day, what we're up against has drifted to \"how to explain to AI what this code should do.\" So 𝗶𝗻𝘀𝘁𝗲𝗮𝗱 𝗼𝗳 𝗮 𝘀𝗲𝗮 𝗼𝗳 𝘂𝗻𝘀𝘁𝗿𝘂𝗰𝘁𝘂𝗿𝗲𝗱 𝗰𝗼𝗱𝗲, 𝘄𝗲'𝗿𝗲 𝗳𝗮𝗹𝗹𝗶𝗻𝗴 𝗶𝗻𝘁𝗼 𝗮 𝘀𝗲𝗮 𝗼𝗳 𝘂𝗻𝘀𝘁𝗿𝘂𝗰𝘁𝘂𝗿𝗲𝗱 𝗽𝗿𝗼𝗺𝗽𝘁𝘀, and over the next few years, we're simply forced to learn to structure it too. 🌊\n\nThe main gap is that 𝘄𝗲 𝗻𝗲𝘃𝗲𝗿 𝗹𝗲𝗮𝗿𝗻𝗲𝗱 𝘁𝗼 𝗱𝗲𝘀𝗰𝗿𝗶𝗯𝗲 𝗛𝗢𝗪 𝗮 𝘀𝘆𝘀𝘁𝗲𝗺 𝘀𝗵𝗼𝘂𝗹𝗱 𝘄𝗼𝗿𝗸. Gherkin was built exactly for this, to describe behaviour, and somehow we never learned to use it properly.\n\nMaps are a good way to see it. \nCode always described the path: walk 3 km up, 2 km left, dig there and you'll hit the treasure. 🗺️ Dropping a pin so everyone knows where to arrive is something we never managed in software.\n\nFrom what I've researched, no single product fixes this, and we'll probably spend next years just learning to find the tools that structure this new ocean. My TrueBDD is 𝘰𝘯𝘦 𝘰𝘧 𝘵𝘩𝘦𝘮, 𝘱𝘳𝘰𝘣𝘢𝘣𝘭𝘺: an open-source CLI where the behavioral spec becomes the source of truth and the code turns into an artifact you regenerate from it. A first step in this direction rather than the answer. 🤖\n\nIt's not the AI writing bad code, it's on us to explain to it how the system should actually behave.",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:52:11Z",
+      "snapshot_at": "2026-09-05T13:07:44Z",
       "metrics": {
-        "impressions": 301,
+        "impressions": 302,
         "members_reached": 126,
         "reactions": 2,
         "comments": 0,

@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-03T13:51:36Z",
+      "snapshot_at": "2026-09-05T13:17:11Z",
       "metrics": {
-        "impressions": 1629,
+        "impressions": 1635,
         "members_reached": 0,
         "reactions": 14,
         "comments": 2,
@@ -34,33 +34,27 @@
       },
       "comments": [
         {
-          "author_name": "Ricardo Limon",
+          "author_name": "",
           "author_url": "https://www.linkedin.com/in/rlimon",
-          "author_headline": "Generalist/Application Architect/Gen AI/Mentor",
-          "comment_urn": "urn:li:comment:(ugcPost:7171181075182804992,7171182043089846272)",
-          "text": "If anyone is in need of a great program or project manager, he is your man. \n\nBest wishes for you Andrii in this new phase of your career",
-          "reactions": 1,
-          "replies_count": 1
+          "author_headline": "",
+          "comment_urn": "",
+          "text": "Ricardo Limon Verified Profile 1st\nRicardo Limon\n• 1st\nGeneralist/Application Architect/Gen AI/Mentor\nIf anyone is in need of a great program or project manager, he is your man.\nBest wishes for you Andrii in this new phase of your career\n1 reaction\n1\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/arozhylo",
+          "author_headline": "",
+          "comment_urn": "",
+          "text": "Andrii Rozhylo\nAuthor\nAI Transformation Leader | Business Strategist | Entrepreneur | Delivery Manager | Product Manager | Marketing Expert\nThanks, Ricardo 🙏\n0\n11 impressions\n11",
+          "reactions": 0,
+          "replies_count": 0
         }
       ],
       "commenters": [
+        "https://www.linkedin.com/in/arozhylo",
         "https://www.linkedin.com/in/rlimon"
-      ],
-      "reactors": [
-        "https://www.linkedin.com/in/ACoAAAKZ8wQBR3u4eOWp4lUK33zBWW7sRpJmeVc",
-        "https://www.linkedin.com/in/ACoAAAc6GGYBTkSivKnprhLFP8EABhnxPozGfIg",
-        "https://www.linkedin.com/in/ACoAAAi7cNsBM-YapkHBW8hMqwj2LxyR2IqbaPk",
-        "https://www.linkedin.com/in/ACoAAAxtyJcBoojrhAUthLeM2HjOTuIBhrKb5xQ",
-        "https://www.linkedin.com/in/ACoAABDzt4oBlQCay4A7f0gkgiJHePtdhAPzANs",
-        "https://www.linkedin.com/in/ACoAABGF62cBCvsptB_TsYdVyEjdA-2gN5xdM3Y",
-        "https://www.linkedin.com/in/ACoAABf-dVkBASpvVWg6zL5UJV9OyVQ2kZqZi2E",
-        "https://www.linkedin.com/in/ACoAABiSWK8BpNwz5OIKorEIQyosXQD6rHwqSPo",
-        "https://www.linkedin.com/in/ACoAAD7BXG8BFr0yHamomP8V0WHTTOOjh6VCSPU",
-        "https://www.linkedin.com/in/ACoAADkzgLMBiNVDPPOPWTWiFYQslN6bFd4R6LU",
-        "https://www.linkedin.com/in/ACoAAEDKrrMBzoXyQ9GfTH2yoN-fEUnAIb30-4o",
-        "https://www.linkedin.com/in/ACoAAEEiOPgBdEPL_v16ElYArUOU6UmGFTTXTjo",
-        "https://www.linkedin.com/in/ACoAAEPCzaQB6r7gvdcZTpTN-7e6XTfWB_fLOi8",
-        "https://www.linkedin.com/in/ACoAAESsZyYBQbisAAEp8OSfMWmcxLh69aOU5Kg"
       ]
     }
   }

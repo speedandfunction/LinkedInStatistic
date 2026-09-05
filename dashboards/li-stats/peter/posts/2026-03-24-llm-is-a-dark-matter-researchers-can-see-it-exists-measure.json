@@ -6,12 +6,12 @@
   "posted_date": "2026-03-24",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7442194260919050240/",
   "preview": "𝗟𝗟𝗠 𝗶𝘀 𝗮 \"𝗱𝗮𝗿𝗸 𝗺𝗮𝘁𝘁𝗲𝗿\": researchers can see it exists, measure its effects, map around it, and still can't explain what it actually is. 🔭 I watched a YouTube breakdown of Anthropic's research \"𝘖𝘯 𝘵𝘩𝘦",
-  "text": null,
+  "text": "𝗟𝗟𝗠 𝗶𝘀 𝗮 \"𝗱𝗮𝗿𝗸 𝗺𝗮𝘁𝘁𝗲𝗿\": researchers can see it exists, measure its effects, map around it, and still can't explain what it actually is. 🔭\n\nI watched a YouTube breakdown of Anthropic's research \"𝘖𝘯 𝘵𝘩𝘦 𝘉𝘪𝘰𝘭𝘰𝘨𝘺 𝘰𝘧 𝘢 𝘓𝘓𝘔\". Their researchers used circuit tracing to look inside Claude 3.5 Haiku and see how the model thinks, not just what it outputs.\n\nThe interesting part is that even with attribution graphs — where you can trace why the model said what it said — 𝗯𝗶𝗴 𝗰𝗵𝘂𝗻𝗸𝘀 𝗼𝗳 𝗯𝗲𝗵𝗮𝘃𝗶𝗼𝗿 𝘀𝘁𝗮𝘆 𝘂𝗻𝗲𝘅𝗽𝗹𝗮𝗶𝗻𝗲𝗱. They call it \"dark matter\" and say so openly. I genuinely appreciated that level of transparency about what they don't yet understand. 🧠\n\nWhen we were building our GenAI for German banking — document generation, loan agreements, all that stuff — we didn't fully know it would work either. \nWe had all the right preconditions. \nKarpathy had already shown the direction. \n\nBut in the end, we tested the system, checked if it gave us almost the results we needed at key points. Then ran pretty chaotic experiments to close the gap. What actually helped us get there was volume — 𝗮 𝗹𝗼𝘁 𝗼𝗳 𝗲𝘅𝗽𝗲𝗿𝗶𝗺𝗲𝗻𝘁𝘀 𝗮𝗻𝗱 𝘀𝘁𝗮𝘁𝗶𝘀𝘁𝗶𝗰𝗮𝗹 𝗮𝗻𝗮𝗹𝘆𝘀𝗶𝘀 that told us which parameter changes genuinely moved the needle.\n\n𝗪𝗲 𝘄𝗲𝗿𝗲 𝗵𝗼𝗽𝗶𝗻𝗴 𝗺𝗼𝗿𝗲 𝘁𝗵𝗮𝗻 𝗸𝗻𝗼𝘄𝗶𝗻𝗴. 😅\n\nAnd I think that's what AI is, across the board. You can't fully predict how it will behave — because the model's behavior is only partially understood, even by the people who built it. At least now we have the first honest map of where the fog begins. 🗺️\n\nDo you deploy LLMs mostly believing? 🙃\n\n𝘞𝘳𝘪𝘵𝘪𝘯𝘨 𝘵𝘩𝘪𝘴 𝘱𝘰𝘴𝘵 𝘣𝘳𝘰𝘶𝘨𝘩𝘵 𝘣𝘢𝘤𝘬 𝘮𝘦𝘮𝘰𝘳𝘪𝘦𝘴 𝘰𝘧 𝘰𝘶𝘳 𝘤𝘩𝘢𝘰𝘵𝘪𝘤 𝘦𝘹𝘱𝘦𝘳𝘪𝘮𝘦𝘯𝘵𝘴 — 𝘢𝘯𝘥 𝘳𝘦𝘮𝘪𝘯𝘥𝘦𝘥 𝘮𝘦 𝘰𝘧 𝘵𝘩𝘪𝘴 𝘮𝘰𝘮𝘦𝘯𝘵 𝘧𝘳𝘰𝘮 𝘙𝘰𝘴𝘦𝘯𝘤𝘳𝘢𝘯𝘵𝘻 & 𝘎𝘶𝘪𝘭𝘥𝘦𝘯𝘴𝘵𝘦𝘳𝘯 𝘈𝘳𝘦 𝘋𝘦𝘢𝘥. 𝘍𝘦𝘭𝘵 𝘢𝘱𝘱𝘳𝘰𝘱𝘳𝘪𝘢𝘵𝘦 𝘵𝘰 𝘢𝘥𝘥 𝘢𝘴 𝘢 𝘎𝘐𝘍. 😄",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:36:47Z",
+      "snapshot_at": "2026-09-05T12:55:34Z",
       "metrics": {
-        "impressions": 28432,
+        "impressions": 28434,
         "members_reached": 20213,
         "reactions": 19,
         "comments": 8,
@@ -68,63 +68,55 @@
       },
       "comments": [
         {
-          "author_name": "",
+          "author_name": "Peter Ovchynnikov",
           "author_url": "https://www.linkedin.com/in/ovchyn",
-          "author_headline": "",
+          "author_headline": "Building TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function",
           "comment_urn": "urn:li:comment:(activity:7442194260919050240,7442195133925597184)",
-          "text": "Peter Ovchynnikov\nAuthor\nBuilding TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function\nOn the Biology of a LLM\nhttps://www.youtube.com/watch?v=PwAcQTyZZ7I\nOn the Biology of a LLM\nyoutube.com\n1 reaction\n1\n342 impressions\n342",
-          "reactions": 0,
+          "text": "On the Biology of a LLM\nhttps://www.youtube.com/watch?v=PwAcQTyZZ7I",
+          "reactions": 1,
           "replies_count": 0
         },
         {
-          "author_name": "",
+          "author_name": "Andrii Rozhylo",
           "author_url": "https://www.linkedin.com/in/arozhylo",
-          "author_headline": "",
+          "author_headline": "AI Transformation Leader | Business Strategist | Entrepreneur | Delivery Manager | Product Manager | Marketing Expert",
           "comment_urn": "urn:li:comment:(activity:7442194260919050240,7442857389055332352)",
-          "text": "Andrii Rozhylo Verified Profile 1st\nAndrii Rozhylo\n• 1st\nAI Transformation Leader | Business Strategist | Entrepreneur | Delivery Manager | Product Manager | Marketing Expert\nWhen you work a lot with models, with time, a certain internal feeling appears, as if you already know in advance what response will come from the system, so you adjust your prompt in a way that steers that response in the direction you need.\nHope is what drives us when we launch a new AI process for the first time. But after a few iterations this feeling starts to emerge.\nLook deeper within yourself 🧘😇\n1 reaction\n1\n1\n1",
-          "reactions": 0,
-          "replies_count": 0
+          "text": "When you work a lot with models, with time, a certain internal feeling appears, as if you already know in advance what response will come from the system, so you adjust your prompt in a way that steers that response in the direction you need.\n\nHope is what drives us when we launch a new AI process for the first time. But after a few iterations this feeling starts to emerge. \n\nLook deeper within yourself 🧘😇",
+          "reactions": 1,
+          "replies_count": 1
         },
         {
-          "author_name": "",
-          "author_url": "https://www.linkedin.com/in/ovchyn",
-          "author_headline": "",
-          "comment_urn": "urn:li:comment:(activity:7442194260919050240,7442893084218241024)",
-          "text": "Peter Ovchynnikov\nAuthor\nBuilding TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function\nAhaha… Looks like a new term is being born. It’s all feeling-driven development now. No conscious choice anymore :)\n0\n62 impressions\n62",
-          "reactions": 0,
-          "replies_count": 0
-        },
-        {
-          "author_name": "",
+          "author_name": "Kate Chapman",
           "author_url": "https://www.linkedin.com/in/untanglingsystems",
-          "author_headline": "",
+          "author_headline": "Fractional CTO | Platform, Product & AI strategy | Sociotechnical Systems | Open Source Governance | Helping Humans & Tech Collaborate",
           "comment_urn": "urn:li:comment:(activity:7442194260919050240,7442267219591442433)",
-          "text": "Kate Chapman Premium Profile 1st\nKate Chapman\n• 1st\nFractional CTO | Platform, Product & AI strategy | Sociotechnical Systems | Open Source Governance |  Helping Humans & Tech Collaborate\nThis very point of we can't understand why it does things leads me down the path of does that mean it is conscious? I haven't decided yet.\n1 reaction\n1",
-          "reactions": 0,
+          "text": "This very point of we can't understand why it does things leads me down the path of does that mean it is conscious? I haven't decided yet.",
+          "reactions": 1,
           "replies_count": 0
         },
         {
-          "author_name": "",
+          "author_name": "Gianluigi Fliri",
           "author_url": "https://www.linkedin.com/in/gianluigi-fliri",
-          "author_headline": "",
+          "author_headline": "Data and AI Lead at HModa",
           "comment_urn": "urn:li:comment:(activity:7442194260919050240,7442238230151770115)",
-          "text": "Gianluigi Fliri  3rd+\nGianluigi Fliri • 3rd+\nData and AI Lead at HModa\nFollow\nIn the eighties researchers hypothized that neural networks could one day produce intelligent behaviour. Back then they only could run tiny perceptrons, but the intuition was there. In recent years it has been proved right. So I believe that, yes, we don't fully understand the magic, but it doesn't come from pure empirism. It is by design.\n1 reaction\n1\n1\n1",
-          "reactions": 0,
-          "replies_count": 0
+          "text": "In the eighties researchers hypothized that neural networks could one day produce intelligent behaviour. Back then they only could run tiny perceptrons, but the intuition was there. In recent years it has been proved right. So I believe that, yes, we don't fully understand the magic, but it doesn't come from pure empirism. It is by design.",
+          "reactions": 1,
+          "replies_count": 1
         },
         {
-          "author_name": "",
-          "author_url": "https://www.linkedin.com/in/ovchyn",
-          "author_headline": "",
-          "comment_urn": "urn:li:comment:(activity:7442194260919050240,7442501592597159936)",
-          "text": "Peter Ovchynnikov\nAuthor\nBuilding TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function\n(edited) 5mo\nGianluigi Fliri I know how it works. I know even every weight (out of 30M). But... I still can't understand why it does this, not that. This still comes to me from \"stochastic empirism\", not from understanding. With some probability.\n0\n123 impressions\n123",
+          "author_name": "jerome SUSGIN",
+          "author_url": "https://www.linkedin.com/in/jerome-susgin-b06b3b174",
+          "author_headline": "Building agnostic infrastructure for robotic fleets - current focus on drones | AI Architect @ Airbus | ROS2, Agentic AI, Orchestration, MLOps | Closing the SIL→HIL gap",
+          "comment_urn": "urn:li:comment:(activity:7442194260919050240,7442492363777810432)",
+          "text": "We know what LLM are : a stochastic generator of words (token) given a context (a prompt and the trained weights).",
           "reactions": 0,
-          "replies_count": 0
+          "replies_count": 1
         }
       ],
       "commenters": [
         "https://www.linkedin.com/in/arozhylo",
         "https://www.linkedin.com/in/gianluigi-fliri",
+        "https://www.linkedin.com/in/jerome-susgin-b06b3b174",
         "https://www.linkedin.com/in/ovchyn",
         "https://www.linkedin.com/in/untanglingsystems"
       ]

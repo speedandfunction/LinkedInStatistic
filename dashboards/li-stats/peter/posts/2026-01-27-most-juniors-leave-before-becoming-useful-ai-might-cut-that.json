@@ -6,12 +6,12 @@
   "posted_date": "2026-01-27",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7421897520596893696/",
   "preview": "𝗠𝗼𝘀𝘁 𝗷𝘂𝗻𝗶𝗼𝗿𝘀 𝗹𝗲𝗮𝘃𝗲 𝗯𝗲𝗳𝗼𝗿𝗲 𝗯𝗲𝗰𝗼𝗺𝗶𝗻𝗴 𝘂𝘀𝗲𝗳𝘂𝗹. 𝗔𝗜 𝗺𝗶𝗴𝗵𝘁 𝗰𝘂𝘁 𝘁𝗵𝗮𝘁 𝘄𝗶𝗻𝗱𝗼𝘄 𝗶𝗻 𝗵𝗮𝗹𝗳. I came across Kent Beck's article about juniors in the AI era. His main thesis: manage juniors for learning, not production",
-  "text": null,
+  "text": "𝗠𝗼𝘀𝘁 𝗷𝘂𝗻𝗶𝗼𝗿𝘀 𝗹𝗲𝗮𝘃𝗲 𝗯𝗲𝗳𝗼𝗿𝗲 𝗯𝗲𝗰𝗼𝗺𝗶𝗻𝗴 𝘂𝘀𝗲𝗳𝘂𝗹. 𝗔𝗜 𝗺𝗶𝗴𝗵𝘁 𝗰𝘂𝘁 𝘁𝗵𝗮𝘁 𝘄𝗶𝗻𝗱𝗼𝘄 𝗶𝗻 𝗵𝗮𝗹𝗳.\n\nI came across Kent Beck's article about juniors in the AI era.\nHis main thesis: manage juniors for learning, not production.\n\nBeck frames it as the \"𝘃𝗮𝗹𝗹𝗲𝘆 𝗼𝗳 𝗿𝗲𝗴𝗿𝗲𝘁\" — his take on the classic startup \"valley of death,\" but applied to junior investment. It's the period when you're spending money and senior attention on a junior, but getting no return yet. The longer the valley, the higher the chance something goes wrong: the junior leaves, the startup runs out of runway, layoffs happen.\n\nAI shrinks this valley — not because it does the work for the junior, but because it 𝗰𝗼𝗹𝗹𝗮𝗽𝘀𝗲𝘀 𝘁𝗵𝗲 𝘀𝗲𝗮𝗿𝗰𝗵 𝘀𝗽𝗮𝗰𝗲. Instead of three hours figuring out which API to use, twenty minutes evaluating options AI already surfaced.\n\n𝗧𝗵𝗲 𝘀𝘂𝗿𝘃𝗶𝘃𝗮𝗹 𝗺𝗮𝘁𝗵 𝗮𝘁 𝟮𝟬% 𝗮𝗻𝗻𝘂𝗮𝗹 𝗮𝘁𝘁𝗿𝗶𝘁𝗶𝗼𝗻:\n→ Traditional 24-month ramp: 𝟯𝟲% leave before becoming net positive \n→ Compressed 9-month ramp: only 𝟭𝟱%\nShorter valley means more bets pay off. 📉\n\nI've written before that the fear of juniors disappearing is overblown. A year ago, a junior needed to learn React. Now, a junior needs to learn Claude Code — and that's basically the whole revolution.\n\nBeck warns this won't happen by itself. You need to intentionally teach 𝗮𝘂𝗴𝗺𝗲𝗻𝘁𝗲𝗱 𝗰𝗼𝗱𝗶𝗻𝗴 — not vibe coding, where you accept whatever AI spits out, but deliberate work with the tool. 💡\n\nAgreed. If juniors enter actual symbiosis with AI, that means exponential productivity — not because they prompt better, but because they think through the tool. 🚀\n\nWhat's your experience — does AI actually speed up junior onboarding?\n\nThanks to Kent Beck for a thought-provoking piece. Link in comments.",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:37:52Z",
+      "snapshot_at": "2026-09-05T12:56:22Z",
       "metrics": {
-        "impressions": 8049,
+        "impressions": 8050,
         "members_reached": 5674,
         "reactions": 9,
         "comments": 4,
@@ -68,40 +68,31 @@
       },
       "comments": [
         {
-          "author_name": "",
+          "author_name": "Peter Ovchynnikov",
           "author_url": "https://www.linkedin.com/in/ovchyn",
-          "author_headline": "",
+          "author_headline": "Building TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function",
           "comment_urn": "urn:li:comment:(activity:7421897520596893696,7421897689933475841)",
-          "text": "Peter Ovchynnikov\nAuthor\nBuilding TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function\nhttps://tidyfirst.substack.com/p/the-bet-on-juniors-just-got-better\nThe Bet On Juniors Just Got Better\ntidyfirst.substack.com\n0\n194 impressions\n194",
+          "text": "https://tidyfirst.substack.com/p/the-bet-on-juniors-just-got-better",
           "reactions": 0,
           "replies_count": 0
         },
         {
-          "author_name": "",
+          "author_name": "Adi Stan",
           "author_url": "https://www.linkedin.com/in/adistan",
-          "author_headline": "",
+          "author_headline": "Working in/with AI since ’97. Autor: Cognitive Divergence Theory CDT, Information Gravity Theory IGT, Minimal Ethical Governance MEG, FCPT; Books: THE AGE OF COGNITIVE DIVERGENCE; METEORAIT; ssrn.com/author=7778480",
           "comment_urn": "urn:li:comment:(activity:7421897520596893696,7421907297867694080)",
-          "text": "Adi Stan Premium Profile 1st\nAdi Stan\n• 1st\nWorking in/with AI since ’97. Autor: Cognitive Divergence Theory CDT,  Information Gravity Theory IGT,   Minimal Ethical Governance MEG, FCPT; Books: THE AGE OF COGNITIVE DIVERGENCE; METEORAIT; ssrn.com/author=7778480\nHi, Peter!\nBeck talks about the \"valley of regret\" from an organizational investment angle. I see something else: a fundamental cognitive shift. When a junior works with AI, they are not just compressing search time, they are building their mental models differently. In \"Cognitive Divergence Theory \" I show this is exactly the kind of early exposure that creates cognitive patterns different from seniors who learned without AI. It is not about productivity, it is about how technical thinking forms in a world where the tool is already intelligent.\nhttps://zenodo.org/records/17776131\nCognitive Divergence Theory of AI Adoption\nzenodo.org\n0",
+          "text": "Hi, Peter!\nBeck talks about the \"valley of regret\" from an organizational investment angle. I see something else: a fundamental cognitive shift. When a junior works with AI, they are not just compressing search time, they are building their mental models differently. In \"Cognitive Divergence Theory \" I show this is exactly the kind of early exposure that creates cognitive patterns different from seniors who learned without AI. It is not about productivity, it is about how technical thinking forms in a world where the tool is already intelligent.\n\nhttps://zenodo.org/records/17776131",
           "reactions": 0,
           "replies_count": 0
         },
         {
-          "author_name": "",
+          "author_name": "Maxim Geraskin",
           "author_url": "https://www.linkedin.com/in/maxim-geraskin-1634b6127",
-          "author_headline": "",
+          "author_headline": "CTO & Systems Architect at unTill | Founder at Voedger",
           "comment_urn": "urn:li:comment:(activity:7421897520596893696,7421937845977825280)",
-          "text": "Maxim Geraskin  3rd+\nMaxim Geraskin • 3rd+\nCTO & Systems Architect at unTill | Founder at Voedger\n(edited) 7mo\nFollow\nPeter, could you share your ideas about the requirements for juniors? What should they be able to do? What shouldn't they do?\n1 reaction\n1\n1\n1",
-          "reactions": 0,
-          "replies_count": 0
-        },
-        {
-          "author_name": "",
-          "author_url": "https://www.linkedin.com/in/ovchyn",
-          "author_headline": "",
-          "comment_urn": "urn:li:comment:(activity:7421897520596893696,7429530337493368832)",
-          "text": "Peter Ovchynnikov\nAuthor\nBuilding TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function\nMaxim Geraskin I’m not sure I have an answer right now. In general, they’ll need to be able to explain to the LLM how it should work: what the intended behavior is, not what code needs to be written.\nI believe that, in the future, system design and architecture for simple projects will be handled by AI. To handle complex, large-scale solutions, juniors will need to become seniors anyway. so it's not a case.\n0\n7 impressions\n7",
-          "reactions": 0,
-          "replies_count": 0
+          "text": "Peter, could you share your ideas about the requirements for juniors? What should they be able to do? What shouldn't they do?",
+          "reactions": 1,
+          "replies_count": 1
         }
       ],
       "commenters": [

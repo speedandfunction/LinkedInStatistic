@@ -1,34 +1,34 @@
 {
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:35:40Z",
+      "snapshot_at": "2026-09-05T12:54:45Z",
       "dashboard": {
-        "post_impressions_7d": 1389,
-        "post_impressions_delta_pct_7d": 158,
-        "followers": 3599,
+        "post_impressions_7d": 1466,
+        "post_impressions_delta_pct_7d": 117,
+        "followers": 3600,
         "followers_delta_pct_7d": 0,
-        "profile_viewers_90d": 83,
-        "search_appearances_previous_week": 54
+        "profile_viewers_90d": 84,
+        "search_appearances_previous_week": 16
       },
       "content_7d": {
-        "impressions_7d": 1389,
-        "impressions_delta_pct": 158,
-        "members_reached_7d": 0,
-        "social_engagements_7d": 4,
-        "reactions_7d": 2,
-        "comments_7d": 2,
+        "impressions_7d": 1474,
+        "impressions_delta_pct": 118,
+        "members_reached_7d": 53,
+        "social_engagements_7d": 17,
+        "reactions_7d": 17,
+        "comments_7d": 0,
         "reposts_7d": 0,
         "saves_7d": 0,
         "sends_7d": 0,
         "link_engagements_7d": 0
       },
       "audience": {
-        "total_followers": 3599,
+        "total_followers": 3600,
         "followers_delta_pct_7d": 0,
         "demographics": {
           "job_title": {
             "Founder": 6,
-            "Co-Founder": 6,
+            "Co-Founder": 5,
             "Software Engineer": 4,
             "Chief Executive Officer": 4,
             "Chief Technology Officer": 2,
@@ -96,18 +96,18 @@
         }
       },
       "search_appearances": {
-        "all_appearances_7d": 1254,
-        "search_appearances_7d": 54,
+        "all_appearances_7d": 922,
+        "search_appearances_7d": 16,
         "where_appeared": {
-          "posts_pct": 83.4,
-          "comments_pct": 4.9,
-          "network_recommendations_pct": 7.4,
-          "search_pct": 4.3
+          "posts_pct": 75.3,
+          "comments_pct": 15.4,
+          "network_recommendations_pct": 7.6,
+          "search_pct": 1.7
         },
         "profile_engagement": {
-          "impressions_90d": 350,
+          "impressions_90d": 340,
           "clicks_90d": 29,
-          "avg_view_time_s": 92
+          "avg_view_time_s": 83
         },
         "clicks_per_section": {
           "Activity": {
@@ -125,8 +125,8 @@
         }
       },
       "profile_views": {
-        "viewers_90d": 83,
-        "viewers_delta_pct_7d": 40,
+        "viewers_90d": 84,
+        "viewers_delta_pct_7d": 64,
         "highlights": {
           "top_location": "Pustomyty Raion, Lviv, Ukraine",
           "top_industry": "IT Services and IT Consulting",

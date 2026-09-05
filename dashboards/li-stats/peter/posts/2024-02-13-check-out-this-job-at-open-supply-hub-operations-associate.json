@@ -6,12 +6,12 @@
   "posted_date": "2024-02-13",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7163291785375465472/",
   "preview": "Check out this job at Open Supply Hub: Operations Associate - Remote",
-  "text": null,
+  "text": "Check out this job at Open Supply Hub: Operations Associate - Remote",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:47:47Z",
+      "snapshot_at": "2026-09-05T13:03:50Z",
       "metrics": {
-        "impressions": 873,
+        "impressions": 875,
         "members_reached": 0,
         "reactions": 4,
         "comments": 0,
@@ -30,7 +30,13 @@
         "location": {},
         "company": {}
       },
-      "comments": []
+      "comments": [],
+      "reactors": [
+        "https://www.linkedin.com/in/ACoAAAejAQAB_H9n8ZipVwbikMhXiDUB1igaKa4",
+        "https://www.linkedin.com/in/ACoAACPR_h8BuU5tffH3EIY9snMhKztgkmohIAk",
+        "https://www.linkedin.com/in/ACoAAChcY54BZO5IjwnJf7-juFxvpL9m0Ep3rHQ",
+        "https://www.linkedin.com/in/ACoAAD_tKIUBgVu9qEgrJ_pHeJczWDd9lD49fYE"
+      ]
     }
   }
 }

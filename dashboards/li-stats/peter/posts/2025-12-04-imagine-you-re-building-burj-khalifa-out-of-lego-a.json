@@ -6,13 +6,13 @@
   "posted_date": "2025-12-04",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7402388577843605504/",
   "preview": "Imagine you're building 𝗕𝘂𝗿𝗷 𝗞𝗵𝗮𝗹𝗶𝗳𝗮 𝗼𝘂𝘁 𝗼𝗳 𝗟𝗲𝗴𝗼🧱 A seriously complicated thing — 163 floors. You make this beautiful blueprint, give it to your team: \"Here's the blueprint, here's the building I want",
-  "text": null,
+  "text": "Imagine you're building 𝗕𝘂𝗿𝗷 𝗞𝗵𝗮𝗹𝗶𝗳𝗮 𝗼𝘂𝘁 𝗼𝗳 𝗟𝗲𝗴𝗼🧱\nA seriously complicated thing — 163 floors.\n\nYou make this beautiful blueprint, give it to your team:\n\"Here's the blueprint, here's the building I want — take your Lego, build it.\"\nThey start building.\n\nHalf a year later. They reached floor 13 out of 163.\nAnd you're like:\n\"Oh, I need to tear down these walls on the 2nd and 5th floor. \nWe need shops here.\nI made deals with tenants.\" 🏪\nIt’s Lego, not concrete — why not be flexible?\n\nYour beautiful blueprint? Forget it.\nYou need to earn money now, or you die 150 times over by the time you finish building.\nPicture the sour faces of people who just got a new blueprint — and they haven’t even finished the previous one 😬\n\nYou change the blueprint, but it doesn’t affect anything.\nThey're still building the old one.\nAnd even when they do follow it, they don’t check every detail.\n\"This piece doesn't fit, this breaks physics.\"\nThere's already a gap. \nThe blueprint lives its own life. \nThe building lives its own life.\nAt some point, you're just like: \n“Screw it, act from what you have on a plate, not on paper.”\n\nYes, this analogy is a bit of a stretch.\nBut this is exactly what happens with software development 💻\n\nFor decades, the idea was: 𝗿𝗲𝗾𝘂𝗶𝗿𝗲𝗺𝗲𝗻𝘁𝘀-𝗳𝗶𝗿𝘀𝘁.\nDDD/BDD say: describe the domain, then behaviour, then dance around that.\n Beautiful idea. Except — you can change documentation, but rewriting half the project?\n𝘎𝘰𝘰𝘥 𝘭𝘶𝘤𝘬 𝘸𝘪𝘵𝘩 𝘵𝘩𝘢𝘵.\n\nIt doesn’t matter what’s written in Jira —\nit matters what’s inside the “src/” folder.\nYou end up dancing around what's already built — not around what was documented.\nThat’s why we invented Scrum: short plans, quick increments, build in small steps, from working to working.\nEverything to make 𝗰𝗼𝗱𝗲 𝘁𝗵𝗲 𝘀𝗼𝘂𝗿𝗰𝗲 𝗼𝗳 𝘁𝗿𝘂𝘁𝗵.\n____\n\nNow, AI 🤖.\nImagine instead of workers, you have a 3D printer.\nYou draw the blueprint — it prints the building in a month.\nYou change the blueprint — it reprints.\nA month, not a year.\nWould it change anything?\n\nSame with code now.\nYou introduce a user story to Jira — AI catches it and generates code.\nYou change it — AI regenerates.\nNow the code catches up to the paper, not the other way around.\nWhat DDD dreamed of — now actually looks possible.\n\nI’m not saying it’s 100% there yet.\nBut look at the trajectory:\nOn SWE-Bench — a benchmark using real GitHub issues — top models now resolve 60%+ cases (vs 23% a year ago).\nNew frameworks like BMAD appear.\nAmazon releases Kiro (a requirements-first IDE).\n\nThink about what this means 🧠\nDevelopment used to be the longest stage.\nNow people can push their ideas further and start selling faster.\n\nIf requirements become the main thing —\n𝘄𝗲 𝘀𝗵𝗼𝘂𝗹𝗱 𝗯𝗲 𝘀𝘁𝗼𝗿𝗶𝗻𝗴 𝗽𝗿𝗼𝗺𝗽𝘁𝘀, 𝗻𝗼𝘁 𝗰𝗼𝗱𝗲.\n\nThe skill of changing the blueprint becomes more valuable than the skill of laying bricks.\nNot because we're better at documentation —\nbut because 𝗿𝗲𝗯𝘂𝗶𝗹𝗱𝗶𝗻𝗴 𝗴𝗼𝘁 𝗰𝗵𝗲𝗮𝗽.",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:37:19Z",
+      "snapshot_at": "2026-09-05T12:56:01Z",
       "metrics": {
-        "impressions": 21353,
-        "members_reached": 16469,
+        "impressions": 21360,
+        "members_reached": 16470,
         "reactions": 23,
         "comments": 5,
         "reposts": 1,
@@ -68,70 +68,26 @@
       },
       "comments": [
         {
-          "author_name": "",
+          "author_name": "Mohammad-Mahdi Khadem-Al-Charieh",
           "author_url": "https://www.linkedin.com/in/mohammad-mahdi-khadem-al-charieh-bb80aa227",
-          "author_headline": "",
+          "author_headline": "M. Sc. Informatics: Games Engineering",
           "comment_urn": "urn:li:comment:(activity:7402388577843605504,7404938634283491330)",
-          "text": "Mohammad-Mahdi Khadem-Al-Charieh Verified Profile 3rd+\nMohammad-Mahdi Khadem-Al-Charieh\n• 3rd+\nM. Sc. Informatics: Games Engineering\nFollow\nThe biggest challenge of building large projects is figuring out what the customer actually needs, formalizing that in precise language and properly communicating it.\nThat is what the picture is trying to convey.\nAnd that is exactly the opposite of what AI is good at.\nAI will make these issues worse, ship more of what people ask for and less of what they actually need.\nI guess you could say AI does at least help you fail faster and find issues in the requirements earlier.\n1 reaction\n1\n1\n1",
-          "reactions": 0,
-          "replies_count": 0
+          "text": "The biggest challenge of building large projects is figuring out what the customer actually needs, formalizing that in precise language and properly communicating it.\nThat is what the picture is trying to convey.\nAnd that is exactly the opposite of what AI is good at.\n\nAI will make these issues worse, ship more of what people ask for and less of what they actually need.\nI guess you could say AI does at least help you fail faster and find issues in the requirements earlier.",
+          "reactions": 1,
+          "replies_count": 1
         },
         {
-          "author_name": "",
-          "author_url": "https://www.linkedin.com/in/ovchyn",
-          "author_headline": "",
-          "comment_urn": "urn:li:comment:(activity:7402388577843605504,7405196742838808576)",
-          "text": "Peter Ovchynnikov\nAuthor\nBuilding TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function\nYou're touching something real: AI is great at executing what you describe, terrible at questioning whether you described useful thing.\nAI isn't designed to define what to deliver. That's on us.\nWhat if we close that loop? People Ask → AI Ships → measure actual usage, maybe surveys too (though people tend to lie in those 😅) → AI suggests adjustments based on real data.\nMake the \"fail faster\" part of the system, not just a side effect. The cycle becomes: ship → observe → rewrite requirements → regenerate.\nStill not perfect and not ready now. But when iteration is cheap, you can afford to be wrong faster — and fix it faster too.\n0\n63 impressions\n63",
-          "reactions": 0,
-          "replies_count": 0
-        },
-        {
-          "author_name": "",
+          "author_name": "Vitalii Honcharenko",
           "author_url": "https://www.linkedin.com/in/vitaliihoncharenko",
-          "author_headline": "",
+          "author_headline": "Software Development Services at Yael Acceptic | AI/LLMs/ML/NLP, Web & Mobile, IoT, E-commerce/learning, Fin/Insur/PropTech, Logistics",
           "comment_urn": "urn:li:comment:(activity:7402388577843605504,7403441819377766400)",
-          "text": "Vitalii Honcharenko Premium Profile 2nd\nVitalii Honcharenko\n• 2nd\nSoftware Development Services at Yael Acceptic | AI/LLMs/ML/NLP, Web & Mobile, IoT, E-commerce/learning, Fin/Insur/PropTech, Logistics\nFollow\nThis is such a clear way to see the shift. AI turns code from a bottleneck into a canvas. The skill is no longer just building, it’s knowing what to build and when to pivot.\n1 reaction\n1\n2\n2",
-          "reactions": 0,
-          "replies_count": 0
-        },
-        {
-          "author_name": "",
-          "author_url": "https://www.linkedin.com/in/vitaliihoncharenko",
-          "author_headline": "",
-          "comment_urn": "urn:li:comment:(activity:7402388577843605504,7405212464478498816)",
-          "text": "Vitalii Honcharenko Premium Profile 2nd\nVitalii Honcharenko\n• 2nd\nSoftware Development Services at Yael Acceptic | AI/LLMs/ML/NLP, Web & Mobile, IoT, E-commerce/learning, Fin/Insur/PropTech, Logistics\nFollow\nPeter Ovchynnikov thanks, true\n0",
-          "reactions": 0,
-          "replies_count": 0
+          "text": "This is such a clear way to see the shift. AI turns code from a bottleneck into a canvas. The skill is no longer just building, it’s knowing what to build and when to pivot.",
+          "reactions": 1,
+          "replies_count": 2
         }
-      ],
-      "reactors": [
-        "https://www.linkedin.com/in/abdallah-mahameed",
-        "https://www.linkedin.com/in/alan-silva-roldan",
-        "https://www.linkedin.com/in/altanylmz",
-        "https://www.linkedin.com/in/alyona-pugolovok",
-        "https://www.linkedin.com/in/anatoly-chelyshev",
-        "https://www.linkedin.com/in/art-lebid",
-        "https://www.linkedin.com/in/batovskyi",
-        "https://www.linkedin.com/in/clairedoody",
-        "https://www.linkedin.com/in/cleverson-assis-0709a1334",
-        "https://www.linkedin.com/in/ernest-onwudinjo",
-        "https://www.linkedin.com/in/gmitsis",
-        "https://www.linkedin.com/in/isatorres",
-        "https://www.linkedin.com/in/kapilbadokar",
-        "https://www.linkedin.com/in/larysa-honcharova-631250173",
-        "https://www.linkedin.com/in/nstas",
-        "https://www.linkedin.com/in/ntombifuthi-luma-39a400215",
-        "https://www.linkedin.com/in/omarali254",
-        "https://www.linkedin.com/in/peter-bandelj-7807576",
-        "https://www.linkedin.com/in/pilipenkosergey",
-        "https://www.linkedin.com/in/rajbharathi",
-        "https://www.linkedin.com/in/sergey-smaglyuk",
-        "https://www.linkedin.com/in/sergio-l-b325461a0",
-        "https://www.linkedin.com/in/vitaliihoncharenko"
       ],
       "commenters": [
         "https://www.linkedin.com/in/mohammad-mahdi-khadem-al-charieh-bb80aa227",
-        "https://www.linkedin.com/in/ovchyn",
         "https://www.linkedin.com/in/vitaliihoncharenko"
       ]
     }

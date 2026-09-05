@@ -6,12 +6,12 @@
   "posted_date": "2024-12-01",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7269061795187707904/",
   "preview": "Про HR. З мого власної досвіду, більшість компаній наймає нових людей аби ті вирішували проблеми... І при цьому вимагає працювати в тих процесах, які і є причиною тих проблем. Дивно.... …more",
-  "text": null,
+  "text": "Про HR.\n\nЗ мого власної досвіду, більшість компаній наймає нових людей аби ті вирішували проблеми...\n\nІ при цьому вимагає працювати в тих процесах, які і є причиною тих проблем.\n\nДивно....",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:42:04Z",
+      "snapshot_at": "2026-09-05T12:59:29Z",
       "metrics": {
-        "impressions": 823,
+        "impressions": 825,
         "members_reached": 0,
         "reactions": 12,
         "comments": 1,
@@ -32,14 +32,28 @@
       },
       "comments": [
         {
-          "author_name": "",
+          "author_name": "Vitaly Gapontsev",
           "author_url": "https://www.linkedin.com/in/vitaly-gapontsev",
-          "author_headline": "",
+          "author_headline": "Front-End / Fullstack (React + Node.js)",
           "comment_urn": "urn:li:comment:(activity:7269061795187707904,7269124976455090176)",
-          "text": "Vitaly Gapontsev, Open to work  1st\nVitaly Gapontsev • 1st\nFront-End / Fullstack (React + Node.js)\n\"Як би поміняти, але щоб нічого не міняти\".\nShow translation\n2 reactions\n2",
-          "reactions": 0,
+          "text": "\"Як би поміняти, але щоб нічого не міняти\".",
+          "reactions": 2,
           "replies_count": 0
         }
+      ],
+      "reactors": [
+        "https://www.linkedin.com/in/ACoAAAhJUbwB10UeNYtltrp8KDlghoUYAPNepoI",
+        "https://www.linkedin.com/in/ACoAAB5JRTQBlbUMhx5Zn-j0GzojTFT4HJ84nBA",
+        "https://www.linkedin.com/in/ACoAABOoypgBfEkEsWpXP4-Nya-AoI6_cwad-7I",
+        "https://www.linkedin.com/in/ACoAAC7YwtMBNZBBmdDDcZIT2ZQmaHQwj844UYE",
+        "https://www.linkedin.com/in/ACoAACDb6QoBnpN8vvyZeiKpoUOB-Ib4ca0mX5Y",
+        "https://www.linkedin.com/in/ACoAACSZb1MBqNectBY32uA6Gb8Bkp_1oJrI-Qg",
+        "https://www.linkedin.com/in/ACoAACTZFlIBdvzWs917J1QXj8wbg9MdI1ACDk0",
+        "https://www.linkedin.com/in/ACoAAChcY54BZO5IjwnJf7-juFxvpL9m0Ep3rHQ",
+        "https://www.linkedin.com/in/ACoAADB2PMcB97HcbKw1zBwnGFVvyj2oGe4l-w4",
+        "https://www.linkedin.com/in/ACoAADFN0rkBmv9dqRxDJE8-rR1tAXaJdOwLVT0",
+        "https://www.linkedin.com/in/ACoAADXByqoBGHSRu5Hkwx40VwY4SZipBHfTbZ4",
+        "https://www.linkedin.com/in/ACoAADzfIZ0BI0cxhcxdya9H6a3tfbkwfT4QgVs"
       ],
       "commenters": [
         "https://www.linkedin.com/in/vitaly-gapontsev"

@@ -6,12 +6,12 @@
   "posted_date": "2026-04-14",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7449791320329547776/",
   "preview": "— 𝘞𝘩𝘢𝘵 𝘢𝘳𝘦 𝘺𝘰𝘶𝘳 𝘨𝘳𝘦𝘢𝘵𝘦𝘴𝘵 𝘢𝘤𝘩𝘪𝘦𝘷𝘦𝘮𝘦𝘯𝘵𝘴? — 𝘐 𝘵𝘰𝘰𝘬 𝘥𝘰𝘸𝘯 𝘞𝘪𝘬𝘪𝘱𝘦𝘥𝘪𝘢. 𝘖𝘯𝘦 𝘥𝘢𝘺 𝘪𝘯 2020, 𝘞𝘪𝘬𝘪𝘱𝘦𝘥𝘪𝘢 𝘸𝘢𝘴 𝘶𝘯𝘳𝘦𝘢𝘤𝘩𝘢𝘣𝘭𝘦 𝘧𝘰𝘳 𝘢 𝘧𝘦𝘸 𝘩𝘰𝘶𝘳𝘴, 𝘢𝘯𝘥 𝘵𝘩𝘢𝘵 𝘸𝘢𝘴 𝘰𝘯 𝘮𝘦. Back then, I was working as a Senior Solutions Architect",
-  "text": null,
+  "text": "— 𝘞𝘩𝘢𝘵 𝘢𝘳𝘦 𝘺𝘰𝘶𝘳 𝘨𝘳𝘦𝘢𝘵𝘦𝘴𝘵 𝘢𝘤𝘩𝘪𝘦𝘷𝘦𝘮𝘦𝘯𝘵𝘴?\n — 𝘐 𝘵𝘰𝘰𝘬 𝘥𝘰𝘸𝘯 𝘞𝘪𝘬𝘪𝘱𝘦𝘥𝘪𝘢. 𝘖𝘯𝘦 𝘥𝘢𝘺 𝘪𝘯 2020, 𝘞𝘪𝘬𝘪𝘱𝘦𝘥𝘪𝘢 𝘸𝘢𝘴 𝘶𝘯𝘳𝘦𝘢𝘤𝘩𝘢𝘣𝘭𝘦 𝘧𝘰𝘳 𝘢 𝘧𝘦𝘸 𝘩𝘰𝘶𝘳𝘴, 𝘢𝘯𝘥 𝘵𝘩𝘢𝘵 𝘸𝘢𝘴 𝘰𝘯 𝘮𝘦.\n\nBack then, I was working as a Senior Solutions Architect on the Wikimedia project — the nonprofit that hosts Wikipedia. I introduced a change that caused a small performance degradation. That change went through seven rounds of code review and seven rounds of testing — everything came back green. And honestly, the degradation was so small it was basically just measurement noise. You wouldn't notice it as a user, and nothing flagged it.\n\nThen millions of users showed up. 💥 And boom — the system went down.\n\nHonestly, 𝗪𝗶𝗸𝗶𝗺𝗲𝗱𝗶𝗮'𝘀 𝗽𝗿𝗼𝗰𝗲𝘀𝘀𝗲𝘀 𝘄𝗲𝗿𝗲 𝗴𝗲𝗻𝘂𝗶𝗻𝗲𝗹𝘆 𝗲𝘅𝗰𝗲𝗹𝗹𝗲𝗻𝘁. \nI don't know exactly how many hours — maybe four, maybe eight — but they found the root cause, rolled it back, and everything was running again. Not every company can do that with something this well-hidden. 🔍\n\nThat was the first time in my life I saw it so vividly — processes were exactly why this ended in hours and not days. \n\n𝗬𝗼𝘂 𝘄𝗶𝗹𝗹 𝗻𝗲𝘃𝗲𝗿 𝗿𝗲𝗮𝗰𝗵 𝟭𝟬𝟬% 𝗽𝗿𝗼𝘁𝗲𝗰𝘁𝗶𝗼𝗻 𝗳𝗿𝗼𝗺 𝗺𝗶𝘀𝘁𝗮𝗸𝗲𝘀; 𝘁𝗵𝗲𝘆 𝘄𝗶𝗹𝗹 𝗵𝗮𝗽𝗽𝗲𝗻. \nThe odds of a single engineer taking down Wikipedia were astronomically low, and somehow, that happened, and that engineer was me. 🤷\n𝗪𝗵𝗮𝘁 𝘀𝗲𝗽𝗮𝗿𝗮𝘁𝗲𝘀 𝘀𝘁𝗿𝗼𝗻𝗴 𝗲𝗻𝗴𝗶𝗻𝗲𝗲𝗿𝗶𝗻𝗴 𝗰𝘂𝗹𝘁𝘂𝗿𝗲𝘀 𝗳𝗿𝗼𝗺 𝘁𝗵𝗲 𝗿𝗲𝘀𝘁 𝗶𝘀 𝗵𝗼𝘄 𝗳𝗮𝘀𝘁 𝘆𝗼𝘂 𝗳𝗶𝗻𝗱 𝘁𝗵𝗲 𝗽𝗿𝗼𝗯𝗹𝗲𝗺, 𝘂𝗻𝗱𝗲𝗿𝘀𝘁𝗮𝗻𝗱 𝗶𝘁, 𝗮𝗻𝗱 𝗿𝗲𝗰𝗼𝘃𝗲𝗿. 𝗡𝗼𝘁 𝘄𝗵𝗲𝘁𝗵𝗲𝗿 𝗮 𝗺𝗶𝘀𝘁𝗮𝗸𝗲 𝗵𝗮𝗽𝗽𝗲𝗻𝘀 𝗮𝘁 𝗮𝗹𝗹.\n\nSo yeah — taking down Wikipedia is probably my most unusual achievement. \n\nBut hey, at least it makes for a good story! 🙂",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:36:50Z",
+      "snapshot_at": "2026-09-05T12:55:35Z",
       "metrics": {
-        "impressions": 1438,
+        "impressions": 1440,
         "members_reached": 868,
         "reactions": 15,
         "comments": 7,
@@ -68,44 +68,34 @@
       },
       "comments": [
         {
-          "author_name": "",
+          "author_name": "Nimish Gåtam",
           "author_url": "https://www.linkedin.com/in/nimish-g%C3%A5tam-44125512",
-          "author_headline": "",
+          "author_headline": "VP of AI Engineering | Fractional CTO consultant | Policy and Responsible AI | Ex-CTO | Ex-Wikipedia",
           "comment_urn": "urn:li:comment:(activity:7449791320329547776,7449803321902559232)",
-          "text": "Nimish Gåtam Verified Profile 1st\nNimish Gåtam\n• 1st\nVP of AI Engineering | Fractional CTO consultant | Policy and Responsible AI | Ex-CTO | Ex-Wikipedia\nI think many of us have an 'accidentally made enwiki unreachable' story somewhere... almost a rite of passage!\n0\n4\n4",
+          "text": "I think many of us have an 'accidentally made enwiki unreachable' story somewhere... almost a rite of passage!",
           "reactions": 0,
-          "replies_count": 0
+          "replies_count": 4
         },
         {
-          "author_name": "",
-          "author_url": "https://www.linkedin.com/in/johanevj",
-          "author_headline": "",
-          "comment_urn": "urn:li:comment:(activity:7449791320329547776,7449876023262789634)",
-          "text": "Johan Jönsson  2nd\nJohan Jönsson • 2nd\nManager, Movement Communications, Wikimedia Foundation – Working in the intersection of product development, communications and community\nFollow\nStill an exclusive tribe, though.\n0",
-          "reactions": 0,
-          "replies_count": 0
-        },
-        {
-          "author_name": "",
+          "author_name": "Raj Bharathi",
           "author_url": "https://www.linkedin.com/in/rajbharathi",
-          "author_headline": "",
+          "author_headline": "CEO @KronosX AI | Building the agentic data layer that makes Healthcare AI-Ready.",
           "comment_urn": "urn:li:comment:(activity:7449791320329547776,7449833318843383808)",
-          "text": "Raj Bharathi, Hiring Premium Profile 1st\nRaj Bharathi\n• 1st\nCEO @KronosX AI | Building the agentic data layer that makes Healthcare AI-Ready.\nWow great story any day!\n1 reaction\n1",
-          "reactions": 0,
+          "text": "Wow great story any day!",
+          "reactions": 1,
           "replies_count": 0
         },
         {
-          "author_name": "",
+          "author_name": "Vitaly Gapontsev",
           "author_url": "https://www.linkedin.com/in/vitaly-gapontsev",
-          "author_headline": "",
+          "author_headline": "Front-End / Fullstack (React + Node.js)",
           "comment_urn": "urn:li:comment:(activity:7449791320329547776,7449897619772022786)",
-          "text": "Vitaly Gapontsev, Open to work  1st\nVitaly Gapontsev • 1st\nFront-End / Fullstack (React + Node.js)\nYep. The system is defined not by whether it makes mistakes (every system does), but by how it processes them.\n1 reaction\n1",
-          "reactions": 0,
+          "text": "Yep. The system is defined not by whether it makes mistakes (every system does), but by how it processes them.",
+          "reactions": 1,
           "replies_count": 0
         }
       ],
       "commenters": [
-        "https://www.linkedin.com/in/johanevj",
         "https://www.linkedin.com/in/nimish-g%C3%A5tam-44125512",
         "https://www.linkedin.com/in/rajbharathi",
         "https://www.linkedin.com/in/vitaly-gapontsev"

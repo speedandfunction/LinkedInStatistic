@@ -6,13 +6,13 @@
   "posted_date": "2026-08-11",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7492904487343288320/",
   "preview": "My Claude limits ran out on Wednesday last week. They are weekly limits, and they normally reset on Sunday, so from Wednesday onwards there was not that much I could actually do. After that came denia",
-  "text": null,
+  "text": "My Claude limits ran out on Wednesday last week. They are weekly limits, and they normally reset on Sunday, so from Wednesday onwards there was not that much I could actually do.\n\nAfter that came denial, anger, bargaining, the full set of stages. 🙃\n\nAnd then I thought, listen, maybe 𝘁𝗵𝗶𝘀 𝗶𝘀 𝗻𝗼𝘁 𝗮 𝗯𝘂𝗴, 𝗶𝘁 𝗶𝘀 𝗮 𝗳𝗲𝗮𝘁𝘂𝗿𝗲. AI pushes me personally, and I see the whole world around me working so intensively right now that there is no time to rest even a little.\n\nSo maybe these limits are turning out to be more useful than harmful. 🙂\n\nPS. A good thing AI might bring is a 3-day workweek. Hopefully.",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:40:39Z",
+      "snapshot_at": "2026-09-05T12:58:24Z",
       "metrics": {
-        "impressions": 351,
-        "members_reached": 165,
+        "impressions": 363,
+        "members_reached": 168,
         "reactions": 4,
         "comments": 2,
         "reposts": 0,
@@ -20,71 +20,62 @@
         "sends": 0,
         "profile_viewers": 1,
         "followers_gained": 0,
-        "engagement_rate": 1.71
+        "engagement_rate": 1.65
       },
       "demographics": {
         "seniority": {
-          "Senior": 35.8,
-          "Entry": 19.4,
-          "Director": 12.1,
-          "CXO": 9.1,
-          "VP": 4.8
+          "Senior": 35.7,
+          "Entry": 19.6,
+          "Director": 11.9,
+          "CXO": 8.9,
+          "VP": 4.2
         },
         "job_title": {
-          "Software Engineer": 10.9
+          "Software Engineer": 11.3,
+          "Chief Executive Officer": 3.6
         },
         "industry": {
-          "IT Services and IT Consulting": 23,
-          "Software Development": 15.2,
-          "Financial Services": 13.3,
-          "Banking": 9.1,
-          "Technology, Information and Internet": 6.1
+          "IT Services and IT Consulting": 23.2,
+          "Software Development": 14.9,
+          "Financial Services": 12.5,
+          "Banking": 8.9,
+          "Technology, Information and Internet": 6
         },
         "company_size": {
-          "10,001+ employees": 39.4,
-          "51-200 employees": 18.8,
-          "11-50 employees": 7.9,
-          "1001-5000 employees": 5.5,
-          "5001-10,000 employees": 4.8
+          "10,001+ employees": 38.7,
+          "51-200 employees": 17.9,
+          "11-50 employees": 7.1,
+          "1001-5000 employees": 6.5,
+          "5001-10,000 employees": 5.4
         },
         "location": {
-          "London Area, United Kingdom": 8.5,
-          "Lviv": 6.1,
-          "Kyiv Metropolitan Area": 4.8
+          "London Area, United Kingdom": 8.3,
+          "Kyiv Metropolitan Area": 5.4,
+          "Lviv": 5.4
         },
         "company": {
-          "HSBC": 23.6,
-          "Speed and Function": 11.5
+          "HSBC": 23.2,
+          "Speed and Function": 10.7
         }
       },
       "comments": [
         {
-          "author_name": "",
+          "author_name": "Vasyl Yaremchuk",
           "author_url": "https://www.linkedin.com/in/vasilyyaremchuk",
-          "author_headline": "",
+          "author_headline": "Results-Driven Solutions Designer | IT Consultant | Web Development Expert",
           "comment_urn": "urn:li:comment:(activity:7492904487343288320,7497719034486992896)",
-          "text": "Vasyl Yaremchuk Verified Profile 1st\nVasyl Yaremchuk\n• 1st\nResults-Driven Solutions Designer  | IT Consultant | Web Development Expert\nYou can run you model on your Mac mini. It could be not so smart but without any limits.\n0\n1\n1",
+          "text": "You can run you model on your Mac mini. It could be not so smart but without any limits.",
           "reactions": 0,
-          "replies_count": 0
-        },
-        {
-          "author_name": "",
-          "author_url": "https://www.linkedin.com/in/ovchyn",
-          "author_headline": "",
-          "comment_urn": "urn:li:comment:(activity:7492904487343288320,7497740882662715393)",
-          "text": "Peter Ovchynnikov\nAuthor\nBuilding TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function\nVasyl Yaremchuk aha. And die young :)\n0\n36 impressions\n36",
-          "reactions": 0,
-          "replies_count": 0
+          "replies_count": 1
         }
       ],
       "reactors": [
-        "https://www.linkedin.com/in/anastasiiast",
-        "https://www.linkedin.com/in/anatoly-chelyshev",
-        "https://www.linkedin.com/in/dc-ukr",
-        "https://www.linkedin.com/in/thearslaniqbal"
+        "https://www.linkedin.com/in/ACoAAAY6qPkBCmhBwsqaCMoRKxgRv6P_VydjsWA",
+        "https://www.linkedin.com/in/ACoAAAhKp3wBRW-kxtC68WUbMvVv6QAT1YVjaUY",
+        "https://www.linkedin.com/in/ACoAABLJc_QB0fdj5wgGp-tp1CZZ8uNSEuHqmbQ",
+        "https://www.linkedin.com/in/ACoAADgOXj8BCvyhVkL12ux3HYQtzWgPj0xnN5w"
       ],
       "commenters": [
-        "https://www.linkedin.com/in/ovchyn",
         "https://www.linkedin.com/in/vasilyyaremchuk"
       ]
     }

@@ -6,12 +6,12 @@
   "posted_date": "2026-01-08",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7415030743866929153/",
   "preview": "Some of the biggest resistances to AI aren't technical. To my mind, 𝘁𝗵𝗲𝘆'𝗿𝗲 𝗽𝘀𝘆𝗰𝗵𝗼𝗹𝗼𝗴𝗶𝗰𝗮𝗹. A few weeks ago, I gave a task to one of our experienced devs. Automation stuff — take content from one chann",
-  "text": null,
+  "text": "Some of the biggest resistances to AI aren't technical. To my mind, 𝘁𝗵𝗲𝘆'𝗿𝗲 𝗽𝘀𝘆𝗰𝗵𝗼𝗹𝗼𝗴𝗶𝗰𝗮𝗹.\n\nA few weeks ago, I gave a task to one of our experienced devs. Automation stuff — take content from one channel, translate it, repost to another. If someone puts a checkmark in a Google Sheet, push it to a third channel. Not rocket science, but not trivial.\n\nThis guy has 10+ years in the field. He uses AI. But I noticed something watching him work. He'd start with Claude, get some code back — and then rewrite it manually. This happens constantly. Looking at his commits, it seems like he wants AI to write code 𝘵𝘩𝘦 𝘸𝘢𝘺 𝘩𝘦 𝘸𝘳𝘪𝘵𝘦𝘴 𝘪𝘵.\n\nAround the same time, I gave a similar task to my son Zhenya. Still in university, good technical school. Comparable complexity.\n\nCompletely different approach. He described the task to Claude and started iterating — using what they taught him at university. How to prompt, how to verify. He barely looks at the editor. Just keeps pushing until it works. Pure vibe-coding. 🤷\n\nI'm sure he lacks the experience to have a picture of what \"proper structure\" should be. So he just doesn't know any other way than to push forward. When AI writes something unexpected, it looks more like \"not done yet\" than \"this is wrong.\"\n\nCode quality? Hard to compare. Both had room for improvement. But both got to a working result. Though Zhenya got there faster — not dramatically, but noticeably.\n\n𝗧𝗵𝗲 𝗱𝗶𝗳𝗳𝗲𝗿𝗲𝗻𝗰𝗲 𝗶𝘀𝗻'𝘁 𝗮𝗯𝗼𝘂𝘁 𝘄𝗵𝗼'𝘀 𝘀𝗺𝗮𝗿𝘁𝗲𝗿. 𝗜𝘁'𝘀 𝘄𝗵𝗮𝘁 𝗵𝗮𝗽𝗽𝗲𝗻𝘀 𝘄𝗵𝗲𝗻 𝗔𝗜 𝗱𝗼𝗲𝘀𝗻'𝘁 𝗱𝗲𝗹𝗶𝘃𝗲𝗿. One takes over. The other keeps pushing.\n\nWhat does this mean for business? Maybe a junior with the right education costs less and moves faster. The question keeps bothering me — 𝘄𝗵𝗮𝘁 𝗲𝘅𝗮𝗰𝘁𝗹𝘆 𝗮𝗿𝗲 𝘄𝗲 𝗽𝗮𝘆𝗶𝗻𝗴 𝗳𝗼𝗿 𝘄𝗵𝗲𝗻 𝘄𝗲 𝗽𝗮𝘆 𝗳𝗼𝗿 \"𝗲𝘅𝗽𝗲𝗿𝗶𝗲𝗻𝗰𝗲\"? 🤔\n\nIs there risk in 100% vibe-coding? Yes. Does it work for all tasks? No. But for some — it already does.\n\nThis isn't a conclusion. It's an observation. 👀\n\nWhat about you? When AI doesn't give you what you expected — do you take over or keep pushing?",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:38:33Z",
+      "snapshot_at": "2026-09-05T12:57:01Z",
       "metrics": {
-        "impressions": 392,
+        "impressions": 393,
         "members_reached": 88,
         "reactions": 4,
         "comments": 3,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 3,
         "followers_gained": 0,
-        "engagement_rate": 1.79
+        "engagement_rate": 1.78
       },
       "demographics": {
         "seniority": {
@@ -54,26 +54,16 @@
       },
       "comments": [
         {
-          "author_name": "",
+          "author_name": "Kate Chapman",
           "author_url": "https://www.linkedin.com/in/untanglingsystems",
-          "author_headline": "",
+          "author_headline": "Fractional CTO | Platform, Product & AI strategy | Sociotechnical Systems | Open Source Governance | Helping Humans & Tech Collaborate",
           "comment_urn": "urn:li:comment:(activity:7415030743866929153,7415057236110176256)",
-          "text": "Kate Chapman Premium Profile 1st\nKate Chapman\n• 1st\nFractional CTO | Platform, Product & AI strategy | Sociotechnical Systems | Open Source Governance |  Helping Humans & Tech Collaborate\nExactly, the first round isn't the final round when working with AI to code. People often plan the AI, but are they using the tool in an optimal way? It is easier for someone that doesn't have 10 years of experience I think though. Habits are deep and it can feel easier to do it themselves. I wonder how the senior dev would be with a junior dev that didn't do it their way.\n1 reaction\n1\n2\n2",
-          "reactions": 0,
-          "replies_count": 0
-        },
-        {
-          "author_name": "",
-          "author_url": "https://www.linkedin.com/in/adistan",
-          "author_headline": "",
-          "comment_urn": "urn:li:comment:(activity:7415030743866929153,7415327725869305856)",
-          "text": "Adi Stan Premium Profile 1st\nAdi Stan\n• 1st\nWorking in/with AI since ’97. Autor: Cognitive Divergence Theory CDT,  Information Gravity Theory IGT,   Minimal Ethical Governance MEG, FCPT; Books: THE AGE OF COGNITIVE DIVERGENCE; METEORAIT; ssrn.com/author=7778480\nPeter Ovchynnikov Thank you! And, on my zenodo page, I also recommend the article about FCPT and the book MeteorAIte\n0",
-          "reactions": 0,
-          "replies_count": 0
+          "text": "Exactly, the first round isn't the final round when working with AI to code. People often plan the AI, but are they using the tool in an optimal way? It is easier for someone that doesn't have 10 years of experience I think though. Habits are deep and it can feel easier to do it themselves. I wonder how the senior dev would be with a junior dev that didn't do it their way.",
+          "reactions": 1,
+          "replies_count": 2
         }
       ],
       "commenters": [
-        "https://www.linkedin.com/in/adistan",
         "https://www.linkedin.com/in/untanglingsystems"
       ]
     }

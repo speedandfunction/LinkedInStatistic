@@ -6,12 +6,12 @@
   "posted_date": "2026-03-05",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7435303858349760512/",
   "preview": "In late 2018, I built what was basically \"ChatGPT for banks\", before ChatGPT existed. A self-hosted system that helped bank employees generate and validate investment and credit contracts in German, t",
-  "text": null,
+  "text": "In late 2018, I built what was basically \"ChatGPT for banks\", before ChatGPT existed. A self-hosted system that helped bank employees generate and validate investment and credit contracts in German, trained on several million banking documents, built by a team of maximum 17 people who were basically just enthusiasts. 😅\n\nThe numbers were solid: \nerrors in contracts down 70%+, creation time from 16 hours to 4. \nIt was successful enough that one of our banking clients acquired it for $2.5M in 2023, and that happened when ChatGPT already existed. \nShut down only in summer 2025 — that's when OpenAI finally started outperforming our solution.\n\n𝗛𝗲𝗿𝗲'𝘀 𝘁𝗵𝗲 𝘁𝗵𝗶𝗻𝗴 𝗜 𝗼𝗻𝗹𝘆 𝘂𝗻𝗱𝗲𝗿𝘀𝘁𝗼𝗼𝗱 𝗮𝗳𝘁𝗲𝗿 𝘁𝗵𝗲 𝗳𝗮𝗰𝘁 — 𝗻𝗼𝘁 𝗲𝘃𝗲𝗻 𝘄𝗵𝗲𝗻 𝘄𝗲 𝘀𝗼𝗹𝗱 𝗶𝘁, 𝗯𝘂𝘁 𝗹𝗮𝘁𝗲𝗿, 𝘄𝗵𝗲𝗻 𝗶𝘁 𝘄𝗮𝘀 𝗮𝗹𝗿𝗲𝗮𝗱𝘆 𝗰𝗹𝗼𝘀𝗲𝗱 𝗮𝗻𝗱 𝗜 𝘁𝗮𝗹𝗸𝗲𝗱 𝘁𝗼 𝗽𝗲𝗼𝗽𝗹𝗲 𝗮𝗻𝗱 𝘀𝘁𝗮𝗿𝘁𝗲𝗱 𝗮𝗻𝗮𝗹𝘆𝘇𝗶𝗻𝗴.\n\nWe had a go-kart, they had a Formula 1 car. Technologically, if you compare how ChatGPT was built versus what we had, that's exactly the size of the GAP. And yet 𝘰𝘶𝘳 𝘨𝘰-𝘬𝘢𝘳𝘵, 𝘪𝘯 𝘦𝘹𝘢𝘤𝘵𝘭𝘺 𝘵𝘩𝘦 𝘱𝘭𝘢𝘤𝘦 𝘪𝘵 𝘯𝘦𝘦𝘥𝘦𝘥 𝘵𝘰 𝘣𝘦, 𝘸𝘢𝘴 𝘣𝘦𝘵𝘵𝘦𝘳. At least for a pretty long time. 🎯\n\nOpenAI had billions, and we had contracts worth maybe $30K. \nChatGPT is built tens of times more complex, smarter, more intelligent — but because it's 𝘀𝗽𝗿𝗲𝗮𝗱 𝘁𝗼𝗼 𝘁𝗵𝗶𝗻, it couldn't generate German-language banking documents and validate them with the 𝗹𝗲𝘃𝗲𝗹 𝗼𝗳 𝗾𝘂𝗮𝗹𝗶𝘁𝘆 we did. 🧠\n\nThe insight sounds obvious in retrospect. But I genuinely didn't see it while we were building it. \n\n𝗧𝗵𝗲 𝗽𝗿𝗲𝘀𝗲𝗻𝗰𝗲 𝗼𝗳 𝗯𝗶𝗹𝗹𝗶𝗼𝗻-𝗱𝗼𝗹𝗹𝗮𝗿 𝗰𝗼𝗺𝗽𝗲𝘁𝗶𝘁𝗼𝗿𝘀 𝗶𝘀 𝗻𝗼𝘁 𝗮 𝗱𝗲𝗮𝘁𝗵 𝘀𝗲𝗻𝘁𝗲𝗻𝗰𝗲 — 𝗶𝗳 𝘆𝗼𝘂 𝗵𝗮𝘃𝗲 𝘁𝗵𝗲 𝗰𝗼𝗺𝗯𝗶𝗻𝗮𝘁𝗶𝗼𝗻 𝗼𝗳 𝗻𝗮𝗿𝗿𝗼𝘄 𝗶𝗻𝗱𝘂𝘀𝘁𝗿𝘆 𝗳𝗼𝗰𝘂𝘀 𝗮𝗻𝗱 𝗱𝗲𝗲𝗽 𝗲𝘅𝗽𝗲𝗿𝘁𝗶𝘀𝗲, 𝗯𝗼𝘁𝗵 𝘁𝗲𝗰𝗵𝗻𝗶𝗰𝗮𝗹 𝗮𝗻𝗱 𝗱𝗼𝗺𝗮𝗶𝗻.\n\nYou just might not fully understand that's what you're doing until someone closes the project and you start piecing it together.\n\nThat's maybe the weirdest part of this story. 🤔",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:39:02Z",
+      "snapshot_at": "2026-09-05T12:57:12Z",
       "metrics": {
-        "impressions": 35698,
+        "impressions": 35700,
         "members_reached": 23401,
         "reactions": 26,
         "comments": 3,
@@ -68,30 +68,30 @@
       },
       "comments": [
         {
-          "author_name": "",
+          "author_name": "Roman Cipov",
           "author_url": "https://www.linkedin.com/in/roman-cipov-167aba53",
-          "author_headline": "",
+          "author_headline": "Senior Solution Architect at Redis",
           "comment_urn": "urn:li:comment:(activity:7435303858349760512,7435623361629724673)",
-          "text": "Roman Cipov  2nd\nRoman Cipov • 2nd\nSenior Solution Architect at Redis\nFollow\ngreat analogy! When I hear someone say \"we are F1 of XYZ\" I always chuckle a bit...as there are literally like 30 people on this world able to drive F1 car on it's limit to get the most of it....you see the point? 😊\n1 reaction\n1",
-          "reactions": 0,
+          "text": "great analogy! When I hear someone say \"we are F1 of XYZ\" I always chuckle a bit...as there are literally like 30 people on this world able to drive F1 car on it's limit to get the most of it....you see the point? 😊",
+          "reactions": 1,
           "replies_count": 0
         },
         {
-          "author_name": "",
+          "author_name": "Ronald S.",
           "author_url": "https://www.linkedin.com/in/ronald-s-0585b7b",
-          "author_headline": "",
+          "author_headline": "Critical Affairs Adviser to international decision makers, providing tailored full-scope problem solving and troubleshooting, across situations, industries, stakeholders, channels, for DE-AT-CSEE-UK-US",
           "comment_urn": "urn:li:comment:(activity:7435303858349760512,7435360950506942465)",
-          "text": "Ronald S. Verified Profile 2nd\nRonald S.\n• 2nd\nCritical Affairs Adviser to international decision makers, providing tailored full-scope problem solving and troubleshooting, across situations, industries, stakeholders, channels, for DE-AT-CSEE-UK-US\nFollow\nNa mal schauen, wie die Rennstrecke aussieht. Auf einem Gocart Kurs gewinnt „us“. :-)\nShow translation\n1 reaction\n1",
-          "reactions": 0,
+          "text": "Na mal schauen, wie die Rennstrecke aussieht. Auf einem Gocart Kurs gewinnt „us“. :-)",
+          "reactions": 1,
           "replies_count": 0
         },
         {
-          "author_name": "",
+          "author_name": "Calvin Fuss",
           "author_url": "https://www.linkedin.com/in/calvinfuss",
-          "author_headline": "",
+          "author_headline": "AI Architecture & Strategy | Head of AI",
           "comment_urn": "urn:li:comment:(activity:7435303858349760512,7435439637638168576)",
-          "text": "Calvin Fuss Premium Profile 2nd\nCalvin Fuss\n• 2nd\nAI Architecture & Strategy | Head of AI\nFollow\nLove this Peter. Great reminder to ‘nichify’ and not get disheartened by the big players.\n1 reaction\n1",
-          "reactions": 0,
+          "text": "Love this Peter. Great reminder to ‘nichify’ and not get disheartened by the big players.",
+          "reactions": 1,
           "replies_count": 0
         }
       ],

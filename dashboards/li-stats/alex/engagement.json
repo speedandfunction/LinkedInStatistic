@@ -1485,6 +1485,21 @@
         "headline_hash": null
       }
     },
+    "in/anastasiiast": {
+      "key": "in/anastasiiast",
+      "name": "Anastasiia Stetsenko",
+      "profile_url": "https://www.linkedin.com/in/anastasiiast",
+      "headline": "Personal Brand & LinkedIn Training for Companies and Leaders ✦ ✈️Creator of curated travel experiences (Mexico, Cambodia, yachting) ✦ ex-Brand Ambassadors Lead @ DataArt, Global Software Engineering Firm",
+      "headline_seen_at": "2026-09-05T13:20:26Z",
+      "first_seen_at": "2026-09-05T13:20:26Z",
+      "icp": {
+        "verdict": null,
+        "reason": null,
+        "model": null,
+        "classified_at": null,
+        "headline_hash": null
+      }
+    },
     "in/arozhylo": {
       "key": "in/arozhylo",
       "name": "Andrii Rozhylo",
@@ -1507,6 +1522,21 @@
       "headline": "Content Manager & Social Media Creator",
       "headline_seen_at": "2026-09-03T13:54:32Z",
       "first_seen_at": "2026-09-03T13:54:32Z",
+      "icp": {
+        "verdict": null,
+        "reason": null,
+        "model": null,
+        "classified_at": null,
+        "headline_hash": null
+      }
+    },
+    "in/ihorfeoktistov": {
+      "key": "in/ihorfeoktistov",
+      "name": "Ihor Feoktistov",
+      "profile_url": "https://www.linkedin.com/in/ihorfeoktistov",
+      "headline": "Revolutionizing Parasite Diagnostics with ParaScout AI. CEO and Co-Founder at LEVEN VISION",
+      "headline_seen_at": "2026-09-05T13:20:26Z",
+      "first_seen_at": "2026-09-05T13:20:26Z",
       "icp": {
         "verdict": null,
         "reason": null,
@@ -1545,6 +1575,21 @@
         "headline_hash": null
       }
     },
+    "in/maria-umen-a58169a2": {
+      "key": "in/maria-umen-a58169a2",
+      "name": "Maria Umen",
+      "profile_url": "https://www.linkedin.com/in/maria-umen-a58169a2",
+      "headline": "🌿UI—UX designer, researcher, and chronicler of life’s simple beauty.",
+      "headline_seen_at": "2026-09-05T13:20:26Z",
+      "first_seen_at": "2026-09-05T13:20:26Z",
+      "icp": {
+        "verdict": null,
+        "reason": null,
+        "model": null,
+        "classified_at": null,
+        "headline_hash": null
+      }
+    },
     "in/max-kozyra": {
       "key": "in/max-kozyra",
       "name": "Max Kozyra",
@@ -1567,6 +1612,21 @@
       "headline": "Chief Experience Officer @ Local Legend Charters | Driving Business Development",
       "headline_seen_at": "2026-09-03T13:54:32Z",
       "first_seen_at": "2026-09-03T13:54:32Z",
+      "icp": {
+        "verdict": null,
+        "reason": null,
+        "model": null,
+        "classified_at": null,
+        "headline_hash": null
+      }
+    },
+    "in/odyslav-bozhenko-13ab17b6": {
+      "key": "in/odyslav-bozhenko-13ab17b6",
+      "name": "Odyslav Bozhenko",
+      "profile_url": "https://www.linkedin.com/in/odyslav-bozhenko-13ab17b6",
+      "headline": "Senior Product Manager | Carweb & Dealer HUB | Vend Mobility",
+      "headline_seen_at": "2026-09-05T13:20:26Z",
+      "first_seen_at": "2026-09-05T13:20:26Z",
       "icp": {
         "verdict": null,
         "reason": null,
@@ -1693,6 +1753,19 @@
       "first_seen_at": "2026-09-03T13:54:32Z",
       "text": "Every international market entry role I've taken started exactly this way — no playbook, no defined scope. The ambiguity isn't a bug, it's the job. The people who thrive in undefined roles are usually the ones who end up defining the function for everyone after them."
     },
+    "comment:urn:li:comment:(activity:7432772025972269056,7432821445476548608)": {
+      "event_id": "comment:urn:li:comment:(activity:7432772025972269056,7432821445476548608)",
+      "kind": "comment",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7432772025972269056",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7432772025972269056/",
+      "person_key": "in/arozhylo",
+      "occurred_at": "2026-02-26T16:18:47Z",
+      "attributed_week": "2026-02-23",
+      "backfill": false,
+      "first_seen_at": "2026-09-05T13:20:26Z",
+      "text": "Andrii Rozhylo\nAuthor\nAI Transformation Leader | Business Strategist | Entrepreneur | Delivery Manager | Product Manager | Marketing Expert\nMaged Mostafa Exactly this. Navigating ambiguity isn't a skill you learn — it's what separates people who build functions from people who fill them. We're not just figuring things out. We're laying the ground for everyone who comes next.\n1 reaction\n1\n94 impressions\n94"
+    },
     "comment:urn:li:comment:(activity:7432772025972269056,7432902102508728320)": {
       "event_id": "comment:urn:li:comment:(activity:7432772025972269056,7432902102508728320)",
       "kind": "comment",
@@ -1810,6 +1883,19 @@
       "first_seen_at": "2026-09-03T13:54:32Z",
       "text": "Life has definitely gotten more convenient, but it's sometimes really hard to keep the balance between letting AI help me and giving it the tiniest tasks that I could just do myself in 5 minutes and then getting annoyed that it doesn't understand what I want from it 😁"
     },
+    "comment:urn:li:comment:(activity:7498693207849975808,7498707239269216258)": {
+      "event_id": "comment:urn:li:comment:(activity:7498693207849975808,7498707239269216258)",
+      "kind": "comment",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7498693207849975808",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7498693207849975808/",
+      "person_key": "in/arozhylo",
+      "occurred_at": "2026-08-27T11:45:25Z",
+      "attributed_week": "2026-08-24",
+      "backfill": false,
+      "first_seen_at": "2026-09-05T13:20:26Z",
+      "text": "Andrii Rozhylo\nAuthor\nAI Transformation Leader | Business Strategist | Entrepreneur | Delivery Manager | Product Manager | Marketing Expert\nDaria Malova looks like yet another burnout risk for our HR :)\n0\n56 impressions\n56"
+    },
     "comment:urn:li:comment:(activity:7498693207849975808,7498713773344567296)": {
       "event_id": "comment:urn:li:comment:(activity:7498693207849975808,7498713773344567296)",
       "kind": "comment",
@@ -1836,6 +1922,32 @@
       "first_seen_at": "2026-09-03T13:54:32Z",
       "text": "Hello! I would like to ask if by any chance your business need a QA engineer who is easy to work with, who is having a good energy and who is ready to learn everything that the project requires (just as usual! ;) ). If the answer is \"yes\", would you please consider myself? Thank you! Cheers!"
     },
+    "comment:urn:li:comment:(activity:7498693207849975808,7498728861061255168)": {
+      "event_id": "comment:urn:li:comment:(activity:7498693207849975808,7498728861061255168)",
+      "kind": "comment",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7498693207849975808",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7498693207849975808/",
+      "person_key": "in/arozhylo",
+      "occurred_at": "2026-08-27T13:11:20Z",
+      "attributed_week": "2026-08-24",
+      "backfill": false,
+      "first_seen_at": "2026-09-05T13:20:26Z",
+      "text": "Andrii Rozhylo\nAuthor\nAI Transformation Leader | Business Strategist | Entrepreneur | Delivery Manager | Product Manager | Marketing Expert\nKent Gregoire Very cool, thank you\n1 reaction\n1\n38 impressions\n38"
+    },
+    "comment:urn:li:comment:(activity:7498693207849975808,7498729047024099328)": {
+      "event_id": "comment:urn:li:comment:(activity:7498693207849975808,7498729047024099328)",
+      "kind": "comment",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7498693207849975808",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7498693207849975808/",
+      "person_key": "in/arozhylo",
+      "occurred_at": "2026-08-27T13:12:04Z",
+      "attributed_week": "2026-08-24",
+      "backfill": false,
+      "first_seen_at": "2026-09-05T13:20:26Z",
+      "text": "Andrii Rozhylo\nAuthor\nAI Transformation Leader | Business Strategist | Entrepreneur | Delivery Manager | Product Manager | Marketing Expert\nOlena Kuibida 🇺🇦 Are you using AI in your work?\n0\n38 impressions\n38"
+    },
     "comment:urn:li:comment:(activity:7498693207849975808,7499018173191548928)": {
       "event_id": "comment:urn:li:comment:(activity:7498693207849975808,7499018173191548928)",
       "kind": "comment",
@@ -1848,6 +1960,19 @@
       "backfill": false,
       "first_seen_at": "2026-09-03T13:54:32Z",
       "text": "AI has definitely increased what I can produce, but the real productivity gain only happens when it reduces the number of decisions and reviews I have to carry - not when it simply gives me more output to process."
+    },
+    "comment:urn:li:comment:(activity:7498693207849975808,7500147276598722560)": {
+      "event_id": "comment:urn:li:comment:(activity:7498693207849975808,7500147276598722560)",
+      "kind": "comment",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7498693207849975808",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7498693207849975808/",
+      "person_key": "in/max-kozyra",
+      "occurred_at": "2026-08-31T11:07:36Z",
+      "attributed_week": "2026-08-31",
+      "backfill": false,
+      "first_seen_at": "2026-09-05T13:20:26Z",
+      "text": "Max Kozyra Verified Profile 1st\nMax Kozyra\n• 1st\nFrom Code to Vision. Driving product innovation at INCORA\nAndrii Rozhylo true!\nShow translation\n0"
     },
     "react:post:urn:li:activity:7068958976884797440:in/acoaade2w1ab6gyfoc97ztufpritlqgfmvpxuhy": {
       "event_id": "react:post:urn:li:activity:7068958976884797440:in/acoaade2w1ab6gyfoc97ztufpritlqgfmvpxuhy",
@@ -3529,6 +3654,54 @@
       "backfill": true,
       "first_seen_at": "2026-09-03T14:07:50Z"
     },
+    "react:post:urn:li:activity:7493606500985274368:in/dariamalova": {
+      "event_id": "react:post:urn:li:activity:7493606500985274368:in/dariamalova",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7493606500985274368",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7493606500985274368/",
+      "person_key": "in/dariamalova",
+      "occurred_at": null,
+      "attributed_week": "2026-08-24",
+      "backfill": false,
+      "first_seen_at": "2026-09-05T13:20:26Z"
+    },
+    "react:post:urn:li:activity:7493606500985274368:in/kentgregoire": {
+      "event_id": "react:post:urn:li:activity:7493606500985274368:in/kentgregoire",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7493606500985274368",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7493606500985274368/",
+      "person_key": "in/kentgregoire",
+      "occurred_at": null,
+      "attributed_week": "2026-08-24",
+      "backfill": false,
+      "first_seen_at": "2026-09-05T13:20:26Z"
+    },
+    "react:post:urn:li:activity:7493606500985274368:in/odyslav-bozhenko-13ab17b6": {
+      "event_id": "react:post:urn:li:activity:7493606500985274368:in/odyslav-bozhenko-13ab17b6",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7493606500985274368",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7493606500985274368/",
+      "person_key": "in/odyslav-bozhenko-13ab17b6",
+      "occurred_at": null,
+      "attributed_week": "2026-08-24",
+      "backfill": false,
+      "first_seen_at": "2026-09-05T13:20:26Z"
+    },
+    "react:post:urn:li:activity:7493606500985274368:in/olenakuibida": {
+      "event_id": "react:post:urn:li:activity:7493606500985274368:in/olenakuibida",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7493606500985274368",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7493606500985274368/",
+      "person_key": "in/olenakuibida",
+      "occurred_at": null,
+      "attributed_week": "2026-08-24",
+      "backfill": false,
+      "first_seen_at": "2026-09-05T13:20:26Z"
+    },
     "react:post:urn:li:activity:7498693207849975808:in/acoaaafvql8bva3evhug7d_gs35q3pjm_pk-e-8": {
       "event_id": "react:post:urn:li:activity:7498693207849975808:in/acoaaafvql8bva3evhug7d_gs35q3pjm_pk-e-8",
       "kind": "reaction",
@@ -3624,6 +3797,102 @@
       "attributed_week": null,
       "backfill": true,
       "first_seen_at": "2026-09-03T14:07:50Z"
+    },
+    "react:post:urn:li:activity:7498693207849975808:in/anastasiiast": {
+      "event_id": "react:post:urn:li:activity:7498693207849975808:in/anastasiiast",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7498693207849975808",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7498693207849975808/",
+      "person_key": "in/anastasiiast",
+      "occurred_at": null,
+      "attributed_week": "2026-08-24",
+      "backfill": false,
+      "first_seen_at": "2026-09-05T13:20:26Z"
+    },
+    "react:post:urn:li:activity:7498693207849975808:in/dariamalova": {
+      "event_id": "react:post:urn:li:activity:7498693207849975808:in/dariamalova",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7498693207849975808",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7498693207849975808/",
+      "person_key": "in/dariamalova",
+      "occurred_at": null,
+      "attributed_week": "2026-08-24",
+      "backfill": false,
+      "first_seen_at": "2026-09-05T13:20:26Z"
+    },
+    "react:post:urn:li:activity:7498693207849975808:in/ihorfeoktistov": {
+      "event_id": "react:post:urn:li:activity:7498693207849975808:in/ihorfeoktistov",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7498693207849975808",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7498693207849975808/",
+      "person_key": "in/ihorfeoktistov",
+      "occurred_at": null,
+      "attributed_week": "2026-08-24",
+      "backfill": false,
+      "first_seen_at": "2026-09-05T13:20:26Z"
+    },
+    "react:post:urn:li:activity:7498693207849975808:in/maria-umen-a58169a2": {
+      "event_id": "react:post:urn:li:activity:7498693207849975808:in/maria-umen-a58169a2",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7498693207849975808",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7498693207849975808/",
+      "person_key": "in/maria-umen-a58169a2",
+      "occurred_at": null,
+      "attributed_week": "2026-08-24",
+      "backfill": false,
+      "first_seen_at": "2026-09-05T13:20:26Z"
+    },
+    "react:post:urn:li:activity:7498693207849975808:in/max-kozyra": {
+      "event_id": "react:post:urn:li:activity:7498693207849975808:in/max-kozyra",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7498693207849975808",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7498693207849975808/",
+      "person_key": "in/max-kozyra",
+      "occurred_at": null,
+      "attributed_week": "2026-08-24",
+      "backfill": false,
+      "first_seen_at": "2026-09-05T13:20:26Z"
+    },
+    "react:post:urn:li:activity:7498693207849975808:in/olenakuibida": {
+      "event_id": "react:post:urn:li:activity:7498693207849975808:in/olenakuibida",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7498693207849975808",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7498693207849975808/",
+      "person_key": "in/olenakuibida",
+      "occurred_at": null,
+      "attributed_week": "2026-08-24",
+      "backfill": false,
+      "first_seen_at": "2026-09-05T13:20:26Z"
+    },
+    "react:post:urn:li:activity:7498693207849975808:in/olga-mykhailova-michai-58b5424b": {
+      "event_id": "react:post:urn:li:activity:7498693207849975808:in/olga-mykhailova-michai-58b5424b",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7498693207849975808",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7498693207849975808/",
+      "person_key": "in/olga-mykhailova-michai-58b5424b",
+      "occurred_at": null,
+      "attributed_week": "2026-08-24",
+      "backfill": false,
+      "first_seen_at": "2026-09-05T13:20:26Z"
+    },
+    "react:post:urn:li:activity:7498693207849975808:in/ovchyn": {
+      "event_id": "react:post:urn:li:activity:7498693207849975808:in/ovchyn",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7498693207849975808",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7498693207849975808/",
+      "person_key": "in/ovchyn",
+      "occurred_at": null,
+      "attributed_week": "2026-08-24",
+      "backfill": false,
+      "first_seen_at": "2026-09-05T13:20:26Z"
     }
   },
   "targets": {

@@ -6,12 +6,12 @@
   "posted_date": "2024-04-13",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7184885236319608832/",
   "preview": "Check out this job at Speed and Function: Account Manager",
-  "text": null,
+  "text": "Check out this job at Speed and Function: Account Manager",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:48:28Z",
+      "snapshot_at": "2026-09-05T13:04:24Z",
       "metrics": {
-        "impressions": 532,
+        "impressions": 534,
         "members_reached": 0,
         "reactions": 4,
         "comments": 0,
@@ -30,7 +30,13 @@
         "location": {},
         "company": {}
       },
-      "comments": []
+      "comments": [],
+      "reactors": [
+        "https://www.linkedin.com/in/ACoAAA4-7OkBoSRqpgtd3PQ2iMcXA5UXT8lMnZM",
+        "https://www.linkedin.com/in/ACoAAAxTDNIBz32hahbmV6xYpPYTi7HD2S95htI",
+        "https://www.linkedin.com/in/ACoAAC9xgG4BkX1uzSpGEKO45np534k-bXldcTs",
+        "https://www.linkedin.com/in/ACoAADXByqoBGHSRu5Hkwx40VwY4SZipBHfTbZ4"
+      ]
     }
   }
 }

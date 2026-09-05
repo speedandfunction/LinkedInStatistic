@@ -9,9 +9,9 @@
   "text": "That is what we really need in Ukraine",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-03T13:51:50Z",
+      "snapshot_at": "2026-09-05T13:17:49Z",
       "metrics": {
-        "impressions": 396,
+        "impressions": 400,
         "members_reached": 0,
         "reactions": 11,
         "comments": 1,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 0,
         "followers_gained": 0,
-        "engagement_rate": 3.03
+        "engagement_rate": 3
       },
       "demographics": {
         "seniority": {},
@@ -30,19 +30,7 @@
         "location": {},
         "company": {}
       },
-      "comments": [],
-      "reactors": [
-        "https://www.linkedin.com/in/ACoAAAC1Oc0BxPsc4lJ6iGKLAVZZWJlpjWftFU4",
-        "https://www.linkedin.com/in/ACoAAACvOVkBnRqPwdV65XPCBH69yijTAzO51CQ",
-        "https://www.linkedin.com/in/ACoAAAts4hQBEEgrESAIjkFNkTRhRTrNslr9yrU",
-        "https://www.linkedin.com/in/ACoAAB12R4sBxbxXAno_VKtNAaw2I3EoP_66RSs",
-        "https://www.linkedin.com/in/ACoAABEOcAcBUSZIe0xCFIWpWJcava8FtVEAcao",
-        "https://www.linkedin.com/in/ACoAABHRzxABYwiIU9zyCVcHmI_Q0QjcAfvCpUI",
-        "https://www.linkedin.com/in/ACoAABME3woBXmAOM_1WQLvcy95BPcL4uoNUn6c",
-        "https://www.linkedin.com/in/ACoAABQ5W_ABE3K_W8zCh5fWqJ_tUwSxmP2rqSI",
-        "https://www.linkedin.com/in/ACoAACXks40BgMhaRfFjz7Vsl47rKM89HYPe5M0",
-        "https://www.linkedin.com/in/ACoAACqWh1YBu3MuGMzfvSA9olgiftWpX3hEu74"
-      ]
+      "comments": []
     }
   }
 }

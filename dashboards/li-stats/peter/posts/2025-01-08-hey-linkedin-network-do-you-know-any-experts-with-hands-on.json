@@ -6,12 +6,12 @@
   "posted_date": "2025-01-08",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7282751726107906048/",
   "preview": "Hey LinkedIn network! 🚀 Do you know any experts with hands-on experience in digital building access projects? I’m on the lookout for professionals skilled in: ✅ SDK development for React Native ✅ GoLa",
-  "text": null,
+  "text": "Hey LinkedIn network! 🚀\n\nDo you know any experts with hands-on experience in digital building access projects? I’m on the lookout for professionals skilled in:\n✅ SDK development for React Native\n✅ GoLang\n✅ C# (integrations, especially with Microsoft Places)\n✅ Applications for digital building access (💡 must-have!)\n\nThis could start with a partial consultation or supporting the pre-sales process. If anyone comes to mind, I’d love your recommendations! Let’s connect and make things happen. 🙌",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:48:50Z",
+      "snapshot_at": "2026-09-05T13:04:56Z",
       "metrics": {
-        "impressions": 635,
+        "impressions": 640,
         "members_reached": 0,
         "reactions": 10,
         "comments": 0,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 9,
         "followers_gained": 0,
-        "engagement_rate": 1.57
+        "engagement_rate": 1.56
       },
       "demographics": {
         "seniority": {},
@@ -30,19 +30,7 @@
         "location": {},
         "company": {}
       },
-      "comments": [],
-      "reactors": [
-        "https://www.linkedin.com/in/igor-demihovskiy-699641185",
-        "https://www.linkedin.com/in/inesadruzhkova",
-        "https://www.linkedin.com/in/ishchuk",
-        "https://www.linkedin.com/in/maciej-ohnsorge",
-        "https://www.linkedin.com/in/mlisivka",
-        "https://www.linkedin.com/in/nstas",
-        "https://www.linkedin.com/in/olya-matviyiv-5a2759134",
-        "https://www.linkedin.com/in/umang-thakkar-esparkbiz",
-        "https://www.linkedin.com/in/yana-nakonechna",
-        "https://www.linkedin.com/in/yulya-kaukh-887a86258"
-      ]
+      "comments": []
     }
   }
 }

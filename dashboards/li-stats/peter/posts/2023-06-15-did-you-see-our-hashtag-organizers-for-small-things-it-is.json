@@ -9,9 +9,9 @@
   "text": null,
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:47:05Z",
+      "snapshot_at": "2026-09-05T13:03:16Z",
       "metrics": {
-        "impressions": 12,
+        "impressions": 14,
         "members_reached": 0,
         "reactions": 4,
         "comments": 0,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 0,
         "followers_gained": 0,
-        "engagement_rate": 33.33
+        "engagement_rate": 28.57
       },
       "demographics": {
         "seniority": {},
@@ -30,7 +30,13 @@
         "location": {},
         "company": {}
       },
-      "comments": []
+      "comments": [],
+      "reactors": [
+        "https://www.linkedin.com/in/ACoAAA5SQjkBae7byuJMQQ9ZTsajvSjXxAu7eLU",
+        "https://www.linkedin.com/in/ACoAAAY12W4BxhPHHiZJCkJUPWTrdIet_PmatSk",
+        "https://www.linkedin.com/in/ACoAAAejAQAB_H9n8ZipVwbikMhXiDUB1igaKa4",
+        "https://www.linkedin.com/in/ACoAACPR_h8BuU5tffH3EIY9snMhKztgkmohIAk"
+      ]
     }
   }
 }

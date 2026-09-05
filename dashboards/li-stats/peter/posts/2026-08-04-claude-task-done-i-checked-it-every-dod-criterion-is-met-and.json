@@ -6,12 +6,12 @@
   "posted_date": "2026-08-04",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7490361400977039361/",
   "preview": "Claude: \"𝘛𝘢𝘴𝘬 𝘥𝘰𝘯𝘦. 𝘐 𝘤𝘩𝘦𝘤𝘬𝘦𝘥 𝘪𝘵. 𝘌𝘷𝘦𝘳𝘺 𝘋𝘰𝘋 𝘤𝘳𝘪𝘵𝘦𝘳𝘪𝘰𝘯 𝘪𝘴 𝘮𝘦𝘵, 𝘢𝘯𝘥 𝘤𝘰𝘥𝘦𝘹 𝘷𝘦𝘳𝘪𝘧𝘪𝘦𝘥 𝘪𝘵 𝘵𝘰𝘰.\" Me: \"𝘋𝘪𝘥 𝘺𝘰𝘶 𝘢𝘤𝘵𝘶𝘢𝘭𝘭𝘺 𝘰𝘱𝘦𝘯 𝘵𝘩𝘦 𝘱𝘢𝘨𝘦? 𝘐 𝘥𝘰𝘯'𝘵 𝘴𝘦𝘦 𝘪𝘵 𝘵𝘩𝘦𝘳𝘦. 𝘊𝘩𝘦𝘤𝘬 𝘢𝘨𝘢𝘪𝘯.\" Claude: \"𝘋𝘢𝘮𝘯, 𝘺𝘰𝘶'𝘳𝘦 𝘳𝘪𝘨𝘩𝘵.\" And thi",
-  "text": null,
+  "text": "Claude: \"𝘛𝘢𝘴𝘬 𝘥𝘰𝘯𝘦. 𝘐 𝘤𝘩𝘦𝘤𝘬𝘦𝘥 𝘪𝘵. 𝘌𝘷𝘦𝘳𝘺 𝘋𝘰𝘋 𝘤𝘳𝘪𝘵𝘦𝘳𝘪𝘰𝘯 𝘪𝘴 𝘮𝘦𝘵, 𝘢𝘯𝘥 𝘤𝘰𝘥𝘦𝘹 𝘷𝘦𝘳𝘪𝘧𝘪𝘦𝘥 𝘪𝘵 𝘵𝘰𝘰.\"\nMe: \"𝘋𝘪𝘥 𝘺𝘰𝘶 𝘢𝘤𝘵𝘶𝘢𝘭𝘭𝘺 𝘰𝘱𝘦𝘯 𝘵𝘩𝘦 𝘱𝘢𝘨𝘦? 𝘐 𝘥𝘰𝘯'𝘵 𝘴𝘦𝘦 𝘪𝘵 𝘵𝘩𝘦𝘳𝘦. 𝘊𝘩𝘦𝘤𝘬 𝘢𝘨𝘢𝘪𝘯.\"\nClaude: \"𝘋𝘢𝘮𝘯, 𝘺𝘰𝘶'𝘳𝘦 𝘳𝘪𝘨𝘩𝘵.\"\n \nAnd this is Fable 5. The check runs as a separate codex agent with its own context. And you still have to verify by hand.\n \nAnother 5x in productivity from AI? Forget it, at least until we find a way to verify done deterministically. I'm saying this with my usual sarcasm, and I mean it fairly literally at the same time. 🙃\n \nWhat we're missing is a Playwright script, or some technology we don't have yet, that could say with 100% certainty whether a task is done, with an answer that doesn't depend on the model, the context window, or how the stars happened to align that day.\n \nUntil that exists, 𝗲𝘃𝗲𝗿𝘆 𝗿𝗲𝘀𝘂𝗹𝘁 𝗮𝗻 𝗮𝗴𝗲𝗻𝘁 𝗽𝗿𝗼𝗱𝘂𝗰𝗲𝘀 𝘀𝘁𝗶𝗹𝗹 𝗴𝗲𝘁𝘀 𝗿𝗲𝗮𝗱 𝗯𝘆 𝗮 𝗽𝗲𝗿𝘀𝗼𝗻, 𝗮𝗻𝗱 𝘁𝗵𝗮𝘁 𝗿𝗲𝘃𝗶𝗲𝘄 𝗶𝘀 𝘄𝗵𝗲𝗿𝗲 𝘁𝗵𝗲 𝗽𝗿𝗼𝗺𝗶𝘀𝗲𝗱 𝘀𝗽𝗲𝗲𝗱𝘂𝗽 𝗾𝘂𝗶𝗲𝘁𝗹𝘆 𝗴𝗼𝗲𝘀. Nobody counts those hours when the productivity numbers get published. 🤔\n \nThis is where the word deterministic starts doing real work. The condition has to be checked by something deterministic, not by another model — because a model checking a model is still two opinions, and the story above is what that looks like. 𝗔 𝗱𝗲𝘁𝗲𝗿𝗺𝗶𝗻𝗶𝘀𝘁𝗶𝗰 𝗱𝗲𝗳𝗶𝗻𝗶𝘁𝗶𝗼𝗻 𝗼𝗳 𝗱𝗼𝗻𝗲 𝗶𝘀 𝗮 𝗴𝗲𝗻𝘂𝗶𝗻𝗲𝗹𝘆 𝗵𝗮𝗿𝗱 𝘁𝗵𝗶𝗻𝗴, because we still don't know how to describe it in a way that holds up on a real project. From what I know by now, we've spent a lot of years not getting there, and it keeps lying somewhere over there, roughly. 🛠️",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:43:36Z",
+      "snapshot_at": "2026-09-05T13:00:22Z",
       "metrics": {
-        "impressions": 270,
+        "impressions": 276,
         "members_reached": 103,
         "reactions": 1,
         "comments": 1,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 0,
         "followers_gained": 0,
-        "engagement_rate": 0.74
+        "engagement_rate": 0.72
       },
       "demographics": {
         "seniority": {
@@ -52,17 +52,17 @@
       },
       "comments": [
         {
-          "author_name": "",
+          "author_name": "Olga Mykhailova (Michai)",
           "author_url": "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b",
-          "author_headline": "",
+          "author_headline": "I design culture that works | Less drama and more movement | Helping C-level leaders turn resistance and difficult dynamics into collaboration and change | Developmental Culture | Nonviolent Communication",
           "comment_urn": "urn:li:comment:(activity:7490361400977039361,7493357461475860480)",
-          "text": "Olga Mykhailova (Michai) Verified Profile 1st\nOlga Mykhailova (Michai)\n• 1st\nI design culture that works | Less drama and more movement | Helping C-level leaders turn resistance and difficult dynamics into collaboration and change | Developmental Culture | Nonviolent Communication\nnot to mention that there could be personal preferences, simply like/dislike, that is hard to put in an acceptance criteria or definition of done\n0",
+          "text": "not to mention that there could be personal preferences, simply like/dislike, that is hard to put in an acceptance criteria or definition of done",
           "reactions": 0,
           "replies_count": 0
         }
       ],
       "reactors": [
-        "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b"
+        "https://www.linkedin.com/in/ACoAAAqUgLsBMjjr1evGW9ylnNSkUAGh06eUn5k"
       ],
       "commenters": [
         "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b"

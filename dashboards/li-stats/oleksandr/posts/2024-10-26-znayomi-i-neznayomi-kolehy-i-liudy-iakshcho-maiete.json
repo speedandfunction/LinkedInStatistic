@@ -9,9 +9,9 @@
   "text": "Знайомі і незнайомі колеги і люди, якщо маєте бажання і цінність долучитись як волонтер або партнер до нашої ініціативи для ветеранів, які робили і роблять надважливу і безцінну роботу для нас з вами, для нашої країни, будь ласка напишіть Петру або мені для отримання деталей проекту",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T20:19:51Z",
+      "snapshot_at": "2026-09-05T12:52:22Z",
       "metrics": {
-        "impressions": 231,
+        "impressions": 234,
         "members_reached": 0,
         "reactions": 2,
         "comments": 0,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 6,
         "followers_gained": 2,
-        "engagement_rate": 0.87
+        "engagement_rate": 0.85
       },
       "demographics": {
         "seniority": {},
@@ -30,7 +30,11 @@
         "location": {},
         "company": {}
       },
-      "comments": []
+      "comments": [],
+      "reactors": [
+        "https://www.linkedin.com/in/ACoAAAusS6MBGO5n8ILf5eiueamNg6P5lFIHHSE",
+        "https://www.linkedin.com/in/ACoAADXByqoBGHSRu5Hkwx40VwY4SZipBHfTbZ4"
+      ]
     }
   }
 }

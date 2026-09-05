@@ -6,12 +6,12 @@
   "posted_date": "2023-05-19",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7065379926392135680/",
   "preview": "Speed & Function is the leading provider of software technology organization as a service (STOaaS) for high growth startups and small businesses. We propel purpose-driven businesses and nonprofits by",
-  "text": null,
+  "text": "Speed & Function is the leading provider of software technology organization as a service (STOaaS) for high growth startups and small businesses. \n\nWe propel purpose-driven businesses and nonprofits by enabling them to focus on their mission without the distraction of managing an in-house technology department. \n\n#technology \n#software \n#growth \n#startups \n#nonprofits",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:46:45Z",
+      "snapshot_at": "2026-09-05T13:03:10Z",
       "metrics": {
-        "impressions": 15,
+        "impressions": 17,
         "members_reached": 0,
         "reactions": 9,
         "comments": 0,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 0,
         "followers_gained": 0,
-        "engagement_rate": 66.67
+        "engagement_rate": 58.82
       },
       "demographics": {
         "seniority": {},
@@ -30,7 +30,17 @@
         "location": {},
         "company": {}
       },
-      "comments": []
+      "comments": [],
+      "reactors": [
+        "https://www.linkedin.com/in/ACoAAAejAQAB_H9n8ZipVwbikMhXiDUB1igaKa4",
+        "https://www.linkedin.com/in/ACoAABXFzI8BzIBPp9Ze5Y46__x8-TjjXzoBqxE",
+        "https://www.linkedin.com/in/ACoAABuv32EB4g20uy97uGE2bPzBFewyjYZyu5E",
+        "https://www.linkedin.com/in/ACoAACNUy_0B1jWKwhqbUY1NlAQNym60XsX9ikg",
+        "https://www.linkedin.com/in/ACoAACPR_h8BuU5tffH3EIY9snMhKztgkmohIAk",
+        "https://www.linkedin.com/in/ACoAACkmIIUBVMkddhRNyDVLbEjuD-RMyt6vcHY",
+        "https://www.linkedin.com/in/ACoAACmJyzABtBOfQ2fh1-iTXYHUU-A4_PO6LWg",
+        "https://www.linkedin.com/in/ACoAADH4FJQB0wXlWMtfQLYrL88m0aR3HOvx9jo"
+      ]
     }
   }
 }

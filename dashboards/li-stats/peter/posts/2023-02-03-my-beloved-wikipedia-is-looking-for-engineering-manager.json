@@ -6,12 +6,12 @@
   "posted_date": "2023-02-03",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7027277730383601664/",
   "preview": "My beloved Wikipedia is looking for Engineering Manager. Please help me to find brilliant talent for them :)",
-  "text": null,
+  "text": "My beloved Wikipedia is looking for Engineering Manager. \n\nPlease help me to find brilliant talent for them :)",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:44:19Z",
+      "snapshot_at": "2026-09-05T13:01:01Z",
       "metrics": {
-        "impressions": 21,
+        "impressions": 23,
         "members_reached": 0,
         "reactions": 14,
         "comments": 0,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 0,
         "followers_gained": 0,
-        "engagement_rate": 100
+        "engagement_rate": 91.3
       },
       "demographics": {
         "seniority": {},

@@ -6,12 +6,12 @@
   "posted_date": "2025-12-09",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7404153601205473280/",
   "preview": "An engineering book taught me management. Sounds weird, but \"𝗔𝗰𝗰𝗲𝗹𝗲𝗿𝗮𝘁𝗲: 𝗧𝗵𝗲 𝗦𝗰𝗶𝗲𝗻𝗰𝗲 𝗼𝗳 𝗟𝗲𝗮𝗻 𝗦𝗼𝗳𝘁𝘄𝗮𝗿𝗲 𝗮𝗻𝗱 𝗗𝗲𝘃𝗢𝗽𝘀\" by Nicole Forsgren, Jez Humble, Gene Kim isn't really about code. It's about the fact",
-  "text": null,
+  "text": "An engineering book taught me management.\n\nSounds weird, but \"𝗔𝗰𝗰𝗲𝗹𝗲𝗿𝗮𝘁𝗲: 𝗧𝗵𝗲 𝗦𝗰𝗶𝗲𝗻𝗰𝗲 𝗼𝗳 𝗟𝗲𝗮𝗻 𝗦𝗼𝗳𝘁𝘄𝗮𝗿𝗲 𝗮𝗻𝗱 𝗗𝗲𝘃𝗢𝗽𝘀\" by Nicole Forsgren, Jez Humble, Gene Kim isn't really about code. \nIt's about the fact that 𝘺𝘰𝘶 𝘤𝘢𝘯'𝘵 𝘮𝘢𝘯𝘢𝘨𝘦 𝘸𝘩𝘢𝘵 𝘺𝘰𝘶 𝘥𝘰𝘯'𝘵 𝘮𝘦𝘢𝘴𝘶𝘳𝘦.\n\nThis book systematized everything and finally pushed me to make the shift from engineer to manager. It changed how I see the product itself.\n\nYour product is alive. \nYou work on it, you break things.\nThe only question is how reasonable those breaks are. \nAnd the book gives you a way to measure exactly that.\n\nIt introduces some key metrics: 𝗱𝗲𝗽𝗹𝗼𝘆𝗺𝗲𝗻𝘁 𝗳𝗿𝗲𝗾𝘂𝗲𝗻𝗰𝘆, 𝗹𝗲𝗮𝗱 𝘁𝗶𝗺𝗲 𝗳𝗼𝗿 𝗰𝗵𝗮𝗻𝗴𝗲𝘀, 𝗰𝗵𝗮𝗻𝗴𝗲 𝗳𝗮𝗶𝗹𝘂𝗿𝗲 𝗿𝗮𝘁𝗲, 𝗮𝗻𝗱 𝗺𝗲𝗮𝗻 𝘁𝗶𝗺𝗲 𝘁𝗼 𝗿𝗲𝘀𝘁𝗼𝗿𝗲.\nThey look like technical metrics. \nBut actually, they're a 𝗺𝗶𝗿𝗿𝗼𝗿 𝗼𝗳 𝘆𝗼𝘂𝗿 𝗯𝘂𝘀𝗶𝗻𝗲𝘀𝘀.\n\nAnd here's where it gets interesting: \nwhen you measure, you automatically start looking wider than \"I write code.\" You see the whole journey: \nfrom opening VS Code to the moment your code actually changes something for the user.\n\nYou start to realize that uptime is 𝘤𝘢𝘳𝘪𝘯𝘨 𝘢𝘣𝘰𝘶𝘵 𝘶𝘴𝘦𝘳𝘴. \nAnd that caring transforms into value. \nAnd into money. And ultimately, into your income 😀💰\n\n𝗖𝗼𝗱𝗲 𝗶𝘀 𝗮 𝘀𝗺𝗮𝗹𝗹 𝗽𝗮𝗿𝘁 𝗼𝗳 𝗮 𝗽𝗿𝗼𝗱𝘂𝗰𝘁'𝘀 𝘀𝘂𝗰𝗰𝗲𝘀𝘀 𝘀𝘁𝗼𝗿𝘆. \nThis book shows that beyond code there's a whole kingdom — one that engineers influence heavily, often without even realizing it.\n\nYou become valuable when you have a 𝗺𝗶𝘅 𝗼𝗳 𝘁𝗵𝗶𝗻𝗸𝗶𝗻𝗴. \nWhen you see both the code and the business. \nWhen you understand that your work doesn't end with the pull request.\n\nIf you're thinking about building your own tech business, if you want to become a CTO — 𝘵𝘩𝘪𝘴 𝘬𝘪𝘯𝘥 𝘰𝘧 𝘷𝘪𝘴𝘪𝘰𝘯 is what gets you there.",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:42:10Z",
+      "snapshot_at": "2026-09-05T12:59:22Z",
       "metrics": {
-        "impressions": 537,
+        "impressions": 542,
         "members_reached": 219,
         "reactions": 7,
         "comments": 1,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 1,
         "followers_gained": 0,
-        "engagement_rate": 1.49
+        "engagement_rate": 1.48
       },
       "demographics": {
         "seniority": {
@@ -62,23 +62,14 @@
       },
       "comments": [
         {
-          "author_name": "",
+          "author_name": "Vitalii Honcharenko",
           "author_url": "https://www.linkedin.com/in/vitaliihoncharenko",
-          "author_headline": "",
+          "author_headline": "Software Development Services at Yael Acceptic | AI/LLMs/ML/NLP, Web & Mobile, IoT, E-commerce/learning, Fin/Insur/PropTech, Logistics",
           "comment_urn": "urn:li:comment:(activity:7404153601205473280,7405221004794429440)",
-          "text": "Vitalii Honcharenko Premium Profile 2nd\nVitalii Honcharenko\n• 2nd\nSoftware Development Services at Yael Acceptic | AI/LLMs/ML/NLP, Web & Mobile, IoT, E-commerce/learning, Fin/Insur/PropTech, Logistics\nFollow\nThe moment you connect engineering metrics to business outcomes, you stop “shipping code” and start building a real product.\n0",
+          "text": "The moment you connect engineering metrics to business outcomes, you stop “shipping code” and start building a real product.",
           "reactions": 0,
           "replies_count": 0
         }
-      ],
-      "reactors": [
-        "https://www.linkedin.com/in/anatoly-chelyshev",
-        "https://www.linkedin.com/in/mcrae-williams-98673b1",
-        "https://www.linkedin.com/in/rajbharathi",
-        "https://www.linkedin.com/in/russzurba",
-        "https://www.linkedin.com/in/sergey-smaglyuk",
-        "https://www.linkedin.com/in/vitaliihoncharenko",
-        "https://www.linkedin.com/in/yana-nakonechna"
       ],
       "commenters": [
         "https://www.linkedin.com/in/vitaliihoncharenko"

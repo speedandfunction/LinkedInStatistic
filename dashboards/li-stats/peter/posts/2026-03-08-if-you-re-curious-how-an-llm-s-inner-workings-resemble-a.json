@@ -6,12 +6,12 @@
   "posted_date": "2026-03-08",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7436445465140899840/",
   "preview": "If you're curious how an LLM's inner workings resemble a human brain, watch this video. Here's what you'll learn: 1. 🔬 Anthropic built a \"digital microscope\" — the first real tool to peer inside an AI",
-  "text": null,
+  "text": "If you're curious how an LLM's inner workings resemble a human brain, watch this video. Here's what you'll learn:\n\n1. 🔬 Anthropic built a \"digital microscope\" — the first real tool to peer inside an AI's mind and see how it actually thinks, not just what it outputs\n\n2. 🧠 LLMs don't just memorize — they reason in steps. When asked \"What's the capital of the state containing Dallas?\", the model silently chains Dallas → Texas → Austin inside its head, just like you would\n\n3. 🎯 They can actually plan ahead. When writing a rhyming poem, the model picks the ending word (\"rabbit\" or \"habit\") before it starts writing the line — it works backward from a goal, like a human poet\n\n4. ⚠️ The honest limitations. Researchers admit there's still \"dark matter\" they can't explain — and they're refreshingly transparent about what they don't yet understand\n\nhttps://lnkd.in/e-pFa84b",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:50:59Z",
+      "snapshot_at": "2026-09-05T13:06:41Z",
       "metrics": {
-        "impressions": 440,
+        "impressions": 441,
         "members_reached": 170,
         "reactions": 3,
         "comments": 0,
