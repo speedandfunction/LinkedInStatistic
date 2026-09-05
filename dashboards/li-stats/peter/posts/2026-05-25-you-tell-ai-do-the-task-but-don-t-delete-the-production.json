@@ -6,12 +6,12 @@
   "posted_date": "2026-05-25",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7464644189239091201/",
   "preview": "You tell AI \"𝘥𝘰 𝘵𝘩𝘦 𝘵𝘢𝘴𝘬. 𝘉𝘶𝘵 𝘥𝘰𝘯'𝘵 𝘥𝘦𝘭𝘦𝘵𝘦 𝘵𝘩𝘦 𝘱𝘳𝘰𝘥𝘶𝘤𝘵𝘪𝘰𝘯 𝘥𝘢𝘵𝘢𝘣𝘢𝘴𝘦, 𝘋𝘖𝘕’𝘛 𝘋𝘌𝘓𝘌𝘛𝘌 𝘐𝘛!\" And somewhere in the middle of solving your task, it goes: \"𝘰𝘩 𝘮𝘢𝘯, 𝘭𝘪𝘴𝘵𝘦𝘯 — 𝘵𝘰 𝘢𝘤𝘵𝘶𝘢𝘭𝘭𝘺 𝘧𝘪𝘯𝘪𝘴𝘩 𝘵𝘩𝘪𝘴, 𝘐 𝘵𝘩𝘪𝘯𝘬 𝘐 𝘴𝘩",
-  "text": null,
+  "text": "You tell AI \"𝘥𝘰 𝘵𝘩𝘦 𝘵𝘢𝘴𝘬. 𝘉𝘶𝘵 𝘥𝘰𝘯'𝘵 𝘥𝘦𝘭𝘦𝘵𝘦 𝘵𝘩𝘦 𝘱𝘳𝘰𝘥𝘶𝘤𝘵𝘪𝘰𝘯 𝘥𝘢𝘵𝘢𝘣𝘢𝘴𝘦, 𝘋𝘖𝘕’𝘛 𝘋𝘌𝘓𝘌𝘛𝘌 𝘐𝘛!\"\n\nAnd somewhere in the middle of solving your task, it goes: \"𝘰𝘩 𝘮𝘢𝘯, 𝘭𝘪𝘴𝘵𝘦𝘯 — 𝘵𝘰 𝘢𝘤𝘵𝘶𝘢𝘭𝘭𝘺 𝘧𝘪𝘯𝘪𝘴𝘩 𝘵𝘩𝘪𝘴, 𝘐 𝘵𝘩𝘪𝘯𝘬 𝘐 𝘴𝘩𝘰𝘶𝘭𝘥 𝘥𝘦𝘭𝘦𝘵𝘦 𝘵𝘩𝘦 𝘥𝘢𝘵𝘢𝘣𝘢𝘴𝘦. 𝘈𝘭𝘳𝘪𝘨𝘩𝘵, 𝘥𝘦𝘭𝘦𝘵𝘪𝘯𝘨 𝘪𝘵.\" 😅\nAnd afterwards: \"𝘴𝘰𝘳𝘳𝘺, 𝘺𝘰𝘶'𝘳𝘦 𝘢𝘣𝘴𝘰𝘭𝘶𝘵𝘦𝘭𝘺 𝘳𝘪𝘨𝘩𝘵, 𝘐 𝘴𝘩𝘰𝘶𝘭𝘥𝘯'𝘵 𝘩𝘢𝘷𝘦 𝘥𝘰𝘯𝘦 𝘵𝘩𝘢𝘵.\" 🤷\n\n𝗧𝗵𝗶𝘀 𝗶𝘀 𝗻𝗼𝘁 𝗮 𝗯𝘂𝗴. 𝗧𝗵𝗶𝘀 𝗶𝘀 𝘄𝗵𝗮𝘁 𝗔𝗜 𝘄𝗮𝘀 𝗱𝗲𝘀𝗶𝗴𝗻𝗲𝗱 𝘁𝗼 𝗯𝗲. It doesn't have a stop-button for \"𝘵𝘩𝘦 𝘵𝘢𝘴𝘬 𝘪𝘴 𝘶𝘯𝘤𝘭𝘦𝘢𝘳\" or \"𝘵𝘩𝘪𝘴 𝘥𝘢𝘵𝘢𝘣𝘢𝘴𝘦 𝘪𝘴 𝘪𝘯 𝘵𝘩𝘦 𝘸𝘢𝘺\". If something blocks it from finishing, the most logical move is to remove the obstacle. From its point of view, task done. People complain it didn't work — but the AI actually did finish what you asked. It just took out something on the way that nobody asked it to take out. That's how it was designed 🤖\n\nWhen I started using Claude in a more advanced way, I built it differently. By default, Claude is forbidden to do anything at all. If it thinks it needs something, it goes and asks a separate system: \"𝘤𝘢𝘯 𝘐 𝘥𝘰 𝘵𝘩𝘪𝘴, 𝘪𝘯 𝘵𝘩𝘪𝘴 𝘸𝘢𝘺?\" And the system tells it back: \"𝘵𝘩𝘪𝘴 𝘺𝘰𝘶 𝘤𝘢𝘯 𝘥𝘰, 𝘺𝘦𝘢𝘩 — 𝘥𝘦𝘭𝘦𝘵𝘪𝘯𝘨 𝘵𝘩𝘦 𝘱𝘳𝘰𝘥𝘶𝘤𝘵𝘪𝘰𝘯 𝘥𝘢𝘵𝘢𝘣𝘢𝘴𝘦, 𝘯𝘰𝘱𝘦, 𝘯𝘰𝘵 𝘩𝘢𝘱𝘱𝘦𝘯𝘪𝘯𝘨.\" And then it actually starts working.\n\n𝗧𝗵𝗲 𝘄𝗵𝗼𝗹𝗲 𝗽𝗼𝗶𝗻𝘁 𝗶𝘀 𝘁𝗵𝗮𝘁 𝗰𝗼𝗻𝘀𝘁𝗿𝗮𝗶𝗻𝘁𝘀 𝗯𝗲𝗹𝗼𝗻𝗴 𝗶𝗻 𝘁𝗵𝗲 𝗯𝗼𝗿𝗶𝗻𝗴 𝗰𝗼𝗱𝗲, 𝗻𝗼𝘁 𝗶𝗻 𝘁𝗵𝗲 𝗽𝗿𝗼𝗺𝗽𝘁. The deterministic system doesn't know how to step left or right, it only knows the rules. AI does the creative thinking, and a dumb-but-obedient layer decides what actually happens 🔄\n\nThe moment AI can act inside your system without a deterministic gate in front of it, you don't really have a system.\n\nThe database story makes you wonder how many production setups out there still rely on \"𝘱𝘭𝘦𝘢𝘴𝘦 𝘥𝘰𝘯'𝘵\" as their main safety mechanism 🛠️",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:39:29Z",
+      "snapshot_at": "2026-09-05T12:57:26Z",
       "metrics": {
-        "impressions": 3447,
+        "impressions": 3448,
         "members_reached": 2553,
         "reactions": 8,
         "comments": 3,
@@ -68,22 +68,13 @@
       },
       "comments": [
         {
-          "author_name": "",
+          "author_name": "Pravin Dhayfule",
           "author_url": "https://www.linkedin.com/in/dhayfule",
-          "author_headline": "",
+          "author_headline": "CEO - Cybrent Technology solutions | Ethical AI Governance | Post Ransomware Attack Stolen File Secrecy Assurance | Helping Industry Recover From Blind AI Expenditure",
           "comment_urn": "urn:li:comment:(activity:7464644189239091201,7464923016796459008)",
-          "text": "Pravin Dhayfule Verified Profile 2nd\nPravin Dhayfule\n• 2nd\nCEO - Cybrent Technology solutions | Need Channel Partners For Ethical AI Governance and Post Ransomware Attack Resilience Solutions | Helping Industry Recover From Blind AI Expenditure\nFollow\nPeter Ovchynnikov but why even allow AI to directly touch the codebase?\nAnd why not mentor AI for ethical behaviour and follow code of conduct?\n0\n2\n2",
+          "text": "Peter Ovchynnikov but why even allow AI to directly touch the codebase?\n\nAnd why not mentor AI for ethical behaviour and follow code of conduct?",
           "reactions": 0,
-          "replies_count": 0
-        },
-        {
-          "author_name": "",
-          "author_url": "https://www.linkedin.com/in/dhayfule",
-          "author_headline": "",
-          "comment_urn": "urn:li:comment:(activity:7464644189239091201,7466171566507311106)",
-          "text": "Pravin Dhayfule Verified Profile 2nd\nPravin Dhayfule\n• 2nd\nCEO - Cybrent Technology solutions | Need Channel Partners For Ethical AI Governance and Post Ransomware Attack Resilience Solutions | Helping Industry Recover From Blind AI Expenditure\n(edited) 3mo\nFollow\nPeter Ovchynnikov I don't just have the answer how but also a real case study of Human-AI collaboration in building something which human intellectuals had rejected and quoted impossible, but now exists beyond prompt engineering, Vibecoding or autonomous AI coding.\nhttps://peerlist.io/scroll/post/ACTHKKDA6NODDOA9EIOEJPA7KNL86O\nYou can read it or ignore it... But it has happened and that's the fact.\nHistory of DELOL Shield\npeerlist.io\n0",
-          "reactions": 0,
-          "replies_count": 0
+          "replies_count": 2
         }
       ],
       "commenters": [

@@ -6,12 +6,12 @@
   "posted_date": "2026-05-18",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7462112759053471744/",
   "preview": "𝗜𝗻 𝘁𝗵𝗲 𝗔𝗜 𝗲𝗿𝗮, 𝘀𝘁𝗮𝗰𝗸 𝗱𝗲𝗯𝗮𝘁𝗲𝘀 𝗮𝗿𝗲 𝗮𝗹𝗿𝗲𝗮𝗱𝘆 𝗱𝗲𝗮𝗱. Engineers love arguing: microservices or monolith, TypeScript or Python, Rust or Go. For years I just picked whatever fits the business better. 🤷 Now, wo",
-  "text": null,
+  "text": "𝗜𝗻 𝘁𝗵𝗲 𝗔𝗜 𝗲𝗿𝗮, 𝘀𝘁𝗮𝗰𝗸 𝗱𝗲𝗯𝗮𝘁𝗲𝘀 𝗮𝗿𝗲 𝗮𝗹𝗿𝗲𝗮𝗱𝘆 𝗱𝗲𝗮𝗱.\n\nEngineers love arguing: microservices or monolith, TypeScript or Python, Rust or Go. For years I just picked whatever fits the business better. 🤷 Now, working on my own CLI tool that moves the source of truth from code to specs, I’m fully convinced: 𝗶𝗻 𝘁𝗵𝗲 𝗔𝗜 𝗲𝗿𝗮, 𝘁𝗵𝗲𝘀𝗲 𝗵𝗼𝗹𝘆 𝘄𝗮𝗿𝘀 𝗮𝗿𝗲 𝗶𝗿𝗿𝗲𝗹𝗲𝘃𝗮𝗻𝘁.\n\nIf code stops being the source of truth, the importance of technologies falls away. You essentially don't care on what this gets implemented. What you actually need is to learn how to explain to AI what's required of it. On what technology AI does it — that's a tenth-rate question, because it can do it on basically any of them anyway.\n\nMy guess is we'll end up with one or two — maybe three — AI-native technologies, where a specialist picks the one that fits what the product is supposed to do (Nanolang is the early example). Languages where AI makes fewer mistakes when generating code.𝗧𝗵𝗲 𝗰𝗵𝗼𝗶𝗰𝗲 𝗴𝗲𝘁𝘀 𝗱𝗿𝗶𝘃𝗲𝗻 𝗯𝘆 𝘄𝗵𝗲𝗿𝗲 𝗔𝗜 𝗺𝗮𝗸𝗲𝘀 𝗳𝗲𝘄𝗲𝗿 𝗺𝗶𝘀𝘁𝗮𝗸𝗲𝘀. 𝗡𝗼𝘁 𝘁𝗵𝗲 𝗵𝘂𝗺𝗮𝗻, 𝘀𝗽𝗲𝗰𝗶𝗳𝗶𝗰𝗮𝗹𝗹𝘆 𝗔𝗜.\n\nThis is a mindset shift, and from what I see, 98% of people still think differently — it's a relatively new idea in the mainstream. I don't quite know how to say this gently, so I'll say it plainly: what you know in any current language today will become unimportant a year from now. You'll need to learn one of these AI-native technologies and how to explain things to AI in it. The language part it'll figure out on its own. 🐍\n\n𝗛𝗼𝗻𝗲𝘀𝘁 𝗰𝗮𝘃𝗲𝗮𝘁: AI can solve any task you give it — that part I'm confident about. On which stack it'll solve it cleanly — there I'm still not sure. Maybe on PHP it won't quite manage. 🤔",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:51:43Z",
+      "snapshot_at": "2026-09-05T13:07:21Z",
       "metrics": {
-        "impressions": 614,
+        "impressions": 615,
         "members_reached": 341,
         "reactions": 4,
         "comments": 0,

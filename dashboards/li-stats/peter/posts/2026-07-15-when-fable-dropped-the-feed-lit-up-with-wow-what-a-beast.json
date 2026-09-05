@@ -6,12 +6,12 @@
   "posted_date": "2026-07-15",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7483112297532665857/",
   "preview": "When Fable dropped, the feed lit up with \"𝘸𝘰𝘸, 𝘸𝘩𝘢𝘵 𝘢 𝘣𝘦𝘢𝘴𝘵, 𝘭𝘰𝘰𝘬 𝘢𝘵 𝘵𝘩𝘦 𝘷𝘶𝘭𝘯 𝘪𝘵 𝘤𝘢𝘶𝘨𝘩𝘵 𝘧𝘰𝘳 𝘮𝘦,\" and I got worked up right along with everyone else. 🤯 Then it occurred to me that we started getting wo",
-  "text": null,
+  "text": "When Fable dropped, the feed lit up with \"𝘸𝘰𝘸, 𝘸𝘩𝘢𝘵 𝘢 𝘣𝘦𝘢𝘴𝘵, 𝘭𝘰𝘰𝘬 𝘢𝘵 𝘵𝘩𝘦 𝘷𝘶𝘭𝘯 𝘪𝘵 𝘤𝘢𝘶𝘨𝘩𝘵 𝘧𝘰𝘳 𝘮𝘦,\" and I got worked up right along with everyone else. 🤯 Then it occurred to me that we started getting worked up way too late.\n\nFor some reason we all got excited at Fable, that it is such a huge deal, while the previous models were already doing the job just fine. We just didn't know that, because we weren't really watching them. 🤔\n\nAI could already write code fine a year ago, it just did it 3 times out of 10, and now even Fable produces relevant code 7 out of 10. The new AI still can't produce code a human would call quality, and that hasn't shifted with Fable, or with the release before it.\n\nThe only thing that really moved was us: 𝗹𝗲𝗮𝗿𝗻𝗶𝗻𝗴 𝘁𝗼 𝗱𝗲𝘀𝗰𝗿𝗶𝗯𝗲 𝗮 𝘁𝗮𝘀𝗸 𝗶𝗻 𝗮 𝘄𝗮𝘆 𝘁𝗵𝗲 𝗔𝗜 𝗰𝗵𝗲𝘄𝘀 𝗮𝗻𝗱 𝗶𝗻𝘁𝗲𝗿𝗽𝗿𝗲𝘁𝘀 𝗲𝘅𝗮𝗰𝘁𝗹𝘆 𝗮𝘀 𝘆𝗼𝘂 𝗶𝗻𝘁𝗲𝗻𝗱𝗲𝗱, 𝗮𝗻𝗱 𝗹𝗲𝗮𝗿𝗻𝗶𝗻𝗴 𝘁𝗼 𝗿𝗲𝗮𝗱 𝗯𝗮𝗰𝗸 𝘄𝗵𝗮𝘁 𝗶𝘁 𝗽𝗿𝗼𝗱𝘂𝗰𝗲𝗱. For any team building on this, that describing-and-reading skill is where the year actually went, and none of it ships in a release note. 🙃\n\nBy the way when another engineer hands you code, you think the exact same thing: \"𝘸𝘩𝘢𝘵 𝘥𝘪𝘥 𝘺𝘰𝘶 𝘦𝘷𝘦𝘯 𝘸𝘳𝘪𝘵𝘦 𝘩𝘦𝘳𝘦?\". A person just writes slowly, so you have time to figure it out, while the AI writes fast, so you don't. That's the whole difference, and it has nothing to do with how smart the model got, only with whether you can keep up with reading it.\n\nSo what actually improved for you this past year: the model, or the way you hand it work? 👇",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:52:44Z",
+      "snapshot_at": "2026-09-05T13:08:08Z",
       "metrics": {
-        "impressions": 650,
+        "impressions": 652,
         "members_reached": 390,
         "reactions": 0,
         "comments": 0,

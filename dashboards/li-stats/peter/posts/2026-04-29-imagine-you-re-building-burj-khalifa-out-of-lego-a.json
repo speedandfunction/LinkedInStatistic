@@ -6,12 +6,12 @@
   "posted_date": "2026-04-29",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7455199959148208129/",
   "preview": "Imagine you're building Burj Khalifa out of Lego 🧱. A complicated thing, 163 floors. You make a beautiful blueprint, hand it to the team, and they start building. Half a year later, they've reached fl",
-  "text": null,
+  "text": "Imagine you're building Burj Khalifa out of Lego 🧱. A complicated thing, 163 floors. You make a beautiful blueprint, hand it to the team, and they start building.\n\nHalf a year later, they've reached floor 13.\n\nAnd you walk in like: \"𝘞𝘦 𝘯𝘦𝘦𝘥 𝘵𝘰 𝘵𝘦𝘢𝘳 𝘥𝘰𝘸𝘯 𝘵𝘩𝘦𝘴𝘦 𝘸𝘢𝘭𝘭𝘴 𝘰𝘯 𝘵𝘩𝘦 2𝘯𝘥 𝘧𝘭𝘰𝘰𝘳, 𝘐 𝘮𝘢𝘥𝘦 𝘥𝘦𝘢𝘭𝘴 𝘸𝘪𝘵𝘩 𝘵𝘦𝘯𝘢𝘯𝘵𝘴, 𝘴𝘩𝘰𝘱𝘴 𝘢𝘳𝘦 𝘨𝘰𝘪𝘯𝘨 𝘩𝘦𝘳𝘦 🏪.\" It's Lego, not concrete, so why not be flexible? Except your beautiful blueprint is now dead. The new version lands on the sour faces of people who haven't finished the previous one. And you need to earn money now, or you'll die 150 times over before the building is done.\n\nThe blueprint lives its own life, the building lives its own life. At some point, you just shrug: \"𝘈𝘤𝘵 𝘧𝘳𝘰𝘮 𝘸𝘩𝘢𝘵'𝘴 𝘰𝘯 𝘵𝘩𝘦 𝘱𝘭𝘢𝘵𝘦, 𝘯𝘰𝘵 𝘰𝘯 𝘱𝘢𝘱𝘦𝘳.\"\n\nA bit of a stretch, sure. And yet this is exactly what's been happening with software development for decades 💻. 𝘙𝘦𝘲𝘶𝘪𝘳𝘦𝘮𝘦𝘯𝘵𝘴-𝘧𝘪𝘳𝘴𝘵 was the dream — DDD/BDD said: describe the domain, then dance around that. Beautiful idea, except you can rewrite a document in an hour, while rewriting half the project takes months. So it doesn't matter what's in Jira; it matters what's inside the \"𝘀𝗿𝗰/\" 𝗳𝗼𝗹𝗱𝗲𝗿. That's why we invented Scrum: short increments, working to working, all to make 𝗰𝗼𝗱𝗲 𝘁𝗵𝗲 𝘀𝗼𝘂𝗿𝗰𝗲 𝗼𝗳 𝘁𝗿𝘂𝘁𝗵.\n\nNow imagine instead of workers, you have a 3D printer that prints the building from your blueprint in a month, and reprints it when you change it 🤖. Same thing with code — you change the user story, \n#AI regenerates. The code catches up to the paper, not the other way around.\n\nI'm not saying we're 100% there yet. The trajectory, though, is hard to ignore: on SWE-Bench Verified top models hit 90%+ (vs 23% two years ago), and on the harder, contamination-free SWE-Bench Pro, they're at 46% and climbing. Frameworks like BMAD emerge, and Amazon released Kiro — a spec-first IDE. \n\nSo what does this mean 🧠? If requirements are becoming the main thing, 𝘄𝗲 𝘀𝗵𝗼𝘂𝗹𝗱 𝗯𝗲 𝘀𝘁𝗼𝗿𝗶𝗻𝗴 𝗽𝗿𝗼𝗺𝗽𝘁𝘀, 𝗻𝗼𝘁 𝗰𝗼𝗱𝗲. The skill of changing the blueprint matters more than the skill of laying bricks. Rebuilding just got cheap, and that quietly changes everything.\n\nHalf a year later, this analogy is aging well. Maybe even too well.",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:42:58Z",
+      "snapshot_at": "2026-09-05T12:59:58Z",
       "metrics": {
-        "impressions": 492,
+        "impressions": 493,
         "members_reached": 220,
         "reactions": 3,
         "comments": 1,
@@ -61,12 +61,12 @@
       },
       "comments": [
         {
-          "author_name": "",
+          "author_name": "Kate Chapman",
           "author_url": "https://www.linkedin.com/in/untanglingsystems",
-          "author_headline": "",
+          "author_headline": "Fractional CTO | Platform, Product & AI strategy | Sociotechnical Systems | Open Source Governance | Helping Humans & Tech Collaborate",
           "comment_urn": "urn:li:comment:(activity:7455199959148208129,7455463000712351745)",
-          "text": "Kate Chapman Premium Profile 1st\nKate Chapman\n• 1st\nFractional CTO | Platform, Product & AI strategy | Sociotechnical Systems | Open Source Governance |  Helping Humans & Tech Collaborate\nI think key will be some level of token efficiency. At least for a while. Perhaps there are two components building towards the future where you are saving requirements and making it as cheap as possible to rebuild the code delivering on them.\n1 reaction\n1",
-          "reactions": 0,
+          "text": "I think key will be some level of token efficiency. At least for a while. Perhaps there are two components building towards the future where you are saving requirements and making it as cheap as possible to rebuild the code delivering on them.",
+          "reactions": 1,
           "replies_count": 0
         }
       ],

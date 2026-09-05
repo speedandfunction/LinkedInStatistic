@@ -6,12 +6,12 @@
   "posted_date": "2026-07-08",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7480584725795880961/",
   "preview": "\"𝗦𝗽𝗲𝗰-𝗱𝗿𝗶𝘃𝗲𝗻 𝗱𝗲𝘃𝗲𝗹𝗼𝗽𝗺𝗲𝗻𝘁 𝗶𝘀 𝘁𝗵𝗲 𝗿𝗲𝘃𝗲𝗻𝗴𝗲 𝗼𝗳 𝗪𝗮𝘁𝗲𝗿𝗳𝗮𝗹𝗹.\" I can see the worry behind it: write the full spec at the start, let an agent build everything from it, and you are back to big design up front,",
-  "text": null,
+  "text": "\"𝗦𝗽𝗲𝗰-𝗱𝗿𝗶𝘃𝗲𝗻 𝗱𝗲𝘃𝗲𝗹𝗼𝗽𝗺𝗲𝗻𝘁 𝗶𝘀 𝘁𝗵𝗲 𝗿𝗲𝘃𝗲𝗻𝗴𝗲 𝗼𝗳 𝗪𝗮𝘁𝗲𝗿𝗳𝗮𝗹𝗹.\"\n\nI can see the worry behind it: write the full spec at the start, let an agent build everything from it, and you are back to big design up front, the rigid plan-it-all-first sequence Agile spent twenty years trying to escape.\n\nBut what was Waterfall's actual problem (according to me)? 🤔\n\nIt was a 𝗹𝗼𝗼𝗼𝗼𝗼𝗼𝗼𝗻𝗴 𝗳𝗲𝗲𝗱𝗯𝗮𝗰𝗸 𝗹𝗼𝗼𝗽. You'd spend 3 months on the whole spec, then 2 months designing the architecture, then review all that and repeat it twice, then 12 months of development that easily turned into 24, and only at the very end discover you had been building shit the entire time.\n\nNow you write that same spec, throw it at the machine, and see the result in two weeks. ⏱️ You still learn your spec was shit, only the learning arrives while you can still do something about it, and for a product team that is where the real money sits: cheaper experiments, faster course-correction, far less spent building the wrong thing.\n\nWhat is Scrum? A little piece of spec, a little piece of architecture, a little piece of code, and a quick result. 𝗦𝗮𝗺𝗲 𝗪𝗮𝘁𝗲𝗿𝗳𝗮𝗹𝗹, 𝗷𝘂𝘀𝘁 𝘀𝗾𝘂𝗲𝗲𝘇𝗲𝗱 𝗶𝗻𝘁𝗼 𝘁𝘄𝗼 𝘄𝗲𝗲𝗸𝘀 (well, usually four weeks).\n\nSo the actual feature here is that 𝗻𝗼𝘄 𝘄𝗲 𝗰𝗮𝗻 𝗱𝗼 𝗶𝗻 𝘁𝘄𝗼 𝘄𝗲𝗲𝗸𝘀 𝘄𝗵𝗮𝘁 𝘂𝘀𝗲𝗱 𝘁𝗼 𝘁𝗮𝗸𝗲 𝗮 𝘆𝗲𝗮𝗿. Which seems completely fine to me, and honestly that's how it should be. 🙃",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:52:39Z",
+      "snapshot_at": "2026-09-05T13:08:01Z",
       "metrics": {
-        "impressions": 299,
+        "impressions": 301,
         "members_reached": 126,
         "reactions": 3,
         "comments": 0,

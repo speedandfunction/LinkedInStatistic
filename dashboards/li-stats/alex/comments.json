@@ -1,5 +1,47 @@
 {
   "comments": {
+    "urn:li:comment:(activity:7501295749092249600,7501887427104440320)": {
+      "comment_urn": "urn:li:comment:(activity:7501295749092249600,7501887427104440320)",
+      "commented_at": "2026-09-05T06:22:20Z",
+      "verb": "commented",
+      "text": "Чому ж з ознаками. Називайте речі своїми іменами. Владу утримує злочинна організація.",
+      "comment_author_name": "Andrii Rozhylo",
+      "comment_author_url": "https://www.linkedin.com/in/arozhylo",
+      "post_urn": "urn:li:activity:7501887435962904576",
+      "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7501887435962904576/",
+      "post_author_name": "Oleksandr Suvorov",
+      "post_author_url": "https://www.linkedin.com/in/cryos",
+      "permalink": "https://www.linkedin.com/feed/update/urn:li:activity:7501887435962904576/?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7501295749092249600%2C7501887427104440320%29",
+      "weeks": {
+        "2026-08-31": {
+          "snapshot_at": "2026-09-05T13:15:52Z",
+          "reactions": 1,
+          "replies_count": 0,
+          "impressions": 29
+        }
+      }
+    },
+    "urn:li:comment:(activity:7501274060207579137,7501886683739570176)": {
+      "comment_urn": "urn:li:comment:(activity:7501274060207579137,7501886683739570176)",
+      "commented_at": "2026-09-05T06:19:23Z",
+      "verb": "commented",
+      "text": "I wrapped NVC into my Tone-of-Voice skill",
+      "comment_author_name": "Andrii Rozhylo",
+      "comment_author_url": "https://www.linkedin.com/in/arozhylo",
+      "post_urn": "urn:li:activity:7501886749304971265",
+      "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7501886749304971265/",
+      "post_author_name": "Olga Mykhailova (Michai)",
+      "post_author_url": "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b",
+      "permalink": "https://www.linkedin.com/feed/update/urn:li:activity:7501886749304971265/?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7501274060207579137%2C7501886683739570176%29",
+      "weeks": {
+        "2026-08-31": {
+          "snapshot_at": "2026-09-05T13:15:52Z",
+          "reactions": 0,
+          "replies_count": 0,
+          "impressions": 2
+        }
+      }
+    },
     "urn:li:comment:(activity:7498693207849975808,7499401947117056000)": {
       "comment_urn": "urn:li:comment:(activity:7498693207849975808,7499401947117056000)",
       "commented_at": "2026-08-29T09:45:56Z",
@@ -14,11 +56,10 @@
       "permalink": "https://www.linkedin.com/feed/update/urn:li:activity:7499401958445883392/?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7498693207849975808%2C7499401947117056000%29",
       "weeks": {
         "2026-08-31": {
-          "snapshot_at": "2026-09-03T13:50:59Z",
+          "snapshot_at": "2026-09-05T13:15:52Z",
           "reactions": 0,
           "replies_count": 0,
-          "impressions": 0,
-          "commenters": []
+          "impressions": 0
         }
       }
     },
@@ -36,11 +77,10 @@
       "permalink": "https://www.linkedin.com/feed/update/urn:li:activity:7498729238208987136/?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7498693207849975808%2C7498729047024099328%29",
       "weeks": {
         "2026-08-31": {
-          "snapshot_at": "2026-09-03T13:50:59Z",
+          "snapshot_at": "2026-09-05T13:15:52Z",
           "reactions": 0,
           "replies_count": 0,
-          "impressions": 0,
-          "commenters": []
+          "impressions": 0
         }
       }
     },

@@ -6,12 +6,12 @@
   "posted_date": "2023-02-17",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7032359831273357313/",
   "preview": "Made up an article how I approach to people development.",
-  "text": null,
+  "text": "Made up an article how I approach to people development.",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:44:39Z",
+      "snapshot_at": "2026-09-05T13:01:25Z",
       "metrics": {
-        "impressions": 56,
+        "impressions": 58,
         "members_reached": 0,
         "reactions": 14,
         "comments": 0,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 0,
         "followers_gained": 0,
-        "engagement_rate": 25
+        "engagement_rate": 24.14
       },
       "demographics": {
         "seniority": {},

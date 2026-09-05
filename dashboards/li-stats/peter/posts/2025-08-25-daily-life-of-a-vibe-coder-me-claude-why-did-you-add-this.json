@@ -6,12 +6,12 @@
   "posted_date": "2025-08-25",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7365674012695236608/",
   "preview": "Daily life of a vibe-coder. Me: Claude, why did you add this here? Claude: It's written in the implementation plan! Me: But why is it there? You're the one who created it! Claude: It's in the Acceptan",
-  "text": null,
+  "text": "Daily life of a vibe-coder.\n\nMe: Claude, why did you add this here? \nClaude: It's written in the implementation plan! \nMe: But why is it there? You're the one who created it! \nClaude: It's in the Acceptance Criteria. See? \nMe: Damn, right. But where did it come from? \nClaude: Well, from the requirements doc and PRD you gave me. Look, it's written here and here?\nMe: Crap. The main thing in any investigation is not to trace it back to yourself 😅. Let's rewrite the requirements, make a PRD, break it down into User Stories and Acceptance Criteria, create an implementation plan. Anyway, 2 days of work down the drain.\n\nAfter 6 months, I've learned to ship projects to release purely through vibe-coding. But I still can't accept: without specs, expect wrecks - even with humans, and with AI it's 10x worse. AI won't set itself up for success.\n\nThe irony is that I had to transform from an engineer into a product manager. Seems like the future belongs to product managers - they'll be in crazy demand.\n\nHas anyone managed to build and maintain long-term projects through vibe-coding? Share your experience!\n\n\n#AI \n#ProductManagement \n#SoftwareDevelopment \n#TechHumor \n#ArtificialIntelligence \n#Claude \n#Engineering \n#ProductManager \n#AgileMethodology \n#TechLeadership \n#AIEngineering \n#FutureOfWork \n#TechCommunity \n#CodingLife \n#StartupLife \n#Innovation \n#DigitalTransformation \n#TechTrends \n#ProductDevelopment \n#AITools\"",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:40:10Z",
+      "snapshot_at": "2026-09-05T12:58:06Z",
       "metrics": {
-        "impressions": 678,
+        "impressions": 682,
         "members_reached": 319,
         "reactions": 7,
         "comments": 2,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 0,
         "followers_gained": 0,
-        "engagement_rate": 1.33
+        "engagement_rate": 1.32
       },
       "demographics": {
         "seniority": {
@@ -65,35 +65,16 @@
       },
       "comments": [
         {
-          "author_name": "",
+          "author_name": "Kate Chapman",
           "author_url": "https://www.linkedin.com/in/untanglingsystems",
-          "author_headline": "",
+          "author_headline": "Fractional CTO | Platform, Product & AI strategy | Sociotechnical Systems | Open Source Governance | Helping Humans & Tech Collaborate",
           "comment_urn": "urn:li:comment:(activity:7365674012695236608,7365808447893762051)",
-          "text": "Kate Chapman Premium Profile 1st\nKate Chapman\n• 1st\nFractional CTO | Platform, Product & AI strategy | Sociotechnical Systems | Open Source Governance |  Helping Humans & Tech Collaborate\nHow much are you building up your claude.md? You can \"hard code\" your expectations in there.\n0\n1\n1",
+          "text": "How much are you building up your claude.md? You can \"hard code\" your expectations in there.",
           "reactions": 0,
-          "replies_count": 0
-        },
-        {
-          "author_name": "",
-          "author_url": "https://www.linkedin.com/in/ovchyn",
-          "author_headline": "",
-          "comment_urn": "urn:li:comment:(activity:7365674012695236608,7365858550075523073)",
-          "text": "Peter Ovchynnikov\nAuthor\nBuilding TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function\nIn claude.md, I keep my \"how to write code\" rules - like 'run and fix golangci-lint run --fix after every file change' and 500 other instructions like that.\nFor tickets, I use this process:\n1. Make a Claude agent that asks me 100 questions about what the application is and what it's supposed to do. Save Q&A in QnA.md\n2. Make a Claude agent that asks me 100 questions about architecture, where to place things, what libraries to use. Save to systemDesign.md\n3. Make a Claude agent that breaks down QnA.md into Epics\n4. Make a Claude agent that breaks down Epics into User Stories\n5. Make a Claude agent that creates Acceptance Criteria for User Stories\n6. Make a Claude agent that creates detailed Implementation Plans based on User Stories and Acceptance Criteria\n7. Make a Claude agent that executes the plan\nWhat this post is about: Step 7 failed because I didn't define user roles in Step 1. After fixing Step 1 and recreating Steps 2-6, Step 7 executed successfully.\nAsking about roles is definitely a product skill.\n0\n67 impressions\n67",
-          "reactions": 0,
-          "replies_count": 0
+          "replies_count": 1
         }
       ],
-      "reactors": [
-        "https://www.linkedin.com/in/alexv-pro",
-        "https://www.linkedin.com/in/alyona-pugolovok",
-        "https://www.linkedin.com/in/andrew-rabchun",
-        "https://www.linkedin.com/in/kathy-marchenko",
-        "https://www.linkedin.com/in/oeigelson",
-        "https://www.linkedin.com/in/untanglingsystems",
-        "https://www.linkedin.com/in/yura-komlyk-a6b4b929"
-      ],
       "commenters": [
-        "https://www.linkedin.com/in/ovchyn",
         "https://www.linkedin.com/in/untanglingsystems"
       ]
     }

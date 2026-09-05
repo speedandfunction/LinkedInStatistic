@@ -6,12 +6,12 @@
   "posted_date": "2026-04-08",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7447607429929844736/",
   "preview": "Deployment frequency, lead time, mean time to restore. Looks like a technical dashboard. My idea is this: it's actually a mirror of your business. I wrote code for years. Then, unexpectedly, I became",
-  "text": null,
+  "text": "Deployment frequency, lead time, mean time to restore. Looks like a technical dashboard. My idea is this: it's actually a mirror of your business.\n\nI wrote code for years. Then, unexpectedly, I became a CTO — and had to learn an entirely different language. Not a programming one. 😅\n\nThe shift wasn't that dramatic. It was more like slowly realizing that I was solving engineering problems well — I just wasn't asking the right business questions at all.\n\nExample. Joel Spolsky's question — \"𝘊𝘢𝘯 𝘺𝘰𝘶 𝘮𝘢𝘬𝘦 𝘥𝘦𝘱𝘭𝘰𝘺𝘮𝘦𝘯𝘵 𝘪𝘯 𝘰𝘯𝘦 𝘴𝘵𝘦𝘱?\" Sounds like a pure technical question. But actually, 𝘁𝗵𝗮𝘁'𝘀 𝗮 𝗺𝗮𝗻𝗮𝗴𝗲𝗿𝗶𝗮𝗹 𝗶𝗱𝗲𝗮 𝗱𝗿𝗲𝘀𝘀𝗲𝗱 𝗶𝗻 𝗲𝗻𝗴𝗶𝗻𝗲𝗲𝗿𝗶𝗻𝗴 𝗰𝗹𝗼𝘁𝗵𝗲𝘀. Think about what it actually leads to: shorter feedback loops, higher business velocity, and smaller distance from an idea to the user. \n\nWhen you measure deployment frequency, lead time, mean time to restore, etc., they look like technical metrics. My idea is this: they're actually a mirror of your business 🔍, and the moment you start reading that mirror, something shifts. You stop thinking\"𝘐 𝘸𝘳𝘪𝘵𝘦 𝘤𝘰𝘥𝘦\" and start thinking \"𝘐 𝘣𝘶𝘪𝘭𝘥 𝘢 𝘱𝘳𝘰𝘥𝘶𝘤𝘵.\"\n\n𝗧𝗵𝗮𝘁 𝗺𝗶𝘅 𝗼𝗳 𝘁𝗵𝗶𝗻𝗸𝗶𝗻𝗴 — 𝗲𝗻𝗴𝗶𝗻𝗲𝗲𝗿𝗶𝗻𝗴 𝗽𝗿𝗲𝗰𝗶𝘀𝗶𝗼𝗻 + 𝗯𝘂𝘀𝗶𝗻𝗲𝘀𝘀 𝗮𝘄𝗮𝗿𝗲𝗻𝗲𝘀𝘀 — 𝗶𝘀 𝗲𝘀𝗽𝗲𝗰𝗶𝗮𝗹𝗹𝘆 𝗻𝗲𝗲𝗱𝗲𝗱 𝗮𝘁 𝘁𝗵𝗲 𝘀𝗰𝗮𝗹𝗶𝗻𝗴 𝘀𝘁𝗮𝗴𝗲. You're not proving the product anymore; you're racing to grow it faster than the competition catches up. I believe the companies that move fastest aren't the ones with the biggest teams, they're the ones where technical leaders read those business metrics fluently and use AI to compress the cycle from decision to deployment. 🚀",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:51:14Z",
+      "snapshot_at": "2026-09-05T13:06:48Z",
       "metrics": {
-        "impressions": 612,
+        "impressions": 613,
         "members_reached": 334,
         "reactions": 5,
         "comments": 0,

@@ -6,12 +6,12 @@
   "posted_date": "2026-02-24",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7432043122894761984/",
   "preview": "𝗔𝗜 𝗱𝗼𝗲𝘀𝗻'𝘁 𝗮𝗿𝗴𝘂𝗲 𝘄𝗶𝘁𝗵 𝘆𝗼𝘂𝗿 𝗯𝗮𝗱 𝗶𝗱𝗲𝗮𝘀. Whether you're a startup founder, a product owner, or anyone pushing something to market — 𝗶𝘁 𝗷𝘂𝘀𝘁 𝗯𝘂𝗶𝗹𝗱𝘀 𝘆𝗼𝘂𝗿 𝗯𝗮𝗱 𝗶𝗱𝗲𝗮𝘀 𝗳𝗮𝘀𝘁𝗲𝗿. 🤷 AI is great at executing what y",
-  "text": null,
+  "text": "𝗔𝗜 𝗱𝗼𝗲𝘀𝗻'𝘁 𝗮𝗿𝗴𝘂𝗲 𝘄𝗶𝘁𝗵 𝘆𝗼𝘂𝗿 𝗯𝗮𝗱 𝗶𝗱𝗲𝗮𝘀. Whether you're a startup founder, a product owner, or anyone pushing something to market — 𝗶𝘁 𝗷𝘂𝘀𝘁 𝗯𝘂𝗶𝗹𝗱𝘀 𝘆𝗼𝘂𝗿 𝗯𝗮𝗱 𝗶𝗱𝗲𝗮𝘀 𝗳𝗮𝘀𝘁𝗲𝗿. 🤷\n\n\nAI is great at executing what you describe, but it won't question whether you described something useful. \nYou say \"build this feature\" — it builds. \n𝗔𝗜 𝗶𝘀𝗻'𝘁 𝗱𝗲𝘀𝗶𝗴𝗻𝗲𝗱 𝘁𝗼 𝗱𝗲𝗳𝗶𝗻𝗲 𝘄𝗵𝗮𝘁 𝘁𝗼 𝗱𝗲𝗹𝗶𝘃𝗲𝗿 — 𝘁𝗵𝗮𝘁'𝘀 𝗼𝗻 𝘂𝘀.\n\n\n❗𝗧𝗵𝗲 𝗺𝗶𝘀𝘀𝗶𝗻𝗴 𝗽𝗶𝗲𝗰𝗲 𝗶𝘀 𝗳𝗲𝗲𝗱𝗯𝗮𝗰𝗸. This is the chronic pain of anyone trying to push a product to market — we don't set up that feedback loop from the first steps, so we're flying blind, not knowing if our actions lead to the result we need.\n\n\nI remember one of my clients: ReSelf. We spent a year and a half building a mobile app for people struggling with weight, gamified healthy eating. They spent $200K back in 2015, worth significantly more in today's dollars. Then shut it down within 2 months after release. A year later, another app launches with the same core idea, slightly different execution — and takes off to millions of users. \n\n\nOnly after I started my own startup I got what the problem was. They organized that feedback loop, adjusting features based on real data instead of guessing.\n\n\nSo what does AI change here? It doesn't fix this problem. It just lets you do more of the same nonsense, faster. Instead of one unnecessary app for $200K, you can now build three. 🚀\n\n\nThe cycle should be: ship → observe → analyse → change requirements → regenerate. When iteration is cheap, you can afford to be wrong faster — but only if you're actually measuring whether you're wrong.\n\n\nHave you ever built something perfectly — that nobody needed? 👇",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:42:29Z",
+      "snapshot_at": "2026-09-05T12:59:35Z",
       "metrics": {
-        "impressions": 2734,
+        "impressions": 2736,
         "members_reached": 1676,
         "reactions": 18,
         "comments": 1,
@@ -67,11 +67,11 @@
       },
       "comments": [
         {
-          "author_name": "",
+          "author_name": "Kent Gregoire",
           "author_url": "https://www.linkedin.com/in/kentgregoire",
-          "author_headline": "",
+          "author_headline": "The CEO to CEOs™ | I help mission-driven founders of $5M–$250M companies scale their impact and innovations | Serial entrepreneur, 15+ companies founded, $250M+ raised | Conscious Capitalism advisor",
           "comment_urn": "urn:li:comment:(activity:7432043122894761984,7442531564913049600)",
-          "text": "Kent Gregoire Premium Profile 1st\nKent Gregoire\n• 1st\nThe CEO to CEOs™ | I help mission-driven founders of $5M–$250M companies scale their impact and innovations | Serial entrepreneur, 15+ companies founded, $250M+ raised | Conscious Capitalism advisor\nSpot on, my friend.  AI is an incredible accelerator, but it doesn't care if you're accelerating toward a cliff. The real value is using that saved time to stress-test the riskiest assumptions before building, as AI only helps you ship failure at record speed.\n0",
+          "text": "Spot on, my friend. AI is an incredible accelerator, but it doesn't care if you're accelerating toward a cliff. The real value is using that saved time to stress-test the riskiest assumptions before building, as AI only helps you ship failure at record speed.",
           "reactions": 0,
           "replies_count": 0
         }

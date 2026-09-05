@@ -6,12 +6,12 @@
   "posted_date": "2026-04-24",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7453510493186560000/",
   "preview": "Last week, Anthropic banned 31 Speed and Function from Claude — 23 team accounts and 8 personal accounts linked to the same credit card. No warning. No explanation. We filed appeals, contacted support",
-  "text": null,
+  "text": "Last week, Anthropic banned 31 Speed and Function from Claude — 23 team accounts and 8 personal accounts linked to the same credit card. No warning. No explanation. We filed appeals, contacted support — zero response from Anthropic. Even their chatbot was inaccessible.\n\nThen it got stranger: Anthropic sent emails saying our accounts were restored. They weren’t. We’re still blocked.\n\nWe spent days and thousands of dollars making this invisible to our clients — individual workaround accounts, extra staff hours, emergency bridging. All because one vendor decided to cut us off overnight.\n\nWe’re not alone. I researched this for 2 days and found 210+ similar cases in the last month:\n• An Argentine fintech (belo) had 60+ accounts shut down overnight (Patricio Molina Manuel Beaudroit Edwin Rager)\n• A 110-person agricultural company lost access with zero explanation\n• A university lab got banned for using the same payment card\n• Adults flagged as children for mentioning school topics\n\nAnthropic banned 1.45M accounts in H2 2025. Only 3.3% of appeals succeeded. And the only companies that got fast resolution were those that went viral on social media.\n\nWe evaluated every alternative — OpenAI, Gemini, Perplexity. None match Claude for what we need: non-technical team members running agentic automations from their desktops. That’s what makes this so frustrating — we can’t easily leave, and they won’t let us stay.\n\nFull research: https://lnkd.in/drHJ7TEW\n\nThe moral: If your business depends on a single AI provider, you don’t own your workflow — they do. And they can take it away in one email with a link to a Google Form.\n\nThree things we’re doing now:\n1) Building a multi-model abstraction layer — Claude, GPT, Gemini interchangeable\n2) Never letting one vendor control critical client delivery again\n3) Treating AI providers like cloud infrastructure — always have a failover\n\nHas this happened to your team?\n\n\n#Anthropic \n#Claude \n#AI \n#LessonsLearned",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:38:04Z",
+      "snapshot_at": "2026-09-05T12:56:37Z",
       "metrics": {
-        "impressions": 1871,
+        "impressions": 1873,
         "members_reached": 981,
         "reactions": 32,
         "comments": 4,
@@ -24,7 +24,7 @@
       },
       "demographics": {
         "seniority": {
-          "Senior": 31.6,
+          "Senior": 31.7,
           "Entry": 24.9,
           "CXO": 6.5,
           "Manager": 6.2,
@@ -45,7 +45,7 @@
           "Business Consulting and Services": 1.6
         },
         "company_size": {
-          "51-200 employees": 16.5,
+          "51-200 employees": 16.6,
           "11-50 employees": 14.3,
           "10,001+ employees": 12.2,
           "1-10 employees": 9.2,
@@ -59,7 +59,7 @@
           "New York City Metropolitan Area": 3
         },
         "company": {
-          "Speed and Function": 2.9,
+          "Speed and Function": 3,
           "Meta": 0,
           "EPAM Systems": 0,
           "Microsoft": 0,
@@ -68,39 +68,39 @@
       },
       "comments": [
         {
-          "author_name": "",
+          "author_name": "Félix Jofré",
           "author_url": "https://www.linkedin.com/in/felixjofre",
-          "author_headline": "",
+          "author_headline": "Project Manager | Louder Than Ten Certified Digital Project Lead | Business Strategist",
           "comment_urn": "urn:li:comment:(activity:7453510493186560000,7453693039836897280)",
-          "text": "Félix Jofré Verified Profile 1st\nFélix Jofré\n• 1st\nProject Manager | Louder Than Ten Certified Digital Project Lead | Business Strategist\nThanks for sharing Peter and I’m sorry you’re all going through this, but it’s so valuable you share. I guess the lesson is never give too much power to a single provider, even less when their business model is a bubble built by vc, no matter how unbelievable the value seems like. I hope you’re new structure works out and good on you on not letting these dependencies get anywhere near critical al client delivery.\n1 reaction\n1",
-          "reactions": 0,
+          "text": "Thanks for sharing Peter and I’m sorry you’re all going through this, but it’s so valuable you share. I guess the lesson is never give too much power to a single provider, even less when their business model is a bubble built by vc, no matter how unbelievable the value seems like. I hope you’re new structure works out and good on you on not letting these dependencies get anywhere near critical al client delivery.",
+          "reactions": 1,
           "replies_count": 0
         },
         {
-          "author_name": "",
+          "author_name": "Andrii Rozhylo",
           "author_url": "https://www.linkedin.com/in/arozhylo",
-          "author_headline": "",
+          "author_headline": "AI Transformation Leader | Business Strategist | Entrepreneur | Delivery Manager | Product Manager | Marketing Expert",
           "comment_urn": "urn:li:comment:(activity:7453510493186560000,7453695611926683648)",
-          "text": "Andrii Rozhylo Verified Profile 1st\nAndrii Rozhylo\n• 1st\nAI Transformation Leader | Business Strategist | Entrepreneur | Delivery Manager | Product Manager | Marketing Expert\nThis could be titled like: \"From ambassadors to haters - how to kill your brand in one day\"\n4 reactions\n4",
-          "reactions": 0,
+          "text": "This could be titled like: \"From ambassadors to haters - how to kill your brand in one day\"",
+          "reactions": 4,
           "replies_count": 0
         },
         {
-          "author_name": "",
+          "author_name": "Alex Ost",
           "author_url": "https://www.linkedin.com/in/alex-ost-sf",
-          "author_headline": "",
+          "author_headline": "Lead Developer at Speed and Function",
           "comment_urn": "urn:li:comment:(activity:7453510493186560000,7453519343063273472)",
-          "text": "Alex Ost, Open to work Verified Profile 1st\nAlex Ost\n• 1st\nLead Developer at Speed and Function\nThere is never two many backups/copies/plans-B-C, etc.\n2 reactions\n2",
-          "reactions": 0,
+          "text": "There is never two many backups/copies/plans-B-C, etc.",
+          "reactions": 2,
           "replies_count": 0
         },
         {
-          "author_name": "",
+          "author_name": "Anne Cantera",
           "author_url": "https://www.linkedin.com/in/anne-cantera",
-          "author_headline": "",
+          "author_headline": "♾️ Director of Conversation / Omnimodal Design @ Stealth | AI Consulting | Agentic AI | Voice & Chat | Model Designer | Multimodal | Adaptive UI | Spec-driven Developer | Founder, Elementyl Intelligence | Teacher",
           "comment_urn": "urn:li:comment:(activity:7453510493186560000,7453631900885200896)",
-          "text": "Anne Cantera Verified Profile 2nd\nAnne Cantera\n• 2nd\n♾️ Director of Conversation / Omnimodal Design @ Stealth | AI Consulting | Agentic AI | Voice & Chat | Model Designer | Multimodal | Adaptive UI  | Spec-driven Developer | Founder, Elementyl Intelligence | Teacher\n(edited) 4mo\nFollow\nWas thinking about this last week. https://www.linkedin.com/posts/anne-cantera_ok-team-this-one-is-going-to-need-input-activity-7450968320884961282-tTzg?utm_source=share&utm_medium=member_android&rcm=ACoAADJQAdwBuIZKHtnP19CSFRTw-IX0k0yq68A\n1 reaction\n1",
-          "reactions": 0,
+          "text": "Was thinking about this last week. https://www.linkedin.com/posts/anne-cantera_ok-team-this-one-is-going-to-need-input-activity-7450968320884961282-tTzg?utm_source=share&utm_medium=member_android&rcm=ACoAADJQAdwBuIZKHtnP19CSFRTw-IX0k0yq68A",
+          "reactions": 1,
           "replies_count": 0
         }
       ],

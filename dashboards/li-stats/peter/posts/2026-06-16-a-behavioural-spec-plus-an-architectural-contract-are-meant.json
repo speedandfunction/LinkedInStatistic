@@ -6,12 +6,12 @@
   "posted_date": "2026-06-16",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7472624945496457216/",
   "preview": "A behavioural spec 𝗽𝗹𝘂𝘀 an architectural contract are meant to be the source of truth, and the code gets regenerated. That's the idea behind 𝗧𝗿𝘂𝗲𝗕𝗗𝗗, a CLI I'm building. AI can generate code faster th",
-  "text": null,
+  "text": "A behavioural spec 𝗽𝗹𝘂𝘀 an architectural contract are meant to be the source of truth, and the code gets regenerated. That's the idea behind 𝗧𝗿𝘂𝗲𝗕𝗗𝗗, a CLI I'm building.\n\nAI can generate code faster than any of us, but while code stays the source of truth, an engineer still has to review everything it produces — 𝗿𝗲𝘀𝗽𝗼𝗻𝘀𝗶𝗯𝗶𝗹𝗶𝘁𝘆 𝘀𝘁𝗮𝘆𝘀 𝗵𝘂𝗺𝗮𝗻. Move the truth to the spec and there's less to review by hand in the first place.\n\n\"Spec-driven development\" gets used as 𝗼𝗻𝗲 𝗹𝗮𝗯𝗲𝗹 𝗳𝗼𝗿 𝘁𝗵𝗿𝗲𝗲 𝗱𝗶𝗳𝗳𝗲𝗿𝗲𝗻𝘁 𝗯𝗲𝘁𝘀. The SDD literature (arXiv 2602.00180) splits it into three levels, and only one of the boundaries between them matters. 🗺️\n\n𝗦𝗽𝗲𝗰-𝗙𝗶𝗿𝘀𝘁.\nThe spec kicks off the work, then the code takes over as the source of truth and you hand-edit it from there. Cursor-with-rules, early Spec Kit.\n\n𝗦𝗽𝗲𝗰-𝗔𝗻𝗰𝗵𝗼𝗿𝗲𝗱.\nThe spec is a living contract: CI validates the code against it, the spec updates through review. But the code is still the source of truth — you edit it by hand and the spec follows. Most of the serious tools live here today: Spec Kit, Kiro, BMAD, OpenSpec, current Tessl.\n\n𝗦𝗽𝗲𝗰-𝗮𝘀-𝗦𝗼𝘂𝗿𝗰𝗲.\nThe spec is the source of truth, the code is derived, and editing the code directly is forbidden — you change the spec and regenerate. The one tool that's really reached this is Tessl, historically, via 𝚝𝚎𝚜𝚜𝚕 𝚋𝚞𝚒𝚕𝚍 and current Tessl has settled back at Anchored.\n\nThe test that separates Anchored from Source is blunt: delete all the code, regenerate from the spec, check the new build passes every behavioural assertion. If yes, you're at Source. If \"well, mostly\", you're still Anchored and the code is quietly still in charge.\n\n𝗧𝗿𝘂𝗲𝗕𝗗𝗗 𝗶𝘀 𝗮𝘁 𝗦𝗽𝗲𝗰-𝗔𝗻𝗰𝗵𝗼𝗿𝗲𝗱 𝘁𝗼𝗱𝗮𝘆. The 𝚞𝚜 subcommands already work: they manage the spec lifecycle, and Claude drives checklists over the user stories against the spec. The 𝚋𝚞𝚒𝚕𝚍 subcommands, where regeneration is supposed to live, are stubs.\n\nSo the whole distance between what TrueBDD is and what it's aiming at is those 𝚋𝚞𝚒𝚕𝚍 stubs. Generating code so behaviour holds across rebuilds, deterministically enough that you can delete the previous build — that's the part nobody has cleanly shipped.\n\nI haven't shipped this either. I'm convinced it's possible though, and figuring out how to get there is where my time goes. If you're working the same problem and want to talk it through, I'd be glad to.",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:51:56Z",
+      "snapshot_at": "2026-09-05T13:07:29Z",
       "metrics": {
-        "impressions": 240,
+        "impressions": 242,
         "members_reached": 104,
         "reactions": 2,
         "comments": 0,

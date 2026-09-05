@@ -6,12 +6,12 @@
   "posted_date": "2025-09-01",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7368317216699703296/",
   "preview": "Funny discovery 🙂: Claude just won’t stick to my code conventions, no matter how I phrase the prompt. But when it comes to fixing linter errors, he’s flawless 🔧. That got me thinking 🤔 — for humans to",
-  "text": null,
+  "text": "Funny discovery 🙂: Claude just won’t stick to my code conventions, no matter how I phrase the prompt.\n\nBut when it comes to fixing linter errors, he’s flawless 🔧.\n\nThat got me thinking 🤔 — for humans too, it’s usually easier to fix something with clear feedback than to get it perfect upfront.\n\nSo I tried the same idea with end-to-end tests 🧪: write them first, then let Claude adjust the code until everything passes.\nAnd it worked. Really well 🚀.\nNow this has become my go-to workflow.\n\n#AI \n#SoftwareEngineering \n#Leadership \n#DevWorkflow \n#EngineeringManagement \n#AITools\n—\nP.S. It’s not just me — even Martin Fowler point to the same pattern: give the model a clear target, iterate on concrete feedback, and it improves fast. Sources:\nMomentic: How AI Will Bring TDD Back from the Dead (tests as guardrails) — https://lnkd.in/ditdZvPi\nBuilder.io: Test-Driven Development with AI (practical TDD + AI tips) — https://lnkd.in/dtdNWpWX\nMartin Fowler: How far can we push AI autonomy in code generation? (LLMs miss instructions on first pass; fix when reviewing) — https://lnkd.in/dVmSwU-G",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:38:25Z",
+      "snapshot_at": "2026-09-05T12:56:46Z",
       "metrics": {
-        "impressions": 487,
+        "impressions": 491,
         "members_reached": 238,
         "reactions": 7,
         "comments": 3,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 1,
         "followers_gained": 1,
-        "engagement_rate": 2.05
+        "engagement_rate": 2.04
       },
       "demographics": {
         "seniority": {
@@ -62,41 +62,32 @@
       },
       "comments": [
         {
-          "author_name": "",
+          "author_name": "McRae Williams",
           "author_url": "https://www.linkedin.com/in/mcrae-williams-98673b1",
-          "author_headline": "",
+          "author_headline": "Chief Experience Officer @ Local Legend Charters | Driving Business Development",
           "comment_urn": "urn:li:comment:(activity:7368317216699703296,7368574831690162177)",
-          "text": "McRae Williams Premium Profile 1st\nMcRae Williams\n• 1st\nChief Experience Officer @ Local Legend Charters | Driving Business Development\nBrilliant!\n0",
+          "text": "Brilliant!",
           "reactions": 0,
           "replies_count": 0
         },
         {
-          "author_name": "",
+          "author_name": "Gabe Perez",
           "author_url": "https://www.linkedin.com/in/gabrieljperezirizarry",
-          "author_headline": "",
+          "author_headline": "Everyone’s an AI expert. I just ship with it | Led tech at CITYROW through acquisition | 10k+ users at GaTech | Rock climber, boricua 🇵🇷",
           "comment_urn": "urn:li:comment:(activity:7368317216699703296,7368331324782170113)",
-          "text": "Gabe Perez Premium Profile 2nd\nGabe Perez\n• 2nd\nEveryone’s an AI expert. I just ship with it | Led tech at CITYROW through acquisition | 10k+ users at GaTech | Rock climber, boricua 🇵🇷\nFollow\nExactly what we see in legal tech too. Define your requirements clearly first, then let the testing feedback drive the refinements.\n1 reaction\n1",
-          "reactions": 0,
+          "text": "Exactly what we see in legal tech too. Define your requirements clearly first, then let the testing feedback drive the refinements.",
+          "reactions": 1,
           "replies_count": 0
         },
         {
-          "author_name": "",
+          "author_name": "Dmytro Veretennik",
           "author_url": "https://www.linkedin.com/in/dmytro-veretennik-207129333",
-          "author_headline": "",
+          "author_headline": "Project & Operations Manager | 5+ Years in E-commerce Management, Process Automation & Team Leadership",
           "comment_urn": "urn:li:comment:(activity:7368317216699703296,7371145541046390784)",
-          "text": "Dmytro Veretennik, Open to work Verified Profile 2nd\nDmytro Veretennik\n• 2nd\nProject & Operations Manager | 5+ Years in E-commerce Management, Process Automation & Team Leadership\nFollow\nSounds like a smart workflow. Do you think this way of iterating with feedback could work outside of coding too?\n0",
+          "text": "Sounds like a smart workflow. Do you think this way of iterating with feedback could work outside of coding too?",
           "reactions": 0,
           "replies_count": 0
         }
-      ],
-      "reactors": [
-        "https://www.linkedin.com/in/andrew-rabchun",
-        "https://www.linkedin.com/in/anna-krigan-87327b47",
-        "https://www.linkedin.com/in/dmytro-veretennik-207129333",
-        "https://www.linkedin.com/in/igor-demihovskiy-699641185",
-        "https://www.linkedin.com/in/mcrae-williams-98673b1",
-        "https://www.linkedin.com/in/yana-lushch",
-        "https://www.linkedin.com/in/yura-komlyk-a6b4b929"
       ],
       "commenters": [
         "https://www.linkedin.com/in/dmytro-veretennik-207129333",

@@ -9,9 +9,9 @@
   "text": "Please, help Ukraine to win this bloody war and put an end to a russian regime. Spread the information around your local communities and influence your governments. Your help is worth thousands of lives lost every day!",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-03T13:51:45Z",
+      "snapshot_at": "2026-09-05T13:17:27Z",
       "metrics": {
-        "impressions": 338,
+        "impressions": 342,
         "members_reached": 0,
         "reactions": 5,
         "comments": 1,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 0,
         "followers_gained": 0,
-        "engagement_rate": 1.78
+        "engagement_rate": 1.75
       },
       "demographics": {
         "seniority": {},
@@ -30,12 +30,7 @@
         "location": {},
         "company": {}
       },
-      "comments": [],
-      "reactors": [
-        "https://www.linkedin.com/in/ACoAAACvOVkBnRqPwdV65XPCBH69yijTAzO51CQ",
-        "https://www.linkedin.com/in/ACoAABsdfPYBnokPFqg7m27gqlyeUXZrnAGLzfU",
-        "https://www.linkedin.com/in/ACoAAEJ29EEBXh2PYCpF89gedW1Oy8wCOj0KUSc"
-      ]
+      "comments": []
     }
   }
 }

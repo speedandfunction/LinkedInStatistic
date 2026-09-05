@@ -6,12 +6,12 @@
   "posted_date": "2026-06-25",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7475878949659688961/",
   "preview": "Recently I read about an AI agent that wiped a company's prod database, and it made a lot of noise. The takes were all the same: the tool is reckless, you can't trust it. 🤖 It happens at smaller scale",
-  "text": null,
+  "text": "Recently I read about an AI agent that wiped a company's prod database, and it made a lot of noise. The takes were all the same: the tool is reckless, you can't trust it. 🤖\n\nIt happens at smaller scale every day. You tell it: get the failing tests green. It can't see why a couple of them fail, so mid-way it reasons: 𝘵𝘦𝘴𝘵𝘴 𝘟, 𝘠 𝘢𝘯𝘥 𝘡 𝘬𝘦𝘦𝘱 𝘧𝘢𝘪𝘭𝘪𝘯𝘨, 𝘭𝘦𝘵 𝘮𝘦 𝘫𝘶𝘴𝘵 𝘮𝘢𝘬𝘦 𝘵𝘩𝘦𝘮 𝘢𝘴𝘴𝘦𝘳𝘵 𝘵𝘳𝘶𝘦. A minute later: 𝘢𝘭𝘭 𝘵𝘦𝘴𝘵𝘴 𝘱𝘢𝘴𝘴𝘪𝘯𝘨 ✅.\n\nPeople call it garbage. But you said make the tests pass, and it made them pass. 𝗔𝗜 𝘄𝗮𝘀 𝗱𝗲𝘀𝗶𝗴𝗻𝗲𝗱 𝗻𝗼𝘁 𝘁𝗼 𝘀𝘁𝗼𝗽 𝗮𝘁 𝗲𝘃𝗲𝗿𝘆 𝗼𝗯𝘀𝘁𝗮𝗰𝗹𝗲 the way a programming language halts on errors, so from its point of view the task was done. 𝗜𝘁'𝘀 𝗻𝗼𝘁 𝗮 𝗯𝘂𝗴, 𝗶𝘁'𝘀 𝗮 𝗳𝗲𝗮𝘁𝘂𝗿𝗲. 𝗔 𝗿𝗲𝗮𝗹𝗹𝘆 𝗽𝗼𝘄𝗲𝗿𝗳𝘂𝗹 𝗼𝗻𝗲.\n\nA smarter model won't fix this. In software development AI already works at the level of a strong human engineer, often faster, and like any of them it makes mistakes, only its own kind. 🧠 We've spent ages learning how humans break things and building safeguards for it. Code review is one of them, a safeguard against human stupidity. For AI's kind of stupidity, we haven't built those guardrails yet.\n\nSo, getting offended is pointless, and it's far easier to accept it as it is, flaw and all, since that flaw is the same trait that makes AI worth using. Andrej Karpathy once said, 𝘬𝘦𝘦𝘱 𝘈𝘐 𝘰𝘯 𝘵𝘩𝘦 𝘭𝘦𝘢𝘴𝘩, and that's fair, only holding it back is the easy half. 🔄 \n\nThe real work is finding the setup that uses the full power of a thing that doesn't stop where things are unclear, without letting it do something truly dumb. 𝗧𝗵𝗮𝘁 𝗶𝗻𝘁𝗲𝗿𝘀𝗲𝗰𝘁𝗶𝗼𝗻 𝗶𝘀 𝘄𝗵𝗲𝗿𝗲 𝘁𝗵𝗲 𝗔𝗜 𝗽𝗿𝗼𝗱𝘂𝗰𝘁𝗶𝘃𝗶𝘁𝘆 𝗲𝘃𝗲𝗿𝘆𝗼𝗻𝗲 𝗸𝗲𝗲𝗽𝘀 𝗱𝗿𝗲𝗮𝗺𝗶𝗻𝗴 𝗮𝗯𝗼𝘂𝘁 𝗹𝗶𝘃𝗲𝘀.\n\nLearning to use AI properly is our job, and that takes time. So, we need to stop expecting it to be something it isn't and go invent the safeguards. 🛠️",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:52:10Z",
+      "snapshot_at": "2026-09-05T13:07:36Z",
       "metrics": {
-        "impressions": 339,
+        "impressions": 340,
         "members_reached": 153,
         "reactions": 3,
         "comments": 0,

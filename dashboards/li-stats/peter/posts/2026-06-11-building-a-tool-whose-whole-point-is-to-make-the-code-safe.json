@@ -6,12 +6,12 @@
   "posted_date": "2026-06-11",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7470834593185624065/",
   "preview": "Building a tool whose whole point is to make the code safe to throw away and regenerate from the spec. AI generates code faster than any of us, but as long as code stays the source of truth, nothing f",
-  "text": null,
+  "text": "Building a tool whose whole point is to make the code safe to throw away and regenerate from the spec.\n\nAI generates code faster than any of us, but as long as code stays the source of truth, nothing fundamental changes: engineers still review everything, and every link in the\nproduct manager → engineer → AI chain\nloses information.\n\n𝗦𝗽𝗲𝗰𝘀 𝗮𝘀 𝘁𝗵𝗲 𝘀𝗼𝘂𝗿𝗰𝗲 𝗼𝗳 𝘁𝗿𝘂𝘁𝗵 𝗰𝗼𝗹𝗹𝗮𝗽𝘀𝗲 𝘁𝗵𝗮𝘁 𝗰𝗵𝗮𝗶𝗻: the spec is meant to be the artifact everyone works on, so there are fewer translation steps and less gets lost between intent and what ships. \n\nThat's why I'm building 𝗧𝗿𝘂𝗲𝗕𝗗𝗗.\n\nIt's a CLI, built on one bet: 𝘁𝗵𝗲 𝘀𝗽𝗲𝗰 𝗶𝘀 𝘁𝗵𝗲 𝘀𝗼𝘂𝗿𝗰𝗲 𝗼𝗳 𝘁𝗿𝘂𝘁𝗵, 𝗮𝗻𝗱 𝘁𝗵𝗲 𝗰𝗼𝗱𝗲 𝗶𝘀 𝘀𝗼𝗺𝗲𝘁𝗵𝗶𝗻𝗴 𝘆𝗼𝘂 𝗿𝗲𝗴𝗲𝗻𝗲𝗿𝗮𝘁𝗲. The work is now in the open.\n\n𝗧𝗵𝗲 𝗶𝗱𝗲𝗮\na Gherkin-grade behavioural spec plus an explicit architectural contract carry enough for an AI to rebuild the code from scratch. What survives a rebuild is the observable behaviour, not the byte-for-byte shape. Two rebuilds from the same spec won't produce identical code — the AI can invent endpoints and internal paths to satisfy the spec, as long as the data models and exposed endpoints the architecture pins down stay intact. \n\n𝗪𝗵𝘆 𝘁𝗵𝗶𝘀 𝗶𝘀 𝗵𝗮𝗿𝗱\nPre-AI, code was inevitably the only authoritative artifact — you discover detail mid-implementation, work around third-party limits, absorb UAT feedback, and the spec quietly diverges. Coding agents don't fix that; agents drift too, and a stakeholder can still ask for a checkbox where a dropdown was specified. So the code stays the only honest record of what the system does. The point of TrueBDD is to move that record up to the spec.\n\n𝗛𝗼𝘄 𝘆𝗼𝘂'𝗱 𝗸𝗻𝗼𝘄 𝗶𝘁 𝘄𝗼𝗿𝗸𝘀\ndelete all the code, regenerate it from the spec, and check whether the new build still passes every behavioural assertion the spec carries. If it does, the rebuild is correct, regardless of how the code came out different. That's the whole contract — behaviour preserved under regeneration, not byte-identical regeneration. \n\nI want to be straight about 𝘁𝗵𝗲 𝘀𝘁𝗮𝗴𝗲.\nToday the tool runs one level down from that: the spec drives the workflow, the code is still hand-held, and full regeneration is ahead of me. It's a prototype that already does real work, not something I'd hand to your team yet.\n\n𝗥𝗲𝗽𝗼'𝘀 𝗼𝗽𝗲𝗻. 🔗 https://lnkd.in/dNXNtWvU 🔗\n\nIf you build in this space, I'd like to know your thoughts!",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:43:12Z",
+      "snapshot_at": "2026-09-05T13:00:15Z",
       "metrics": {
-        "impressions": 444,
+        "impressions": 445,
         "members_reached": 196,
         "reactions": 5,
         "comments": 1,
@@ -57,11 +57,11 @@
       },
       "comments": [
         {
-          "author_name": "",
+          "author_name": "Peter Ovchynnikov",
           "author_url": "https://www.linkedin.com/in/ovchyn",
-          "author_headline": "",
+          "author_headline": "Building TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function",
           "comment_urn": "urn:li:comment:(activity:7470834593185624065,7470835123442118656)",
-          "text": "Peter Ovchynnikov\nAuthor\nBuilding TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function\n𝗥𝗲𝗽𝗼: https://github.com/ondatra-ai/true-bdd\nFair warning: it's a prototype, not a polished tool. Behavioural spec + architecture management is real; full regeneration isn't there yet. Feedback from people building in this space is what I'm after.\nGitHub - ondatra-ai/true-bdd\ngithub.com\n0\n70 impressions\n70",
+          "text": "𝗥𝗲𝗽𝗼: https://github.com/ondatra-ai/true-bdd \nFair warning: it's a prototype, not a polished tool. Behavioural spec + architecture management is real; full regeneration isn't there yet. Feedback from people building in this space is what I'm after.",
           "reactions": 0,
           "replies_count": 0
         }

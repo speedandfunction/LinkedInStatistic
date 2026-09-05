@@ -6,12 +6,12 @@
   "posted_date": "2026-05-12",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7459938935289569280/",
   "preview": "Before Python, before GPUs 𝗺𝘆 𝗳𝗶𝗿𝘀𝘁 𝗔𝗜 𝘄𝗮𝘀 𝗯𝘂𝗶𝗹𝘁 𝘄𝗶𝘁𝗵 𝗮 𝘀𝗼𝗹𝗱𝗲𝗿𝗶𝗻𝗴 𝗶𝗿𝗼𝗻. 🔧 In the 1990s, a 𝗭𝗫 𝗦𝗽𝗲𝗰𝘁𝗿𝘂𝗺 — an 8-bit home computer — showed up in our house. ❤️ And that was it. Love! One that, honestly, h",
-  "text": null,
+  "text": "Before Python, before GPUs 𝗺𝘆 𝗳𝗶𝗿𝘀𝘁 𝗔𝗜 𝘄𝗮𝘀 𝗯𝘂𝗶𝗹𝘁 𝘄𝗶𝘁𝗵 𝗮 𝘀𝗼𝗹𝗱𝗲𝗿𝗶𝗻𝗴 𝗶𝗿𝗼𝗻. 🔧\n\nIn the 1990s, a 𝗭𝗫 𝗦𝗽𝗲𝗰𝘁𝗿𝘂𝗺 — an 8-bit home computer — showed up in our house. ❤️ And that was it. Love! One that, honestly, has lasted to this day.\n\nBack then it wasn't just a computer, it was a construction kit. You had to solder the keyboard — every single key. For real. Assemble the boards, put everything into a case.\n\nThe case was awful, by the way. So, I built my own — wooden. Moved the keyboard out separately. Console plus keyboard, my own vision, at age 8.\n\nAfter that I started programming. Small things, experiments. I wrote a couple of programs. I don't even remember what the first one was about, but there was an𝘢𝘭𝘨𝘰𝘳𝘪𝘵𝘩𝘮, and I made it work. That was enough for me back then.\n\nAround 2000, things got really interesting. I started reading a paper magazine called Computerra. It explained early AI research papers in plain language — the same ideas that later landed Hopfield and Hinton the 2024 Nobel in Physics. 🏆\n\nWhat fascinated me was the simplicity and beauty of how it actually works.\nThose papers suggested a simple idea: 𝘥𝘰𝘯'𝘵 𝘣𝘳𝘶𝘵𝘦-𝘧𝘰𝘳𝘤𝘦 𝘦𝘷𝘦𝘳𝘺𝘵𝘩𝘪𝘯𝘨 — 𝘤𝘶𝘵 𝘰𝘧𝘧 𝘥𝘦𝘢𝘥 𝘦𝘯𝘥𝘴 𝘦𝘢𝘳𝘭𝘺.\n\nI applied this to formal mathematical logic. Instead of hours or days, I got the Pythagorean theorem down to 30 minutes on an 80286. Just by teaching it to notice earlier: this makes no sense, we've already been here, this leads to a loop. 🔄\n\nThat was my first AI-related program. It made me a member of the Junior Academy of Sciences of Ukraine, in 11th grade.\n\nAnd I kept poking at it. Later I came up with a self-hosted GenAI system for banking document generation — basically a ChatGPT for German banking, built before ChatGPT existed. Now there's 𝗧𝗿𝘂𝗲𝗕𝗗𝗗, a small tool where documentation is the source of truth, so code can be deleted along the way.\n\nAI still interests me — what's inside it, why it works, and where its real limits are, and how it will change the way we build software forever.",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:43:08Z",
+      "snapshot_at": "2026-09-05T13:00:01Z",
       "metrics": {
-        "impressions": 468,
+        "impressions": 470,
         "members_reached": 197,
         "reactions": 1,
         "comments": 1,
@@ -62,11 +62,11 @@
       },
       "comments": [
         {
-          "author_name": "",
+          "author_name": "Klaus Paul",
           "author_url": "https://www.linkedin.com/in/klausgpaul",
-          "author_headline": "",
+          "author_headline": "Trustworthy AI & data architectures for complex solutions including safety-critical systems. Translate advanced analytics into reliable, data-driven solutions that drive measurable business value and customer impact.",
           "comment_urn": "urn:li:comment:(activity:7459938935289569280,7459995283813228545)",
-          "text": "Klaus Paul  1st\nKlaus Paul • 1st\nTrustworthy AI & data architectures for complex solutions including safety-critical systems. Translate advanced analytics into reliable, data-driven solutions that drive measurable business value and customer impact.\nYou'll love this one: https://archive.org/details/artificial-intelligence-on-the-commodore-64 dating back to 1984\n0",
+          "text": "You'll love this one: https://archive.org/details/artificial-intelligence-on-the-commodore-64 dating back to 1984",
           "reactions": 0,
           "replies_count": 0
         }

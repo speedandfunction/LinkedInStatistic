@@ -6,12 +6,12 @@
   "posted_date": "2026-07-29",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7488189837460799489/",
   "preview": "Don't steer the agent — teach it to check itself. There's a debate going around about when to steer a coding agent. One camp says steer it early: a human in the loop in the first minutes, so it never",
-  "text": null,
+  "text": "Don't steer the agent — teach it to check itself.\n \nThere's a debate going around about when to steer a coding agent. One camp says steer it early: a human in the loop in the first minutes, so it never walks down the wrong road. The other says let it run and steer at review, when there's finally something real to look at.\n\nMy take: the moment isn't what decides the outcome. What decides it is 𝗵𝗼𝘄 𝘄𝗲𝗹𝗹 𝘁𝗵𝗲 𝗮𝗴𝗲𝗻𝘁 𝗰𝗵𝗲𝗰𝗸𝘀 𝗶𝘁𝘀𝗲𝗹𝗳 𝗯𝗲𝗳𝗼𝗿𝗲 𝗶𝘁 𝗲𝘃𝗲𝗿 𝗼𝗽𝗲𝗻𝘀 𝗮 𝗽𝘂𝗹𝗹 𝗿𝗲𝗾𝘂𝗲𝘀𝘁. ⚙️\n \nEarly doesn't work, because two minutes in you don't know whether your agent is heading somewhere good or somewhere stupid. Recently I was sure it was producing rubbish — then I asked why it went there, and the reasoning was solid and my approach was the invalid one: there is simply no such function in the API. That's its enormous knowledge about the universe overlapping with my imperfect experience of one specific thing. 🤔\n \nLate doesn't work either. You read 1000 lines of change without knowing the research and the path the agent took to get there. It hit a blocker inside its own work and wrote its way around it, and if you don't know the blocker was there, the whole thing reads like nonsense.\n \n𝗦𝗼 𝘁𝗵𝗲 𝗹𝗲𝘃𝗲𝗿𝗮𝗴𝗲 𝗶𝘀𝗻'𝘁 𝗶𝗻 𝗽𝗶𝗰𝗸𝗶𝗻𝗴 𝗮 𝗯𝗲𝘁𝘁𝗲𝗿 𝗺𝗼𝗺𝗲𝗻𝘁 𝘁𝗼 𝗶𝗻𝘁𝗲𝗿𝗿𝘂𝗽𝘁. 𝗜𝘁'𝘀 𝗶𝗻 𝘄𝗵𝗮𝘁 𝘁𝗵𝗲 𝗮𝗴𝗲𝗻𝘁 𝗵𝗮𝘀 𝘁𝗼 𝘀𝘂𝗿𝘃𝗶𝘃𝗲 𝗯𝗲𝗳𝗼𝗿𝗲 𝗶𝘁 𝗰𝗼𝗺𝗲𝘀 𝘁𝗼 𝘆𝗼𝘂. Not its own opinion that the work is done — that's the same student writing and grading their own exam. Deterministic checks it must pass: linters, UI tests (Playwright), whatever holds in your stack. Something that isn't the agent, saying yes or no. The less interaction you need while it's still doing fine, the better.\n \nThere's a whole direction that says the agent should be steered, and that's cool too — it might grow into the safeguards that actually work. For now, I don't agree, and I'd like to hear from anyone who has made early or late steering genuinely pay off. 👇",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:43:28Z",
+      "snapshot_at": "2026-09-05T13:00:21Z",
       "metrics": {
-        "impressions": 271,
+        "impressions": 274,
         "members_reached": 121,
         "reactions": 1,
         "comments": 1,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 0,
         "followers_gained": 0,
-        "engagement_rate": 0.74
+        "engagement_rate": 0.73
       },
       "demographics": {
         "seniority": {
@@ -53,11 +53,11 @@
       },
       "comments": [
         {
-          "author_name": "",
+          "author_name": "Olga Mykhailova (Michai)",
           "author_url": "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b",
-          "author_headline": "",
+          "author_headline": "I design culture that works | Less drama and more movement | Helping C-level leaders turn resistance and difficult dynamics into collaboration and change | Developmental Culture | Nonviolent Communication",
           "comment_urn": "urn:li:comment:(activity:7488189837460799489,7490814600452444160)",
-          "text": "Olga Mykhailova (Michai) Verified Profile 1st\nOlga Mykhailova (Michai)\n• 1st\nI design culture that works | Less drama and more movement | Helping C-level leaders turn resistance and difficult dynamics into collaboration and change | Developmental Culture | Nonviolent Communication\nI did it to some extent. Not for coding but for contract reading while designing new templates. Used 2 agents checking the work of each other and writing recommendations on what to check next time when we do regression testing of the updated template\n0",
+          "text": "I did it to some extent. Not for coding but for contract reading while designing new templates. Used 2 agents checking the work of each other and writing recommendations on what to check next time when we do regression testing of the updated template",
           "reactions": 0,
           "replies_count": 0
         }

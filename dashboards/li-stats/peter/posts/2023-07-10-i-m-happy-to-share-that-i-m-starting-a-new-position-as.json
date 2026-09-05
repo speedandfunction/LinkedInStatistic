@@ -6,12 +6,12 @@
   "posted_date": "2023-07-10",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7084280581169061888/",
   "preview": "I’m happy to share that I’m starting a new position as Solutions Architect!",
-  "text": null,
+  "text": "I’m happy to share that I’m starting a new position as Solutions Architect!",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:41:31Z",
+      "snapshot_at": "2026-09-05T12:59:00Z",
       "metrics": {
-        "impressions": 24,
+        "impressions": 26,
         "members_reached": 0,
         "reactions": 31,
         "comments": 1,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 0,
         "followers_gained": 0,
-        "engagement_rate": 133.33
+        "engagement_rate": 123.08
       },
       "demographics": {
         "seniority": {},
@@ -32,14 +32,47 @@
       },
       "comments": [
         {
-          "author_name": "",
+          "author_name": "Inesa Druzhkova",
           "author_url": "https://www.linkedin.com/in/inesadruzhkova",
-          "author_headline": "",
-          "comment_urn": "",
-          "text": "Inesa Druzhkova Verified Profile 1st\nInesa Druzhkova\n• 1st\nFull Stack Engineer\nCongrats!\n0",
+          "author_headline": "Full Stack Engineer",
+          "comment_urn": "urn:li:comment:(ugcPost:7084280579067715584,7084469675450937344)",
+          "text": "Congrats!",
           "reactions": 0,
           "replies_count": 0
         }
+      ],
+      "reactors": [
+        "https://www.linkedin.com/in/ACoAAA0xI4YBi5_-WJNxx0ASJPh94BcPIlsXgRU",
+        "https://www.linkedin.com/in/ACoAAA1CKloB8h21WUNkxO077mYBVXZtjYmL_ZY",
+        "https://www.linkedin.com/in/ACoAAA4Ax8cBl1Uva8uVIzb1JFTnJrarEFAcjnQ",
+        "https://www.linkedin.com/in/ACoAAA5SQjkBae7byuJMQQ9ZTsajvSjXxAu7eLU",
+        "https://www.linkedin.com/in/ACoAAAAFaeoBdMwLRp4E6a48E6atmXk2YyyGsFc",
+        "https://www.linkedin.com/in/ACoAAAB7JhcB8AkZTwWfHOmr6p5meyoe49kk4JY",
+        "https://www.linkedin.com/in/ACoAAABLwhEB0UXh1-PFrzSAuX1jsHUWpTJh9mc",
+        "https://www.linkedin.com/in/ACoAAABtpnUBL5HsYf0VFiyluXsWdp36RQLaENQ",
+        "https://www.linkedin.com/in/ACoAAACVWQsBdwL2diohnJdh4iMeS0TJvv1apMo",
+        "https://www.linkedin.com/in/ACoAAAM-vVcB1FtSI7L5f2Aw1L1rbONgRYSdQtM",
+        "https://www.linkedin.com/in/ACoAAAv8YjQBMaQ1ZUKudMNhJm7Kod4g2QSD8BU",
+        "https://www.linkedin.com/in/ACoAAAw-qaMBfeO0YJiGcpU86Z53pgvkmLSnMBE",
+        "https://www.linkedin.com/in/ACoAAB2uTBoBLmloRsop8UdNCHc5mF-pRT2yVC0",
+        "https://www.linkedin.com/in/ACoAABLJc_QB0fdj5wgGp-tp1CZZ8uNSEuHqmbQ",
+        "https://www.linkedin.com/in/ACoAABXFzI8BzIBPp9Ze5Y46__x8-TjjXzoBqxE",
+        "https://www.linkedin.com/in/ACoAABZd7bYBuQssqNYALsiGhoLTqzhoGeHelJI",
+        "https://www.linkedin.com/in/ACoAAC4HhmoBtYeXeLpOWzrUBTX1zf22OliSWnY",
+        "https://www.linkedin.com/in/ACoAACJR368BwhHhKSVzKND3Y0zM2fw6EpzZNws",
+        "https://www.linkedin.com/in/ACoAACPR_h8BuU5tffH3EIY9snMhKztgkmohIAk",
+        "https://www.linkedin.com/in/ACoAACSZb1MBqNectBY32uA6Gb8Bkp_1oJrI-Qg",
+        "https://www.linkedin.com/in/ACoAACTUV10BHaGE5LuOY2_cfX35ZoZFigjQefg",
+        "https://www.linkedin.com/in/ACoAACla-sUB4yabmHHDRkZsWljpMyNVk_VRXvc",
+        "https://www.linkedin.com/in/ACoAACmMV4YBjEZ_WJFAtntXHeJqqcbCly4fr3A",
+        "https://www.linkedin.com/in/ACoAADBQO40BmRyVrdXqk3gY4uxJTSFfYY1y7QA",
+        "https://www.linkedin.com/in/ACoAADNczxABXYk_r3AUiB5ogBsSMdv6fc43I9k",
+        "https://www.linkedin.com/in/ACoAADQ9qCEBT7JTiWliXlvFgWHooAjOTyBculo",
+        "https://www.linkedin.com/in/ACoAADXzc1oBLdQYy6JNOgAUmAzzLQ-YY6RBxs0",
+        "https://www.linkedin.com/in/ACoAADbNF9oBpY9av-3SGkkGJYT04NHVsBMgT74",
+        "https://www.linkedin.com/in/ACoAADcGSBoBHARi2iOwPpzFDEHVLeksEHeZqGQ",
+        "https://www.linkedin.com/in/ACoAADdC6JUB7_Z-GYi8qYtUDFdZW0KuAYmj-Gs",
+        "https://www.linkedin.com/in/ACoAADmD5lsBirwNBonw8KIZBCOjkxbO_UVH9IY"
       ],
       "commenters": [
         "https://www.linkedin.com/in/inesadruzhkova"

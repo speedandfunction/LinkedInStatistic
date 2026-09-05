@@ -9,9 +9,9 @@
   "text": "My personal pet project is launched. Who wants to manage his life more effectively?",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-03T13:50:57Z",
+      "snapshot_at": "2026-09-05T13:17:46Z",
       "metrics": {
-        "impressions": 158,
+        "impressions": 162,
         "members_reached": 0,
         "reactions": 1,
         "comments": 0,
@@ -20,7 +20,7 @@
         "sends": 0,
         "profile_viewers": 0,
         "followers_gained": 0,
-        "engagement_rate": 0.63
+        "engagement_rate": 0.62
       },
       "demographics": {
         "seniority": {},
@@ -32,10 +32,7 @@
           "Speed and Function": 85.7
         }
       },
-      "comments": [],
-      "reactors": [
-        "https://www.linkedin.com/in/ACoAADe2W1AB6GYFoC97zTUfpriTLQgFmVpXUhY"
-      ]
+      "comments": []
     }
   }
 }

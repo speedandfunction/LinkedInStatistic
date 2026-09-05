@@ -1,0 +1,71 @@
+{
+  "people": {
+    "in/acoaaauss6mbgo5n8ilf5eiueamng6p5lfihhse": {
+      "key": "in/acoaaauss6mbgo5n8ilf5eiueamng6p5lfihhse",
+      "name": "Slava Davydiuk View Slava Davydiuk’s profile 1st degree connection · 1st Quality Assurance",
+      "profile_url": "https://www.linkedin.com/in/ACoAAAusS6MBGO5n8ILf5eiueamNg6P5lFIHHSE",
+      "headline": "",
+      "headline_seen_at": "2026-09-05T12:52:38Z",
+      "first_seen_at": "2026-09-05T12:52:38Z",
+      "icp": {
+        "verdict": null,
+        "reason": null,
+        "model": null,
+        "classified_at": null,
+        "headline_hash": null
+      }
+    },
+    "in/acoaadxbyqobghsru5hkwx40vwy4szipbhftbz4": {
+      "key": "in/acoaadxbyqobghsru5hkwx40vwy4szipbhftbz4",
+      "name": "Vitalii Karpiuk View Vitalii Karpiuk’s profile 1st degree connection · 1st Manual QA Engineer",
+      "profile_url": "https://www.linkedin.com/in/ACoAADXByqoBGHSRu5Hkwx40VwY4SZipBHfTbZ4",
+      "headline": "",
+      "headline_seen_at": "2026-09-05T12:52:38Z",
+      "first_seen_at": "2026-09-05T12:52:38Z",
+      "icp": {
+        "verdict": null,
+        "reason": null,
+        "model": null,
+        "classified_at": null,
+        "headline_hash": null
+      }
+    }
+  },
+  "events": {
+    "react:post:urn:li:activity:7255854622618120192:in/acoaaauss6mbgo5n8ilf5eiueamng6p5lfihhse": {
+      "event_id": "react:post:urn:li:activity:7255854622618120192:in/acoaaauss6mbgo5n8ilf5eiueamng6p5lfihhse",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7255854622618120192",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7255854622618120192/",
+      "person_key": "in/acoaaauss6mbgo5n8ilf5eiueamng6p5lfihhse",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-09-05T12:52:38Z"
+    },
+    "react:post:urn:li:activity:7255854622618120192:in/acoaadxbyqobghsru5hkwx40vwy4szipbhftbz4": {
+      "event_id": "react:post:urn:li:activity:7255854622618120192:in/acoaadxbyqobghsru5hkwx40vwy4szipbhftbz4",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7255854622618120192",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7255854622618120192/",
+      "person_key": "in/acoaadxbyqobghsru5hkwx40vwy4szipbhftbz4",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-09-05T12:52:38Z"
+    }
+  },
+  "targets": {
+    "post:urn:li:activity:7255854622618120192": {
+      "target_id": "post:urn:li:activity:7255854622618120192",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7255854622618120192",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7255854622618120192/",
+      "first_scanned_week": "2026-08-31",
+      "last_scanned_week": "2026-08-31",
+      "reactor_count": 2
+    }
+  }
+}

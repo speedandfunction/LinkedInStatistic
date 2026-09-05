@@ -1,22 +1,22 @@
 {
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-03T13:50:28Z",
+      "snapshot_at": "2026-09-05T13:15:39Z",
       "dashboard": {
-        "post_impressions_7d": 255,
-        "post_impressions_delta_pct_7d": 32,
+        "post_impressions_7d": 260,
+        "post_impressions_delta_pct_7d": 44,
         "followers": 2612,
         "followers_delta_pct_7d": 0,
-        "profile_viewers_90d": 59,
+        "profile_viewers_90d": 60,
         "search_appearances_previous_week": 36
       },
       "content_7d": {
-        "impressions_7d": 255,
-        "impressions_delta_pct": 32,
+        "impressions_7d": 263,
+        "impressions_delta_pct": 43,
         "members_reached_7d": 0,
-        "social_engagements_7d": 7,
-        "reactions_7d": 4,
-        "comments_7d": 3,
+        "social_engagements_7d": 1,
+        "reactions_7d": 0,
+        "comments_7d": 1,
         "reposts_7d": 0,
         "saves_7d": 0,
         "sends_7d": 0,
@@ -63,9 +63,9 @@
             "EPAM Systems": 2,
             "Speed and Function": 1,
             "NDA": 1,
+            "N-iX": 1,
             "GlobalLogic": 1,
             "ELEKS": 1,
-            "N-iX": 1,
             "Intellias": 1,
             "Avenga": 0.5
           },
@@ -111,7 +111,7 @@
         "clicks_per_section": {}
       },
       "profile_views": {
-        "viewers_90d": 59,
+        "viewers_90d": 60,
         "viewers_delta_pct_7d": null,
         "highlights": {},
         "top_companies_pct": {}

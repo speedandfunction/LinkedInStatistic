@@ -1,18 +1,18 @@
 {
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-01T16:29:25Z",
+      "snapshot_at": "2026-09-05T12:51:50Z",
       "dashboard": {
-        "post_impressions_7d": 1,
-        "post_impressions_delta_pct_7d": 50,
-        "followers": 440,
+        "post_impressions_7d": 5,
+        "post_impressions_delta_pct_7d": 400,
+        "followers": 446,
         "followers_delta_pct_7d": 5,
-        "profile_viewers_90d": 33,
-        "search_appearances_previous_week": 30
+        "profile_viewers_90d": 36,
+        "search_appearances_previous_week": 15
       },
       "content_7d": {
-        "impressions_7d": 1,
-        "impressions_delta_pct": 50,
+        "impressions_7d": 5,
+        "impressions_delta_pct": 400,
         "members_reached_7d": 1,
         "social_engagements_7d": 0,
         "reactions_7d": 0,
@@ -23,34 +23,34 @@
         "link_engagements_7d": 0
       },
       "audience": {
-        "total_followers": 440,
+        "total_followers": 446,
         "followers_delta_pct_7d": 5,
         "demographics": {
           "job_title": {
             "Recruiter": 6,
             "Project Manager": 4,
             "Information Technology Recruiter": 4,
-            "Software Engineer": 3,
             "Talent Acquisition Specialist": 3,
+            "Software Engineer": 3,
             "Product Manager": 3,
             "Human Resources Manager": 2,
             "Human Resources Generalist": 2,
             "Frontend Developer": 2
           },
           "location": {
-            "Kniahynynok": 15,
-            "Kyiv Metropolitan Area": 13,
+            "Kniahynynok": 14,
+            "Kyiv Metropolitan Area": 14,
             "Lviv": 8,
             "Greater Rivne Area": 4,
             "Kharkiv Metropolitan Area": 2,
-            "Dnipro Metropolitan Area": 2,
             "Warsaw Metropolitan Area": 2,
+            "Dnipro Metropolitan Area": 2,
             "Lutsk": 2,
             "Odesa": 2
           },
           "seniority": {
-            "Senior": 36,
-            "Entry": 35,
+            "Senior": 35,
+            "Entry": 34,
             "Manager": 6,
             "Director": 6,
             "CXO": 4,
@@ -58,7 +58,7 @@
           },
           "company": {
             "Modern Expo": 14,
-            "Speed and Function": 7,
+            "Speed and Function": 6,
             "NDA": 2
           },
           "industry": {
@@ -74,21 +74,21 @@
             "Retail Furniture and Home Furnishings": 1
           },
           "company_size": {
-            "51-200 employees": 22,
+            "51-200 employees": 20,
             "1,001-5,000 employees": 19,
-            "11-50 employees": 15,
+            "11-50 employees": 16,
             "10,001+ employees": 7,
             "201-500 employees": 5,
+            "501-1,000 employees": 5,
             "2-10 employees": 4,
-            "501-1,000 employees": 4,
-            "0-1 employees": 2,
+            "0-1 employees": 1,
             "5,001-10,000 employees": 1
           }
         }
       },
       "search_appearances": {
-        "all_appearances_7d": 131,
-        "search_appearances_7d": 30,
+        "all_appearances_7d": 167,
+        "search_appearances_7d": 15,
         "where_appeared": {
           "posts_pct": 0,
           "comments_pct": 0,
@@ -103,7 +103,7 @@
         "clicks_per_section": {}
       },
       "profile_views": {
-        "viewers_90d": 33,
+        "viewers_90d": 36,
         "viewers_delta_pct_7d": null,
         "highlights": {},
         "top_companies_pct": {}

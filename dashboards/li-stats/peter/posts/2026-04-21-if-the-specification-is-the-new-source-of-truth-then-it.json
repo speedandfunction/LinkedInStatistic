@@ -6,12 +6,12 @@
   "posted_date": "2026-04-21",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7452326158773366784/",
   "preview": "𝘐𝘧 𝘵𝘩𝘦 𝘴𝘱𝘦𝘤𝘪𝘧𝘪𝘤𝘢𝘵𝘪𝘰𝘯 𝘪𝘴 𝘵𝘩𝘦 𝘯𝘦𝘸 𝘴𝘰𝘶𝘳𝘤𝘦 𝘰𝘧 𝘵𝘳𝘶𝘵𝘩, 𝘵𝘩𝘦𝘯 𝘪𝘵 𝘴𝘩𝘰𝘶𝘭𝘥 𝘨𝘪𝘷𝘦 𝘺𝘰𝘶 𝘵𝘩𝘦 𝘴𝘢𝘮𝘦 𝘣𝘦𝘩𝘢𝘷𝘪𝘰𝘳 𝘰𝘯 𝘔𝘰𝘯𝘥𝘢𝘺 𝘢𝘯𝘥 𝘰𝘯 𝘍𝘳𝘪𝘥𝘢𝘺. 𝘋𝘰𝘦𝘴 𝘪𝘵?🧭 I've been following Andrey Breslav and his project CodeSpeak with great in",
-  "text": null,
+  "text": "𝘐𝘧 𝘵𝘩𝘦 𝘴𝘱𝘦𝘤𝘪𝘧𝘪𝘤𝘢𝘵𝘪𝘰𝘯 𝘪𝘴 𝘵𝘩𝘦 𝘯𝘦𝘸 𝘴𝘰𝘶𝘳𝘤𝘦 𝘰𝘧 𝘵𝘳𝘶𝘵𝘩, 𝘵𝘩𝘦𝘯 𝘪𝘵 𝘴𝘩𝘰𝘶𝘭𝘥 𝘨𝘪𝘷𝘦 𝘺𝘰𝘶 𝘵𝘩𝘦 𝘴𝘢𝘮𝘦 𝘣𝘦𝘩𝘢𝘷𝘪𝘰𝘳 𝘰𝘯 𝘔𝘰𝘯𝘥𝘢𝘺 𝘢𝘯𝘥 𝘰𝘯 𝘍𝘳𝘪𝘥𝘢𝘺. 𝘋𝘰𝘦𝘴 𝘪𝘵?🧭\n\nI've been following Andrey Breslav and his project CodeSpeak with great interest, and recently read about their feature that lets the tool turn 𝘴𝘱𝘦𝘤 𝘥𝘪𝘧𝘧𝘴 𝘪𝘯𝘵𝘰 𝘤𝘰𝘥𝘦 𝘥𝘪𝘧𝘧𝘴 incrementally. Very cool direction. My own intuition has been a bit different: when rebuilding gets cheap, you just regenerate the whole codebase from scratch. Two different paths, same underlying shift — the spec becomes the thing that matters, and code just catches up to the paper. 📝\n\n\n𝗧𝘄𝗼 𝗾𝘂𝗲𝘀𝘁𝗶𝗼𝗻𝘀 𝗸𝗲𝗲𝗽 𝗺𝗲 𝘂𝗽 𝗮𝘁 𝗻𝗶𝗴𝗵𝘁.\n\n\n𝗙𝗶𝗿𝘀𝘁 𝗼𝗻𝗲 — 𝗱𝗲𝘁𝗲𝗿𝗺𝗶𝗻𝗶𝘀𝗺. If two teammates build from the same unchanged spec, will they get identical behaviour? Because if the answer is \"𝘬𝘪𝘯𝘥 𝘰𝘧, 𝘮𝘰𝘴𝘵𝘭𝘺, 𝘶𝘴𝘶𝘢𝘭𝘭𝘺\", then the spec isn't really the source of truth yet. The generated code is. Because only code guarantees consistent behaviour — spec doesn't.\n\nAnd that means we still need to verify the code, still need code reviews to understand what's actually in there. That's 75% of a developer's time — even in the AI era. The human stays the bottleneck, and the whole process doesn't actually move faster. 🐢\n\n\n𝗦𝗲𝗰𝗼𝗻𝗱 𝗼𝗻𝗲 — 𝘄𝗵𝗼 𝘃𝗮𝗹𝗶𝗱𝗮𝘁𝗲𝘀 𝘄𝗵𝗼𝗺? When the same LLM generates both the code and the tests from the same spec, how do you guard against it validating its own interpretation? Tests pass, the behavior looks right on the surface, and yet the actual intent quietly drifts. It's like asking a student to write the exam and grade it too, of course, they pass. 🤷\n\n\nI'm not saying this is unsolvable. Quite the opposite: I'm convinced it's solvable, and that's exactly what I'm working on right now. 𝗧𝗵𝗲 𝗿𝗲𝗮𝗹 𝗾𝘂𝗲𝘀𝘁𝗶𝗼𝗻 𝗶𝘀: 𝘄𝗵𝗮𝘁'𝘀 𝘁𝗵𝗲 𝗺𝗶𝘀𝘀𝗶𝗻𝗴 𝗽𝗶𝗲𝗰𝗲? What do we need to add to this system so that behavior stays consistent between Monday and Friday, and so that validation doesn't depend on humans doing code reviews? 🎯",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:42:41Z",
+      "snapshot_at": "2026-09-05T12:59:54Z",
       "metrics": {
-        "impressions": 572,
+        "impressions": 573,
         "members_reached": 299,
         "reactions": 2,
         "comments": 1,
@@ -63,11 +63,11 @@
       },
       "comments": [
         {
-          "author_name": "",
+          "author_name": "Nimish Gåtam",
           "author_url": "https://www.linkedin.com/in/nimish-g%C3%A5tam-44125512",
-          "author_headline": "",
+          "author_headline": "VP of AI Engineering | Fractional CTO consultant | Policy and Responsible AI | Ex-CTO | Ex-Wikipedia",
           "comment_urn": "urn:li:comment:(activity:7452326158773366784,7453351488019611649)",
-          "text": "Nimish Gåtam Verified Profile 1st\nNimish Gåtam\n• 1st\nVP of AI Engineering | Fractional CTO consultant | Policy and Responsible AI | Ex-CTO | Ex-Wikipedia\nI've been thinking about the same a lot, and I think part of the puzzle is also thinking about the lifecycle of the specs themselves. Once you've built a prototype or tested assumptions, the specs (if you had to do it over) will be different. With AI as it is, rebuilding is cheap, but then the state of the specs change in some way from \"this was an educated guess\" to \"this has been iterated on and some things have been learned the hard way\". It's still half an idea but I think there's something about the fact that specs are \"living\" in a way when prototyping becomes cheap\n0",
+          "text": "I've been thinking about the same a lot, and I think part of the puzzle is also thinking about the lifecycle of the specs themselves. Once you've built a prototype or tested assumptions, the specs (if you had to do it over) will be different. With AI as it is, rebuilding is cheap, but then the state of the specs change in some way from \"this was an educated guess\" to \"this has been iterated on and some things have been learned the hard way\". It's still half an idea but I think there's something about the fact that specs are \"living\" in a way when prototyping becomes cheap",
           "reactions": 0,
           "replies_count": 0
         }

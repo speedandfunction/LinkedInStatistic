@@ -6,12 +6,12 @@
   "posted_date": "2026-08-06",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7491107000626507776/",
   "preview": "My regular setup: - Claude Code. - Opus 5 writes BDD tests (end-to-end, Playwright, CLI, etc.) according to the requirements. - Sonnet writes the code to fix tests. - Fable resolves disputes between S",
-  "text": null,
+  "text": "My regular setup:\n- Claude Code.\n- Opus 5 writes BDD tests (end-to-end, Playwright, CLI, etc.) according to the requirements.\n- Sonnet writes the code to fix tests.\n- Fable resolves disputes between Sonnet (which sometimes can’t implement a correct tests) and Opus (which sometimes writes impossible tests). It changes architecture in the middle, describes the requirements at the very beginnig and performs smoke testing at the end.\n- Codex acts as a second pair of eyes. Each agent is instructed to consult Codex when it gets stuck. Codex crytises solution, finds gaps.\n\nSuch setup allows me to implement complex feature that in usual takes weeks or even months within 1-2 days.\nBut. It token consuming.\n\nAfter I reached all my limits, I switched to Z.ai, and...\nHonestly, GLM-5.2 is fucking good. At one-fifth of the price:\nIt’s not as good as Fable at orchestrating subagents. It requires explicit instructions and sometimes allows agents to change tests that are already correct.\n\nFor most tasks, even creative ones, it’s as good as Opus 5, as I don’t see any difference between them at all.\n\nIt writes code better than Sonnet and as well as Opus 5, slower but comparable.\n\nAfter some improvements to my setup, I stopped seeing any difference compared with the Anthropic stack",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:53:09Z",
+      "snapshot_at": "2026-09-05T13:08:25Z",
       "metrics": {
-        "impressions": 428,
+        "impressions": 431,
         "members_reached": 205,
         "reactions": 1,
         "comments": 0,
@@ -56,7 +56,10 @@
           "Speed and Function": 8.3
         }
       },
-      "comments": []
+      "comments": [],
+      "reactors": [
+        "https://www.linkedin.com/in/ACoAABLJc_QB0fdj5wgGp-tp1CZZ8uNSEuHqmbQ"
+      ]
     }
   }
 }

@@ -6,12 +6,12 @@
   "posted_date": "2024-05-15",
   "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7196529241818071042/",
   "preview": "Does anyone know anyone with no/low-code expertise in Microsoft stack? I need a sales engineer ASAP for our Huge client, rebuilding his existing tool. The consultation is about the feasibility of buil",
-  "text": null,
+  "text": "Does anyone know anyone with no/low-code expertise in Microsoft stack? I need a sales engineer ASAP for our Huge client, rebuilding his existing tool. The consultation is about the feasibility of building the app with a no/low-code approach and support our sales process.",
   "weeks": {
     "2026-08-31": {
-      "snapshot_at": "2026-09-02T07:37:33Z",
+      "snapshot_at": "2026-09-05T12:56:13Z",
       "metrics": {
-        "impressions": 660,
+        "impressions": 662,
         "members_reached": 0,
         "reactions": 2,
         "comments": 5,
@@ -32,37 +32,30 @@
       },
       "comments": [
         {
-          "author_name": "",
+          "author_name": "Oleksandr Kachynskyi",
           "author_url": "https://www.linkedin.com/in/oleksandr-kachynskyi",
-          "author_headline": "",
+          "author_headline": "Business Development Manager | Kyivstar.Tech",
           "comment_urn": "urn:li:comment:(activity:7196529241818071042,7196817086684266497)",
-          "text": "Oleksandr Kachynskyi Verified Profile 1st\nOleksandr Kachynskyi\n• 1st\nBusiness Development Manager | Kyivstar.Tech\nHi Peter, I send you a message.\n0",
+          "text": "Hi Peter, I send you a message.",
           "reactions": 0,
           "replies_count": 0
         },
         {
-          "author_name": "",
+          "author_name": "Nav Rao",
           "author_url": "https://www.linkedin.com/in/nav10million",
-          "author_headline": "",
+          "author_headline": "Technology Consulting Manager | Building scalable embedded teams for my clients | AI | Data | ERP | Legacy Mordanization | Software Development",
           "comment_urn": "urn:li:comment:(activity:7196529241818071042,7196608997544603649)",
-          "text": "Nav Rao Verified Profile 2nd\nNav Rao\n• 2nd\nTechnology Consulting Manager | Building scalable embedded teams for my clients | AI | Data | ERP | Legacy Mordanization | Software Development\nFollow\nPeter Ovchinnikov 🇺🇦\nHey Peter, I've some candidates from USA with no/low-code expertise in Microsoft stack, Would you like to review the resumes?\n0\n3\n3",
+          "text": "Peter Ovchinnikov 🇺🇦\nHey Peter, I've some candidates from USA with no/low-code expertise in Microsoft stack, Would you like to review the resumes?",
           "reactions": 0,
-          "replies_count": 0
-        },
-        {
-          "author_name": "",
-          "author_url": "https://www.linkedin.com/in/ovchyn",
-          "author_headline": "",
-          "comment_urn": "urn:li:comment:(activity:7196529241818071042,7196889861243490305)",
-          "text": "Peter Ovchynnikov\nAuthor\nBuilding TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function\nplease reach me in DM\n0\n2 impressions\n2",
-          "reactions": 0,
-          "replies_count": 0
+          "replies_count": 3
         }
+      ],
+      "reactors": [
+        "https://www.linkedin.com/in/ACoAAB5ZRk4B2DtAUTF5gtg1nfS75ewLh26pqGA"
       ],
       "commenters": [
         "https://www.linkedin.com/in/nav10million",
-        "https://www.linkedin.com/in/oleksandr-kachynskyi",
-        "https://www.linkedin.com/in/ovchyn"
+        "https://www.linkedin.com/in/oleksandr-kachynskyi"
       ]
     }
   }
