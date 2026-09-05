@@ -1,0 +1,106 @@
+{
+  "urn": "urn:li:activity:7500116105856749568",
+  "id": "7500116105856749568",
+  "type": "post",
+  "posted_at": "2026-08-31T09:03:45Z",
+  "posted_date": "2026-08-31",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7500116105856749568/",
+  "preview": "It’s fascinating that AI is making us more aware of the cost of communication than we've ever been with other humans. Every extra iteration costs something. Every \"one more thing,\" clarification, foll",
+  "text": "It’s fascinating that AI is making us more aware of the cost of communication than we've ever been with other humans.\n\nEvery extra iteration costs something. Every \"one more thing,\" clarification, follow-up — it all consumes resources. What if we treated conversations with people the same way?\n\nRecently, I started an important discussion with my team. It began with a few questions that I thought would help us align. Somehow, it went in every possible direction except the one I expected.\n\nWe eventually reached an understanding. But getting there required countless messages and a lot of time.\n\nIf this had been an exchange with Claude, I would've watched every extra iteration because I know each one costs money. So why don't we think the same way when we talk to each other?\n\nHuman interactions aren't free either, right? Every unnecessary misunderstanding has a cost. But the currency just isn't dollars or tokens.\n\nMaybe better communication doesn't start with better prompts. Maybe it starts with treating another person's resources as just as valuable as the ones we spend talking to AI.\n\nWhat do you think? Would we communicate differently if every extra exchange with another person came with a visible price tag?\n\n\n#AI \n#UXDesign \n#ClaudeAI \n#DesignSystems \n#WorkingMom",
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-05T16:20:49Z",
+      "metrics": {
+        "impressions": 211,
+        "members_reached": 101,
+        "reactions": 12,
+        "comments": 6,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 4,
+        "followers_gained": 0,
+        "engagement_rate": 8.53
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 33.7,
+          "Entry": 28.7,
+          "Director": 9.9,
+          "CXO": 7.9
+        },
+        "job_title": {
+          "Software Engineer": 8.9,
+          "Frontend Developer": 5.9
+        },
+        "industry": {
+          "Software Development": 21.8,
+          "IT Services and IT Consulting": 15.8,
+          "Advertising Services": 13.9,
+          "Technology, Information and Internet": 6.9
+        },
+        "company_size": {
+          "51-200 employees": 23.8,
+          "10,001+ employees": 17.8,
+          "1001-5000 employees": 11.9,
+          "11-50 employees": 10.9,
+          "1-10 employees": 6.9
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 18.8
+        },
+        "company": {
+          "Speed and Function": 13.9
+        }
+      },
+      "comments": [
+        {
+          "author_name": "Evgenia Usenok",
+          "author_url": "https://www.linkedin.com/in/evgenia-usenok-8b4034b",
+          "author_headline": "Communicator at Reactive Post. Personal Stylist",
+          "comment_urn": "urn:li:comment:(activity:7500116105856749568,7500123446601936896)",
+          "text": "Price tag not always showing the real price. Some talks are priceless. But I know how to awoid cheap talks - to be the wierdest person in the team😁",
+          "reactions": 1,
+          "replies_count": 1
+        },
+        {
+          "author_name": "Mila Yazvinska",
+          "author_url": "https://www.linkedin.com/in/yazvinskaya",
+          "author_headline": "Marketing & Impact Project Manager",
+          "comment_urn": "urn:li:comment:(activity:7500116105856749568,7500174321567469568)",
+          "text": "From the other hand it would be nice if some people could reach quickly their communication limits and be quiet at least till the next day 🙄 just saying",
+          "reactions": 1,
+          "replies_count": 1
+        },
+        {
+          "author_name": "Olga Mykhailova (Michai)",
+          "author_url": "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b",
+          "author_headline": "I design culture that works | Less drama and more movement | Helping C-level leaders turn resistance and difficult dynamics into collaboration and change | Developmental Culture | Nonviolent Communication",
+          "comment_urn": "urn:li:comment:(activity:7500116105856749568,7501289661726752768)",
+          "text": "My facial expression is a vivid visualization of that price haha",
+          "reactions": 1,
+          "replies_count": 1
+        }
+      ],
+      "reactors": [
+        "https://www.linkedin.com/in/ACoAAABrf5IBsdte8YOPtDE1cKGslvdPizAp8Q0",
+        "https://www.linkedin.com/in/ACoAAAETyzQB2GsTiSUMXEx0kiTAstgmd3OM73A",
+        "https://www.linkedin.com/in/ACoAAAmwOd0BjBOI_C5-vR1BaJuAY8vry3rRBnY",
+        "https://www.linkedin.com/in/ACoAAAqUgLsBMjjr1evGW9ylnNSkUAGh06eUn5k",
+        "https://www.linkedin.com/in/ACoAAAsbnqoBq-6yYGg-ZjFKKvanqLrQfy7vo-Y",
+        "https://www.linkedin.com/in/ACoAAAxbGjgBUTF3V2SNG3ArZAt2D9BzMxtrRqg",
+        "https://www.linkedin.com/in/ACoAAB1mwuUBtgaky35_EGa2BYPaPLP7o_yLgCA",
+        "https://www.linkedin.com/in/ACoAABPwXh4BDuzeYWux2omaMeETeHOqrB-mNiU",
+        "https://www.linkedin.com/in/ACoAACm2JOMBYg0qqhkcZlAbS9WhVHU-XJ5xGcA",
+        "https://www.linkedin.com/in/ACoAADFN0rkBmv9dqRxDJE8-rR1tAXaJdOwLVT0",
+        "https://www.linkedin.com/in/ACoAADc-8vUB80-3cOn1MZN1BnpXbLyuJ8SAKfE",
+        "https://www.linkedin.com/in/ACoAAF13SYMBiBDMCUe9CJwKX1lVynpPOA1jPQA"
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/evgenia-usenok-8b4034b",
+        "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b",
+        "https://www.linkedin.com/in/yazvinskaya"
+      ]
+    }
+  }
+}

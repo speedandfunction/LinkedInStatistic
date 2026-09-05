@@ -1,0 +1,160 @@
+{
+  "urn": "urn:li:activity:7483822620136640513",
+  "id": "7483822620136640513",
+  "type": "post",
+  "posted_at": "2026-07-17T09:59:15Z",
+  "posted_date": "2026-07-17",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7483822620136640513/",
+  "preview": "Somewhere between Prompt №37 and \"Why isn't this working?\" I just started another AI course for designers because, apparently, in design, you're a lifelong student. Already late for the first lesson a",
+  "text": "Somewhere between Prompt №37 and \"Why isn't this working?\"\n\nI just started another AI course for designers because, apparently, in design, you're a lifelong student. Already late for the first lesson and having completely missed the second one (because, well… life), I've been spending my evenings chasing new prompt ideas and testing different workflows. Wild nights, I know.\n\nAnd somewhere between Prompt №37 and \"Why isn't this working?\", I had a ridiculous thought. What if, when the workday is over, all our AI tools go to an AI agents café?\n\nClaude is there. ChatGPT too. Figma AI joins a bit later. They order their digital coffees and start gossiping about their users.\n\"Mine keeps asking for one more iteration.\"\n\"Mine changes the prompt seventeen times and then goes back to the first version.\"\n\"Mine says, 'Just one quick question…' and then sends a five-paragraph prompt.\"\nOkay, that last one sounds suspiciously like me.\n\nSo here's my question: Do you think your AI tools enjoy working with you? And maybe the bigger question: Would you enjoy working with yourself?\n☕🤖\n\n\n#AI \n#Design \n#ClaudeAI \n#ChatGPT \n#Figma \n#ProductDesign",
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-05T16:20:46Z",
+      "metrics": {
+        "impressions": 501,
+        "members_reached": 234,
+        "reactions": 19,
+        "comments": 12,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 5,
+        "followers_gained": 1,
+        "engagement_rate": 6.19
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 35,
+          "Entry": 29.5,
+          "Director": 11.5,
+          "Manager": 5.6,
+          "CXO": 4.3
+        },
+        "job_title": {
+          "Software Engineer": 7.7,
+          "Frontend Developer": 3,
+          "Product Manager": 2.6
+        },
+        "industry": {
+          "IT Services and IT Consulting": 21.4,
+          "Software Development": 17.5,
+          "Advertising Services": 9.8,
+          "Technology, Information and Internet": 8.1,
+          "Design Services": 6
+        },
+        "company_size": {
+          "51-200 employees": 22.6,
+          "10,001+ employees": 15,
+          "1001-5000 employees": 11.5,
+          "11-50 employees": 9,
+          "201-500 employees": 8.1
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 17.5,
+          "Lviv": 7.3,
+          "Prague Metropolitan Area": 4.7,
+          "Warsaw Metropolitan Area": 3.4,
+          "Greater Philadelphia": 3
+        },
+        "company": {
+          "Speed and Function": 7.7
+        }
+      },
+      "comments": [
+        {
+          "author_name": "Iegor Osaulenko",
+          "author_url": "https://www.linkedin.com/in/iegor-osaulenko-b073444b",
+          "author_headline": "Senior Systems Architect & Backend Engineer: Python | .NET | Go | Cloud | Permanent / Freelance / ZZP / Interim Consultant",
+          "comment_urn": "urn:li:comment:(activity:7483822620136640513,7484228695533064192)",
+          "text": "It's fascinating to me how we, representing quite different professional areas, scrambling with the same challenges.\nBut getting to the point - don't idulge human human behavior into AI! (that's how I cope with the thought \"if I don't believe it - it's not real!)",
+          "reactions": 1,
+          "replies_count": 1
+        },
+        {
+          "author_name": "Mila Yazvinska",
+          "author_url": "https://www.linkedin.com/in/yazvinskaya",
+          "author_headline": "Marketing & Impact Project Manager",
+          "comment_urn": "urn:li:comment:(activity:7483822620136640513,7483829317228060673)",
+          "text": "lol\nMissing a couple of classes is completely normal when you're balancing a million things. To answer your big question: yes, working with you would be a blast, \"wild nights\" of prompting included 😆",
+          "reactions": 1,
+          "replies_count": 1
+        },
+        {
+          "author_name": "Evgenia Usenok",
+          "author_url": "https://www.linkedin.com/in/evgenia-usenok-8b4034b",
+          "author_headline": "Communicator at Reactive Post. Personal Stylist",
+          "comment_urn": "urn:li:comment:(activity:7483822620136640513,7484913515825205248)",
+          "text": "Actually, I'm very polite with my AI, always saying Hi, please, would you... Maybe some day i'll give me a cozier prison with a window and a pencil:)",
+          "reactions": 1,
+          "replies_count": 1
+        },
+        {
+          "author_name": "Andrii Rozhylo",
+          "author_url": "https://www.linkedin.com/in/arozhylo",
+          "author_headline": "AI Transformation Leader | Business Strategist | Entrepreneur | Delivery Manager | Product Manager | Marketing Expert",
+          "comment_urn": "urn:li:comment:(activity:7483822620136640513,7484702122207404032)",
+          "text": "I hope that was a joke. However, if we build AGI (this may happen in just a few years), we may regret how we wrote to AI.",
+          "reactions": 1,
+          "replies_count": 0
+        },
+        {
+          "author_name": "Daria Malova",
+          "author_url": "https://www.linkedin.com/in/dariamalova",
+          "author_headline": "Content Manager & Social Media Creator",
+          "comment_urn": "urn:li:comment:(activity:7483822620136640513,7483834619767873536)",
+          "text": "I’ve never had such a clear picture in my head of how different AIs communicate 😁 thanks for this visualization",
+          "reactions": 1,
+          "replies_count": 1
+        },
+        {
+          "author_name": "Христина Чуканова",
+          "author_url": "https://www.linkedin.com/in/%D1%85%D1%80%D0%B8%D1%81%D1%82%D0%B8%D0%BD%D0%B0-%D1%87%D1%83%D0%BA%D0%B0%D0%BD%D0%BE%D0%B2%D0%B0-453453359",
+          "author_headline": "--",
+          "comment_urn": "urn:li:comment:(activity:7483822620136640513,7486314132263112705)",
+          "text": "Останнє питання найважливіше, бо працювати мені б з собою не хотілося, поки я працюю над виживанням. Справжня робота дуже страждає від важких ночей.",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "Mariia Platonova",
+          "author_url": "https://www.linkedin.com/in/mariia-platonova",
+          "author_headline": "Senior B2B Marketing Leader | Agentic AI | Data Management | Automation",
+          "comment_urn": "urn:li:comment:(activity:7483822620136640513,7483826258221658112)",
+          "text": "My chain of reactions while reading this post: “Oh, that’s so sweet.” → “haha 😂” → “Yeah, true… I can already imagine my agents’ complaints.” → “Wow, that’s actually deep. Thanks!”",
+          "reactions": 1,
+          "replies_count": 1
+        }
+      ],
+      "reactors": [
+        "https://www.linkedin.com/in/ACoAAA36RQ4BelqGi-3MczDkGp8HzCg9TZVXxBI",
+        "https://www.linkedin.com/in/ACoAAAAGQHoBQMGjuRUQ-3WIZnRlzeg3Fbbqlfk",
+        "https://www.linkedin.com/in/ACoAAAH2QwgBgIx7qzHSSWFegGepRQF2a53v8ik",
+        "https://www.linkedin.com/in/ACoAAAbNEJABRweZMYt0C7a8bDKeoRIpmxCkYwg",
+        "https://www.linkedin.com/in/ACoAAAfVC00BPmaXaGuc6CS5RFzhgQWbZ8JCzFM",
+        "https://www.linkedin.com/in/ACoAAAfVql8BvA3EvhUg7D_GS35q3pjm_Pk-E-8",
+        "https://www.linkedin.com/in/ACoAAAgS0LkBBg7e0tRe_M7zaVSYo9CbXBdSRSw",
+        "https://www.linkedin.com/in/ACoAAAqM-TcBmMc5FN-oxv8tzN7Vrn9ADQwq4f8",
+        "https://www.linkedin.com/in/ACoAAAqUgLsBMjjr1evGW9ylnNSkUAGh06eUn5k",
+        "https://www.linkedin.com/in/ACoAAAsbnqoBq-6yYGg-ZjFKKvanqLrQfy7vo-Y",
+        "https://www.linkedin.com/in/ACoAAAxbGjgBUTF3V2SNG3ArZAt2D9BzMxtrRqg",
+        "https://www.linkedin.com/in/ACoAABfl_LAB5_3WFC6JWbB_QjCH36KWIiWp0QQ",
+        "https://www.linkedin.com/in/ACoAABhOUbEB4245XlocV4Dr8Y1sx8-IS8_Uz7s",
+        "https://www.linkedin.com/in/ACoAACm2JOMBYg0qqhkcZlAbS9WhVHU-XJ5xGcA",
+        "https://www.linkedin.com/in/ACoAADFN0rkBmv9dqRxDJE8-rR1tAXaJdOwLVT0",
+        "https://www.linkedin.com/in/ACoAADs2TH0BTuVtmDuCXyLvGxgYudm7A9sJsaA",
+        "https://www.linkedin.com/in/ACoAAEHSUVQBEvHnaEdesaKagc0WwRyeN2vgMFQ",
+        "https://www.linkedin.com/in/ACoAAF13SYMBiBDMCUe9CJwKX1lVynpPOA1jPQA",
+        "https://www.linkedin.com/in/ACoAAFk7q78BUipOqyuZcxZ3GD4Tvnsr_hSYRao"
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/%D1%85%D1%80%D0%B8%D1%81%D1%82%D0%B8%D0%BD%D0%B0-%D1%87%D1%83%D0%BA%D0%B0%D0%BD%D0%BE%D0%B2%D0%B0-453453359",
+        "https://www.linkedin.com/in/arozhylo",
+        "https://www.linkedin.com/in/dariamalova",
+        "https://www.linkedin.com/in/evgenia-usenok-8b4034b",
+        "https://www.linkedin.com/in/iegor-osaulenko-b073444b",
+        "https://www.linkedin.com/in/mariia-platonova",
+        "https://www.linkedin.com/in/yazvinskaya"
+      ]
+    }
+  }
+}

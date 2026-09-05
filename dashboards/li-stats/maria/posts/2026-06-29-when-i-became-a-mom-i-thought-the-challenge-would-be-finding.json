@@ -1,0 +1,104 @@
+{
+  "urn": "urn:li:activity:7477289819551887361",
+  "id": "7477289819551887361",
+  "type": "post",
+  "posted_at": "2026-06-29T09:20:14Z",
+  "posted_date": "2026-06-29",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7477289819551887361/",
+  "preview": "When I became a mom, I thought the challenge would be finding the right answers. Instead, the challenge became learning which answers to trust. Right now, I'm deep in experimentation with Claude Desig",
+  "text": "When I became a mom, I thought the challenge would be finding the right answers. Instead, the challenge became learning which answers to trust. \n\nRight now, I'm deep in experimentation with Claude Design. For the first time, we're doing our homework properly: collecting all the visual patterns and experiments we've been building over the years, organizing them into a three-level design system, teaching AI how to use it, figuring out how to share it with teammates, and planning all the things we want to explore next.\n\nIt's exciting. It's also messy. And honestly, it's a little terrifying. Every week brings a new tool, a new workflow, a new possibility, and a new expert explaining why everything you learned yesterday is already outdated.\n\nThe more capable AI becomes, the more valuable the human touch becomes.\n\nAI can generate layouts, concepts, and variations in seconds. But it can't recognize the years of experience hidden behind a design decision. It can't replace intuition built through countless iterations, conversations, mistakes, and wins.\n\nAm I stressed about all of this? Absolutely. But motherhood has already trained me to push a stroller loaded with deliveries, carry three bags full of Teo's random essentials, two of my own, and somehow still look like I have my life together.\n\nA little more pressure doesn't feel like something I can't handle. \n\nMaybe that's the real superpower. Not knowing all the answers, but staying curious, learning as you go, and moving forward anyway. \n\n\n#Design \n#AI \n#UXDesign \n#ClaudeAI \n#WorkingMom",
+  "weeks": {
+    "2026-08-31": {
+      "snapshot_at": "2026-09-05T16:20:20Z",
+      "metrics": {
+        "impressions": 355,
+        "members_reached": 161,
+        "reactions": 18,
+        "comments": 3,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 5,
+        "followers_gained": 0,
+        "engagement_rate": 5.92
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 30.4,
+          "Entry": 23.6,
+          "Director": 11.2,
+          "Manager": 9.3,
+          "CXO": 4.3
+        },
+        "job_title": {
+          "Software Engineer": 5
+        },
+        "industry": {
+          "IT Services and IT Consulting": 23.6,
+          "Software Development": 21.1,
+          "Technology, Information and Internet": 8.7,
+          "Design Services": 7.5,
+          "Advertising Services": 5
+        },
+        "company_size": {
+          "51-200 employees": 18.6,
+          "10,001+ employees": 16.8,
+          "1001-5000 employees": 13.7,
+          "11-50 employees": 11.8,
+          "1-10 employees": 7.5
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 13.7,
+          "Lviv": 6.8
+        },
+        "company": {
+          "Speed and Function": 8.7
+        }
+      },
+      "comments": [
+        {
+          "author_name": "Mila Yazvinska",
+          "author_url": "https://www.linkedin.com/in/yazvinskaya",
+          "author_headline": "Marketing & Impact Project Manager",
+          "comment_urn": "urn:li:comment:(activity:7477289819551887361,7477391276024360960)",
+          "text": "Spot on. The \"human touch\" is exactly what AI cannot replicate. Those countless iterations and hard-won lessons are what define true expertise. Proud to see you documenting this journey ✊ it's a real look at the intersection of growth and reality.",
+          "reactions": 1,
+          "replies_count": 1
+        },
+        {
+          "author_name": "Peter Ovchynnikov",
+          "author_url": "https://www.linkedin.com/in/ovchyn",
+          "author_headline": "Building TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function",
+          "comment_urn": "urn:li:comment:(activity:7477289819551887361,7477318478924824576)",
+          "text": "Maria, you make juggling motherhood and the AI whirlwind look like a quiet superpower. Please share your tips and tricks!",
+          "reactions": 2,
+          "replies_count": 0
+        }
+      ],
+      "reactors": [
+        "https://www.linkedin.com/in/ACoAAA5SQjkBae7byuJMQQ9ZTsajvSjXxAu7eLU",
+        "https://www.linkedin.com/in/ACoAAADQTlYBrV8yJLqCTydlp06Ywj-qP4YQ9Q8",
+        "https://www.linkedin.com/in/ACoAAAH2QwgBgIx7qzHSSWFegGepRQF2a53v8ik",
+        "https://www.linkedin.com/in/ACoAAAbNEJABRweZMYt0C7a8bDKeoRIpmxCkYwg",
+        "https://www.linkedin.com/in/ACoAAAfVC00BPmaXaGuc6CS5RFzhgQWbZ8JCzFM",
+        "https://www.linkedin.com/in/ACoAAAfVql8BvA3EvhUg7D_GS35q3pjm_Pk-E-8",
+        "https://www.linkedin.com/in/ACoAAAkkciUBTECPmkDgyuZ34bmjNHQ5BZX9xio",
+        "https://www.linkedin.com/in/ACoAAAmQhdQB9tGKT7X8fFeVnTP3qhannkcfuDI",
+        "https://www.linkedin.com/in/ACoAAAsbnqoBq-6yYGg-ZjFKKvanqLrQfy7vo-Y",
+        "https://www.linkedin.com/in/ACoAAAxbGjgBUTF3V2SNG3ArZAt2D9BzMxtrRqg",
+        "https://www.linkedin.com/in/ACoAABfl_LAB5_3WFC6JWbB_QjCH36KWIiWp0QQ",
+        "https://www.linkedin.com/in/ACoAABqi6kYBFMZ6I5Ol0CTRSLSpDMqglqLQT4A",
+        "https://www.linkedin.com/in/ACoAABqmOC0Bq2SIyPlZMYSs93Hvn2v7q8RILn0",
+        "https://www.linkedin.com/in/ACoAACm2JOMBYg0qqhkcZlAbS9WhVHU-XJ5xGcA",
+        "https://www.linkedin.com/in/ACoAADFN0rkBmv9dqRxDJE8-rR1tAXaJdOwLVT0",
+        "https://www.linkedin.com/in/ACoAADs2TH0BTuVtmDuCXyLvGxgYudm7A9sJsaA",
+        "https://www.linkedin.com/in/ACoAAF13SYMBiBDMCUe9CJwKX1lVynpPOA1jPQA",
+        "https://www.linkedin.com/in/ACoAAFk7q78BUipOqyuZcxZ3GD4Tvnsr_hSYRao"
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/ovchyn",
+        "https://www.linkedin.com/in/yazvinskaya"
+      ]
+    }
+  }
+}
