@@ -499,13 +499,16 @@ async function feedScrollLoop(page, { scrape, waitForNew, shouldStop, maxIterati
 // ---------------------------------------------------------------- browser
 
 // Опційний бекенд Browserbase (хмарна сесія lifleet) замість локального Chrome.
-// Вмикається LI_BACKEND=browserbase; акаунт — LI_AUTHOR (дефолт oleksandr).
+// Вмикається LI_BACKEND=browserbase; акаунт — LI_AUTHOR (обов'язковий).
 // release зберігаємо для shutdown, щоб звільнити сесію (єдиний слот на free plan).
 let bbRelease = null;
 
 async function launchBrowser() {
   if (process.env.LI_BACKEND === 'browserbase') {
-    const slug = process.env.LI_AUTHOR || 'oleksandr';
+    // Дефолту навмисно немає: мовчазний фолбек на чийсь акаунт означав би
+    // скрап не тієї людини. Краще впасти тут, ніж зібрати чужі дані.
+    const slug = process.env.LI_AUTHOR;
+    if (!slug) throw new Error('LI_AUTHOR не задано — вкажи автора з profiles.json');
     const { context, release } = await openBrowserbaseSession(slug);
     bbRelease = release;
     return context;

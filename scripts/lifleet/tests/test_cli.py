@@ -5,6 +5,7 @@ import pytest
 
 from lifleet import cli, registry
 from lifleet.browser import SessionDead, author_page
+from lifleet.invite import mint_invite
 
 
 def run(*argv) -> int:
@@ -89,12 +90,12 @@ def test_invite_disables_recording_check_enables_it(env):
 
 
 def test_invite_updates_registry_after_probe(env):
-    env.page.selectors["img.global-nav__me-photo"] = "Alex Orlyk"
+    env.page.selectors["img.global-nav__me-photo"] = "Alex Tester"
     run("add", "alex", "--name", "Alex")
     assert run("invite", "alex") == 0
     rec = registry.get("alex")
     assert rec["status"] == "live"
-    assert rec["identity"] == "Alex Orlyk"
+    assert rec["identity"] == "Alex Tester"
     assert rec["last_ok"] is not None
 
 
@@ -108,7 +109,7 @@ def test_invite_session_released_even_on_failure(env):
 # --------------------------------------------------------------------- import
 
 def test_import_creates_context_loads_cookies_and_goes_live(env, tmp_path):
-    env.page.selectors["img.global-nav__me-photo"] = "Alex Orlyk"
+    env.page.selectors["img.global-nav__me-photo"] = "Alex Tester"
     run("add", "alex", "--name", "Alex")
     assert run("import", "alex", _cookies_file(tmp_path)) == 0
     # Context створено, куки залито в браузер, реєстр оновлено.
@@ -116,7 +117,7 @@ def test_import_creates_context_loads_cookies_and_goes_live(env, tmp_path):
     assert env.page.context.added_cookies[0]["name"] == "li_at"
     rec = registry.get("alex")
     assert rec["status"] == "live"
-    assert rec["identity"] == "Alex Orlyk"
+    assert rec["identity"] == "Alex Tester"
 
 
 def test_import_session_persists_and_no_recording(env, tmp_path):
@@ -224,14 +225,15 @@ def test_check_releases_session_even_when_probe_raises(env, monkeypatch):
 
 def test_every_session_create_persists_context(env, tmp_path):
     """Головна гарантія: persist=True у КОЖНОМУ sessions.create —
-    invite, check і щоденний author_page."""
+    invite, check, щоденний author_page і мінт лінка для монітора."""
     run("add", "alex", "--name", "Alex")
     run("invite", "alex")
     run("import", "alex", _cookies_file(tmp_path))
     run("check", "alex")
     with author_page("alex"):
         pass
-    assert len(env.bb.sessions.create_calls) == 4
+    mint_invite("alex")
+    assert len(env.bb.sessions.create_calls) == 5
     for call in env.bb.sessions.create_calls:
         assert call["browser_settings"]["context"]["persist"] is True
 

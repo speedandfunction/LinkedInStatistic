@@ -150,9 +150,9 @@ Do not set these expecting the weekly run to read them — it will not:
 
 | Local file | Names present |
 |---|---|
-| `/Users/sashaorlyk/LinkedInStatistic/.env` | `GRAFANA_URL`, `GRAFANA_SERVICE_ACCOUNT_TOKEN` |
-| `/Users/sashaorlyk/LinkedInStatistic/scripts/lifleet/.env` | `BROWSERBASE_API_KEY`, `BROWSERBASE_PROJECT_ID`, `LIFLEET_REGISTRY`, `LIFLEET_REGION` |
-| `/Users/sashaorlyk/LinkedInStatistic/scripts/lifleet/authors.json` | the whole file → `LIFLEET_AUTHORS_JSON` |
+| `~/LinkedInStatistic/.env` | `GRAFANA_URL`, `GRAFANA_SERVICE_ACCOUNT_TOKEN` |
+| `~/LinkedInStatistic/scripts/lifleet/.env` | `BROWSERBASE_API_KEY`, `BROWSERBASE_PROJECT_ID`, `LIFLEET_REGISTRY`, `LIFLEET_REGION` |
+| `~/LinkedInStatistic/scripts/lifleet/authors.json` | the whole file → `LIFLEET_AUTHORS_JSON` |
 
 ---
 
@@ -161,8 +161,8 @@ Do not set these expecting the weekly run to read them — it will not:
 Read the local names without echoing any value into your shell history:
 
 ```bash
-grep -oE '^[A-Za-z_][A-Za-z0-9_]*' /Users/sashaorlyk/LinkedInStatistic/.env
-grep -oE '^[A-Za-z_][A-Za-z0-9_]*' /Users/sashaorlyk/LinkedInStatistic/scripts/lifleet/.env
+grep -oE '^[A-Za-z_][A-Za-z0-9_]*' ~/LinkedInStatistic/.env
+grep -oE '^[A-Za-z_][A-Za-z0-9_]*' ~/LinkedInStatistic/scripts/lifleet/.env
 ```
 
 Then, from any directory. Prefer the `< file` and bare forms — a value typed
@@ -178,7 +178,7 @@ gh secret set BROWSERBASE_PROJECT_ID --repo "$R"
 
 # the Browserbase login registry — read straight from the file, never pasted
 gh secret set LIFLEET_AUTHORS_JSON --repo "$R" \
-  < /Users/sashaorlyk/LinkedInStatistic/scripts/lifleet/authors.json
+  < ~/LinkedInStatistic/scripts/lifleet/authors.json
 
 # --- optional secret ---
 gh secret set GRAFANA_SERVICE_ACCOUNT_TOKEN --repo "$R"
@@ -206,7 +206,7 @@ commit without the matching secret update breaks Monday for everybody.
 1. **Browserbase login** — give the person a live-view link and let them log
    in themselves (details in §6):
    ```bash
-   cd /Users/sashaorlyk/LinkedInStatistic/scripts/lifleet
+   cd ~/LinkedInStatistic/scripts/lifleet
    set -a; . ./.env; set +a
    ./.venv/bin/python -m lifleet add <slug> --name "Full Name" --country UA
    ./.venv/bin/python -m lifleet invite <slug>       # or: python invite_link.py <slug> 30
@@ -217,13 +217,13 @@ commit without the matching secret update breaks Monday for everybody.
    sees what you push:
    ```bash
    gh secret set LIFLEET_AUTHORS_JSON --repo speedandfunction/LinkedInStatistic \
-     < /Users/sashaorlyk/LinkedInStatistic/scripts/lifleet/authors.json
+     < ~/LinkedInStatistic/scripts/lifleet/authors.json
    ```
 3. **Identity + dashboards** — add the same slug to
    `.claude/skills/linkedin-stats/profiles.json` (`name`, `profile_slug` as
    `in/<slug>`, `company_id`, `posts_cutoff`), then:
    ```bash
-   cd /Users/sashaorlyk/LinkedInStatistic
+   cd ~/LinkedInStatistic
    node .github/scripts/gen-author-dashboards.mjs
    set -a; . ./.env; set +a
    node .github/scripts/push-dashboard.mjs --uid linkedin-<slug>       --file dashboards/grafana/linkedin-<slug>.json
@@ -256,7 +256,7 @@ plenty of time to go dead, and a dead session means the scrape fails and
 **Check it — do this on Friday, not Monday morning:**
 
 ```bash
-cd /Users/sashaorlyk/LinkedInStatistic/scripts/lifleet
+cd ~/LinkedInStatistic/scripts/lifleet
 set -a; . ./.env; set +a
 ./.venv/bin/python -m lifleet check --all      # exit 1 if anyone is not "live"
 ```
@@ -291,14 +291,14 @@ changed:
 
 ```bash
 gh secret set LIFLEET_AUTHORS_JSON --repo speedandfunction/LinkedInStatistic \
-  < /Users/sashaorlyk/LinkedInStatistic/scripts/lifleet/authors.json
+  < ~/LinkedInStatistic/scripts/lifleet/authors.json
 ```
 
 Then re-run the week manually (§7) *before* the next Monday, so the missed
 snapshot is only late rather than lost.
 
-Local registry snapshot at the time of writing: `oleksandr`, `peter`, `maria`
-have a `context_id`; `alex` and `olga` do not. Every entry reads
+Local registry snapshot at the time of writing: `peter`, `alex`, `maria`
+have a `context_id`; `olga` does not. Every entry reads
 `status: new` — nobody has passed a `check` yet, so **assume the sessions
 need re-establishing before the first cloud run**.
 
@@ -374,7 +374,7 @@ merge it by hand if the partial week is worth keeping, then dispatch
 check by hand after a manual merge:
 
 ```bash
-cd /Users/sashaorlyk/LinkedInStatistic && git pull
+cd ~/LinkedInStatistic && git pull
 for a in dashboards/li-stats/*/; do
   [ -f "$a/account.json" ] || continue
   echo "$a -> $(python3 -c 'import json,sys;print(sorted(json.load(open(sys.argv[1]))["weeks"])[-1])' "$a/account.json")"

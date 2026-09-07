@@ -21,7 +21,7 @@ const PROFILES = JSON.parse(readFileSync(
 
 // Шаблони лежать окремо в _template/ і НЕ є виходом генерації. Якщо брати
 // за шаблон дашборд якогось автора, друга генерація успадкує його URL —
-// саме так у peter-posts колись потрапив фід oleksandr.
+// саме так у peter-posts колись потрапив фід іншого автора.
 const TPL_DIR = join(GRAFANA_DIR, "_template");
 const MAIN_TPL = readFileSync(join(TPL_DIR, "author.json"), "utf8");
 const POSTS_TPL = readFileSync(join(TPL_DIR, "author-posts.json"), "utf8");
