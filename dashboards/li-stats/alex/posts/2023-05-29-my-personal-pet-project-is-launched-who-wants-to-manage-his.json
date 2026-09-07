@@ -33,6 +33,32 @@
         }
       },
       "comments": []
+    },
+    "2026-09-07": {
+      "snapshot_at": "2026-09-07T03:22:42Z",
+      "metrics": {
+        "impressions": 156,
+        "members_reached": 0,
+        "reactions": 1,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 0.64
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {
+          "Speed and Function": 85.7
+        }
+      },
+      "comments": []
     }
   }
 }

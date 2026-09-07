@@ -31,6 +31,37 @@
         "company": {}
       },
       "comments": []
+    },
+    "2026-09-07": {
+      "snapshot_at": "2026-09-07T03:07:58Z",
+      "metrics": {
+        "impressions": 16,
+        "members_reached": 0,
+        "reactions": 5,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 31.25
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": [],
+      "reactors": [
+        "https://www.linkedin.com/in/ACoAAAIGe_EBcJtCYPM6BWs3KxbPBIxzc47ZERI",
+        "https://www.linkedin.com/in/ACoAAAY12W4BxhPHHiZJCkJUPWTrdIet_PmatSk",
+        "https://www.linkedin.com/in/ACoAAAejAQAB_H9n8ZipVwbikMhXiDUB1igaKa4",
+        "https://www.linkedin.com/in/ACoAABXFzI8BzIBPp9Ze5Y46__x8-TjjXzoBqxE",
+        "https://www.linkedin.com/in/ACoAAD_tKIUBgVu9qEgrJ_pHeJczWDd9lD49fYE"
+      ]
     }
   }
 }

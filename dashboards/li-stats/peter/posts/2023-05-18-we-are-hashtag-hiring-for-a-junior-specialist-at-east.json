@@ -34,6 +34,30 @@
       "reactors": [
         "https://www.linkedin.com/in/ACoAABotm18B94NZ1Ll9-BC1Eesa-Cr-wK7voYg"
       ]
+    },
+    "2026-09-07": {
+      "snapshot_at": "2026-09-07T03:08:47Z",
+      "metrics": {
+        "impressions": 19,
+        "members_reached": 0,
+        "reactions": 2,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 10.53
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": []
     }
   }
 }

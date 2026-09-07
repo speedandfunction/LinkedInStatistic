@@ -69,6 +69,68 @@
       "commenters": [
         "https://www.linkedin.com/in/ovchyn"
       ]
+    },
+    "2026-09-07": {
+      "snapshot_at": "2026-09-07T03:05:59Z",
+      "metrics": {
+        "impressions": 450,
+        "members_reached": 196,
+        "reactions": 5,
+        "comments": 1,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 4,
+        "followers_gained": 0,
+        "engagement_rate": 1.33
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 32.7,
+          "Entry": 31.6,
+          "CXO": 5.1,
+          "Manager": 4.1,
+          "Director": 4.1
+        },
+        "job_title": {
+          "Software Engineer": 11.7,
+          "Full Stack Engineer": 3.6
+        },
+        "industry": {
+          "IT Services and IT Consulting": 34.7,
+          "Software Development": 29.1,
+          "Technology, Information and Internet": 3.6
+        },
+        "company_size": {
+          "51-200 employees": 23.5,
+          "10,001+ employees": 11.2,
+          "11-50 employees": 10.2,
+          "1-10 employees": 7.7,
+          "1001-5000 employees": 7.7
+        },
+        "location": {
+          "Ljubljana Metropolitan Area": 6.1,
+          "Kyiv Metropolitan Area": 5.6,
+          "Belgrade Metropolitan Area": 3.1
+        },
+        "company": {
+          "Speed and Function": 8.7
+        }
+      },
+      "comments": [
+        {
+          "author_name": "Peter Ovchynnikov",
+          "author_url": "https://www.linkedin.com/in/ovchyn",
+          "author_headline": "Building TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function",
+          "comment_urn": "urn:li:comment:(activity:7470834593185624065,7470835123442118656)",
+          "text": "𝗥𝗲𝗽𝗼: https://github.com/ondatra-ai/true-bdd \nFair warning: it's a prototype, not a polished tool. Behavioural spec + architecture management is real; full regeneration isn't there yet. Feedback from people building in this space is what I'm after.",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/ovchyn"
+      ]
     }
   }
 }

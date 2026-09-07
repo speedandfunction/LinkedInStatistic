@@ -107,6 +107,106 @@
         "https://www.linkedin.com/in/yulia-dzundza-ba5896105",
         "https://www.linkedin.com/in/yurii-hryn-6aba40213"
       ]
+    },
+    "2026-09-07": {
+      "snapshot_at": "2026-09-07T03:21:19Z",
+      "metrics": {
+        "impressions": 831,
+        "members_reached": 456,
+        "reactions": 15,
+        "comments": 5,
+        "reposts": 0,
+        "saves": 1,
+        "sends": 1,
+        "profile_viewers": 9,
+        "followers_gained": 0,
+        "engagement_rate": 2.41
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 31.8,
+          "Entry": 30,
+          "Director": 5.5,
+          "Manager": 5,
+          "CXO": 4.6
+        },
+        "job_title": {
+          "Software Engineer": 6.6,
+          "Project Manager": 5,
+          "Full Stack Engineer": 2.9,
+          "Founder": 2.4,
+          "Frontend Developer": 2.2
+        },
+        "industry": {
+          "IT Services and IT Consulting": 32.2,
+          "Software Development": 19.7,
+          "Technology, Information and Internet": 5,
+          "Business Consulting and Services": 2.9,
+          "IT System Custom Software Development": 1.8
+        },
+        "company_size": {
+          "51-200 employees": 19.3,
+          "10,001+ employees": 14.3,
+          "11-50 employees": 11.8,
+          "1001-5000 employees": 10.1,
+          "1-10 employees": 9.4
+        },
+        "location": {
+          "Lviv": 2.2,
+          "Kyiv Metropolitan Area": 12.5,
+          "Cracow Metropolitan Area": 2.2,
+          "Warsaw Metropolitan Area": 2
+        },
+        "company": {
+          "Speed and Function": 6.1,
+          "SoftServe": 3.9,
+          "EPAM Systems": 1.3
+        }
+      },
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/yulia-dzundza-ba5896105",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7448345552549003264,7448364149635686400)",
+          "text": "Yulia Dzundza Verified Profile 1st\nYulia Dzundza\n• 1st\nHR Director\n🩵\n1 reaction\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7448345552549003264,7448360428243574785)",
+          "text": "Olga Mykhailova (Michai) Verified Profile 1st\nOlga Mykhailova (Michai)\n• 1st\nI design culture that works | Less drama and more movement | Helping C-level leaders turn resistance and difficult dynamics into collaboration and change | Developmental Culture | Nonviolent Communication\n🩵\n1 reaction\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/kentgregoire",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7448345552549003264,7448401732860178432)",
+          "text": "Kent Gregoire Premium Profile 1st\nKent Gregoire\n• 1st\nThe CEO to CEOs™ | I help mission-driven founders of $5M–$250M companies scale their impact and innovations | Serial entrepreneur, 15+ companies founded, $250M+ raised | Conscious Capitalism advisor\n🩵\n1 reaction\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/yurii-hryn-6aba40213",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7448345552549003264,7450596729034481664)",
+          "text": "Yurii Hryn Verified Profile 1st\nYurii Hryn\n• 1st\nEmbedded Systems Engineer\nДесь між 🔴 та 🔵\n0",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/kentgregoire",
+        "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b",
+        "https://www.linkedin.com/in/yulia-dzundza-ba5896105",
+        "https://www.linkedin.com/in/yurii-hryn-6aba40213"
+      ]
     }
   }
 }

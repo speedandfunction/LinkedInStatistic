@@ -60,6 +60,56 @@
       "reactors": [
         "https://www.linkedin.com/in/ACoAABLJc_QB0fdj5wgGp-tp1CZZ8uNSEuHqmbQ"
       ]
+    },
+    "2026-09-07": {
+      "snapshot_at": "2026-09-07T03:14:02Z",
+      "metrics": {
+        "impressions": 441,
+        "members_reached": 205,
+        "reactions": 1,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 4,
+        "followers_gained": 0,
+        "engagement_rate": 0.23
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 40.5,
+          "Entry": 30.7,
+          "CXO": 5.9,
+          "Director": 5.9
+        },
+        "job_title": {
+          "Software Engineer": 22,
+          "Quality Assurance Engineer": 6.3,
+          "Quality Assurance Automation Engineer": 5.9,
+          "Founder": 2.9
+        },
+        "industry": {
+          "IT Services and IT Consulting": 39,
+          "Software Development": 29.3,
+          "Technology, Information and Internet": 8.3,
+          "Financial Services": 2.9
+        },
+        "company_size": {
+          "51-200 employees": 18,
+          "1001-5000 employees": 16.1,
+          "10,001+ employees": 11.2,
+          "11-50 employees": 11.2,
+          "1-10 employees": 9.8
+        },
+        "location": {
+          "Greater Bengaluru Area": 4.4,
+          "Lviv": 3.9
+        },
+        "company": {
+          "Speed and Function": 8.3
+        }
+      },
+      "comments": []
     }
   }
 }

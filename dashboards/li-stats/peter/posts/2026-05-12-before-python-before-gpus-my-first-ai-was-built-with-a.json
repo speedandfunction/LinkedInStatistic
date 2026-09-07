@@ -74,6 +74,73 @@
       "commenters": [
         "https://www.linkedin.com/in/klausgpaul"
       ]
+    },
+    "2026-09-07": {
+      "snapshot_at": "2026-09-07T03:05:52Z",
+      "metrics": {
+        "impressions": 475,
+        "members_reached": 197,
+        "reactions": 1,
+        "comments": 1,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 1,
+        "followers_gained": 0,
+        "engagement_rate": 0.42
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 32,
+          "Entry": 27.4,
+          "Director": 9.6,
+          "CXO": 7.6,
+          "Manager": 5.6
+        },
+        "job_title": {
+          "Software Engineer": 6.6,
+          "Project Manager": 3,
+          "Full Stack Engineer": 3
+        },
+        "industry": {
+          "IT Services and IT Consulting": 21.8,
+          "Aviation and Aerospace Component Manufacturing": 20.3,
+          "Software Development": 16.2,
+          "Technology, Information and Internet": 6.6,
+          "Business Consulting and Services": 3
+        },
+        "company_size": {
+          "10,001+ employees": 23.4,
+          "51-200 employees": 16.2,
+          "11-50 employees": 10.7,
+          "1-10 employees": 7.1,
+          "201-500 employees": 6.1
+        },
+        "location": {
+          "Berlin Metropolitan Area": 14.2,
+          "Greater Derby Area": 5.6,
+          "Lviv": 3.6,
+          "Frankfurt Rhine-Main Metropolitan Area": 3
+        },
+        "company": {
+          "Rolls-Royce": 11.2,
+          "Speed and Function": 7.1
+        }
+      },
+      "comments": [
+        {
+          "author_name": "Klaus Paul",
+          "author_url": "https://www.linkedin.com/in/klausgpaul",
+          "author_headline": "Trustworthy AI & data architectures for complex solutions including safety-critical systems. Translate advanced analytics into reliable, data-driven solutions that drive measurable business value and customer impact.",
+          "comment_urn": "urn:li:comment:(activity:7459938935289569280,7459995283813228545)",
+          "text": "You'll love this one: https://archive.org/details/artificial-intelligence-on-the-commodore-64 dating back to 1984",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/klausgpaul"
+      ]
     }
   }
 }

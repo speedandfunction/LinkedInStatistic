@@ -73,6 +73,72 @@
       "commenters": [
         "https://www.linkedin.com/in/untanglingsystems"
       ]
+    },
+    "2026-09-07": {
+      "snapshot_at": "2026-09-07T03:05:52Z",
+      "metrics": {
+        "impressions": 499,
+        "members_reached": 220,
+        "reactions": 3,
+        "comments": 1,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 1,
+        "followers_gained": 0,
+        "engagement_rate": 0.8
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 34.5,
+          "Senior": 26.8,
+          "Director": 6.8,
+          "CXO": 6.4,
+          "Owner": 5
+        },
+        "job_title": {
+          "Software Engineer": 10,
+          "Frontend Developer": 3.6,
+          "Product Manager": 3.6,
+          "Chief Executive Officer": 2.7
+        },
+        "industry": {
+          "IT Services and IT Consulting": 31.8,
+          "Software Development": 24.5,
+          "Technology, Information and Internet": 3.6
+        },
+        "company_size": {
+          "51-200 employees": 19.1,
+          "11-50 employees": 14.1,
+          "1-10 employees": 8.6,
+          "10,001+ employees": 8.6,
+          "1001-5000 employees": 7.7
+        },
+        "location": {
+          "Ljubljana Metropolitan Area": 7.3,
+          "Belgrade Metropolitan Area": 5.9,
+          "Zagreb Metropolitan Area": 3.2,
+          "Washington DC-Baltimore Area": 3.2,
+          "Greater Philadelphia": 2.7
+        },
+        "company": {
+          "Speed and Function": 5.9
+        }
+      },
+      "comments": [
+        {
+          "author_name": "Kate Chapman",
+          "author_url": "https://www.linkedin.com/in/untanglingsystems",
+          "author_headline": "Fractional CTO | Platform, Product & AI strategy | Sociotechnical Systems | Open Source Governance | Helping Humans & Tech Collaborate",
+          "comment_urn": "urn:li:comment:(activity:7455199959148208129,7455463000712351745)",
+          "text": "I think key will be some level of token efficiency. At least for a while. Perhaps there are two components building towards the future where you are saving requirements and making it as cheap as possible to rebuild the code delivering on them.",
+          "reactions": 1,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/untanglingsystems"
+      ]
     }
   }
 }

@@ -31,6 +31,39 @@
         "company": {}
       },
       "comments": []
+    },
+    "2026-09-07": {
+      "snapshot_at": "2026-09-07T03:06:47Z",
+      "metrics": {
+        "impressions": 13,
+        "members_reached": 0,
+        "reactions": 7,
+        "comments": 0,
+        "reposts": 1,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 61.54
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": [],
+      "reactors": [
+        "https://www.linkedin.com/in/ACoAAA1CKloB8h21WUNkxO077mYBVXZtjYmL_ZY",
+        "https://www.linkedin.com/in/ACoAAA5SQjkBae7byuJMQQ9ZTsajvSjXxAu7eLU",
+        "https://www.linkedin.com/in/ACoAAAB7JhcB8AkZTwWfHOmr6p5meyoe49kk4JY",
+        "https://www.linkedin.com/in/ACoAAAzRZfMBZInsV7uIRQqtrOFwfk8Ka7qmT1s",
+        "https://www.linkedin.com/in/ACoAABXFzI8BzIBPp9Ze5Y46__x8-TjjXzoBqxE",
+        "https://www.linkedin.com/in/ACoAACPR_h8BuU5tffH3EIY9snMhKztgkmohIAk",
+        "https://www.linkedin.com/in/ACoAACSZb1MBqNectBY32uA6Gb8Bkp_1oJrI-Qg"
+      ]
     }
   }
 }

@@ -65,6 +65,64 @@
         }
       },
       "comments": []
+    },
+    "2026-09-07": {
+      "snapshot_at": "2026-09-07T03:12:01Z",
+      "metrics": {
+        "impressions": 781,
+        "members_reached": 394,
+        "reactions": 16,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 1,
+        "sends": 0,
+        "profile_viewers": 6,
+        "followers_gained": 0,
+        "engagement_rate": 2.05
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 33.5,
+          "Senior": 31,
+          "Director": 6.3,
+          "CXO": 5.3,
+          "Owner": 3.3
+        },
+        "job_title": {
+          "Software Engineer": 12.7,
+          "Frontend Developer": 4.1,
+          "Project Manager": 3.6,
+          "Full Stack Engineer": 3.3,
+          "Founder": 3.3
+        },
+        "industry": {
+          "IT Services and IT Consulting": 37.3,
+          "Software Development": 25.6,
+          "Technology, Information and Internet": 10.2,
+          "IT System Custom Software Development": 3,
+          "Strategic Management Services": 2.3
+        },
+        "company_size": {
+          "51-200 employees": 19,
+          "11-50 employees": 18.3,
+          "10,001+ employees": 9.9,
+          "1001-5000 employees": 8.4,
+          "201-500 employees": 8.4
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 12.4,
+          "Lviv": 7.1,
+          "Greater Philadelphia": 3.8,
+          "Kharkiv Metropolitan Area": 2.8,
+          "Wroclaw Metropolitan Area": 2.8
+        },
+        "company": {
+          "Speed and Function": 6.3,
+          "EPAM Systems": 2.3,
+          "GlobalLogic": 1.5
+        }
+      },
+      "comments": []
     }
   }
 }

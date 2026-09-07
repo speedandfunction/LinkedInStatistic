@@ -2813,7 +2813,7 @@
       "target_urn": "urn:li:activity:7498789820241010688",
       "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7498789820241010688/",
       "first_scanned_week": "2026-08-31",
-      "last_scanned_week": "2026-08-31",
+      "last_scanned_week": "2026-09-07",
       "reactor_count": 9
     },
     "post:urn:li:activity:7500116105856749568": {
@@ -2822,7 +2822,7 @@
       "target_urn": "urn:li:activity:7500116105856749568",
       "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7500116105856749568/",
       "first_scanned_week": "2026-08-31",
-      "last_scanned_week": "2026-08-31",
+      "last_scanned_week": "2026-09-07",
       "reactor_count": 12
     }
   }

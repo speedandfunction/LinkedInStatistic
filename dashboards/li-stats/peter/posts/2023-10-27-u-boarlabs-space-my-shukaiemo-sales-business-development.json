@@ -43,6 +43,30 @@
         "https://www.linkedin.com/in/ACoAADXzc1oBLdQYy6JNOgAUmAzzLQ-YY6RBxs0",
         "https://www.linkedin.com/in/ovchyn"
       ]
+    },
+    "2026-09-07": {
+      "snapshot_at": "2026-09-07T03:09:42Z",
+      "metrics": {
+        "impressions": 182,
+        "members_reached": 0,
+        "reactions": 10,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 5.49
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": []
     }
   }
 }

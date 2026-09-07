@@ -64,6 +64,63 @@
         }
       },
       "comments": []
+    },
+    "2026-09-07": {
+      "snapshot_at": "2026-09-07T03:22:41Z",
+      "metrics": {
+        "impressions": 657,
+        "members_reached": 345,
+        "reactions": 14,
+        "comments": 0,
+        "reposts": 1,
+        "saves": 0,
+        "sends": 1,
+        "profile_viewers": 6,
+        "followers_gained": 1,
+        "engagement_rate": 2.28
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 31.9,
+          "Senior": 29.3,
+          "Director": 7.5,
+          "CXO": 6.1,
+          "Manager": 3.5
+        },
+        "job_title": {
+          "Software Engineer": 7,
+          "Project Manager": 6.1,
+          "Product Manager": 2.6,
+          "Founder": 2.3,
+          "Delivery Manager": 2
+        },
+        "industry": {
+          "IT Services and IT Consulting": 37.7,
+          "Software Development": 19.7,
+          "Technology, Information and Internet": 7.2,
+          "Business Consulting and Services": 2.6,
+          "IT System Custom Software Development": 2.3
+        },
+        "company_size": {
+          "51-200 employees": 24.9,
+          "10,001+ employees": 12.2,
+          "11-50 employees": 11.9,
+          "1001-5000 employees": 9.9,
+          "201-500 employees": 7.5
+        },
+        "location": {
+          "Lviv": 2.3,
+          "Kyiv Metropolitan Area": 12.8,
+          "Kharkiv Metropolitan Area": 3.2,
+          "Sofia Metropolitan Area": 2
+        },
+        "company": {
+          "Speed and Function": 4.6,
+          "SoftServe": 2.3,
+          "EPAM Systems": 1.7
+        }
+      },
+      "comments": []
     }
   }
 }
