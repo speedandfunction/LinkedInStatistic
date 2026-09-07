@@ -11,7 +11,9 @@ import sys
 from lifleet import browser, registry
 from lifleet import cookies as cookies_mod
 
-slug = sys.argv[1] if len(sys.argv) > 1 else "oleksandr"
+if len(sys.argv) < 2:
+    sys.exit("вкажи slug: python demo_liveview.py <slug> <cookies.json>")
+slug = sys.argv[1]
 cookies_file = sys.argv[2] if len(sys.argv) > 2 else None
 
 rec = registry.get(slug)

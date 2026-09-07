@@ -101,14 +101,14 @@ lifleet invite alex
 3. Тисне іконку Cookie-Editor → **Export** (унизу) → **Export as JSON**
    (копіює в буфер) → вставляє у файл і надсилає тобі, АБО одразу Export до файлу.
 
-Ти зберігаєш присланий файл, наприклад `~/Downloads/oleksandr.json`, і заливаєш:
+Ти зберігаєш присланий файл, наприклад `~/Downloads/peter.json`, і заливаєш:
 
 ```bash
-lifleet import oleksandr ~/Downloads/oleksandr.json
+lifleet import peter ~/Downloads/peter.json
 ```
 
 Скрипт кладе куки в профіль (context) автора, перевіряє сесію і друкує
-`OK oleksandr: live, профіль: <ім'я>`. Далі все як завжди — `check`, щоденні прогони.
+`OK peter: live, профіль: <ім'я>`. Далі все як завжди — `check`, щоденні прогони.
 
 **Чесний мінус**: щоденні сесії на free plan усе одно йдуть з датацентр-IP, тому
 LinkedIn може розлогінити акаунт за кілька днів (тоді просто повтори import зі

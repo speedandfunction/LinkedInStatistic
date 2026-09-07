@@ -1,0 +1,783 @@
+name: linkedin-session-check
+
+# WHY THIS WORKFLOW EXISTS
+# ------------------------------------------------------------------------
+# Once a day, ask Browserbase whether each author's stored LinkedIn context
+# is still logged in. When somebody is not, post ONE Slack message that
+# @-tags that person and hands them a fresh Live View link to log back in
+# through. When everybody is live, the channel stays silent — a monitor
+# that speaks every day is a monitor nobody reads.
+#
+# It exists to protect linkedin-stats-weekly.yml. That workflow scrapes
+# analytics LinkedIn only exposes for the CURRENT window, so a week it
+# cannot collect is gone permanently (WEEKLY-CADENCE.md: "a missed week can
+# never be backfilled"). Before this monitor, the first signal that a
+# context had died was the Monday scrape itself failing with exit 20 —
+# i.e. after the week was already lost. Catching the logout on the day it
+# happens turns an unbackfillable hole into a five-minute re-login.
+#
+# THE TWO PROGRAMS THIS FILE DRIVES, stated once, in one place, because a
+# rename on either side is the one thing here that fails silently at 07:00:
+#
+#   python3 scripts/lifleet/session_report.py --out=<path> [--only=<slugs>]
+#                                             [--minutes=<n>] [--no-invite]
+#       Checks every author sequentially, mints re-login links for the ones
+#       that are logged out, and writes the report JSON to --out.
+#       Exits 0 = the check ran (even with people logged out), 2 = the
+#       operator configured it wrong, 1 = the report could not be written,
+#       130 = interrupted.
+#
+#   node .github/scripts/notify-session-check.mjs --report=<path>
+#       Reads that report and posts to Slack; silent when everyone is live.
+#       Exits 0 = done, 2 = misconfigured, 1 = a message did not land.
+#
+# ARGUMENT FORM IS NOT A PREFERENCE HERE. This repo contains two mutually
+# incompatible argument parsers, and both of these programs are in the
+# `--key=value` camp — session_report.py rejects the space form outright
+# rather than guessing, and the .mjs would swallow a space-separated value
+# as a separate flag worth `true`. Every call below therefore uses `=`.
+#
+# They also live in two different trees and two different languages, which
+# is why this job installs BOTH a Python and a Node toolchain. The "Check
+# the entry points" step fails in ~5 seconds if either path stops existing,
+# rather than after the Browserbase minutes have already been spent.
+# ------------------------------------------------------------------------
+
+on:
+  schedule:
+    # 07:00 UTC daily -> 10:00 Kyiv summer (UTC+3) / 09:00 Kyiv winter (UTC+2).
+    #
+    # The hour is chosen by the LINK, not by the check. A re-login link lives
+    # 20 minutes (see the `minutes` input), so the alert is only useful if it
+    # lands when the person is already at a keyboard. 07:00 UTC is the single
+    # hour that stays inside working time under BOTH Kyiv offsets; 06:00 UTC
+    # would be 08:00 Kyiv all winter, where the link is dead an hour before
+    # anyone opens Slack and the run has burned a paid session for nothing.
+    #
+    # Daily, INCLUDING weekends, on purpose. The whole point is to protect the
+    # Monday 00:00 UTC scrape, so Sunday's run is the most valuable one of the
+    # week — it is the last chance to fix a context before the weekly reads it.
+    # A Mon-Fri cron would leave a Friday-evening logout undetected until the
+    # week it was supposed to save had already been lost.
+    - cron: "0 7 * * *"
+  workflow_dispatch:
+    # This is the first workflow in the repo to declare inputs; the other two
+    # deliberately have none and take every knob as a repo variable. The
+    # difference is that those knobs are settings, while these three are
+    # per-invocation choices an operator makes while debugging a live
+    # incident ("just re-check maria", "give her a 45-minute link") and would
+    # have to remember to unset again afterwards if they were variables.
+    inputs:
+      only:
+        description: "Comma-separated lifleet slugs to check (empty = the whole registry)"
+        required: false
+        type: string
+        default: ""
+      minutes:
+        description: "Lifetime of the re-login Live View link, in minutes (default 20)"
+        required: false
+        type: string
+        default: "20"
+      dry_run:
+        description: "Rehearse: really check every account, but mint no re-login links and print the Slack payload instead of posting it. The liveness checks themselves are still real and still billed."
+        required: false
+        type: boolean
+        default: false
+
+# This job reads the repo and writes nothing back to it: no commit, no PR, no
+# Pages artifact, no release. `contents: read` is all actions/checkout needs.
+permissions:
+  contents: read
+
+# CONCURRENCY: WHY ITS OWN GROUP, AND WHAT THAT DOES *NOT* BUY
+# ------------------------------------------------------------------------
+# Not `pages`. That group is shared by linkedin-stats-weekly and
+# pages-deploy deliberately, so a manual publish queues behind an in-flight
+# weekly (WEEKLY-CADENCE.md). Joining it would make a five-minute liveness
+# check block a Pages deploy, and vice versa, for no reason at all — this
+# job publishes nothing and touches nothing either of them touches on disk.
+#
+# The group below therefore only protects this workflow from itself: two
+# overlapping daily runs (a schedule plus an impatient dispatch) would drive
+# the same Browserbase contexts at the same moment, and two live sessions on
+# ONE cookie jar is precisely what makes LinkedIn invalidate it. A monitor
+# that causes the outage it exists to detect is worse than no monitor.
+#
+# Be honest about the limit: GitHub only serialises runs that share a group,
+# and the weekly's group is `pages`. So this gives ZERO protection against
+# the weekly scrape, which drives the very same contexts through the very
+# same Browserbase account. Moving the weekly into a shared `browserbase`
+# group would fix that and break its documented interlock with pages-deploy,
+# and that file is not this change's to rewrite. The interlock used instead
+# is the clock: the weekly starts at 00:00 UTC Monday with timeout-minutes
+# 180, so it is done by 03:00 UTC at the very worst, four hours before this
+# one starts.
+#
+# AND BE HONEST ABOUT THE PART NO CONCURRENCY GROUP CAN FIX. A re-login link
+# is a keep_alive Browserbase session that this job deliberately never
+# releases — releasing it would kill the link before the person opened it. It
+# therefore holds a concurrency slot for minutes+5 (25 by default) AFTER this
+# job has ended and this group has been released. A shared group would not
+# change that by one second: the group lives as long as the job, the session
+# lives as long as its api_timeout. That is precisely why
+# LIFLEET_MAX_INVITES_PER_RUN defaults to 1 (session_report.max_invites) —
+# one held slot, named in the alert with the time it frees up, instead of
+# three that can saturate the whole account until 07:31 and 429 an operator
+# who re-dispatches the weekly at 07:15.
+#
+# RESIDUAL RISK, stated plainly rather than pretended away: a manual
+# workflow_dispatch of either workflow inside the other's window, or inside
+# the 25 minutes after this one mints a link, will contend for the account
+# and nothing here prevents it.
+concurrency:
+  group: linkedin-session-check
+  cancel-in-progress: false
+
+env:
+  # Named once so a rename on either side is a two-line change here instead
+  # of a hunt through four `run:` blocks. The preflight below turns a stale
+  # path into an immediate, readable failure.
+  CHECK_SCRIPT: scripts/lifleet/session_report.py
+  NOTIFY_SCRIPT: .github/scripts/notify-session-check.mjs
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    # ARITHMETIC, worst case, 4 registry slugs:
+    #   checks    4 x 5 min = 20 min. Four is the whole registry; olga has no
+    #             context_id so cli._check_one returns "new" with zero network
+    #             calls, but budget her anyway. The 5 min is not a guess: a
+    #             check session is opened with timeout_seconds=300
+    #             (cli.py:221), so Browserbase itself kills a hung author at
+    #             that point — nothing in this file has to.
+    #   pauses    3 x up to 9 s  ~= 1 min  (cli._sleep(random.uniform(4, 9)))
+    #   links     1 x ~1 min     =  1 min. Capped by LIFLEET_MAX_INVITES_PER_RUN
+    #             (default 1 — one held concurrency slot, see the concurrency
+    #             note above), and bounded by Playwright's 30 s navigation
+    #             default — we mint the link and hand it off, we never wait
+    #             out the 25 minutes it stays alive for the human.
+    #   setup     checkout + setup-python + ~45 MB of wheels + setup-node
+    #             (no npm install: the notifier has no dependencies) ~= 3 min
+    #   ---------------------------------------------------------------
+    #   ~27 min pathological, ~5 min on a normal day. 45 leaves real headroom.
+    #
+    # This is a per-author bound, so it grows ~5 min per slug: revisit past
+    # about seven authors. That scaling caveat is survivable here in a way it
+    # is not in the weekly, where a job-level kill throws away an
+    # unbackfillable week and forced the RUN_BUDGET_SECS self-bounding loop.
+    # The worst a kill costs THIS job is one late alert — tomorrow's run
+    # checks the same accounts again — so a plain backstop is the right tool.
+    timeout-minutes: 45
+
+    steps:
+      - uses: actions/checkout@v7
+
+      # Preflight: fail here, in seconds, with a message that names the fix.
+      # Without it a missing SLACK_BOT_TOKEN surfaces 25 minutes later, after
+      # the Browserbase minutes are already spent, as a KeyError from the
+      # notifier — and the people who are logged out still do not get told.
+      - name: Check required secrets
+        env:
+          BROWSERBASE_API_KEY: ${{ secrets.BROWSERBASE_API_KEY }}
+          BROWSERBASE_PROJECT_ID: ${{ secrets.BROWSERBASE_PROJECT_ID }}
+          LIFLEET_AUTHORS_JSON: ${{ secrets.LIFLEET_AUTHORS_JSON }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          # A variable, not a secret: a channel id is not a credential and
+          # having it readable in the run log makes misroutes debuggable.
+          SLACK_CHANNEL_ID: ${{ vars.SLACK_CHANNEL_ID }}
+          # Checked HERE, five seconds in, rather than only inside the notifier
+          # at the end. A typo in this map is invisible to the notifier until
+          # every Browserbase minute of the run has already been spent and the
+          # re-login links have already been minted — links that live 20
+          # minutes and would then expire unopened while the operator debugs.
+          SLACK_PEOPLE_JSON: ${{ secrets.SLACK_PEOPLE_JSON || vars.SLACK_PEOPLE_JSON }}
+        run: |
+          set -uo pipefail
+          missing=""
+          [ -n "${BROWSERBASE_API_KEY}" ]    || missing="${missing} BROWSERBASE_API_KEY"
+          [ -n "${BROWSERBASE_PROJECT_ID}" ] || missing="${missing} BROWSERBASE_PROJECT_ID"
+          [ -n "${LIFLEET_AUTHORS_JSON}" ]   || missing="${missing} LIFLEET_AUTHORS_JSON"
+          [ -n "${SLACK_BOT_TOKEN}" ]        || missing="${missing} SLACK_BOT_TOKEN"
+          if [ -n "${missing}" ]; then
+            echo "::error::missing repo secret(s):${missing} — set them under Settings > Secrets and variables > Actions"
+            exit 1
+          fi
+          if [ -z "${SLACK_CHANNEL_ID}" ]; then
+            echo "::error::missing repo variable SLACK_CHANNEL_ID (the C… id of #linkedin-session-bot) — set it under Settings > Secrets and variables > Actions > Variables"
+            exit 1
+          fi
+
+          # THE PEOPLE MAP, WITH THE SAME SEVERITIES THE NOTIFIER USES.
+          # Two different failures, and conflating them is how an operator ends
+          # up hunting a token problem while somebody stays logged out:
+          #   * not a JSON object at all -> the notifier exits 2 and posts
+          #     NOTHING, so this is fatal here too, before any money is spent;
+          #   * a value that is not a member id -> the notifier drops that one
+          #     entry and posts the person by plain name (no ping). Degraded,
+          #     not fatal, so it is a warning — and it names the slug so the
+          #     fix is obvious. Ids themselves are never printed: the map is a
+          #     list of who works here, and this repo is public.
+          # The regex is a copy of MEMBER_ID in notify-session-check.mjs. If it
+          # changes there, change it here — a preflight that is laxer than the
+          # program it guards is worse than no preflight.
+          if [ -n "${SLACK_PEOPLE_JSON}" ]; then
+            python3 <<'PY' || exit 1
+          import json, os, re, sys
+          MEMBER_ID = re.compile(r"\A[UW][A-Z0-9]{2,}\Z", re.I)
+          SLUG = re.compile(r"\A[A-Za-z0-9_-]+\Z")
+          try:
+              m = json.loads(os.environ["SLACK_PEOPLE_JSON"])
+          except Exception:
+              print("::error::SLACK_PEOPLE_JSON is not valid JSON — the notifier would exit 2 and post nothing at all")
+              sys.exit(1)
+          if not isinstance(m, dict):
+              print("::error::SLACK_PEOPLE_JSON is not a JSON object of slug -> Slack member id — the notifier would exit 2 and post nothing at all")
+              sys.exit(1)
+          bad = [k for k, v in m.items() if not MEMBER_ID.match(str(v or ""))]
+          print("slack people map: %d entr(ies)" % len(m))
+          if bad:
+              # Keys reach the run log, so they are filtered the same way slugs
+              # are in the report guard below: a newline would forge a workflow
+              # command. Values are never printed at all.
+              shown = ", ".join(k if SLUG.match(str(k)) else "<unprintable key>" for k in bad)
+              print("::warning::SLACK_PEOPLE_JSON: %d value(s) are not a Slack member id (expected U… or W…): %s — those slugs will be posted by plain name, which does NOT notify them. Everyone else is unaffected." % (len(bad), shown))
+          PY
+          else
+            echo "::warning::SLACK_PEOPLE_JSON is not set — logged-out authors will be posted by plain name, which does NOT notify them"
+          fi
+          echo "all required secrets and variables present"
+
+      # The checker and the notifier live in two different trees and are
+      # maintained separately from this file. A rename would otherwise show
+      # up as a bare `can't open file '...'` after the run had already spent
+      # its Browserbase minutes — or, worse, only on the notifier, leaving a
+      # run that checked everyone, found people logged out, and told nobody.
+      - name: Check the entry points exist
+        run: |
+          set -uo pipefail
+          missing=""
+          [ -f "${CHECK_SCRIPT}" ]  || missing="${missing} ${CHECK_SCRIPT}"
+          [ -f "${NOTIFY_SCRIPT}" ] || missing="${missing} ${NOTIFY_SCRIPT}"
+          if [ -n "${missing}" ]; then
+            echo "::error::missing script(s):${missing} — this workflow's CHECK_SCRIPT/NOTIFY_SCRIPT env values no longer match the repo"
+            exit 1
+          fi
+          echo "entry points present"
+
+      - uses: actions/setup-python@v5
+        with:
+          # NOT the runner's /usr/bin/python3. Ubuntu 24.04 ships a PEP 668
+          # EXTERNALLY-MANAGED marker, so `pip install` against the system
+          # interpreter can be refused outright. The weekly workflow dodges
+          # this by needing no pip at all (merge.py is stdlib-only); lifleet
+          # needs two third-party packages, so that shortcut does not carry
+          # over. setup-python's tool-cache interpreter is not marked.
+          # 3.12 vs the operator's 3.9.6 Mac (DECISIONS.md): pyproject.toml
+          # says requires-python >=3.9 and both deps agree, so this is a
+          # forward skew only — 3.10+ syntax would pass here and break the
+          # operator's box, which the offline pytest suite is what guards.
+          python-version: "3.12"
+          # No `cache: pip` on purpose: its key would have to be
+          # scripts/lifleet/requirements.txt, which is unpinned AND includes
+          # pytest — a file this job deliberately does not install from. A
+          # cache keyed on a file we ignore is a trap for the next reader,
+          # and ~45 MB of wheels is ~20 s.
+
+      - name: Install lifleet runtime deps
+        run: |
+          set -uo pipefail
+          # Pinned, and NOT read from requirements.txt. That file is unpinned
+          # and lists pytest; for a job that runs unattended at 07:00 every
+          # day, an upstream release must not be able to break it with no
+          # commit on this side, and the test-only dep must not be installed
+          # into the run. These are the versions the operator's box runs.
+          python3 -m pip install --disable-pip-version-check \
+            "browserbase==1.18.0" "playwright==1.60.0"
+          # NOTE the deliberate asymmetry with the Node side below: there is
+          # no `npm ci` anywhere in this job, because the notifier is written
+          # against node: builtins and global fetch only. Nothing to install,
+          # nothing to pin, nothing that can break overnight.
+          #
+          # NO `playwright install`. Same argument this repo already makes at
+          # linkedin-stats-weekly.yml:136-140, and it holds for the Python
+          # path too: lifleet's only route to a browser is
+          # pw.chromium.connect_over_cdp(session.connect_url)
+          # (browser.py:150), which resolves no local executable at all — the
+          # browser lives in Browserbase's cloud. Downloading ~341 MB of
+          # Chromium here would add minutes to every run and be used by
+          # nothing. The Node driver the Python client speaks to ships inside
+          # the playwright wheel, so the runner needs no system Node either.
+
+      # The notifier is a .mjs, so the run needs Node as well as Python. It
+      # imports nothing but node: builtins and uses global fetch, which is
+      # why 22 (the version both other workflows pin) and not 20: fetch is
+      # only unflagged from 18 up, and pinning the same major everywhere
+      # means one number to move when the runner image drops an old one.
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      # The lifleet registry maps author slug -> Browserbase context_id (the
+      # logged-in cookie jar). It is gitignored (scripts/lifleet/.gitignore)
+      # and MUST stay that way — this repo is public and the file is
+      # effectively a set of session credentials. So CI materialises it from a
+      # secret, OUTSIDE the working tree. Writing it outside the repo means no
+      # `git add` can ever capture it, even by accident.
+      #
+      # THE ENV-VAR TRAP: the lifleet package honours LIFLEET_REGISTRY and
+      # ONLY that name (registry.py:26). LIFLEET_AUTHORS — the name the
+      # weekly workflow sets — is the *node* backend's alias
+      # (browserbase-backend.mjs:24). session_report.py copies the alias
+      # across for exactly this reason, but relying on that would make this
+      # workflow's correctness depend on a convenience in someone else's
+      # file, so the direct name is what gets set below.
+      - name: Materialise lifleet author registry
+        env:
+          LIFLEET_AUTHORS_JSON: ${{ secrets.LIFLEET_AUTHORS_JSON }}
+        run: |
+          set -uo pipefail
+          dest="${RUNNER_TEMP}/lifleet-authors.json"
+          umask 077
+          printf '%s' "${LIFLEET_AUTHORS_JSON}" > "${dest}"
+          # Shape only. Unlike the weekly there is no profiles.json to
+          # cross-check against: this job's whole job is to look at every slug
+          # in the registry, including the ones with no context_id (olga is
+          # deliberately paused and must report as "new", not fail the run).
+          # Parse errors are re-printed as a fixed string on purpose — a
+          # json.JSONDecodeError message quotes the offending input, and that
+          # input is a credential.
+          python3 - "${dest}" <<'PY'
+          import json, sys
+          try:
+              reg = json.load(open(sys.argv[1], encoding="utf-8"))
+          except Exception:
+              print("::error::LIFLEET_AUTHORS_JSON is not valid JSON")
+              sys.exit(1)
+          if not isinstance(reg, dict) or not reg:
+              print("::error::LIFLEET_AUTHORS_JSON is not a non-empty JSON object")
+              sys.exit(1)
+          with_ctx = [s for s, r in reg.items() if isinstance(r, dict) and r.get("context_id")]
+          print("registry OK: %d slug(s), %d with a context_id" % (len(reg), len(with_ctx)))
+          if not with_ctx:
+              print("::warning::no slug in the registry has a context_id — nothing can be checked")
+          PY
+
+      - name: Check every author (sequential)
+        id: check
+        env:
+          BROWSERBASE_API_KEY: ${{ secrets.BROWSERBASE_API_KEY }}
+          BROWSERBASE_PROJECT_ID: ${{ secrets.BROWSERBASE_PROJECT_ID }}
+          # See the trap above: this name, not LIFLEET_AUTHORS.
+          LIFLEET_REGISTRY: ${{ runner.temp }}/lifleet-authors.json
+          # Documented in WEEKLY-CADENCE.md as `gh variable set LIFLEET_PROXIES off`
+          # for the free Browserbase plan. A repo variable reaches the code
+          # ONLY if a step maps it into env; unset -> "" -> browser.py's own
+          # `not in ("off","0","false","no")` default, so this is safe to
+          # always pass.
+          LIFLEET_PROXIES: ${{ vars.LIFLEET_PROXIES }}
+          # Cap on re-login links minted per run. Every keep_alive link holds a
+          # concurrent Browserbase session for its FULL lifetime — 25 minutes,
+          # outliving this job — and the plan's concurrency limit is not
+          # verified; the free tier allows exactly one, and open_session has no
+          # 429 retry. Unset -> "" -> the checker's own default of 1, which is
+          # the value to leave it at. Raising it only makes sense on a plan
+          # whose concurrency has actually been measured, and even then it
+          # trades the second link against every other session the account
+          # needs for the next 25 minutes, the Monday scrape included.
+          LIFLEET_MAX_INVITES_PER_RUN: ${{ vars.LIFLEET_MAX_INVITES_PER_RUN }}
+          # Registry names and the report are written by Python with no
+          # guarantee of an explicit encoding=; under a C/POSIX locale a
+          # non-ASCII author name is a UnicodeEncodeError that would lose the
+          # whole report. PEP 540 makes the write locale-independent instead
+          # of relying on the image happening to set LANG=C.UTF-8. Same
+          # reasoning as linkedin-stats-weekly.yml:218-224.
+          PYTHONUTF8: "1"
+          ONLY_SLUGS: ${{ inputs.only }}
+          # On a scheduled run the inputs context is empty, so the `||`
+          # fallback is what supplies the default — the input's own `default:`
+          # only applies to a dispatch.
+          LINK_MINUTES: ${{ inputs.minutes || '20' }}
+          DRY_RUN: ${{ inputs.dry_run && '1' || '' }}
+        run: |
+          set -uo pipefail
+
+          # Validate before spending money. `minutes` feeds a paid session's
+          # api_timeout (minutes*60+300), so a fat-fingered "200" would mint a
+          # 3.4-hour billed session per logged-out author; 60 is already far
+          # past any plausible re-login. `only` is spliced into an argv, so it
+          # is restricted to slug characters rather than trusted.
+          case "${LINK_MINUTES}" in
+            ''|*[!0-9]*) echo "::error::minutes must be a positive integer (got '${LINK_MINUTES}')"; exit 1 ;;
+          esac
+          if [ "${LINK_MINUTES}" -lt 1 ] || [ "${LINK_MINUTES}" -gt 60 ]; then
+            echo "::error::minutes must be between 1 and 60 (got ${LINK_MINUTES}) — each link bills minutes+5 of browser time"
+            exit 1
+          fi
+          case "${ONLY_SLUGS}" in
+            *[!a-zA-Z0-9,_-]*) echo "::error::only must be comma-separated lifleet slugs (got '${ONLY_SLUGS}')"; exit 1 ;;
+          esac
+
+          # Remove any report before writing a new one. On a GitHub-hosted
+          # runner ${RUNNER_TEMP} is always empty, so this is a no-op; on a
+          # self-hosted one it is the difference between "the checker failed
+          # and nobody was told" and something worse — the guard below
+          # accepting YESTERDAY's report, the notifier cheerfully re-posting
+          # links that expired 24 hours ago, and the run going green.
+          rm -f "${RUNNER_TEMP}/lifleet-session-report.json"
+
+          # sys.path[0] is the script's own directory, so `from lifleet import
+          # ...` resolves without installing the package or cd-ing anywhere.
+          # The `=` form is mandatory, not stylistic: session_report.py
+          # rejects a space-separated value rather than guessing at it.
+          args=( "--out=${RUNNER_TEMP}/lifleet-session-report.json" "--minutes=${LINK_MINUTES}" )
+          # An `if`, not `[ -n … ] && args+=(…)`: GitHub runs this step as
+          # `bash -e {0}`, and a bare AND-list whose left side is false is the
+          # one shape that reliably trips people up under -e.
+          if [ -n "${ONLY_SLUGS}" ]; then
+            args+=( "--only=${ONLY_SLUGS}" )
+          fi
+          # A DRY RUN MUST MINT NO LINKS, and the reason is disclosure before
+          # it is cost. SLACK_DRY_RUN makes the notifier print the payload it
+          # would have posted — and that payload embeds the Live View URL.
+          # Printed, it lands in this run's log, and the logs of a PUBLIC
+          # repo are readable by anyone on the internet, permanently, whereas
+          # the link itself was only ever meant for one person for twenty
+          # minutes. Verified: with links, a dry run puts two working
+          # browser-control URLs in the log; with --no-invite, zero.
+          # The cost argument is real too and points the same way — a link
+          # bills its whole lifetime whether or not anyone opens it, so a
+          # rehearsal would otherwise cost four times 25 minutes of browser
+          # time and hold four concurrency slots for half an hour.
+          # What is given up: the printed payload has no link block, because
+          # the notifier renders it only when invite_url is present
+          # (notify-session-check.mjs:194). Its own fixture tests under
+          # .github/scripts/tests/ cover that block instead.
+          if [ "${DRY_RUN}" = "1" ]; then
+            args+=( "--no-invite" )
+            echo "dry run: checking for real, minting no links, posting nothing"
+          fi
+
+          echo "::group::session_report"
+          # set +e is REQUIRED: GitHub runs this step as `bash -e {0}`, so a
+          # non-zero exit would kill the step before rc could be read — and
+          # this step exiting is what would skip the notifier. The rc is
+          # recorded and judged by the "Verdict" step at the very end instead,
+          # so that a run which checked four people and died on the fifth
+          # still tells Slack about the four.
+          set +e
+          python3 "${CHECK_SCRIPT}" "${args[@]}"
+          rc=$?
+          set -e
+          echo "::endgroup::"
+
+          echo "rc=${rc}" >> "${GITHUB_OUTPUT}"
+          # session_report.py's documented codes. Note what 0 does NOT mean:
+          # it says the check RAN, not that anyone is logged in. People being
+          # logged out is the report's content, not an error — see the
+          # Verdict step for why that inverts `lifleet check`.
+          case "${rc}" in
+            0) echo "check completed" ;;
+            1) echo "::error::the checker could not write its report (exit 1) — nothing to notify anyone from" ;;
+            2) echo "::error::the checker is misconfigured (exit 2) — bad arguments, missing Browserbase credentials, an empty registry, or an --only slug that is not in it" ;;
+            130) echo "::error::the checker was interrupted (exit 130)" ;;
+            *) echo "::error::the checker exited ${rc}" ;;
+          esac
+          # Deliberately exits 0. The verdict is decided at the end.
+
+      # THE REPORT IS A CREDENTIAL, NOT A LOG.
+      # --------------------------------------------------------------------
+      # Every non-live author's entry carries a Browserbase Live View URL.
+      # Anyone holding that URL can drive a browser that is logged into that
+      # person's LinkedIn for the next 20 minutes — no password, no 2FA, no
+      # trace. It is the single most sensitive value this pipeline ever
+      # produces, more so than the registry, which at least needs the API key
+      # to be useful. Consequences, all of them deliberate:
+      #   - it is written to ${RUNNER_TEMP}, never into the working tree, so
+      #     nothing can commit it;
+      #   - it is NEVER handed to actions/upload-artifact — a run artifact is
+      #     downloadable by anyone with read access to this PUBLIC repo, for
+      #     90 days, which would turn a 20-minute link into a permanent one;
+      #   - nothing below ever cats, echoes or diffs the file, and no step
+      #     here may be run under ACTIONS_STEP_DEBUG-style tracing;
+      #   - only slugs and statuses are printed. Those are not secret and are
+      #     the only things an operator actually needs from the log.
+      - name: Guard — the report must exist and parse
+        id: report
+        run: |
+          set -uo pipefail
+          report="${RUNNER_TEMP}/lifleet-session-report.json"
+          if [ ! -s "${report}" ]; then
+            echo "::error::the checker produced no report at ${report} — there is nothing to notify anyone about"
+            exit 1
+          fi
+          # Prints slug/status pairs and the not-live slug list, and nothing
+          # else. As above, the exception text is swallowed rather than
+          # printed because a decode error can quote a Live View URL.
+          python3 - "${report}" "${GITHUB_OUTPUT}" <<'PY'
+          import json, re, sys
+          SAFE = re.compile(r"\A[A-Za-z0-9_-]+\Z")
+          try:
+              rep = json.load(open(sys.argv[1], encoding="utf-8"))
+              checked_at = str(rep["checked_at"])
+              rows = [
+                  (str(a["slug"]), str(a["status"]),
+                   bool(a.get("invite_url")), a.get("invite_error"),
+                   a.get("invite_wait_until"))
+                  for a in rep["authors"]
+              ]
+          except Exception:
+              print("::error::the report is not a readable session report")
+              sys.exit(1)
+
+          def reason(text):
+              """Чому лінка немає — одним рядком, придатним для публічного логу.
+
+              Текст пишемо ми або SDK Browserbase, URL там бути не має — але цей
+              рядок іде в лог ПУБЛІЧНОГО репо, тож http… вирізаємо беззастережно,
+              а переводи рядків прибираємо: інакше одна \\n підробила б
+              ::error:: команду воркфлоу.
+              """
+              one = " ".join(str(text).split())
+              return re.sub(r"https?://\S+", "<url>", one)[:160]
+          # Slugs reach two line-oriented sinks from here — the run log, where
+          # a newline forges a ::error:: workflow command, and $GITHUB_OUTPUT,
+          # where it forges a second key (report_ok=0 would silence the whole
+          # Slack step). They originate in LIFLEET_AUTHORS_JSON, so they are
+          # operator-set rather than attacker-set, which is a reason to filter
+          # them cheaply, not a reason to trust them.
+          clean = [r for r in rows if SAFE.match(r[0]) and SAFE.match(r[1])]
+          if len(clean) != len(rows):
+              print("::warning::%d report entr(ies) have a slug or status that is not a plain identifier and are left out of this summary — Slack still covers them, only the log line below is incomplete" % (len(rows) - len(clean)))
+          print("checked_at: %s" % checked_at[:40].replace("\n", " "))
+          for slug, status, has_link, err, _wait in clean:
+              # WHY THERE IS NO LINK MUST BE READABLE FROM THE LOG. The report
+              # itself is a credential and is deliberately never printed, so
+              # without this line "why did peter get no link?" is answerable
+              # only from a file this workflow shreds — and the operator, seeing
+              # the alert land, assumes the incident is handled.
+              note = ""
+              if err:
+                  note = " — %s" % reason(err)
+              print("  %-14s %s%s" % (slug, status, note))
+          # "new" is not a problem and must never reach not_live: that author
+          # has no context_id and was never logged in (olga is paused on
+          # purpose). Alerting about her every morning is exactly how a
+          # channel gets muted, and a muted channel hides the real alerts.
+          not_live = [s for s, st, _l, _e, _w in clean if st not in ("live", "new")]
+          # THREE OUTPUTS, NOT ONE, because the Verdict step must not tell the
+          # operator that "a re-login link is waiting for them" about people for
+          # whom no link was ever minted. Only dead/challenge are ever given a
+          # link (session_report.RELOGIN_STATUSES), so:
+          #   no_link      — logged out AND no link: somebody must mint one by hand;
+          #   undiagnosed  — error/unknown: no link by design, nothing to hand out,
+          #                  tomorrow's run re-checks them.
+          no_link = [s for s, st, has, _e, _w in clean if st in ("dead", "challenge") and not has]
+          undiagnosed = [s for s, st, _l, _e, _w in clean if st in ("error", "unknown")]
+          # The earliest moment the Browserbase account has a free concurrency
+          # slot again, when the checker knew one. A missing link is usually a
+          # held slot (this run's own keep_alive link, alive for minutes+5 after
+          # the job ends), and minting before that time just returns 429 — so
+          # the Verdict must print a time to WAIT for, not only a command to run.
+          # Filtered to ISO characters: this string is written to $GITHUB_OUTPUT,
+          # where a newline would forge a second key.
+          ISO = re.compile(r"\A[0-9T:+.Z-]{1,40}\Z")
+          waits = sorted(str(w) for _s, _st, _l, _e, w in clean if w and ISO.match(str(w)))
+          with open(sys.argv[2], "a", encoding="utf-8") as fh:
+              fh.write("report_ok=1\n")
+              fh.write("not_live=%s\n" % " ".join(not_live))
+              fh.write("no_link=%s\n" % " ".join(no_link))
+              fh.write("undiagnosed=%s\n" % " ".join(undiagnosed))
+              fh.write("slot_free_at=%s\n" % (waits[0] if waits else ""))
+          PY
+
+      - name: Post to Slack
+        id: notify
+        # `!cancelled()`, not `always()`. Both keep the notifier running after
+        # a checker that failed partway — which is the whole point, since a
+        # partial report still names people who need a link today. The
+        # difference is that always() ALSO fires on a cancelled run, where the
+        # report may have been half-written when the process was killed, and
+        # @-tagging four people from a truncated file is worse than silence.
+        # The report_ok gate is the other half: no usable report, no post.
+        if: ${{ !cancelled() && steps.report.outputs.report_ok == '1' }}
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL_ID: ${{ vars.SLACK_CHANNEL_ID }}
+          # Secret first, variable as a fallback: it maps lifleet slugs to
+          # Slack member ids, which is mildly sensitive and — this being a
+          # PUBLIC repo — must never be a committed file either way. Optional:
+          # an unmapped slug falls back to the person's plain name, which
+          # posts but does not notify.
+          SLACK_PEOPLE_JSON: ${{ secrets.SLACK_PEOPLE_JSON || vars.SLACK_PEOPLE_JSON }}
+          # "1" also posts an all-clear when everyone is live. Off by default:
+          # a daily "all good" is how this channel becomes background noise
+          # and the one message that matters gets scrolled past.
+          SLACK_REPORT_ALL: ${{ vars.SLACK_REPORT_ALL }}
+          # A dispatch with dry_run prints the payload and posts nothing. Note
+          # what it does NOT do: the checks above already ran for real and any
+          # links are already minted and billed. There is no offline mode for
+          # a liveness check — set the LIFLEET_MAX_INVITES_PER_RUN variable to
+          # 0 first if the rehearsal must not cost anything.
+          SLACK_DRY_RUN: ${{ inputs.dry_run && '1' || '' }}
+          PYTHONUTF8: "1"
+        run: |
+          set -uo pipefail
+          # No people-map validation here on purpose: it lives in the preflight
+          # step, which reads the SAME expression and runs before any money is
+          # spent. Two copies of a severity rule is how a workflow ends up
+          # printing "degraded, carrying on" over a step that then posts
+          # nothing — which is exactly what this file used to do.
+
+          echo "::group::notify-session-check"
+          # Same set +e reasoning as the checker: the rc must survive to the
+          # verdict step so that "Slack said ok:false" fails the run loudly
+          # instead of ending it here with the report guard's log as the only
+          # clue. chat.postMessage answers HTTP 200 with {"ok": false} on
+          # failure, so the notifier's exit code is the ONLY evidence that
+          # the message actually landed.
+          set +e
+          node "${NOTIFY_SCRIPT}" "--report=${RUNNER_TEMP}/lifleet-session-report.json"
+          rc=$?
+          set -e
+          echo "::endgroup::"
+
+          echo "rc=${rc}" >> "${GITHUB_OUTPUT}"
+          case "${rc}" in
+            0) echo "slack step completed" ;;
+            1) echo "::error::the notifier could not deliver at least one message (exit 1) — someone who is logged out has NOT been told" ;;
+            2) echo "::error::the notifier is misconfigured (exit 2) — a bad or revoked SLACK_BOT_TOKEN, a wrong SLACK_CHANNEL_ID, a private channel the bot was never invited to, a SLACK_PEOPLE_JSON that is not a JSON object at all (a single bad member id does NOT do this — it degrades to a plain name), or a malformed report" ;;
+            *) echo "::error::the notifier exited ${rc}" ;;
+          esac
+
+      - name: Verdict
+        # always(), and here it is the right call rather than the lazy one:
+        # this step decides the run's conclusion, so it must also run when the
+        # report guard failed hard above — that is precisely the case that
+        # must go red. It prints only slugs and exit codes, so it is safe on a
+        # cancelled run too.
+        if: always()
+        env:
+          CHECK_RC: ${{ steps.check.outputs.rc }}
+          REPORT_OK: ${{ steps.report.outputs.report_ok }}
+          NOT_LIVE: ${{ steps.report.outputs.not_live }}
+          NO_LINK: ${{ steps.report.outputs.no_link }}
+          UNDIAGNOSED: ${{ steps.report.outputs.undiagnosed }}
+          SLOT_FREE_AT: ${{ steps.report.outputs.slot_free_at }}
+          NOTIFY_RC: ${{ steps.notify.outputs.rc }}
+          DRY_RUN: ${{ inputs.dry_run && '1' || '' }}
+        run: |
+          set -uo pipefail
+
+          # GREEN MEANS THE ALERT LANDED — NOT THAT EVERYONE IS LOGGED IN.
+          # ------------------------------------------------------------------
+          # This deliberately inverts `lifleet check`, which returns 1 whenever
+          # anyone is not live (cli.py:205). That contract was written for the
+          # cron-plus-ntfy setup in START-HERE.md, where the non-zero exit IS
+          # the notification. Here Slack is the notification, so reusing it
+          # would paint the Actions tab red every single morning until someone
+          # got round to re-logging in — and a workflow that is red every day
+          # is a workflow whose failure mail gets filtered, at which point a
+          # genuinely broken pipeline is invisible. That is the same
+          # not-noticing that already cost this project a month of empty data.
+          #
+          # So: a person being logged out is a WARNING (expected, actionable,
+          # already in Slack). The run fails only when the machinery failed —
+          # the checker died, no report was produced, or Slack did not accept
+          # the message. Those are the cases where nobody has been told, and
+          # nobody finding out is the only outcome this job cannot tolerate.
+          fail=0
+
+          if [ -z "${CHECK_RC}" ]; then
+            echo "::error::the check step never ran"
+            fail=1
+          elif [ "${CHECK_RC}" != "0" ]; then
+            echo "::error::the checker exited ${CHECK_RC} — the roster was not fully checked"
+            fail=1
+          fi
+
+          if [ "${REPORT_OK}" != "1" ]; then
+            echo "::error::no usable report — nothing was posted to Slack"
+            fail=1
+          elif [ -z "${NOTIFY_RC}" ]; then
+            echo "::error::the Slack step never ran, so nobody was told"
+            fail=1
+          elif [ "${NOTIFY_RC}" != "0" ]; then
+            echo "::error::the Slack post failed (exit ${NOTIFY_RC}) — the people below have NOT been told"
+            fail=1
+          fi
+
+          # WAS THE MESSAGE ACTUALLY DELIVERED? Not the same question as
+          # `fail`. A checker that died on the fifth author still got the
+          # first four into Slack, so the two must be tracked separately —
+          # otherwise this step prints "nobody has been told" under a run that
+          # told four people, and an operator who is trusting these lines at
+          # 07:00 starts re-sending links that are already in the channel.
+          told=0
+          if [ "${REPORT_OK}" = "1" ] && [ "${NOTIFY_RC}" = "0" ]; then told=1; fi
+
+          # "A LINK IS WAITING FOR THEM" IS A CLAIM, AND IT MUST BE TRUE.
+          # ------------------------------------------------------------------
+          # not_live is every status except live/new, so it also contains
+          # error/unknown authors (no link by design) and dead ones whose mint
+          # hit the per-run cap or a Browserbase 429. Saying a link is waiting
+          # for all of them is how an operator reads the 07:00 summary, believes
+          # the incident is handled, and nobody mints the links that are
+          # missing. So the slugs are split before anything is claimed about
+          # them: linked (a link really was posted), NO_LINK (logged out,
+          # nothing to open), UNDIAGNOSED (we could not even tell).
+          linked=""
+          for s in ${NOT_LIVE}; do
+            skip=0
+            for n in ${NO_LINK} ${UNDIAGNOSED}; do
+              if [ "${s}" = "${n}" ]; then skip=1; fi
+            done
+            if [ "${skip}" = "0" ]; then linked="${linked} ${s}"; fi
+          done
+          # Leading space from the accumulation above; harmless in a message,
+          # but trimmed so `[ -n ]` still means "there is at least one slug".
+          linked="$(echo "${linked}" | tr -s ' ' | sed 's/^ //;s/ $//')"
+
+          if [ -n "${NOT_LIVE}" ]; then
+            if [ "${DRY_RUN}" = "1" ]; then
+              echo "::warning::not logged in: ${NOT_LIVE} — this was a DRY RUN, so the payload was printed and NOTHING was posted. Nobody has been told. Re-dispatch without dry_run, or hand out a link yourself: python3 scripts/lifleet/invite_link.py <slug>"
+            elif [ "${told}" != "1" ]; then
+              echo "::error::not logged in: ${NOT_LIVE} — and this run did NOT get the message out. Hand out a link yourself: python3 scripts/lifleet/invite_link.py <slug>"
+            else
+              if [ -n "${linked}" ]; then
+                echo "::warning::not logged in: ${linked} — a re-login link is waiting for them in #linkedin-session-bot. Until they use it, linkedin-stats-weekly cannot scrape them, and a missed week can never be backfilled."
+              fi
+              if [ -n "${NO_LINK}" ]; then
+                wait_note=""
+                if [ -n "${SLOT_FREE_AT}" ]; then
+                  wait_note=" The Browserbase slot this run is holding frees up at ${SLOT_FREE_AT} (UTC) — minting before that just returns 429, and killing the RUNNING session to get around it would destroy a link somebody else is about to use."
+                fi
+                # Deliberately a warning, not a failure: the notification — the
+                # outcome this job owns — did land, and Slack already told these
+                # people an operator is coming. What is missing is a human
+                # action, and the reason is one line up in the report guard's
+                # log. If it says the browser slot is busy, WAIT for the time it
+                # names: minting earlier just returns 429.
+                echo "::warning::no re-login link was minted for: ${NO_LINK} — Slack told them an operator will bring one. Mint it: python3 scripts/lifleet/invite_link.py <slug> (the reason is printed by the report guard step above).${wait_note}"
+              fi
+              if [ -n "${UNDIAGNOSED}" ]; then
+                echo "::warning::could not be diagnosed: ${UNDIAGNOSED} — this does NOT mean they are logged in, only that the probe failed. No link exists for them by design. Tomorrow's run re-checks; if it repeats, read the session check step's log."
+              fi
+            fi
+          elif [ "${REPORT_OK}" = "1" ]; then
+            echo "every author with a context is live"
+          fi
+
+          exit "${fail}"
+
+      # Belt and braces. On a GitHub-hosted runner the whole VM is destroyed
+      # after the job, so this changes nothing; on a self-hosted runner
+      # ${RUNNER_TEMP} persists between jobs and would leave a live Live View
+      # URL and a registry full of context ids readable by the next workflow
+      # that happens to run there. always() so it also fires on a cancelled or
+      # failed run — those are exactly the runs that leave the file behind.
+      - name: Shred the temp credentials
+        if: always()
+        run: |
+          set -uo pipefail
+          rm -f "${RUNNER_TEMP}/lifleet-session-report.json" \
+                "${RUNNER_TEMP}/lifleet-authors.json"

@@ -5,8 +5,8 @@ from lifleet.probe import probe
 
 
 def test_live_by_feed_url_with_identity():
-    page = FakePage(selectors={"img.global-nav__me-photo": "Alex Orlyk"})
-    assert probe(page) == ("live", "Alex Orlyk")
+    page = FakePage(selectors={"img.global-nav__me-photo": "Alex Tester"})
+    assert probe(page) == ("live", "Alex Tester")
 
 
 def test_live_by_global_nav_when_url_is_not_feed():

@@ -161,8 +161,8 @@ export LI_BACKEND
 # lost week. PEP 540 UTF-8 mode makes the write locale-independent instead of
 # relying on the runner happening to set LANG=C.UTF-8.
 export PYTHONUTF8=1
-# Test hook: restrict the fire to a subset ("peter", "peter oleksandr",
-# "peter,oleksandr"). Empty = every author in profiles.json.
+# Test hook: restrict the fire to a subset ("peter", "peter maria",
+# "peter,maria"). Empty = every author in profiles.json.
 AUTHOR_FILTER="${LI_AUTHORS:-}"
 # Breathing room between two authors' cloud sessions. Accounts have separate
 # 429 budgets, but back-to-back full scrapes from the same project are the

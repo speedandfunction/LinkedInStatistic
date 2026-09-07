@@ -990,21 +990,6 @@
         "headline_hash": null
       }
     },
-    "in/acoaacm2jombyg0qqhkczlabs9whvhu-xj5xgca": {
-      "key": "in/acoaacm2jombyg0qqhkczlabs9whvhu-xj5xgca",
-      "name": "Oleksandr Orlyk View Oleksandr Orlyk’s profile 1st degree connection · 1st Marketing Manager at Speed and Function",
-      "profile_url": "https://www.linkedin.com/in/ACoAACm2JOMBYg0qqhkcZlAbS9WhVHU-XJ5xGcA",
-      "headline": "",
-      "headline_seen_at": "2026-09-03T14:07:50Z",
-      "first_seen_at": "2026-09-03T14:07:50Z",
-      "icp": {
-        "verdict": null,
-        "reason": null,
-        "model": null,
-        "classified_at": null,
-        "headline_hash": null
-      }
-    },
     "in/acoaacndhsqb0krupplm7c4zmzgistk8jadwz7c": {
       "key": "in/acoaacndhsqb0krupplm7c4zmzgistk8jadwz7c",
       "name": "Fernando Aguilar View Fernando Aguilar’s profile 1st degree connection · 1st Senior Software Engineer | Full-Stack Devel",
@@ -3006,18 +2991,6 @@
       "backfill": true,
       "first_seen_at": "2026-09-03T14:07:50Z"
     },
-    "react:post:urn:li:activity:7432772025972269056:in/acoaacm2jombyg0qqhkczlabs9whvhu-xj5xgca": {
-      "event_id": "react:post:urn:li:activity:7432772025972269056:in/acoaacm2jombyg0qqhkczlabs9whvhu-xj5xgca",
-      "kind": "reaction",
-      "target_type": "post",
-      "target_urn": "urn:li:activity:7432772025972269056",
-      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7432772025972269056/",
-      "person_key": "in/acoaacm2jombyg0qqhkczlabs9whvhu-xj5xgca",
-      "occurred_at": null,
-      "attributed_week": null,
-      "backfill": true,
-      "first_seen_at": "2026-09-03T14:07:50Z"
-    },
     "react:post:urn:li:activity:7432772025972269056:in/acoaacszb1mbqnectby32ua6gb8bkp_1ojri-qg": {
       "event_id": "react:post:urn:li:activity:7432772025972269056:in/acoaacszb1mbqnectby32ua6gb8bkp_1ojri-qg",
       "kind": "reaction",
@@ -3390,18 +3363,6 @@
       "backfill": true,
       "first_seen_at": "2026-09-03T14:07:50Z"
     },
-    "react:post:urn:li:activity:7448345552549003264:in/acoaacm2jombyg0qqhkczlabs9whvhu-xj5xgca": {
-      "event_id": "react:post:urn:li:activity:7448345552549003264:in/acoaacm2jombyg0qqhkczlabs9whvhu-xj5xgca",
-      "kind": "reaction",
-      "target_type": "post",
-      "target_urn": "urn:li:activity:7448345552549003264",
-      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7448345552549003264/",
-      "person_key": "in/acoaacm2jombyg0qqhkczlabs9whvhu-xj5xgca",
-      "occurred_at": null,
-      "attributed_week": null,
-      "backfill": true,
-      "first_seen_at": "2026-09-03T14:07:50Z"
-    },
     "react:post:urn:li:activity:7448345552549003264:in/acoaacszb1mbqnectby32ua6gb8bkp_1ojri-qg": {
       "event_id": "react:post:urn:li:activity:7448345552549003264:in/acoaacszb1mbqnectby32ua6gb8bkp_1ojri-qg",
       "kind": "reaction",
@@ -3469,18 +3430,6 @@
       "target_urn": "urn:li:activity:7470860945817505792",
       "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7470860945817505792/",
       "person_key": "in/acoaaay6qpkbcmhbwsqacmorkxgrv6p_vydjswa",
-      "occurred_at": null,
-      "attributed_week": null,
-      "backfill": true,
-      "first_seen_at": "2026-09-03T14:07:50Z"
-    },
-    "react:post:urn:li:activity:7470860945817505792:in/acoaacm2jombyg0qqhkczlabs9whvhu-xj5xgca": {
-      "event_id": "react:post:urn:li:activity:7470860945817505792:in/acoaacm2jombyg0qqhkczlabs9whvhu-xj5xgca",
-      "kind": "reaction",
-      "target_type": "post",
-      "target_urn": "urn:li:activity:7470860945817505792",
-      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7470860945817505792/",
-      "person_key": "in/acoaacm2jombyg0qqhkczlabs9whvhu-xj5xgca",
       "occurred_at": null,
       "attributed_week": null,
       "backfill": true,
@@ -3948,7 +3897,7 @@
       "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7432772025972269056/",
       "first_scanned_week": "2026-08-31",
       "last_scanned_week": "2026-08-31",
-      "reactor_count": 28
+      "reactor_count": 27
     },
     "post:urn:li:activity:7442515479958589440": {
       "target_id": "post:urn:li:activity:7442515479958589440",
@@ -3966,7 +3915,7 @@
       "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7448345552549003264/",
       "first_scanned_week": "2026-08-31",
       "last_scanned_week": "2026-08-31",
-      "reactor_count": 15
+      "reactor_count": 14
     },
     "post:urn:li:activity:7470860945817505792": {
       "target_id": "post:urn:li:activity:7470860945817505792",
@@ -3975,7 +3924,7 @@
       "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7470860945817505792/",
       "first_scanned_week": "2026-08-31",
       "last_scanned_week": "2026-08-31",
-      "reactor_count": 6
+      "reactor_count": 5
     },
     "post:urn:li:activity:7476214344721002496": {
       "target_id": "post:urn:li:activity:7476214344721002496",

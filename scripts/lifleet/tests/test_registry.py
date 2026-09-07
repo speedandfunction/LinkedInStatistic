@@ -19,10 +19,10 @@ def test_save_and_load_roundtrip(registry_file):
 
 def test_patch_updates_and_persists(registry_file):
     registry.save({"alex": {"name": "Alex", "status": "new"}})
-    rec = registry.patch("alex", status="live", identity="Alex Orlyk")
+    rec = registry.patch("alex", status="live", identity="Alex Tester")
     assert rec["status"] == "live"
     # patch зберігає на диск, не лише в пам'яті
-    assert registry.load()["alex"]["identity"] == "Alex Orlyk"
+    assert registry.load()["alex"]["identity"] == "Alex Tester"
 
 
 def test_get_unknown_slug_raises(registry_file):

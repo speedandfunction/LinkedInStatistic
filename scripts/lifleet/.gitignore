@@ -6,3 +6,13 @@ __pycache__/
 *.egg-info/
 .venv/
 check.log
+
+# Звіт session_report.py: містить живі Live View URL — це фактично креденшали.
+# У CI він пишеться в $RUNNER_TEMP, але локальний запуск легко цілить у репо.
+*session-report*.json
+*session-report*.json.tmp
+# --out приймає будь-який шлях, тож ловимо і загальні імена звітів.
+report.json
+report.json.tmp
+*-report.json
+*-report.json.tmp
