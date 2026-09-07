@@ -65,6 +65,64 @@
       "commenters": [
         "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b"
       ]
+    },
+    "2026-09-07": {
+      "snapshot_at": "2026-09-07T03:06:13Z",
+      "metrics": {
+        "impressions": 281,
+        "members_reached": 121,
+        "reactions": 1,
+        "comments": 1,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 0.71
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 30.6,
+          "Senior": 28.1,
+          "CXO": 5.8
+        },
+        "job_title": {
+          "Software Engineer": 19.8
+        },
+        "industry": {
+          "IT Services and IT Consulting": 38,
+          "Software Development": 29.8,
+          "Technology, Information and Internet": 8.3
+        },
+        "company_size": {
+          "51-200 employees": 29.8,
+          "11-50 employees": 11.6,
+          "10,001+ employees": 10.7,
+          "1001-5000 employees": 8.3,
+          "501-1000 employees": 7.4
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 7.4,
+          "Lviv": 6.6
+        },
+        "company": {
+          "Speed and Function": 16.5
+        }
+      },
+      "comments": [
+        {
+          "author_name": "Olga Mykhailova (Michai)",
+          "author_url": "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b",
+          "author_headline": "I design culture that works | Less drama and more movement | Helping C-level leaders turn resistance and difficult dynamics into collaboration and change | Developmental Culture | Nonviolent Communication",
+          "comment_urn": "urn:li:comment:(activity:7488189837460799489,7490814600452444160)",
+          "text": "I did it to some extent. Not for coding but for contract reading while designing new templates. Used 2 agents checking the work of each other and writing recommendations on what to check next time when we do regression testing of the updated template",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b"
+      ]
     }
   }
 }

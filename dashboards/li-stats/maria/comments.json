@@ -19,6 +19,13 @@
           "replies_count": 0,
           "impressions": 0,
           "commenters": []
+        },
+        "2026-09-07": {
+          "snapshot_at": "2026-09-07T03:27:37Z",
+          "reactions": 0,
+          "replies_count": 0,
+          "impressions": 0,
+          "commenters": []
         }
       }
     },
@@ -37,6 +44,13 @@
       "weeks": {
         "2026-08-31": {
           "snapshot_at": "2026-09-05T16:20:03Z",
+          "reactions": 0,
+          "replies_count": 0,
+          "impressions": 0,
+          "commenters": []
+        },
+        "2026-09-07": {
+          "snapshot_at": "2026-09-07T03:27:37Z",
           "reactions": 0,
           "replies_count": 0,
           "impressions": 0,
@@ -63,6 +77,13 @@
           "replies_count": 0,
           "impressions": 0,
           "commenters": []
+        },
+        "2026-09-07": {
+          "snapshot_at": "2026-09-07T03:27:37Z",
+          "reactions": 0,
+          "replies_count": 0,
+          "impressions": 0,
+          "commenters": []
         }
       }
     },
@@ -81,6 +102,13 @@
       "weeks": {
         "2026-08-31": {
           "snapshot_at": "2026-09-05T16:20:03Z",
+          "reactions": 0,
+          "replies_count": 0,
+          "impressions": 0,
+          "commenters": []
+        },
+        "2026-09-07": {
+          "snapshot_at": "2026-09-07T03:27:37Z",
           "reactions": 0,
           "replies_count": 0,
           "impressions": 0,
@@ -106,6 +134,11 @@
           "reactions": 0,
           "replies_count": 0,
           "impressions": 0,
+          "commenters": []
+        },
+        "2026-09-07": {
+          "snapshot_at": "2026-09-07T03:29:26Z",
+          "people_only": true,
           "commenters": []
         }
       }

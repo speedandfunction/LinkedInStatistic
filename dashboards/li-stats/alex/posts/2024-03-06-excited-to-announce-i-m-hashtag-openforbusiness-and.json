@@ -56,6 +56,55 @@
         "https://www.linkedin.com/in/arozhylo",
         "https://www.linkedin.com/in/rlimon"
       ]
+    },
+    "2026-09-07": {
+      "snapshot_at": "2026-09-07T03:22:00Z",
+      "metrics": {
+        "impressions": 1637,
+        "members_reached": 0,
+        "reactions": 14,
+        "comments": 2,
+        "reposts": 2,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 13,
+        "followers_gained": 0,
+        "engagement_rate": 1.1
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {
+          "51-200 employees": 66.7
+        },
+        "location": {},
+        "company": {}
+      },
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/rlimon",
+          "author_headline": "",
+          "comment_urn": "",
+          "text": "Ricardo Limon Verified Profile 1st\nRicardo Limon\n• 1st\nGeneralist/Application Architect/Gen AI/Mentor\nIf anyone is in need of a great program or project manager, he is your man.\nBest wishes for you Andrii in this new phase of your career\n1 reaction\n1\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/arozhylo",
+          "author_headline": "",
+          "comment_urn": "",
+          "text": "Andrii Rozhylo\nAuthor\nAI Transformation Leader | Business Strategist | Entrepreneur | Delivery Manager | Product Manager | Marketing Expert\nThanks, Ricardo 🙏\n0\n12 impressions\n12",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/arozhylo",
+        "https://www.linkedin.com/in/rlimon"
+      ]
     }
   }
 }

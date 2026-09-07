@@ -85,6 +85,84 @@
         "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b",
         "https://www.linkedin.com/in/vitaly-gapontsev"
       ]
+    },
+    "2026-09-07": {
+      "snapshot_at": "2026-09-07T03:02:22Z",
+      "metrics": {
+        "impressions": 528,
+        "members_reached": 291,
+        "reactions": 2,
+        "comments": 4,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 2,
+        "followers_gained": 0,
+        "engagement_rate": 1.14
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 34.4,
+          "Entry": 27.1,
+          "Manager": 7.9,
+          "Director": 5.8,
+          "CXO": 5.2
+        },
+        "job_title": {
+          "Software Engineer": 19.9,
+          "Product Manager": 2.4,
+          "Project Manager": 2.1,
+          "Founder": 2.1
+        },
+        "industry": {
+          "Software Development": 32.6,
+          "IT Services and IT Consulting": 28.9,
+          "Technology, Information and Internet": 7.6,
+          "Financial Services": 4.1,
+          "Business Consulting and Services": 2.4
+        },
+        "company_size": {
+          "51-200 employees": 19.2,
+          "1001-5000 employees": 15.5,
+          "10,001+ employees": 12.4,
+          "11-50 employees": 10,
+          "1-10 employees": 8.2
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 3.8,
+          "London Area, United Kingdom": 3.1,
+          "Amsterdam Area": 3.1,
+          "Greater Bengaluru Area": 2.7,
+          "Lviv": 2.4
+        },
+        "company": {
+          "Speed and Function": 7.9
+        }
+      },
+      "comments": [
+        {
+          "author_name": "Olga Mykhailova (Michai)",
+          "author_url": "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b",
+          "author_headline": "I design culture that works | Less drama and more movement | Helping C-level leaders turn resistance and difficult dynamics into collaboration and change | Developmental Culture | Nonviolent Communication",
+          "comment_urn": "urn:li:comment:(activity:7486035888146329601,7488953767074263040)",
+          "text": "I assume teachers and pedagogues are the best AI learners then",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "Vitaly Gapontsev",
+          "author_url": "https://www.linkedin.com/in/vitaly-gapontsev",
+          "author_headline": "Front-End / Fullstack (React + Node.js)",
+          "comment_urn": "urn:li:comment:(activity:7486035888146329601,7486053525467222016)",
+          "text": "...the thing is, engineers aren't supposed to manage. Many, like me, went engineering precisely because they did not want to manage people.\nAnd if we put a manager to steer an AI, they can't control the quality and fix problems because they lack engineering skills.\n\nWhich was exactly what they needed engineers for.\n\nSo it turns out, not only can't we remove any of them from the equation, we now need a person who can do both. Which kinda undermines the entire \"specialization\" thing.",
+          "reactions": 0,
+          "replies_count": 2
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b",
+        "https://www.linkedin.com/in/vitaly-gapontsev"
+      ]
     }
   }
 }

@@ -93,6 +93,91 @@
         "https://www.linkedin.com/in/kentgregoire",
         "https://www.linkedin.com/in/yazvinskaya"
       ]
+    },
+    "2026-09-07": {
+      "snapshot_at": "2026-09-07T03:28:31Z",
+      "metrics": {
+        "impressions": 287,
+        "members_reached": 131,
+        "reactions": 9,
+        "comments": 4,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 2,
+        "followers_gained": 0,
+        "engagement_rate": 4.53
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 28.2,
+          "Entry": 19.8,
+          "CXO": 13,
+          "Director": 11.5,
+          "Manager": 6.1
+        },
+        "job_title": {
+          "Product Manager": 5.3,
+          "Chief Executive Officer": 4.6
+        },
+        "industry": {
+          "IT Services and IT Consulting": 20.6,
+          "Software Development": 15.3,
+          "Technology, Information and Internet": 8.4,
+          "Design Services": 6.9,
+          "Advertising Services": 5.3
+        },
+        "company_size": {
+          "51-200 employees": 18.3,
+          "11-50 employees": 18.3,
+          "1-10 employees": 11.5,
+          "10,001+ employees": 11.5,
+          "1001-5000 employees": 9.9
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 12.2,
+          "New York City Metropolitan Area": 6.9,
+          "Greater Philadelphia": 5.3
+        },
+        "company": {
+          "Speed and Function": 9.9
+        }
+      },
+      "comments": [
+        {
+          "author_name": "Kent Gregoire",
+          "author_url": "https://www.linkedin.com/in/kentgregoire",
+          "author_headline": "The CEO to CEOs™ | I help mission-driven founders of $5M–$250M companies scale their impact and innovations | Serial entrepreneur, 15+ companies founded, $250M+ raised | Conscious Capitalism advisor",
+          "comment_urn": "urn:li:comment:(activity:7498789820241010688,7498820614900858882)",
+          "text": "\"More intentionally we need to protect the things that remind us we're alive\" resonates; it really resonates, as does so much of your post.\n\nThe red clover is the Vermont (USA) state flower. I chose to name one of our '26 Scottish Highland calves \"Clover\"; her mother is Claire (as in Claire Randall, Outlander series).",
+          "reactions": 1,
+          "replies_count": 1
+        },
+        {
+          "author_name": "Mila Yazvinska",
+          "author_url": "https://www.linkedin.com/in/yazvinskaya",
+          "author_headline": "Marketing & Impact Project Manager",
+          "comment_urn": "urn:li:comment:(activity:7498789820241010688,7498790845031026688)",
+          "text": "Millennials life circle 🌱",
+          "reactions": 2,
+          "replies_count": 1
+        }
+      ],
+      "reactors": [
+        "https://www.linkedin.com/in/ACoAAAAGQHoBQMGjuRUQ-3WIZnRlzeg3Fbbqlfk",
+        "https://www.linkedin.com/in/ACoAAAAqnDUB7Gcud4XR3qYHR4_8diXMe3q4zps",
+        "https://www.linkedin.com/in/ACoAAAH2QwgBgIx7qzHSSWFegGepRQF2a53v8ik",
+        "https://www.linkedin.com/in/ACoAAAgS0LkBBg7e0tRe_M7zaVSYo9CbXBdSRSw",
+        "https://www.linkedin.com/in/ACoAAAqUgLsBMjjr1evGW9ylnNSkUAGh06eUn5k",
+        "https://www.linkedin.com/in/ACoAAAsbnqoBq-6yYGg-ZjFKKvanqLrQfy7vo-Y",
+        "https://www.linkedin.com/in/ACoAAAxbGjgBUTF3V2SNG3ArZAt2D9BzMxtrRqg",
+        "https://www.linkedin.com/in/ACoAACm2JOMBYg0qqhkcZlAbS9WhVHU-XJ5xGcA",
+        "https://www.linkedin.com/in/ACoAAF13SYMBiBDMCUe9CJwKX1lVynpPOA1jPQA"
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/kentgregoire",
+        "https://www.linkedin.com/in/yazvinskaya"
+      ]
     }
   }
 }

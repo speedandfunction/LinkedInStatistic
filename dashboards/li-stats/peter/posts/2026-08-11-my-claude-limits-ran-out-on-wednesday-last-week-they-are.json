@@ -78,6 +78,78 @@
       "commenters": [
         "https://www.linkedin.com/in/vasilyyaremchuk"
       ]
+    },
+    "2026-09-07": {
+      "snapshot_at": "2026-09-07T03:04:01Z",
+      "metrics": {
+        "impressions": 387,
+        "members_reached": 170,
+        "reactions": 4,
+        "comments": 2,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 1,
+        "followers_gained": 0,
+        "engagement_rate": 1.55
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 35.9,
+          "Entry": 19.4,
+          "Director": 11.8,
+          "CXO": 8.2,
+          "VP": 4.7
+        },
+        "job_title": {
+          "Software Engineer": 10.6,
+          "Managing Director": 3.5,
+          "Chief Executive Officer": 3.5
+        },
+        "industry": {
+          "IT Services and IT Consulting": 23.5,
+          "Software Development": 15.9,
+          "Financial Services": 12.9,
+          "Banking": 8.8,
+          "Technology, Information and Internet": 5.3
+        },
+        "company_size": {
+          "10,001+ employees": 38.8,
+          "51-200 employees": 18.2,
+          "11-50 employees": 7.6,
+          "1001-5000 employees": 6.5,
+          "5001-10,000 employees": 5.3
+        },
+        "location": {
+          "London Area, United Kingdom": 8.2,
+          "Lviv": 5.3,
+          "Kyiv Metropolitan Area": 5.3
+        },
+        "company": {
+          "HSBC": 22.9,
+          "Speed and Function": 10.6
+        }
+      },
+      "comments": [
+        {
+          "author_name": "Vasyl Yaremchuk",
+          "author_url": "https://www.linkedin.com/in/vasilyyaremchuk",
+          "author_headline": "Results-Driven Solutions Designer | IT Consultant | Web Development Expert",
+          "comment_urn": "urn:li:comment:(activity:7492904487343288320,7497719034486992896)",
+          "text": "You can run you model on your Mac mini. It could be not so smart but without any limits.",
+          "reactions": 0,
+          "replies_count": 1
+        }
+      ],
+      "reactors": [
+        "https://www.linkedin.com/in/ACoAAAY6qPkBCmhBwsqaCMoRKxgRv6P_VydjsWA",
+        "https://www.linkedin.com/in/ACoAAAhKp3wBRW-kxtC68WUbMvVv6QAT1YVjaUY",
+        "https://www.linkedin.com/in/ACoAABLJc_QB0fdj5wgGp-tp1CZZ8uNSEuHqmbQ",
+        "https://www.linkedin.com/in/ACoAADgOXj8BCvyhVkL12ux3HYQtzWgPj0xnN5w"
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/vasilyyaremchuk"
+      ]
     }
   }
 }

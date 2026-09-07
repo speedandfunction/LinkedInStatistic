@@ -31,6 +31,53 @@
         "company": {}
       },
       "comments": []
+    },
+    "2026-09-07": {
+      "snapshot_at": "2026-09-07T03:07:30Z",
+      "metrics": {
+        "impressions": 22,
+        "members_reached": 0,
+        "reactions": 21,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 95.45
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": [],
+      "reactors": [
+        "https://www.linkedin.com/company/kavoonshop",
+        "https://www.linkedin.com/in/ACoAAA5BtmAB4HfdsexuL9F1BxRmorFllT4Twlo",
+        "https://www.linkedin.com/in/ACoAAA5SQjkBae7byuJMQQ9ZTsajvSjXxAu7eLU",
+        "https://www.linkedin.com/in/ACoAAABk7UgBtKyeuP3l13IJkkzsbzWDsS4v5WY",
+        "https://www.linkedin.com/in/ACoAAABwh8YBmuTM6wqx5_z6nn1hwTRppzd-tOI",
+        "https://www.linkedin.com/in/ACoAAAClLqMBUB5t2xTNy-MbSDu06sTRhkDK5pQ",
+        "https://www.linkedin.com/in/ACoAAAI5iqIB1Ufc9aQodmHQysrPj9KzdRLT_t0",
+        "https://www.linkedin.com/in/ACoAAAIGe_EBcJtCYPM6BWs3KxbPBIxzc47ZERI",
+        "https://www.linkedin.com/in/ACoAAAOzzSUBmLo-NSJ9OEUH0wLOvpPK3cJsfh0",
+        "https://www.linkedin.com/in/ACoAAA_SFDMBHsvi1TaNt1oUokf0pzPNF3GfIjA",
+        "https://www.linkedin.com/in/ACoAAAbNEJABRweZMYt0C7a8bDKeoRIpmxCkYwg",
+        "https://www.linkedin.com/in/ACoAABW8lKQB0QrxIhivHfM0-9R5Trzh9d7dwVc",
+        "https://www.linkedin.com/in/ACoAABXFzI8BzIBPp9Ze5Y46__x8-TjjXzoBqxE",
+        "https://www.linkedin.com/in/ACoAABuv32EB4g20uy97uGE2bPzBFewyjYZyu5E",
+        "https://www.linkedin.com/in/ACoAAC4HhmoBtYeXeLpOWzrUBTX1zf22OliSWnY",
+        "https://www.linkedin.com/in/ACoAACPR_h8BuU5tffH3EIY9snMhKztgkmohIAk",
+        "https://www.linkedin.com/in/ACoAACla-sUB4yabmHHDRkZsWljpMyNVk_VRXvc",
+        "https://www.linkedin.com/in/ACoAADNczxABXYk_r3AUiB5ogBsSMdv6fc43I9k",
+        "https://www.linkedin.com/in/ACoAAD_tKIUBgVu9qEgrJ_pHeJczWDd9lD49fYE",
+        "https://www.linkedin.com/in/ACoAADdC6JUB7_Z-GYi8qYtUDFdZW0KuAYmj-Gs",
+        "https://www.linkedin.com/in/ACoAADnIhvYBYGLRWjHcp3ZYKRSmAAokqIodGu0"
+      ]
     }
   }
 }

@@ -101,6 +101,100 @@
         "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b",
         "https://www.linkedin.com/in/yazvinskaya"
       ]
+    },
+    "2026-09-07": {
+      "snapshot_at": "2026-09-07T03:28:07Z",
+      "metrics": {
+        "impressions": 227,
+        "members_reached": 105,
+        "reactions": 12,
+        "comments": 6,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 4,
+        "followers_gained": 0,
+        "engagement_rate": 7.93
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 31.4,
+          "Entry": 27.6,
+          "Director": 9.5,
+          "CXO": 7.6
+        },
+        "job_title": {
+          "Software Engineer": 8.6,
+          "Frontend Developer": 5.7
+        },
+        "industry": {
+          "Software Development": 21,
+          "IT Services and IT Consulting": 17.1,
+          "Advertising Services": 12.4,
+          "Technology, Information and Internet": 6.7
+        },
+        "company_size": {
+          "51-200 employees": 21.9,
+          "10,001+ employees": 17.1,
+          "1001-5000 employees": 12.4,
+          "11-50 employees": 11.4,
+          "1-10 employees": 7.6
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 19
+        },
+        "company": {
+          "Speed and Function": 13.3
+        }
+      },
+      "comments": [
+        {
+          "author_name": "Evgenia Usenok",
+          "author_url": "https://www.linkedin.com/in/evgenia-usenok-8b4034b",
+          "author_headline": "Communicator at Reactive Post. Personal Stylist",
+          "comment_urn": "urn:li:comment:(activity:7500116105856749568,7500123446601936896)",
+          "text": "Price tag not always showing the real price. Some talks are priceless. But I know how to awoid cheap talks - to be the wierdest person in the team😁",
+          "reactions": 1,
+          "replies_count": 1
+        },
+        {
+          "author_name": "Mila Yazvinska",
+          "author_url": "https://www.linkedin.com/in/yazvinskaya",
+          "author_headline": "Marketing & Impact Project Manager",
+          "comment_urn": "urn:li:comment:(activity:7500116105856749568,7500174321567469568)",
+          "text": "From the other hand it would be nice if some people could reach quickly their communication limits and be quiet at least till the next day 🙄 just saying",
+          "reactions": 1,
+          "replies_count": 1
+        },
+        {
+          "author_name": "Olga Mykhailova (Michai)",
+          "author_url": "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b",
+          "author_headline": "I design culture that works | Less drama and more movement | Helping C-level leaders turn resistance and difficult dynamics into collaboration and change | Developmental Culture | Nonviolent Communication",
+          "comment_urn": "urn:li:comment:(activity:7500116105856749568,7501289661726752768)",
+          "text": "My facial expression is a vivid visualization of that price haha",
+          "reactions": 1,
+          "replies_count": 1
+        }
+      ],
+      "reactors": [
+        "https://www.linkedin.com/in/ACoAAABrf5IBsdte8YOPtDE1cKGslvdPizAp8Q0",
+        "https://www.linkedin.com/in/ACoAAAETyzQB2GsTiSUMXEx0kiTAstgmd3OM73A",
+        "https://www.linkedin.com/in/ACoAAAmwOd0BjBOI_C5-vR1BaJuAY8vry3rRBnY",
+        "https://www.linkedin.com/in/ACoAAAqUgLsBMjjr1evGW9ylnNSkUAGh06eUn5k",
+        "https://www.linkedin.com/in/ACoAAAsbnqoBq-6yYGg-ZjFKKvanqLrQfy7vo-Y",
+        "https://www.linkedin.com/in/ACoAAAxbGjgBUTF3V2SNG3ArZAt2D9BzMxtrRqg",
+        "https://www.linkedin.com/in/ACoAAB1mwuUBtgaky35_EGa2BYPaPLP7o_yLgCA",
+        "https://www.linkedin.com/in/ACoAABPwXh4BDuzeYWux2omaMeETeHOqrB-mNiU",
+        "https://www.linkedin.com/in/ACoAACm2JOMBYg0qqhkcZlAbS9WhVHU-XJ5xGcA",
+        "https://www.linkedin.com/in/ACoAADFN0rkBmv9dqRxDJE8-rR1tAXaJdOwLVT0",
+        "https://www.linkedin.com/in/ACoAADc-8vUB80-3cOn1MZN1BnpXbLyuJ8SAKfE",
+        "https://www.linkedin.com/in/ACoAAF13SYMBiBDMCUe9CJwKX1lVynpPOA1jPQA"
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/evgenia-usenok-8b4034b",
+        "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b",
+        "https://www.linkedin.com/in/yazvinskaya"
+      ]
     }
   }
 }

@@ -51,6 +51,50 @@
         }
       },
       "comments": []
+    },
+    "2026-09-07": {
+      "snapshot_at": "2026-09-07T03:13:27Z",
+      "metrics": {
+        "impressions": 308,
+        "members_reached": 126,
+        "reactions": 2,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 0.65
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 33.3,
+          "Senior": 30.2,
+          "CXO": 7.1,
+          "Director": 7.1,
+          "Owner": 6.3
+        },
+        "job_title": {
+          "Software Engineer": 19.8
+        },
+        "industry": {
+          "IT Services and IT Consulting": 37.3,
+          "Software Development": 36.5,
+          "Technology, Information and Internet": 7.1
+        },
+        "company_size": {
+          "51-200 employees": 23,
+          "11-50 employees": 14.3,
+          "10,001+ employees": 11.1,
+          "1001-5000 employees": 8.7,
+          "1-10 employees": 6.3
+        },
+        "location": {},
+        "company": {
+          "Speed and Function": 14.3
+        }
+      },
+      "comments": []
     }
   }
 }

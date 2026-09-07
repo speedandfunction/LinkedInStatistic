@@ -31,6 +31,43 @@
         "company": {}
       },
       "comments": []
+    },
+    "2026-09-07": {
+      "snapshot_at": "2026-09-07T03:06:38Z",
+      "metrics": {
+        "impressions": 13,
+        "members_reached": 0,
+        "reactions": 11,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 84.62
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": [],
+      "reactors": [
+        "https://www.linkedin.com/company/kavoonshop",
+        "https://www.linkedin.com/in/ACoAAA5SQjkBae7byuJMQQ9ZTsajvSjXxAu7eLU",
+        "https://www.linkedin.com/in/ACoAAACVWQsBdwL2diohnJdh4iMeS0TJvv1apMo",
+        "https://www.linkedin.com/in/ACoAAAH6n8ABR2kirjvv67pm5zoaO8C4ghbpLcs",
+        "https://www.linkedin.com/in/ACoAAAWCxTABtK3wJ0xJNPUucU-uhkNhmmej6i4",
+        "https://www.linkedin.com/in/ACoAABptKwwBOUuXZxdnvL22kq2DquoiyLnTmT4",
+        "https://www.linkedin.com/in/ACoAACOfRckBzpPwXMYP0J9b03LjTKfk2iA0K1E",
+        "https://www.linkedin.com/in/ACoAACPR_h8BuU5tffH3EIY9snMhKztgkmohIAk",
+        "https://www.linkedin.com/in/ACoAADUkWkcBid-EKo8412LiJOK_U9l_D7jqwDE",
+        "https://www.linkedin.com/in/ACoAADXzc1oBLdQYy6JNOgAUmAzzLQ-YY6RBxs0",
+        "https://www.linkedin.com/in/ACoAADnIhvYBYGLRWjHcp3ZYKRSmAAokqIodGu0"
+      ]
     }
   }
 }

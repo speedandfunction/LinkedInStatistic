@@ -58,6 +58,43 @@
       "commenters": [
         "https://www.linkedin.com/in/vitaly-gapontsev"
       ]
+    },
+    "2026-09-07": {
+      "snapshot_at": "2026-09-07T03:05:14Z",
+      "metrics": {
+        "impressions": 828,
+        "members_reached": 0,
+        "reactions": 12,
+        "comments": 1,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 4,
+        "followers_gained": 0,
+        "engagement_rate": 1.57
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": [
+        {
+          "author_name": "Vitaly Gapontsev",
+          "author_url": "https://www.linkedin.com/in/vitaly-gapontsev",
+          "author_headline": "Front-End / Fullstack (React + Node.js)",
+          "comment_urn": "urn:li:comment:(activity:7269061795187707904,7269124976455090176)",
+          "text": "\"Як би поміняти, але щоб нічого не міняти\".",
+          "reactions": 2,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/vitaly-gapontsev"
+      ]
     }
   }
 }

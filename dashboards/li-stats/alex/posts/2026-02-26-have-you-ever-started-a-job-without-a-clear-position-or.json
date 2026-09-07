@@ -110,6 +110,109 @@
         "https://www.linkedin.com/in/mcrae-williams-98673b1",
         "https://www.linkedin.com/in/ovchyn"
       ]
+    },
+    "2026-09-07": {
+      "snapshot_at": "2026-09-07T03:21:21Z",
+      "metrics": {
+        "impressions": 1260,
+        "members_reached": 623,
+        "reactions": 28,
+        "comments": 4,
+        "reposts": 3,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 22,
+        "followers_gained": 0,
+        "engagement_rate": 2.78
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 32.4,
+          "Entry": 24.2,
+          "Director": 7.5,
+          "Manager": 6.6,
+          "CXO": 6.1
+        },
+        "job_title": {
+          "Software Engineer": 5.6,
+          "Project Manager": 4.5,
+          "Founder": 3.2,
+          "Product Manager": 1.9,
+          "Quality Assurance Engineer": 1.8
+        },
+        "industry": {
+          "IT Services and IT Consulting": 33.7,
+          "Software Development": 18.9,
+          "Technology, Information and Internet": 7.1,
+          "Human Resources Services": 2.6,
+          "Business Consulting and Services": 2.6
+        },
+        "company_size": {
+          "51-200 employees": 22.3,
+          "11-50 employees": 13,
+          "10,001+ employees": 12.2,
+          "1-10 employees": 8.8,
+          "1001-5000 employees": 8.7
+        },
+        "location": {
+          "Lviv": 14.3,
+          "Kyiv Metropolitan Area": 8,
+          "Greater Philadelphia": 2.9,
+          "Kharkiv Metropolitan Area": 2.4,
+          "Warsaw Metropolitan Area": 2.4
+        },
+        "company": {
+          "Speed and Function": 5.3,
+          "SoftServe": 2.9,
+          "EPAM Systems": 1.1,
+          "N-iX": 0,
+          "GlobalLogic": 0
+        }
+      },
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/ovchyn",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7432772025972269056,7432809002146746368)",
+          "text": "Peter Ovchynnikov Premium Profile 1st\nPeter Ovchynnikov\n• 1st\nBuilding TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function\nThat's the thing about culture — it's hard to understand how it works until you find yourself inside.\n1 reaction\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/mcrae-williams-98673b1",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7432772025972269056,7432902102508728320)",
+          "text": "McRae Williams Premium Profile 1st\nMcRae Williams\n• 1st\nChief Experience Officer @ Local Legend Charters | Driving Business Development\nBlue suits you!\n1 reaction\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/magmostafa",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7432772025972269056,7432810301105963008)",
+          "text": "Maged Mostafa Premium Profile 2nd\nMaged Mostafa\n• 2nd\nOperator-Builder · Enterprise AI\nFollow\nEvery international market entry role I've taken started exactly this way — no playbook, no defined scope. The ambiguity isn't a bug, it's the job. The people who thrive in undefined roles are usually the ones who end up defining the function for everyone after them.\n2 reactions\n2\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/arozhylo",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7432772025972269056,7432821445476548608)",
+          "text": "Andrii Rozhylo\nAuthor\nAI Transformation Leader | Business Strategist | Entrepreneur | Delivery Manager | Product Manager | Marketing Expert\nMaged Mostafa Exactly this. Navigating ambiguity isn't a skill you learn — it's what separates people who build functions from people who fill them. We're not just figuring things out. We're laying the ground for everyone who comes next.\n1 reaction\n1\n94 impressions\n94",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/arozhylo",
+        "https://www.linkedin.com/in/magmostafa",
+        "https://www.linkedin.com/in/mcrae-williams-98673b1",
+        "https://www.linkedin.com/in/ovchyn"
+      ]
     }
   }
 }

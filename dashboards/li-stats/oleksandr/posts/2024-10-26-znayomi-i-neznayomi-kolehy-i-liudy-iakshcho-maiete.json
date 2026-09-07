@@ -35,6 +35,30 @@
         "https://www.linkedin.com/in/ACoAAAusS6MBGO5n8ILf5eiueamNg6P5lFIHHSE",
         "https://www.linkedin.com/in/ACoAADXByqoBGHSRu5Hkwx40VwY4SZipBHfTbZ4"
       ]
+    },
+    "2026-09-07": {
+      "snapshot_at": "2026-09-07T02:58:21Z",
+      "metrics": {
+        "impressions": 237,
+        "members_reached": 0,
+        "reactions": 2,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 6,
+        "followers_gained": 2,
+        "engagement_rate": 0.84
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": []
     }
   }
 }
