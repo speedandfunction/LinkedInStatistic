@@ -3,10 +3,15 @@ name: linkedin-session-check
 # WHY THIS WORKFLOW EXISTS
 # ------------------------------------------------------------------------
 # Once a day, ask Browserbase whether each author's stored LinkedIn context
-# is still logged in. When somebody is not, post ONE Slack message that
-# @-tags that person and hands them a fresh Live View link to log back in
-# through. When everybody is live, the channel stays silent — a monitor
-# that speaks every day is a monitor nobody reads.
+# is still logged in, and post the answer for EVERY account as a status
+# roster — one line each, no @-mentions. When somebody is logged out, post
+# ONE further Slack message that @-tags that person and hands them a fresh
+# Live View link to log back in through.
+#
+# The roster is what the owner reads; the tagged message is what gets acted
+# on. Keeping mentions out of the daily roster is the whole reason the daily
+# roster is survivable — a monitor that pings every day is a monitor people
+# mute, and a muted channel hides the one message that mattered.
 #
 # It exists to protect linkedin-stats-weekly.yml. That workflow scrapes
 # analytics LinkedIn only exposes for the CURRENT window, so a week it
@@ -28,7 +33,8 @@ name: linkedin-session-check
 #       130 = interrupted.
 #
 #   node .github/scripts/notify-session-check.mjs --report=<path>
-#       Reads that report and posts to Slack; silent when everyone is live.
+#       Reads that report and posts to Slack, in English: a status roster
+#       every run, plus one @-tagged message per person who is logged out.
 #       Exits 0 = done, 2 = misconfigured, 1 = a message did not land.
 #
 # ARGUMENT FORM IS NOT A PREFERENCE HERE. This repo contains two mutually
@@ -609,10 +615,14 @@ jobs:
           # an unmapped slug falls back to the person's plain name, which
           # posts but does not notify.
           SLACK_PEOPLE_JSON: ${{ secrets.SLACK_PEOPLE_JSON || vars.SLACK_PEOPLE_JSON }}
-          # "1" also posts an all-clear when everyone is live. Off by default:
-          # a daily "all good" is how this channel becomes background noise
-          # and the one message that matters gets scrolled past.
-          SLACK_REPORT_ALL: ${{ vars.SLACK_REPORT_ALL }}
+          # SLACK_REPORT_ALL used to live here and is gone: the notifier now
+          # posts the status roster on every run, so there is nothing left to
+          # gate. Nothing to migrate either — no Actions variable of that name
+          # was ever set. Do not add it back as a "suppress the roster" switch
+          # without changing notify-session-check.mjs and .env.example in the
+          # same commit: a variable documented in one place and ignored in
+          # another is how this channel goes quiet without anyone noticing.
+          #
           # A dispatch with dry_run prints the payload and posts nothing. Note
           # what it does NOT do: the checks above already ran for real and any
           # links are already minted and billed. There is no offline mode for
