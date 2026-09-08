@@ -1,11 +1,19 @@
 #!/usr/bin/env node
-// Читає звіт денної перевірки LinkedIn-сесій і пінгує в Slack тих, у кого
-// сесія впала — одне повідомлення на людину, з її @-згадкою і свіжим
-// Live View посиланням на повторний вхід.
+// Читає звіт денної перевірки LinkedIn-сесій і публікує в Slack статус УСІХ
+// акаунтів (ростер — по рядку на людину, без жодної @-згадки), а слідом пінгує
+// тих, у кого сесія впала — одне повідомлення на людину, з її @-згадкою і
+// свіжим Live View посиланням на повторний вхід.
 //
-// Мовчить, коли всі живі. Тиша — це нормальний стан, і саме тому будь-яка
-// НЕвідправка мусить бути гучною: втрачений алерт — єдиний сценарій, який
-// повністю знецінює всю фічу. Тому кожен збій Slack валить прогін у червоне.
+// Ростер іде КОЖЕН прогін, включно з днем, коли всі живі: власник хоче бачити
+// стан кожного акаунта, а не здогадуватись, чи бот мовчить від того, що все
+// добре, чи від того, що зламався. Але тегаємо ВИКЛЮЧНО тих, кому треба щось
+// зробити — щоденний пінг «усе добре» глушить канал за тиждень, а глушений
+// канал ховає той єдиний алерт, заради якого все це існує. Тому будь-яка
+// НЕвідправка мусить бути гучною: кожен збій Slack валить прогін у червоне.
+//
+// УВАГА щодо мови: увесь текст, який бачить Slack і оператор у логах, —
+// АНГЛІЙСЬКОЮ (канал ведеться англійською). Коментарі і докстрінги лишаються
+// українською — це конвенція репозиторію.
 //
 // Приймає ТІЛЬКИ форму --key=value (у репозиторії співіснують два несумісні
 // парсери; цей файл — з табору scrape-weekly.mjs):
@@ -19,10 +27,9 @@
 //   SLACK_PEOPLE_JSON  (опційно)     {"<slug>": "U…"} — slug без мапінгу або з
 //                                    битим id деградує до простого імені без
 //                                    пінгу; ключ "_operator" — id оператора
-//   SLACK_REPORT_ALL   (опційно)     "1" — писати і коли всі живі
 //   SLACK_DRY_RUN      (опційно)     "1" — друкує payload'и в stdout, нічого не шле
 //
-// Коди виходу: 0 — відпрацював (відправив усе потрібне або промовчав);
+// Коди виходу: 0 — відпрацював, усе потрібне відправлено;
 // 2 — оператор налаштував криво (нема env, битий JSON, мертвий токен);
 // 1 — хоч одне повідомлення не доїхало.
 
@@ -62,7 +69,13 @@ function args(argv) {
 const TOKEN = process.env.SLACK_BOT_TOKEN ?? "";
 const CHANNEL = process.env.SLACK_CHANNEL_ID ?? "";
 const DRY_RUN = process.env.SLACK_DRY_RUN === "1";
-const REPORT_ALL = process.env.SLACK_REPORT_ALL === "1";
+// SLACK_REPORT_ALL більше немає. Він вмикав all-clear на день, коли всі живі;
+// тепер ростер іде завжди, тож змінна не має що вмикати. Її не перепризначено
+// на «глушити ростер» свідомо: та сама назва з протилежним змістом — пастка
+// для того, хто пам'ятає стару семантику, а вимикач щоденного статусу — це
+// просто повернення до тиші, від якої ми щойно пішли. Прибрано і з
+// .env.example, і з linkedin-session-check.yml (Actions-змінної з такою
+// назвою ніколи не існувало, тож мігрувати нема чого).
 
 // ------------------------------------------------------------- mrkdwn-хелпери
 
@@ -80,18 +93,21 @@ export const safeUrl = (u) =>
 
 const cap = (s, n = TEXT_CAP) => (s.length <= n ? s : `${s.slice(0, n - 1)}…`);
 
-const KYIV = new Intl.DateTimeFormat("uk-UA", {
+// Локаль англійська — разом з усім, що бачить канал. Місяць саме "short", а не
+// "2-digit": в англомовному тексті "07/09" читається як 7 вересня і як 9 липня
+// залежно від читача, а "07 Sept" — однозначно.
+const KYIV = new Intl.DateTimeFormat("en-GB", {
   timeZone: "Europe/Kyiv",
-  day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false,
+  day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit", hour12: false,
 });
-const REL = new Intl.RelativeTimeFormat("uk", { numeric: "auto" });
+const REL = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
 const UNITS = [["day", 86400e3], ["hour", 3600e3], ["minute", 60e3]];
 
 // Час у звіті — UTC ISO. Люди в команді живуть за Києвом і читають алерт о 3
 // ночі за UTC; голий Z-штамп змушує їх рахувати різницю в голові.
 export function kyivTime(iso) {
   const t = Date.parse(iso ?? "");
-  return Number.isNaN(t) ? null : `${KYIV.format(t)} за Києвом`;
+  return Number.isNaN(t) ? null : `${KYIV.format(t)} Kyiv time`;
 }
 
 // «о 09:03» саме по собі не каже, це 20 хвилин тому чи третій день.
@@ -150,24 +166,24 @@ export function classify(code) {
 // Кожен рядок — що саме піти зробити. «Slack повернув not_in_channel» без
 // цього змушує чергового гуглити о третій ночі.
 const REMEDY = {
-  invalid_auth: "SLACK_BOT_TOKEN невалідний або відкликаний — перевипусти xoxb-токен і онови секрет репозиторію.",
-  not_authed: "SLACK_BOT_TOKEN порожній — секрет не доїхав у крок workflow.",
-  token_revoked: "Токен відкликано (застосунок видалили з воркспейсу) — перевстанови застосунок і онови SLACK_BOT_TOKEN.",
-  token_expired: "Токен протух — перевипусти і онови SLACK_BOT_TOKEN.",
-  account_inactive: "Акаунт бота деактивовано у воркспейсі.",
-  missing_scope: "Бракує скоупу chat:write (і chat:write.public для публічного каналу) — додай у налаштуваннях застосунку і ПЕРЕВСТАНОВИ його, інакше токен лишиться старим.",
-  no_permission: "Токен не має прав на цю дію — перевір скоупи застосунку.",
-  channel_not_found: "SLACK_CHANNEL_ID неправильний АБО канал приватний і бот його не бачить — постав правильний C-id і зроби `/invite @<бот>` у #linkedin-session-bot.",
-  not_in_channel: "Бота немає в каналі — `/invite @<бот>` у #linkedin-session-bot (chat:write.public покриває лише публічні канали).",
-  is_archived: "Канал заархівовано — розархівуй або постав інший SLACK_CHANNEL_ID.",
-  messages_tab_disabled: "У застосунку вимкнено вкладку Messages (App Home) — увімкни її в налаштуваннях застосунку.",
-  restricted_action: "Налаштування воркспейсу забороняють цей пост — питання до адміна Slack.",
-  ratelimited: "Slack тротлить (HTTP 429) — усі спроби вичерпано.",
-  rate_limited: "Забагато повідомлень від застосунку — усі спроби вичерпано.",
-  internal_error: "Тимчасова помилка на боці Slack — усі спроби вичерпано.",
-  service_unavailable: "Slack недоступний — усі спроби вичерпано.",
+  invalid_auth: "SLACK_BOT_TOKEN is invalid or revoked — reissue the xoxb token and update the repository secret.",
+  not_authed: "SLACK_BOT_TOKEN is empty — the secret never reached the workflow step.",
+  token_revoked: "The token was revoked (the app was removed from the workspace) — reinstall the app and update SLACK_BOT_TOKEN.",
+  token_expired: "The token expired — reissue it and update SLACK_BOT_TOKEN.",
+  account_inactive: "The bot account is deactivated in the workspace.",
+  missing_scope: "The chat:write scope is missing (and chat:write.public for a public channel) — add it in the app settings and REINSTALL the app, otherwise the token keeps the old scopes.",
+  no_permission: "The token is not allowed to do this — check the app scopes.",
+  channel_not_found: "SLACK_CHANNEL_ID is wrong OR the channel is private and the bot cannot see it — set the right C-id and run `/invite @<bot>` in #linkedin-session-bot.",
+  not_in_channel: "The bot is not in the channel — `/invite @<bot>` in #linkedin-session-bot (chat:write.public covers public channels only).",
+  is_archived: "The channel is archived — unarchive it or point SLACK_CHANNEL_ID somewhere else.",
+  messages_tab_disabled: "The app has the Messages tab (App Home) turned off — turn it on in the app settings.",
+  restricted_action: "Workspace settings forbid this post — take it to a Slack admin.",
+  ratelimited: "Slack is throttling us (HTTP 429) — every attempt is used up.",
+  rate_limited: "Too many messages from the app — every attempt is used up.",
+  internal_error: "A temporary failure on Slack's side — every attempt is used up.",
+  service_unavailable: "Slack is unavailable — every attempt is used up.",
 };
-const remedy = (code) => REMEDY[code] ?? "Дивись https://docs.slack.dev/reference/methods/chat.postMessage/ (розділ Errors).";
+const remedy = (code) => REMEDY[code] ?? "See https://docs.slack.dev/reference/methods/chat.postMessage/ (the Errors section).";
 
 // ------------------------------------------------------------- збірка payload'ів
 
@@ -196,12 +212,12 @@ function mention(author, people) {
 // last_ok_source: "registry-snapshot" саме там, де прогін цієї дати не бачив.
 export function lastSeenLine(author, now) {
   const seen = kyivTime(author.last_ok);
-  if (!seen) return "Успішних перевірок ще не було — коли саме випав, сказати нема по чому.";
+  if (!seen) return "There has never been a successful check, so there is nothing to date the logout from.";
   if (author.last_ok_source === "registry-snapshot") {
-    return `За знімком реєстру востаннє живий *${escape(seen)}* — цей прогін такого не бачив, ` +
-      "у CI реєстр не переживає прогін, тож дата може бути сильно застарілою.";
+    return `The registry snapshot says last seen logged in *${escape(seen)}* — this run did not observe that, ` +
+      "and in CI the registry does not survive a run, so the date can be badly out of date.";
   }
-  return `Остання успішна перевірка: *${escape(seen)}* (${escape(relative(author.last_ok, now))}).`;
+  return `Last successful check: *${escape(seen)}* (${escape(relative(author.last_ok, now))}).`;
 }
 
 export function buildReloginMessage(author, { channel, people, now = Date.now(), checkedAt = null }) {
@@ -210,10 +226,10 @@ export function buildReloginMessage(author, { channel, people, now = Date.now(),
   const status = escape(author.status);
 
   const checked = kyivTime(checkedAt);
-  const when = checked ? `Перевірено: *${escape(checked)}*. ` : "";
+  const when = checked ? `Checked: *${escape(checked)}*. ` : "";
 
   const blocks = [
-    section(`${who}, сесія LinkedIn для *${slug}* більше не активна — статус \`${status}\`.\n${when}${lastSeenLine(author, now)}`),
+    section(`${who}, the LinkedIn session for *${slug}* is no longer active — status \`${status}\`.\n${when}${lastSeenLine(author, now)}`),
   ];
 
   if (author.invite_url) {
@@ -226,11 +242,11 @@ export function buildReloginMessage(author, { channel, people, now = Date.now(),
     // «дійсне до» в минулому читається як баг бота.
     let until = "";
     if (exp && expMs <= now) {
-      until = ` — :warning: строк вийшов (${escape(exp)}), свіжий підніме оператор`;
+      until = ` — :warning: it has expired (${escape(exp)}), the operator will mint a fresh one`;
     } else if (exp) {
-      until = ` — дійсне до *${escape(exp)}*, це ${escape(relative(author.invite_expires_at, now))}.`;
+      until = ` — valid until *${escape(exp)}*, that is ${escape(relative(author.invite_expires_at, now))}.`;
     }
-    blocks.push(section(`:key: <${safeUrl(author.invite_url)}|Увійти в LinkedIn>${until}`));
+    blocks.push(section(`:key: <${safeUrl(author.invite_url)}|Log in to LinkedIn>${until}`));
   } else {
     // Чекер не зміг підняти сесію. Мовчати не можна: людина все одно вилогінена.
     //
@@ -243,20 +259,20 @@ export function buildReloginMessage(author, { channel, people, now = Date.now(),
     // (buildNoLinkMessage), а тут кажемо людині рівно те, що її стосується.
     const wait = kyivTime(author.invite_wait_until);
     const when = wait
-      ? ` Воно з'явиться після *${escape(wait)}* — саме тоді звільниться браузерний слот.`
+      ? ` It will appear after *${escape(wait)}* — that is when a browser slot frees up.`
       : "";
     blocks.push(section(
-      `:hourglass_flowing_sand: Свіже посилання ще не створено — його підніме оператор і кине сюди.${when} Від тебе зараз нічого не потрібно.`,
+      `:hourglass_flowing_sand: A fresh link has not been minted yet — the operator will mint one and post it here.${when} Nothing is needed from you right now.`,
     ));
   }
 
   blocks.push(context(
-    "Входь *поштою і паролем*. Не через Google/Apple — попап OAuth у хмарному браузері не відкривається, і вхід зависне.",
+    "Log in with *email and password*. Not through Google/Apple — the OAuth popup does not open in a cloud browser, and the login hangs.",
   ));
 
   if (!mapped) {
     blocks.push(context(
-      `:information_source: Slack-id для \`${slug}\` не змаплено — пінгу не буде. Додай його в SLACK_PEOPLE_JSON і гукни людину вручну.`,
+      `:information_source: No Slack id is mapped for \`${slug}\`, so there is no ping. Add one to SLACK_PEOPLE_JSON and reach the person by hand.`,
     ));
   }
 
@@ -264,7 +280,7 @@ export function buildReloginMessage(author, { channel, people, now = Date.now(),
     channel,
     // text — це fallback для пуш-нотифікації. Посилання сюди НЕ кладемо:
     // прев'ю пуша розходиться по пристроях і перевідкривається де завгодно.
-    text: `${who} сесія LinkedIn для ${slug} впала — потрібен повторний вхід`,
+    text: `${who} the LinkedIn session for ${slug} is down — a re-login is needed`,
     // Обидва unfurl за замовчуванням УВІМКНЕНІ. Лишити їх — означає дозволити
     // краулеру Slack серверно смикнути одноразовий debugger-URL Browserbase.
     unfurl_links: false,
@@ -295,19 +311,19 @@ export function buildNoLinkMessage(authors, { channel, people = {}, now = Date.n
     // ламає читабельність, тож зводимо в один рядок.
     const why = a.invite_error
       ? escape(String(a.invite_error).replace(/\s+/g, " ").trim())
-      : (a.invite_url ? "лінк протух до того, як його відкрили" : "причина не записана");
+      : (a.invite_url ? "the link expired before anyone opened it" : "no reason was recorded");
     return `• *${escape(a.slug)}* — \`${escape(a.status)}\`: ${why}`;
   });
   return {
     channel,
-    text: "LinkedIn: комусь бракує лінка на повторний вхід",
+    text: "LinkedIn: someone is missing a re-login link",
     unfurl_links: false,
     unfurl_media: false,
     blocks: [
-      section(`${op}:hammer_and_wrench: *Лінк на повторний вхід треба підняти вручну:*\n${lines.join("\n")}`),
+      section(`${op}:hammer_and_wrench: *A re-login link has to be minted by hand:*\n${lines.join("\n")}`),
       // Рівно та команда, яку в цьому репо запускає оператор. В автора вона не
       // працює — тому й живе тільки тут.
-      context("`python3 scripts/lifleet/invite_link.py <slug>` — і кинути лінк людині в її тред вище. Якщо причина в зайнятому слоті Browserbase, спершу дочекайся названого часу: раніше буде 429."),
+      context("`python3 scripts/lifleet/invite_link.py <slug>` — then post the link in that person's thread above. If the reason is a busy Browserbase slot, wait until the time named in that person's message above: minting earlier returns 429."),
     ],
   };
 }
@@ -320,31 +336,113 @@ export function buildErrorMessage(authors, { channel, now = Date.now() }) {
     const snapshot = a.last_ok_source === "registry-snapshot";
     const tail = seen
       ? (snapshot
-        ? `за знімком реєстру востаннє живий ${escape(seen)}, дата може бути застарілою`
-        : `остання успішна перевірка ${escape(seen)}, ${escape(relative(a.last_ok, now))}`)
-      : "успішних перевірок ще не було";
+        ? `the registry snapshot says last seen logged in ${escape(seen)}, and that date may be out of date`
+        : `last successful check ${escape(seen)}, ${escape(relative(a.last_ok, now))}`)
+      : "there has never been a successful check";
     return `• *${escape(a.slug)}* — \`${escape(a.status)}\` (${tail})`;
   });
   return {
     channel,
-    text: "LinkedIn: перевірку сесій не вдалося завершити",
+    text: "LinkedIn: the session check could not be completed",
     unfurl_links: false,
     unfurl_media: false,
     blocks: [
-      section(`:grey_question: *Перевірку не вдалося завершити:*\n${lines.join("\n")}`),
+      section(`:grey_question: *The check could not be completed:*\n${lines.join("\n")}`),
       // Найнебезпечніша інтерпретація цього повідомлення — «ну значить живі».
-      context("Це НЕ означає «залогінені» — статус просто невідомий. Наступний прогін перевірить ще раз; якщо повторюється, дивись лог кроку session check."),
+      context("This does NOT mean \"logged in\" — the status is simply unknown. The next run checks again; if it keeps repeating, read the log of the session check step."),
     ],
   };
 }
 
-export function buildAllClearMessage(fine, { channel }) {
+// ------------------------------------------------------------- ростер
+
+// Емодзі і формулювання на статус. Ростер читають щодня і по діагоналі, тому
+// рядок мусить давати відповідь «мені треба щось робити?» з першого символу.
+const ROSTER = {
+  live: [":white_check_mark:", "logged in"],
+  dead: [":red_circle:", "logged out"],
+  // challenge — це не «впав пароль»: LinkedIn просить пройти перевірку, і
+  // людина мусить знати, що саме її чекає, інакше вона відкриє лінк, побачить
+  // капчу і вирішить, що лінк битий.
+  challenge: [":red_circle:", "logged out, LinkedIn is asking for a verification step"],
+  error: [":grey_question:", "could not be checked"],
+  unknown: [":grey_question:", "could not be checked"],
+  // olga: контексту немає, її свідомо не логінили. «not monitored» — щоб цей
+  // рядок ніхто не прочитав як тихий провал перевірки.
+  new: [":double_vertical_bar:", "never logged in, not monitored"],
+};
+
+const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
+
+// Статус за межами контракту чекера. partition() не кладе його в жоден кошик,
+// тобто до появи ростера така людина зникала з каналу повністю — ростер це
+// закриває: він іде по САМОМУ звіту, а не по кошиках.
+const known = (s) => Object.prototype.hasOwnProperty.call(ROSTER, s);
+
+// Статус УСІХ акаунтів, один рядок на людину, КОЖЕН прогін.
+//
+// Жодної @-згадки тут бути не може, і це не стилістика: ростер іде щодня, а
+// щоденний пінг вчить канал ігнорувати бота — після чого зникає й той алерт,
+// заради якого все будувалось. Тегаємо тільки того, хто мусить діяти, і робимо
+// це окремим повідомленням (buildReloginMessage).
+export function buildRosterMessage(authors, { channel, checkedAt = null }) {
+  const { needsRelogin, errored, fine } = partition(authors);
+  const odd = authors.filter((a) => !known(a.status));
+
+  const rows = authors.map((a) => {
+    const [icon, label] = ROSTER[a.status] ?? [":grey_question:", `unexpected status \`${escape(a.status)}\``];
+    // Куди дивитись далі. Ростер не несе ні лінка, ні пінга, тож без цього
+    // хвоста «logged out» виглядає як тупик. Формулювання навмисно «see the
+    // message», а не «tagged»: для slug без мапінгу повідомлення нижче нікого
+    // не тегає, і обіцяти тег там означало б обіцяти пінг, якого не буде.
+    let tail = "";
+    if (a.status === "dead" || a.status === "challenge") tail = " (see the message below)";
+    else if (a.status === "error" || a.status === "unknown") tail = " (details below)";
+    return `${icon} *${escape(a.slug)}* — ${label}${tail}`;
+  });
+
+  const problems = [];
+  if (needsRelogin.length) problems.push(`${plural(needsRelogin.length, "account", "accounts")} logged out`);
+  if (errored.length) problems.push(`${plural(errored.length, "account", "accounts")} could not be checked`);
+  if (odd.length) problems.push(`${plural(odd.length, "account", "accounts")} with an unexpected status`);
+
+  // Заголовок мусить бути правдивим у кожній з цих гілок окремо. «Everything is
+  // fine» над порожнім звітом або над самими лише паузами — це та сама тиша, від
+  // якої ми пішли, тільки з галочкою.
+  let head;
+  // summary — той самий вердикт голим текстом. Він іде у fallback пуша, тож
+  // мусить рахуватись рівно з тих самих гілок: розійдуться — і пуш скаже
+  // «everyone is logged in» над звітом, у якому взагалі нікого немає.
+  let summary;
+  if (!authors.length) {
+    summary = "the report contains no accounts";
+    head = ":grey_question: *The report contains no accounts — this check covered nobody.*";
+  } else if (problems.length) {
+    summary = problems.join(", ");
+    head = `${needsRelogin.length ? ":red_circle:" : ":grey_question:"} *LinkedIn sessions: ${summary}.*`;
+  } else if (!fine.length) {
+    summary = "no account is being monitored";
+    head = ":double_vertical_bar: *No account is being monitored — every one of them is paused.*";
+  } else {
+    summary = "everyone is logged in";
+    head = fine.length === 1
+      ? ":white_check_mark: *The one monitored LinkedIn account is logged in. Nothing to do.*"
+      : `:white_check_mark: *All ${fine.length} monitored LinkedIn accounts are logged in. Nothing to do.*`;
+  }
+
+  const checked = kyivTime(checkedAt);
+  const foot = checked ? `Checked ${escape(checked)}.` : "The check time is not recorded in the report.";
+
   return {
     channel,
-    text: "LinkedIn: усі сесії живі",
+    // Без посилань і без згадок — у пуші це рівно один рядок статусу.
+    text: `LinkedIn session status: ${summary}`,
     unfurl_links: false,
     unfurl_media: false,
-    blocks: [section(`:white_check_mark: Усі сесії LinkedIn живі (${fine.length}). Робити нічого не треба.`)],
+    blocks: [
+      section(rows.length ? `${head}\n${rows.join("\n")}` : head),
+      context(`${foot} Every account the check covered is listed here; only people who have to act get tagged.`),
+    ],
   };
 }
 
@@ -390,7 +488,7 @@ async function slackPost(payload) {
     if (res.status === 429) {
       if (attempt === MAX_ATTEMPTS) return { ok: false, error: "ratelimited", kind: "transient" };
       const wait = retryAfterSecs(res.headers.get("retry-after"));
-      console.error(`  429 — пауза ${wait}s, спроба ${attempt + 1}/${MAX_ATTEMPTS}`);
+      console.error(`  429 — waiting ${wait}s, attempt ${attempt + 1}/${MAX_ATTEMPTS}`);
       await sleep(wait * 1000);
       continue;
     }
@@ -457,8 +555,8 @@ async function main() {
     for (const k of bad) delete people[k];
     if (bad.length) {
       console.error(
-        `::warning::SLACK_PEOPLE_JSON: значення для ${bad.join(", ")} не схоже на member-id (очікується U… або W…) — ` +
-        "ці слаги підуть простим іменем, без пінгу",
+        `::warning::SLACK_PEOPLE_JSON: the value for ${bad.join(", ")} does not look like a member id (U… or W… expected) — ` +
+        "those slugs will post as a plain name, with no ping",
       );
     }
   }
@@ -481,34 +579,30 @@ async function main() {
   );
 
   const payloads = [];
-  const quiet = !needsRelogin.length && !errored.length && !REPORT_ALL;
-  if (quiet) {
-    console.error("нема про що писати — Slack мовчить");
-  } else {
-    // Одне повідомлення на людину, а не спільний список: @-згадка адресна,
-    // кожен відповідає у власному треді, і ліміт 3000 символів на текстовий
-    // об'єкт не може з'їсти чужий алерт.
-    for (const author of needsRelogin) {
-      payloads.push(buildReloginMessage(author, { channel: CHANNEL, people, now, checkedAt: report?.checked_at }));
-    }
-    // Після адресних повідомлень, а не замість них: автор мусить знати, що він
-    // вилогінений, навіть коли лінка для нього немає.
-    const forOperator = needsOperator(needsRelogin, now);
-    if (forOperator.length) {
-      payloads.push(buildNoLinkMessage(forOperator, { channel: CHANNEL, people, now }));
-    }
-    if (errored.length) payloads.push(buildErrorMessage(errored, { channel: CHANNEL, now }));
-    if (!needsRelogin.length && !errored.length) {
-      payloads.push(buildAllClearMessage(fine, { channel: CHANNEL }));
-    }
+  // Ростер — ПЕРШИМ і завжди. Він задає контекст для всього, що йде нижче
+  // («logged out (tagged in a message below)» мусить показувати вниз, а не
+  // вгору), і він же єдине повідомлення в дні, коли робити нічого не треба.
+  payloads.push(buildRosterMessage(authors, { channel: CHANNEL, checkedAt: report?.checked_at }));
+  // Одне повідомлення на людину, а не спільний список: @-згадка адресна,
+  // кожен відповідає у власному треді, і ліміт 3000 символів на текстовий
+  // об'єкт не може з'їсти чужий алерт.
+  for (const author of needsRelogin) {
+    payloads.push(buildReloginMessage(author, { channel: CHANNEL, people, now, checkedAt: report?.checked_at }));
   }
+  // Після адресних повідомлень, а не замість них: автор мусить знати, що він
+  // вилогінений, навіть коли лінка для нього немає.
+  const forOperator = needsOperator(needsRelogin, now);
+  if (forOperator.length) {
+    payloads.push(buildNoLinkMessage(forOperator, { channel: CHANNEL, people, now }));
+  }
+  if (errored.length) payloads.push(buildErrorMessage(errored, { channel: CHANNEL, now }));
 
   if (DRY_RUN) {
     // stdout у dry-run — рівно масив payload'ів і нічого більше (порожній теж
     // друкуємо, щоб контракт «stdout = JSON-масив» тримався завжди). Live View
     // URL тут відкритий свідомо: оператор саме його і прийшов подивитись.
     console.log(JSON.stringify(payloads, null, 2));
-    console.error(`dry run — ${payloads.length} payload(s), нічого не відправлено`);
+    console.error(`dry run — ${payloads.length} payload(s), nothing was sent`);
     process.exit(0);
   }
 
@@ -534,7 +628,7 @@ async function main() {
 
     // Токен/застосунок зламані: решта постів провалиться так само.
     if (res.kind === "fatal") {
-      console.error(`::error::аварія конфігурації Slack — решту (${payloads.length - i - 1}) не відправлено`);
+      console.error(`::error::Slack configuration failure — the remaining ${payloads.length - i - 1} message(s) were not sent`);
       process.exit(2);
     }
   }
@@ -545,7 +639,7 @@ async function main() {
   // а не те, що всі живі. Тому мертві сесії лишають нас зеленими, і тільки
   // недоставлений Slack робить прогін червоним.
   if (failures) {
-    console.error(`::error::${failures} slack message(s) not delivered — розберись за підказками вище`);
+    console.error(`::error::${failures} slack message(s) not delivered — work through the hints above`);
     process.exit(1);
   }
   console.error(`ok — ${payloads.length} message(s) delivered`);
