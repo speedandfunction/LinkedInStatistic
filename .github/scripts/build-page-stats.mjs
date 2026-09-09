@@ -25,6 +25,27 @@ const OUT = args.out || 'pages-dist/page-stats.json';
 const monthly = JSON.parse(fs.readFileSync(path.join(DIR, 'monthly.json'), 'utf8'));
 const geoMonthly = JSON.parse(fs.readFileSync(path.join(DIR, 'geo-monthly.json'), 'utf8'));
 
+// monthly.json тепер СУТО машинний: scrape-page.mjs перезаписує його цілком
+// виходом парсера. Значення, яких у XLS немає (total_followers,
+// search_appearances, geography), живуть у manual.json — інакше кожен прогін
+// колектора їх стирав, а `|| 0` нижче публікував наслідки як дані.
+const MANUAL_FILE = path.join(DIR, 'manual.json');
+let manual;
+try {
+  manual = JSON.parse(fs.readFileSync(MANUAL_FILE, 'utf8'));
+} catch (e) {
+  console.error(`${MANUAL_FILE}: ${e.code === 'ENOENT' ? 'файлу немає' : e.message}`);
+  console.error('Без нього крива підписників рахувалася б назад від нуля і пішла б у мінус.');
+  process.exit(23);
+}
+// Падаємо тут, а не малюємо неправдиву криву. Цифру беруть зі сторінки
+// компанії -> Analytics -> Followers, поле "Total followers".
+if (!Number.isFinite(manual.total_followers) || manual.total_followers <= 0) {
+  console.error(`${MANUAL_FILE}: total_followers має бути додатнім числом, а не ${JSON.stringify(manual.total_followers)}.`);
+  console.error('Крива підписників будується назад від нього: нуль дав би ряд, що йде з мінуса в нуль, і його опублікувало б як справжній.');
+  process.exit(23);
+}
+
 const page_monthly = Object.entries(monthly.months).map(([month, m]) => ({ month, ...m }));
 const page_geo_monthly = Object.entries(geoMonthly.months).map(([month, g]) => ({ month, ...g }));
 
@@ -32,7 +53,7 @@ const page_geo_monthly = Object.entries(geoMonthly.months).map(([month, g]) => (
 const b = { us: 0, team: 0, anti: 0, other: 0 };
 for (const r of page_geo_monthly) { b.us += r.us || 0; b.team += r.team || 0; b.anti += r.anti || 0; b.other += r.other || 0; }
 const vTotal = b.us + b.team + b.anti + b.other;
-const fol = (monthly.geography && monthly.geography.followers) || { buckets: {}, icp_pct: 0, anti_pct: 0 };
+const fol = (manual.geography && manual.geography.followers) || { buckets: {}, icp_pct: 0, anti_pct: 0 };
 const page_geo_aggregate = [
   { audience: 'visitors', scope: 'last_6_months', us: b.us, team: b.team, anti: b.anti, other: b.other,
     icp_pct: vTotal ? Math.round((1000 * b.us) / vTotal) / 10 : 0,
@@ -67,7 +88,7 @@ const sum = (k) => page_monthly.reduce((a, m) => a + (m[k] || 0), 0);
 const latest = page_monthly[page_monthly.length - 1] || {};
 const page_totals = [{
   scope: 'summary',
-  total_followers: monthly.total_followers || 0,
+  total_followers: manual.total_followers,
   new_followers_6mo: sum('new_followers'),
   page_views_6mo: sum('page_views'),
   unique_visitors_6mo: sum('unique_visitors'),
@@ -132,7 +153,7 @@ if (perPerson) {
 // followers. Approximation (ignores unfollows) but derived from real numbers.
 const page_account_weeks = [];
 {
-  let cum = monthly.total_followers || 0;
+  let cum = manual.total_followers;
   const rev = [...page_monthly].reverse();
   const rows = [];
   for (const m of rev) {
@@ -144,7 +165,7 @@ const page_account_weeks = [];
 
 // Weekly Page-searches snapshots (admin "Search appearances" tab shows a
 // rolling last-7-days figure; each collection appends one point).
-const page_search_weeks = Object.entries(monthly.search_appearances || {})
+const page_search_weeks = Object.entries(manual.search_appearances || {})
   .map(([week, searches]) => ({ week, searches }))
   .sort((a, b) => a.week.localeCompare(b.week));
 const latestSearch = page_search_weeks.length ? page_search_weeks[page_search_weeks.length - 1] : null;
@@ -156,7 +177,7 @@ const unknowns = [{ v: UNK }];
 
 const out = {
   generated_at: monthly.generated_at || null,
-  total_followers: monthly.total_followers || 0,
+  total_followers: manual.total_followers,
   page_totals, page_monthly, page_geo_monthly, page_geo_aggregate, page_geo_buckets, page_demographics,
   engagement_score_totals, engagement_score_weeks, engagement_people, page_account_weeks, page_search_weeks, unknowns,
 };

@@ -132,6 +132,9 @@ async function main() {
   if (py.status !== 0) die(23, `parser failed (exit ${py.status})`);
   if (!KEEP_XLS) fs.rmSync(xlsDir, { recursive: true, force: true });
 
+  // OUT_FILE щойно перезаписано виходом парсера цілком. Це безпечно рівно
+  // тому, що рукописні значення винесені в page/manual.json — поки вони
+  // лежали тут, кожне оновлення даних стирало їх мовчки.
   const data = JSON.parse(fs.readFileSync(OUT_FILE, 'utf8'));
   log(`done — ${Object.keys(data.months).length} months -> ${OUT_FILE}`);
   process.exit(0);
