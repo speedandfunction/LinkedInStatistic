@@ -129,14 +129,14 @@ test("challenge is alerted the same way as dead", () => {
 test("the roster is posted even when every session is live", () => {
   // Раніше цей день був тишею. Тиша неможливо відрізняється від зламаного
   // бота, і саме тому власник попросив статус щодня.
-  const r = run(reportFile("rosterlive", [LIVE_PETER, { ...LIVE_PETER, slug: "maria" }]), { SLACK_PEOPLE_JSON: PEOPLE });
+  const r = run(reportFile("rosterlive", [LIVE_PETER, { ...LIVE_PETER, slug: "maria", name: "Maria Umen" }]), { SLACK_PEOPLE_JSON: PEOPLE });
   assert.equal(r.code, 0);
   assert.equal(r.payloads.length, 1, "рівно ростер — і жодного алерту");
 
   const body = allText(roster(r));
   assert.match(body, /All 2 monitored LinkedIn accounts are logged in\. Nothing to do\./);
-  assert.match(body, /:white_check_mark: \*peter\* — logged in/);
-  assert.match(body, /:white_check_mark: \*maria\* — logged in/);
+  assert.match(body, /:white_check_mark: \*Peter Ovchynnikov\* — logged in/);
+  assert.match(body, /:white_check_mark: \*Maria Umen\* — logged in/);
   assert.match(body, /Checked .* Kyiv time/, "час перевірки названо");
   assert.equal(roster(r).unfurl_links, false);
   assert.equal(roster(r).unfurl_media, false);
@@ -165,8 +165,9 @@ test("the roster lists every author exactly once", () => {
   const r = run(reportFile("rosterall", authors), { SLACK_PEOPLE_JSON: PEOPLE });
   const text = roster(r).blocks[0].text.text;
   for (const a of authors) {
-    const hits = text.split("\n").filter((l) => l.includes(`*${a.slug}*`));
-    assert.equal(hits.length, 1, `${a.slug} мусить бути в ростері рівно один раз`);
+    const who = a.name || a.slug;
+    const hits = text.split("\n").filter((l) => l.includes(`*${who}*`));
+    assert.equal(hits.length, 1, `${who} мусить бути в ростері рівно один раз`);
   }
   // Рядків рівно стільки, скільки авторів, плюс заголовок: нікого не загубили
   // і нікого не вигадали.
@@ -180,7 +181,7 @@ test("a logged-out author is in the roster AND in their own tagged message", () 
   assert.equal(r.payloads.length, 2);
 
   const rosterBody = allText(roster(r));
-  assert.match(rosterBody, /:red_circle: \*maria\* — logged out/);
+  assert.match(rosterBody, /:red_circle: \*Maria Umen\* — logged out/);
   assert.match(rosterBody, /1 account logged out/, "заголовок називає кількість");
   assert.doesNotMatch(rosterBody, /<@U04JKL>/, "але не пінгує");
   assert.doesNotMatch(rosterBody, /browserbase/, "і не несе лінка");
@@ -198,7 +199,7 @@ test("a never-logged-in author is in the roster but never tagged", () => {
   });
   assert.equal(r.payloads.length, 1, "ростер — і жодного алерту про olga");
   const body = allText(roster(r));
-  assert.match(body, /:double_vertical_bar: \*olga\* — never logged in, not monitored/);
+  assert.match(body, /:double_vertical_bar: \*Olga\* — never logged in, not monitored/);
   assert.doesNotMatch(body, /<@U07OLG>/, "змаплена — і все одно не тегається");
   assert.match(r.stderr, /1 skipped/);
 });
@@ -209,12 +210,26 @@ test("the roster says which statuses point at a message below", () => {
     { slug: "alex", name: "Andrii Rozhylo", status: "error", last_ok: null },
   ]), { SLACK_PEOPLE_JSON: PEOPLE });
   const text = roster(r).blocks[0].text.text;
-  assert.match(text, /\*maria\* — logged out \(see the message below\)/);
-  assert.match(text, /\*alex\* — could not be checked \(details below\)/);
+  assert.match(text, /\*Maria Umen\* — logged out \(see the message below\)/);
+  assert.match(text, /\*Andrii Rozhylo\* — could not be checked \(details below\)/);
   // …і «tagged» тут не обіцяємо: для slug без мапінгу тега нижче не буде.
   assert.doesNotMatch(text, /tagged/);
   // …і те, на що ці рядки показують, справді нижче.
   assert.equal(r.payloads.length, 3);
+});
+
+test("the roster shows the person's name, and falls back to the slug", () => {
+  // Слуг — операторська ручка (її вводять у invite_link.py), а ростер читають
+  // люди. Поки тут стояв slug, канал бачив рядок про "alex" — людину, яку всі
+  // знають як Andy. Але звіт без name зламати ростер не має права.
+  const r = run(reportFile("rostername", [
+    { slug: "andy", name: "Andy Rozhylo", status: "live", last_ok: iso(60e3) },
+    { slug: "nameless", status: "live", last_ok: iso(60e3) },
+  ]));
+  const text = roster(r).blocks[0].text.text;
+  assert.match(text, /\*Andy Rozhylo\* — logged in/, "є ім'я");
+  assert.doesNotMatch(text, /\*andy\*/, "і немає slug'а замість нього");
+  assert.match(text, /\*nameless\* — logged in/, "без name падаємо на slug");
 });
 
 test("an unexpected status still reaches the channel", () => {
