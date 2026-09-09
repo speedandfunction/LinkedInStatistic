@@ -398,7 +398,14 @@ export function buildRosterMessage(authors, { channel, checkedAt = null }) {
     let tail = "";
     if (a.status === "dead" || a.status === "challenge") tail = " (see the message below)";
     else if (a.status === "error" || a.status === "unknown") tail = " (details below)";
-    return `${icon} *${escape(a.slug)}* — ${label}${tail}`;
+    // Ім'я, а не slug. Ростер читають люди в каналі, а slug — це операторська
+    // ручка: він потрібен рівно там, де його вводять у команду
+    // (buildNoLinkMessage). Поки тут стояв slug, канал бачив рядок про "alex",
+    // хоча всі в компанії знають цю людину як Andy — тобто повідомлення про
+    // конкретну людину не називало її впізнавано. Фолбек на slug лишаємо:
+    // звіт без name зламати ростер не має.
+    const who = a.name || a.slug;
+    return `${icon} *${escape(who)}* — ${label}${tail}`;
   });
 
   const problems = [];
