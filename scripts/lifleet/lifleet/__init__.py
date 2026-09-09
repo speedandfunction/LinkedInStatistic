@@ -8,7 +8,7 @@
 
     from lifleet import author_page, SessionDead
 
-    with author_page("alex") as page:
+    with author_page("andy") as page:
         page.goto("https://www.linkedin.com/feed/")
 """
 from .browser import MissingCredentials, SessionDead, author_page

@@ -169,7 +169,7 @@ jobs:
           # author we are about to scrape must have a registry record WITH a
           # context_id, or browserbase-backend.mjs throws 25 minutes in.
           # Scoped to the scraped authors on purpose — the registry legitimately
-          # holds not-yet-logged-in people (alex, olga) who are not in
+          # holds not-yet-logged-in people (olga) who are not in
           # profiles.json, and they must not fail this run.
           # Parse errors are swallowed deliberately — a JSON.parse message can
           # quote the offending input, and that input is a credential.

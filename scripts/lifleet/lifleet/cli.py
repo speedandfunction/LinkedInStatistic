@@ -283,7 +283,7 @@ def build_parser() -> argparse.ArgumentParser:
     sub = p.add_subparsers(dest="command", required=True)
 
     sp = sub.add_parser("add", help="додати автора в реєстр (без мережі)")
-    sp.add_argument("slug", help="короткий ідентифікатор, напр. alex")
+    sp.add_argument("slug", help="короткий ідентифікатор, напр. andy")
     sp.add_argument("--name", required=True, help="ім'я автора для людей")
     sp.add_argument("--country", default="UA", help="країна проксі (дефолт UA)")
     sp.add_argument(
