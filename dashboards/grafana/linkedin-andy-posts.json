@@ -30,7 +30,7 @@
       "title": "Account view",
       "tooltip": "Account-level KPIs and demographics",
       "type": "link",
-      "url": "/d/linkedin-alex"
+      "url": "/d/linkedin-andy"
     }
   ],
   "liveNow": false,
@@ -157,7 +157,7 @@
           "root_selector": "posts",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/alex/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/andy/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -260,7 +260,7 @@
           "root_selector": "post_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/alex/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/andy/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -415,7 +415,7 @@
           "root_selector": "post_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/alex/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/andy/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -554,7 +554,7 @@
           "root_selector": "post_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/alex/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/andy/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -694,7 +694,7 @@
           "root_selector": "post_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/alex/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/andy/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -857,7 +857,7 @@
           "root_selector": "post_weeks",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/alex/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/andy/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -983,7 +983,7 @@
           "root_selector": "post_demographics",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/alex/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/andy/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -1148,7 +1148,7 @@
           "root_selector": "post_demographics",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/alex/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/andy/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -1319,7 +1319,7 @@
           "root_selector": "post_demographics",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/alex/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/andy/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -1490,7 +1490,7 @@
           "root_selector": "post_demographics",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/alex/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/andy/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -1655,7 +1655,7 @@
           "root_selector": "post_demographics",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/alex/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/andy/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -1826,7 +1826,7 @@
           "root_selector": "post_demographics",
           "source": "url",
           "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/alex/stats.json",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/andy/stats.json",
           "url_options": {
             "data": "",
             "method": "GET"
@@ -2017,7 +2017,7 @@
     ]
   },
   "timezone": "browser",
-  "title": "LinkedIn Stats — Andrii (Andy) Rozhylo · Per-post",
-  "uid": "linkedin-alex-posts",
+  "title": "LinkedIn Stats — Andy Rozhylo · Per-post",
+  "uid": "linkedin-andy-posts",
   "version": 12
 }

@@ -22,7 +22,7 @@ def probe(page):
 
     status: "live" | "dead" | "challenge" | "error" | "unknown"
     identity: alt аватарки з глобального меню — щоб переконатися,
-    що context "alex" це справді Alex. None, якщо не вдалося витягти.
+    що context "andy" це справді Andy. None, якщо не вдалося витягти.
     """
     try:
         page.goto(FEED_URL, wait_until="domcontentloaded", timeout=45_000)

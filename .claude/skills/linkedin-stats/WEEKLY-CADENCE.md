@@ -297,7 +297,7 @@ gh secret set LIFLEET_AUTHORS_JSON --repo speedandfunction/LinkedInStatistic \
 Then re-run the week manually (§7) *before* the next Monday, so the missed
 snapshot is only late rather than lost.
 
-Local registry snapshot at the time of writing: `peter`, `alex`, `maria`
+Local registry snapshot at the time of writing: `peter`, `andy`, `maria`
 have a `context_id`; `olga` does not. Every entry reads
 `status: new` — nobody has passed a `check` yet, so **assume the sessions
 need re-establishing before the first cloud run**.
