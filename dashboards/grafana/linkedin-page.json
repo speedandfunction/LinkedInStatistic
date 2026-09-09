@@ -13,51 +13,62 @@
     "from": "now-1y",
     "to": "now"
   },
+  "timepicker": {
+    "hidden": true
+  },
   "templating": {
     "list": [
       {
         "name": "month",
-        "type": "custom",
+        "type": "query",
         "label": "Month",
-        "query": "2026-03 : 2026-03, 2026-04 : 2026-04, 2026-05 : 2026-05, 2026-06 : 2026-06, 2026-07 : 2026-07, 2026-08 : 2026-08",
-        "current": {
-          "text": "2026-08",
-          "value": "2026-08"
+        "datasource": {
+          "type": "yesoreyeram-infinity-datasource",
+          "uid": "grafanacloud-infinity"
         },
-        "options": [
-          {
-            "text": "2026-03",
-            "value": "2026-03",
-            "selected": false
+        "definition": "Infinity — page_geo_monthly[].month",
+        "query": {
+          "refId": "variable",
+          "queryType": "infinity",
+          "infinityQuery": {
+            "refId": "variable",
+            "datasource": {
+              "type": "yesoreyeram-infinity-datasource",
+              "uid": "grafanacloud-infinity"
+            },
+            "type": "json",
+            "source": "url",
+            "format": "table",
+            "parser": "backend",
+            "root_selector": "page_geo_monthly",
+            "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
+            "url_options": {
+              "data": "",
+              "method": "GET"
+            },
+            "columns": [
+              {
+                "selector": "month",
+                "text": "month",
+                "type": "string"
+              }
+            ],
+            "filters": []
           },
-          {
-            "text": "2026-04",
-            "value": "2026-04",
-            "selected": false
-          },
-          {
-            "text": "2026-05",
-            "value": "2026-05",
-            "selected": false
-          },
-          {
-            "text": "2026-06",
-            "value": "2026-06",
-            "selected": false
-          },
-          {
-            "text": "2026-07",
-            "value": "2026-07",
-            "selected": false
-          },
-          {
-            "text": "2026-08",
-            "value": "2026-08",
-            "selected": true
+          "meta": {
+            "textField": "month",
+            "valueField": "month"
           }
-        ],
+        },
+        "current": {},
+        "options": [],
+        "refresh": 1,
+        "sort": 2,
+        "regex": "",
+        "hide": 0,
         "includeAll": false,
-        "multi": false
+        "multi": false,
+        "skipUrlSync": false
       }
     ]
   },
@@ -68,7 +79,7 @@
     {
       "id": 1,
       "type": "row",
-      "title": "Engagement score — who engaged, weighted by tier",
+      "title": "Engagement score — reactions + 5× comments (tier splits not collected yet)",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -81,7 +92,7 @@
     {
       "id": 2,
       "type": "stat",
-      "title": "Engagement score (last week)",
+      "title": "Engagement score (latest month)",
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "grafanacloud-infinity"
@@ -147,7 +158,8 @@
           "filters": [],
           "filterExpression": "scope == \"last_week\""
         }
-      ]
+      ],
+      "description": "The feed’s “last_week” scope is filled from the LATEST MONTH of the page export (the aggregate fallback in build-page-stats.mjs) — the company page publishes no weekly granularity, so this is a month, not a week. The newest month is PARTIAL: monthly.json was generated 2026-08-20, so 2026-08 covers about 20 days against 31 — it is NOT comparable to the full months beside it, and a drop in the last point or bar may be nothing but the missing days. If per-person collection later puts engagement.json in place, this scope becomes a real ISO week; this generator reads whether that file exists and words the title accordingly. Flat weighting only — reaction ×1, comment ×5. The ICP ×2 and VIP ×4 multipliers in scoring.json cannot be applied until per-person engagers are collected, which is why every tier panel here reads “???”. This number says nothing about WHO engaged."
     },
     {
       "id": 3,
@@ -359,7 +371,7 @@
     {
       "id": 6,
       "type": "stat",
-      "title": "Engagement score (all time)",
+      "title": "Engagement score (last 6 months)",
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "grafanacloud-infinity"
@@ -425,7 +437,8 @@
           "filters": [],
           "filterExpression": "scope == \"all_time\""
         }
-      ]
+      ],
+      "description": "NOT a lifetime total. The page export is a rolling 6-month window (scrape-page.mjs --months=6) and monthly.json is OVERWRITTEN whole on every run, so months older than six are retained nowhere in this repo. This figure drops its oldest month on the next collection and can FALL while engagement rises. Flat weighting only — reaction ×1, comment ×5. The ICP ×2 and VIP ×4 multipliers in scoring.json cannot be applied until per-person engagers are collected, which is why every tier panel here reads “???”. This number says nothing about WHO engaged."
     },
     {
       "id": 7,
@@ -494,7 +507,8 @@
           "filters": [],
           "filterExpression": "scope == \"all_time\""
         }
-      ]
+      ],
+      "description": "NOT a lifetime total. The page export is a rolling 6-month window (scrape-page.mjs --months=6) and monthly.json is OVERWRITTEN whole on every run, so months older than six are retained nowhere in this repo. This figure drops its oldest month on the next collection and can FALL while engagement rises."
     },
     {
       "id": 8,
@@ -563,7 +577,8 @@
           "filters": [],
           "filterExpression": "scope == \"all_time\""
         }
-      ]
+      ],
+      "description": "NOT a lifetime total. The page export is a rolling 6-month window (scrape-page.mjs --months=6) and monthly.json is OVERWRITTEN whole on every run, so months older than six are retained nowhere in this repo. This figure drops its oldest month on the next collection and can FALL while engagement rises."
     },
     {
       "id": 9,
@@ -632,12 +647,13 @@
           "filters": [],
           "filterExpression": "scope == \"all_time\""
         }
-      ]
+      ],
+      "description": "NOT a lifetime total. The page export is a rolling 6-month window (scrape-page.mjs --months=6) and monthly.json is OVERWRITTEN whole on every run, so months older than six are retained nowhere in this repo. This figure drops its oldest month on the next collection and can FALL while engagement rises."
     },
     {
       "id": 10,
       "type": "stat",
-      "title": "ICP share of reactions (all time)",
+      "title": "ICP share of reactions (last 6 months)",
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "grafanacloud-infinity"
@@ -701,12 +717,13 @@
           "filters": [],
           "filterExpression": "scope == \"all_time\""
         }
-      ]
+      ],
+      "description": "NOT a lifetime total. The page export is a rolling 6-month window (scrape-page.mjs --months=6) and monthly.json is OVERWRITTEN whole on every run, so months older than six are retained nowhere in this repo. This figure drops its oldest month on the next collection and can FALL while engagement rises."
     },
     {
       "id": 11,
       "type": "stat",
-      "title": "ICP share of comments (all time)",
+      "title": "ICP share of comments (last 6 months)",
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "grafanacloud-infinity"
@@ -770,12 +787,13 @@
           "filters": [],
           "filterExpression": "scope == \"all_time\""
         }
-      ]
+      ],
+      "description": "NOT a lifetime total. The page export is a rolling 6-month window (scrape-page.mjs --months=6) and monthly.json is OVERWRITTEN whole on every run, so months older than six are retained nowhere in this repo. This figure drops its oldest month on the next collection and can FALL while engagement rises."
     },
     {
       "id": 12,
       "type": "stat",
-      "title": "ICP share of all engagement (all time)",
+      "title": "ICP share of all engagement (last 6 months)",
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "grafanacloud-infinity"
@@ -839,12 +857,13 @@
           "filters": [],
           "filterExpression": "scope == \"all_time\""
         }
-      ]
+      ],
+      "description": "NOT a lifetime total. The page export is a rolling 6-month window (scrape-page.mjs --months=6) and monthly.json is OVERWRITTEN whole on every run, so months older than six are retained nowhere in this repo. This figure drops its oldest month on the next collection and can FALL while engagement rises."
     },
     {
       "id": 13,
       "type": "stat",
-      "title": "ICP engagers (all time)",
+      "title": "ICP engagers (last 6 months)",
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "grafanacloud-infinity"
@@ -908,12 +927,13 @@
           "filters": [],
           "filterExpression": "scope == \"all_time\""
         }
-      ]
+      ],
+      "description": "NOT a lifetime total. The page export is a rolling 6-month window (scrape-page.mjs --months=6) and monthly.json is OVERWRITTEN whole on every run, so months older than six are retained nowhere in this repo. This figure drops its oldest month on the next collection and can FALL while engagement rises."
     },
     {
       "id": 14,
       "type": "timeseries",
-      "title": "Engagement score per week",
+      "title": "Engagement score per month",
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "grafanacloud-infinity"
@@ -1002,7 +1022,8 @@
             ]
           }
         }
-      ]
+      ],
+      "description": "One point per MONTH: engagement_score_weeks is derived from the monthly page export (week = first of month), not from real weeks. The newest month is PARTIAL: monthly.json was generated 2026-08-20, so 2026-08 covers about 20 days against 31 — it is NOT comparable to the full months beside it, and a drop in the last point or bar may be nothing but the missing days."
     },
     {
       "id": 15,
@@ -1019,7 +1040,9 @@
         "y": 13
       },
       "fieldConfig": {
-        "defaults": {},
+        "defaults": {
+          "noValue": "???"
+        },
         "overrides": []
       },
       "options": {
@@ -1096,12 +1119,13 @@
             "limitField": 15
           }
         }
-      ]
+      ],
+      "description": "Per-person engagers are NOT collected for the company page yet (dashboards/li-stats/page/engagement.json does not exist). Empty here means UNCOLLECTED, not zero — the score panels above are built from real reactions and comments over the same window."
     },
     {
       "id": 16,
       "type": "row",
-      "title": "Reactions & comments — total vs ICP (last week and all time)",
+      "title": "Reactions & comments — total vs ICP (latest month and last 6 months)",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1126,7 +1150,21 @@
         "y": 22
       },
       "fieldConfig": {
-        "defaults": {},
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "last_week": {
+                  "text": "Latest month"
+                },
+                "all_time": {
+                  "text": "Last 6 months"
+                }
+              }
+            }
+          ]
+        },
         "overrides": []
       },
       "options": {
@@ -1183,7 +1221,20 @@
           ],
           "filters": []
         }
-      ]
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "scope": "Window"
+            }
+          }
+        }
+      ],
+      "description": "The feed’s “last_week” scope is filled from the LATEST MONTH of the page export (the aggregate fallback in build-page-stats.mjs) — the company page publishes no weekly granularity, so this is a month, not a week. The newest month is PARTIAL: monthly.json was generated 2026-08-20, so 2026-08 covers about 20 days against 31 — it is NOT comparable to the full months beside it, and a drop in the last point or bar may be nothing but the missing days. If per-person collection later puts engagement.json in place, this scope becomes a real ISO week; this generator reads whether that file exists and words the title accordingly. NOT a lifetime total. The page export is a rolling 6-month window (scrape-page.mjs --months=6) and monthly.json is OVERWRITTEN whole on every run, so months older than six are retained nowhere in this repo. This figure drops its oldest month on the next collection and can FALL while engagement rises."
     },
     {
       "id": 18,
@@ -1201,7 +1252,7 @@
     {
       "id": 19,
       "type": "stat",
-      "title": "Followers",
+      "title": "Followers (reconstructed)",
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "grafanacloud-infinity"
@@ -1291,7 +1342,8 @@
             ]
           }
         }
-      ]
+      ],
+      "description": "NOT a measured history. The curve is computed BACKWARDS from the hand-entered current total (manual.json total_followers = 1362, recorded 2026-08-20) by subtracting each month’s new followers, so it ignores unfollows and can only ever slope upward — it could not show a decline even if the page lost followers every month. Only the newest point is a measured number, and it is exactly as stale as manual.json."
     },
     {
       "id": 20,
@@ -1386,12 +1438,13 @@
             ]
           }
         }
-      ]
+      ],
+      "description": "The newest month is PARTIAL: monthly.json was generated 2026-08-20, so 2026-08 covers about 20 days against 31 — it is NOT comparable to the full months beside it, and a drop in the last point or bar may be nothing but the missing days."
     },
     {
       "id": 21,
       "type": "stat",
-      "title": "Profile viewers — page visitors (monthly)",
+      "title": "Page visitors (monthly)",
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "grafanacloud-infinity"
@@ -1481,12 +1534,13 @@
             ]
           }
         }
-      ]
+      ],
+      "description": "LinkedIn’s Page metric “unique visitors”: a SUM OF DAILY UNIQUES over the month — one person who visits on three days counts three times. It is NOT a personal profile’s “profile viewers”, which counts distinct members over a rolling 90 days. Different object, different window, different definition. The newest month is PARTIAL: monthly.json was generated 2026-08-20, so 2026-08 covers about 20 days against 31 — it is NOT comparable to the full months beside it, and a drop in the last point or bar may be nothing but the missing days."
     },
     {
       "id": 22,
       "type": "stat",
-      "title": "Search appearances (prev week)",
+      "title": "Search appearances (7-day rolling, last snapshot)",
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "grafanacloud-infinity"
@@ -1576,12 +1630,13 @@
             ]
           }
         }
-      ]
+      ],
+      "description": "Hand-entered snapshot from the page admin’s “Search appearances” tab (a rolling last-7-days figure). LinkedIn keeps no history for it, so this number moves only when somebody records a new one into manual.json."
     },
     {
       "id": 23,
       "type": "timeseries",
-      "title": "Followers",
+      "title": "Followers (reconstructed)",
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "grafanacloud-infinity"
@@ -1670,7 +1725,8 @@
             ]
           }
         }
-      ]
+      ],
+      "description": "NOT a measured history. The curve is computed BACKWARDS from the hand-entered current total (manual.json total_followers = 1362, recorded 2026-08-20) by subtracting each month’s new followers, so it ignores unfollows and can only ever slope upward — it could not show a decline even if the page lost followers every month. Only the newest point is a measured number, and it is exactly as stale as manual.json."
     },
     {
       "id": 24,
@@ -1764,12 +1820,13 @@
             ]
           }
         }
-      ]
+      ],
+      "description": "The newest month is PARTIAL: monthly.json was generated 2026-08-20, so 2026-08 covers about 20 days against 31 — it is NOT comparable to the full months beside it, and a drop in the last point or bar may be nothing but the missing days."
     },
     {
       "id": 25,
       "type": "timeseries",
-      "title": "Profile viewers — page visitors (monthly)",
+      "title": "Page visitors (monthly)",
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "grafanacloud-infinity"
@@ -1858,12 +1915,13 @@
             ]
           }
         }
-      ]
+      ],
+      "description": "LinkedIn’s Page metric “unique visitors”: a SUM OF DAILY UNIQUES over the month — one person who visits on three days counts three times. It is NOT a personal profile’s “profile viewers”, which counts distinct members over a rolling 90 days. Different object, different window, different definition. The newest month is PARTIAL: monthly.json was generated 2026-08-20, so 2026-08 covers about 20 days against 31 — it is NOT comparable to the full months beside it, and a drop in the last point or bar may be nothing but the missing days."
     },
     {
       "id": 26,
       "type": "timeseries",
-      "title": "Search appearances (weekly snapshots)",
+      "title": "Search appearances (manual snapshots)",
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "grafanacloud-infinity"
@@ -1952,19 +2010,20 @@
             ]
           }
         }
-      ]
+      ],
+      "description": "One point per hand-entered snapshot in manual.json — not a weekly series. There is currently a single snapshot, so this chart draws ONE DOT rather than a trend."
     },
     {
       "id": 27,
       "type": "barchart",
-      "title": "Seniority",
+      "title": "Seniority — follower base (top 8)",
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "grafanacloud-infinity"
       },
       "gridPos": {
         "h": 7,
-        "w": 8,
+        "w": 12,
         "x": 0,
         "y": 47
       },
@@ -2062,21 +2121,133 @@
             "limitField": 8
           }
         }
-      ]
+      ],
+      "description": "A snapshot of the CURRENT follower base — a headcount, top 8 rows of the export. The demographic sheets are a single snapshot over the LAST 365 DAYS (the export range scrape-page.mjs sets) — twice the 6-month window every other panel on this board shows. LinkedIn publishes no per-month demographic breakdown, so this is one slice, not a series."
     },
     {
       "id": 28,
       "type": "barchart",
-      "title": "Top job titles",
+      "title": "Seniority — page views by visitor seniority (12 mo, top 8)",
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "grafanacloud-infinity"
       },
       "gridPos": {
         "h": 7,
-        "w": 8,
-        "x": 8,
+        "w": 12,
+        "x": 12,
         "y": 47
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "continuous-BlPu"
+          },
+          "custom": {
+            "lineWidth": 1,
+            "fillOpacity": 80
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "horizontal",
+        "showValue": "auto",
+        "stacking": "none",
+        "legend": {
+          "showLegend": false
+        },
+        "xField": "name"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "type": "json",
+          "source": "url",
+          "format": "table",
+          "parser": "backend",
+          "root_selector": "page_demographics",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          },
+          "columns": [
+            {
+              "selector": "audience",
+              "text": "audience",
+              "type": "string"
+            },
+            {
+              "selector": "category",
+              "text": "category",
+              "type": "string"
+            },
+            {
+              "selector": "name",
+              "text": "name",
+              "type": "string"
+            },
+            {
+              "selector": "value",
+              "text": "value",
+              "type": "number"
+            }
+          ],
+          "filters": [],
+          "filterExpression": "(audience == \"visitors\") && (category == \"Seniority\")"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "audience": true,
+              "category": true
+            },
+            "indexByName": {},
+            "renameByName": {}
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "desc": true,
+                "field": "value"
+              }
+            ]
+          }
+        },
+        {
+          "id": "limit",
+          "options": {
+            "limitField": 8
+          }
+        }
+      ],
+      "description": "Counts of page-VIEW events, not distinct people: one person visiting ten times counts ten, and the totals here run well above the page’s unique-visitor count. Top 8 rows of the export. The demographic sheets are a single snapshot over the LAST 365 DAYS (the export range scrape-page.mjs sets) — twice the 6-month window every other panel on this board shows. LinkedIn publishes no per-month demographic breakdown, so this is one slice, not a series. Comparable with the follower panel beside it in COMPOSITION only — never as a headcount, since the two are different units over the same 12 months."
+    },
+    {
+      "id": 29,
+      "type": "barchart",
+      "title": "Job function — follower base (top 8)",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 54
       },
       "fieldConfig": {
         "defaults": {
@@ -2172,21 +2343,577 @@
             "limitField": 8
           }
         }
-      ]
+      ],
+      "description": "A snapshot of the CURRENT follower base — a headcount, top 8 rows of the export. The demographic sheets are a single snapshot over the LAST 365 DAYS (the export range scrape-page.mjs sets) — twice the 6-month window every other panel on this board shows. LinkedIn publishes no per-month demographic breakdown, so this is one slice, not a series. LinkedIn’s “Job function” facet (Engineering, Sales, HR …). The page export contains no job-TITLE breakdown at all."
     },
     {
-      "id": 29,
+      "id": 30,
       "type": "barchart",
-      "title": "Top locations",
+      "title": "Job function — page views by visitor job function (12 mo, top 8)",
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "grafanacloud-infinity"
       },
       "gridPos": {
         "h": 7,
-        "w": 8,
-        "x": 16,
-        "y": 47
+        "w": 12,
+        "x": 12,
+        "y": 54
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "continuous-BlPu"
+          },
+          "custom": {
+            "lineWidth": 1,
+            "fillOpacity": 80
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "horizontal",
+        "showValue": "auto",
+        "stacking": "none",
+        "legend": {
+          "showLegend": false
+        },
+        "xField": "name"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "type": "json",
+          "source": "url",
+          "format": "table",
+          "parser": "backend",
+          "root_selector": "page_demographics",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          },
+          "columns": [
+            {
+              "selector": "audience",
+              "text": "audience",
+              "type": "string"
+            },
+            {
+              "selector": "category",
+              "text": "category",
+              "type": "string"
+            },
+            {
+              "selector": "name",
+              "text": "name",
+              "type": "string"
+            },
+            {
+              "selector": "value",
+              "text": "value",
+              "type": "number"
+            }
+          ],
+          "filters": [],
+          "filterExpression": "(audience == \"visitors\") && (category == \"Job function\")"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "audience": true,
+              "category": true
+            },
+            "indexByName": {},
+            "renameByName": {}
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "desc": true,
+                "field": "value"
+              }
+            ]
+          }
+        },
+        {
+          "id": "limit",
+          "options": {
+            "limitField": 8
+          }
+        }
+      ],
+      "description": "Counts of page-VIEW events, not distinct people: one person visiting ten times counts ten, and the totals here run well above the page’s unique-visitor count. Top 8 rows of the export. The demographic sheets are a single snapshot over the LAST 365 DAYS (the export range scrape-page.mjs sets) — twice the 6-month window every other panel on this board shows. LinkedIn publishes no per-month demographic breakdown, so this is one slice, not a series. Comparable with the follower panel beside it in COMPOSITION only — never as a headcount, since the two are different units over the same 12 months. LinkedIn’s “Job function” facet (Engineering, Sales, HR …). The page export contains no job-TITLE breakdown at all."
+    },
+    {
+      "id": 31,
+      "type": "barchart",
+      "title": "Industry — follower base (top 8)",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 61
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "continuous-BlPu"
+          },
+          "custom": {
+            "lineWidth": 1,
+            "fillOpacity": 80
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "horizontal",
+        "showValue": "auto",
+        "stacking": "none",
+        "legend": {
+          "showLegend": false
+        },
+        "xField": "name"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "type": "json",
+          "source": "url",
+          "format": "table",
+          "parser": "backend",
+          "root_selector": "page_demographics",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          },
+          "columns": [
+            {
+              "selector": "audience",
+              "text": "audience",
+              "type": "string"
+            },
+            {
+              "selector": "category",
+              "text": "category",
+              "type": "string"
+            },
+            {
+              "selector": "name",
+              "text": "name",
+              "type": "string"
+            },
+            {
+              "selector": "value",
+              "text": "value",
+              "type": "number"
+            }
+          ],
+          "filters": [],
+          "filterExpression": "(audience == \"followers\") && (category == \"Industry\")"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "audience": true,
+              "category": true
+            },
+            "indexByName": {},
+            "renameByName": {}
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "desc": true,
+                "field": "value"
+              }
+            ]
+          }
+        },
+        {
+          "id": "limit",
+          "options": {
+            "limitField": 8
+          }
+        }
+      ],
+      "description": "A snapshot of the CURRENT follower base — a headcount, top 8 rows of the export. The demographic sheets are a single snapshot over the LAST 365 DAYS (the export range scrape-page.mjs sets) — twice the 6-month window every other panel on this board shows. LinkedIn publishes no per-month demographic breakdown, so this is one slice, not a series."
+    },
+    {
+      "id": 32,
+      "type": "barchart",
+      "title": "Industry — page views by visitor industry (12 mo, top 8)",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 61
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "continuous-BlPu"
+          },
+          "custom": {
+            "lineWidth": 1,
+            "fillOpacity": 80
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "horizontal",
+        "showValue": "auto",
+        "stacking": "none",
+        "legend": {
+          "showLegend": false
+        },
+        "xField": "name"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "type": "json",
+          "source": "url",
+          "format": "table",
+          "parser": "backend",
+          "root_selector": "page_demographics",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          },
+          "columns": [
+            {
+              "selector": "audience",
+              "text": "audience",
+              "type": "string"
+            },
+            {
+              "selector": "category",
+              "text": "category",
+              "type": "string"
+            },
+            {
+              "selector": "name",
+              "text": "name",
+              "type": "string"
+            },
+            {
+              "selector": "value",
+              "text": "value",
+              "type": "number"
+            }
+          ],
+          "filters": [],
+          "filterExpression": "(audience == \"visitors\") && (category == \"Industry\")"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "audience": true,
+              "category": true
+            },
+            "indexByName": {},
+            "renameByName": {}
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "desc": true,
+                "field": "value"
+              }
+            ]
+          }
+        },
+        {
+          "id": "limit",
+          "options": {
+            "limitField": 8
+          }
+        }
+      ],
+      "description": "Counts of page-VIEW events, not distinct people: one person visiting ten times counts ten, and the totals here run well above the page’s unique-visitor count. Top 8 rows of the export. The demographic sheets are a single snapshot over the LAST 365 DAYS (the export range scrape-page.mjs sets) — twice the 6-month window every other panel on this board shows. LinkedIn publishes no per-month demographic breakdown, so this is one slice, not a series. Comparable with the follower panel beside it in COMPOSITION only — never as a headcount, since the two are different units over the same 12 months."
+    },
+    {
+      "id": 33,
+      "type": "barchart",
+      "title": "Company size — follower base (top 8)",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 68
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "continuous-BlPu"
+          },
+          "custom": {
+            "lineWidth": 1,
+            "fillOpacity": 80
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "horizontal",
+        "showValue": "auto",
+        "stacking": "none",
+        "legend": {
+          "showLegend": false
+        },
+        "xField": "name"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "type": "json",
+          "source": "url",
+          "format": "table",
+          "parser": "backend",
+          "root_selector": "page_demographics",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          },
+          "columns": [
+            {
+              "selector": "audience",
+              "text": "audience",
+              "type": "string"
+            },
+            {
+              "selector": "category",
+              "text": "category",
+              "type": "string"
+            },
+            {
+              "selector": "name",
+              "text": "name",
+              "type": "string"
+            },
+            {
+              "selector": "value",
+              "text": "value",
+              "type": "number"
+            }
+          ],
+          "filters": [],
+          "filterExpression": "(audience == \"followers\") && (category == \"Company size\")"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "audience": true,
+              "category": true
+            },
+            "indexByName": {},
+            "renameByName": {}
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "desc": true,
+                "field": "value"
+              }
+            ]
+          }
+        },
+        {
+          "id": "limit",
+          "options": {
+            "limitField": 8
+          }
+        }
+      ],
+      "description": "A snapshot of the CURRENT follower base — a headcount, top 8 rows of the export. The demographic sheets are a single snapshot over the LAST 365 DAYS (the export range scrape-page.mjs sets) — twice the 6-month window every other panel on this board shows. LinkedIn publishes no per-month demographic breakdown, so this is one slice, not a series."
+    },
+    {
+      "id": 34,
+      "type": "barchart",
+      "title": "Company size — page views by visitor company size (12 mo, top 8)",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 68
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "continuous-BlPu"
+          },
+          "custom": {
+            "lineWidth": 1,
+            "fillOpacity": 80
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "horizontal",
+        "showValue": "auto",
+        "stacking": "none",
+        "legend": {
+          "showLegend": false
+        },
+        "xField": "name"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "type": "json",
+          "source": "url",
+          "format": "table",
+          "parser": "backend",
+          "root_selector": "page_demographics",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          },
+          "columns": [
+            {
+              "selector": "audience",
+              "text": "audience",
+              "type": "string"
+            },
+            {
+              "selector": "category",
+              "text": "category",
+              "type": "string"
+            },
+            {
+              "selector": "name",
+              "text": "name",
+              "type": "string"
+            },
+            {
+              "selector": "value",
+              "text": "value",
+              "type": "number"
+            }
+          ],
+          "filters": [],
+          "filterExpression": "(audience == \"visitors\") && (category == \"Company size\")"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "audience": true,
+              "category": true
+            },
+            "indexByName": {},
+            "renameByName": {}
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "desc": true,
+                "field": "value"
+              }
+            ]
+          }
+        },
+        {
+          "id": "limit",
+          "options": {
+            "limitField": 8
+          }
+        }
+      ],
+      "description": "Counts of page-VIEW events, not distinct people: one person visiting ten times counts ten, and the totals here run well above the page’s unique-visitor count. Top 8 rows of the export. The demographic sheets are a single snapshot over the LAST 365 DAYS (the export range scrape-page.mjs sets) — twice the 6-month window every other panel on this board shows. LinkedIn publishes no per-month demographic breakdown, so this is one slice, not a series. Comparable with the follower panel beside it in COMPOSITION only — never as a headcount, since the two are different units over the same 12 months."
+    },
+    {
+      "id": 35,
+      "type": "barchart",
+      "title": "Location — follower base (top 8)",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 75
       },
       "fieldConfig": {
         "defaults": {
@@ -2282,17 +3009,129 @@
             "limitField": 8
           }
         }
-      ]
+      ],
+      "description": "A snapshot of the CURRENT follower base — a headcount, top 8 rows of the export. The demographic sheets are a single snapshot over the LAST 365 DAYS (the export range scrape-page.mjs sets) — twice the 6-month window every other panel on this board shows. LinkedIn publishes no per-month demographic breakdown, so this is one slice, not a series."
     },
     {
-      "id": 30,
+      "id": 36,
+      "type": "barchart",
+      "title": "Location — page views by visitor location (12 mo, top 8)",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 75
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "continuous-BlPu"
+          },
+          "custom": {
+            "lineWidth": 1,
+            "fillOpacity": 80
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "horizontal",
+        "showValue": "auto",
+        "stacking": "none",
+        "legend": {
+          "showLegend": false
+        },
+        "xField": "name"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "type": "json",
+          "source": "url",
+          "format": "table",
+          "parser": "backend",
+          "root_selector": "page_demographics",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          },
+          "columns": [
+            {
+              "selector": "audience",
+              "text": "audience",
+              "type": "string"
+            },
+            {
+              "selector": "category",
+              "text": "category",
+              "type": "string"
+            },
+            {
+              "selector": "name",
+              "text": "name",
+              "type": "string"
+            },
+            {
+              "selector": "value",
+              "text": "value",
+              "type": "number"
+            }
+          ],
+          "filters": [],
+          "filterExpression": "(audience == \"visitors\") && (category == \"Location\")"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "audience": true,
+              "category": true
+            },
+            "indexByName": {},
+            "renameByName": {}
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "desc": true,
+                "field": "value"
+              }
+            ]
+          }
+        },
+        {
+          "id": "limit",
+          "options": {
+            "limitField": 8
+          }
+        }
+      ],
+      "description": "Counts of page-VIEW events, not distinct people: one person visiting ten times counts ten, and the totals here run well above the page’s unique-visitor count. Top 8 rows of the export. The demographic sheets are a single snapshot over the LAST 365 DAYS (the export range scrape-page.mjs sets) — twice the 6-month window every other panel on this board shows. LinkedIn publishes no per-month demographic breakdown, so this is one slice, not a series. Comparable with the follower panel beside it in COMPOSITION only — never as a headcount, since the two are different units over the same 12 months."
+    },
+    {
+      "id": 37,
       "type": "text",
       "title": "Posts published per month",
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 54
+        "y": 82
       },
       "fieldConfig": {
         "defaults": {},
@@ -2300,75 +3139,104 @@
       },
       "options": {
         "mode": "markdown",
-        "content": "\n# ???\n\nrequires tracking the page’s own posting/commenting activity (not collected)"
+        "content": "\n# ???\n\nrequires the page’s per-post records (obtainable from the post export — not collected yet)"
       }
     },
     {
-      "id": 31,
-      "type": "text",
-      "title": "Comments posted per month",
+      "id": 38,
+      "type": "barchart",
+      "title": "Post clicks & reposts per month",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "grafanacloud-infinity"
+      },
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 54
+        "y": 82
       },
       "fieldConfig": {
-        "defaults": {},
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "lineWidth": 1,
+            "fillOpacity": 80
+          }
+        },
         "overrides": []
       },
       "options": {
-        "mode": "markdown",
-        "content": "\n# ???\n\nrequires tracking the page’s own posting/commenting activity (not collected)"
-      }
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "legend": {
+          "showLegend": true,
+          "placement": "bottom"
+        },
+        "xField": "month"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "grafanacloud-infinity"
+          },
+          "type": "json",
+          "source": "url",
+          "format": "table",
+          "parser": "backend",
+          "root_selector": "page_monthly",
+          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          },
+          "columns": [
+            {
+              "selector": "month",
+              "text": "month",
+              "type": "string"
+            },
+            {
+              "selector": "post_clicks",
+              "text": "post_clicks",
+              "type": "number"
+            },
+            {
+              "selector": "post_reposts",
+              "text": "post_reposts",
+              "type": "number"
+            }
+          ],
+          "filters": []
+        }
+      ],
+      "transformations": [
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "desc": false,
+                "field": "month"
+              }
+            ]
+          }
+        }
+      ],
+      "description": "Clicks and reposts on the page’s posts, straight from the monthly page export — the two engagement columns nothing on this board used to read. The newest month is PARTIAL: monthly.json was generated 2026-08-20, so 2026-08 covers about 20 days against 31 — it is NOT comparable to the full months beside it, and a drop in the last point or bar may be nothing but the missing days."
     },
     {
-      "id": 32,
-      "type": "text",
-      "title": "Reactions on my comments per month",
-      "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 0,
-        "y": 61
-      },
-      "fieldConfig": {
-        "defaults": {},
-        "overrides": []
-      },
-      "options": {
-        "mode": "markdown",
-        "content": "\n# ???\n\nrequires tracking the page’s own posting/commenting activity (not collected)"
-      }
-    },
-    {
-      "id": 33,
-      "type": "text",
-      "title": "Impressions on my comments per month",
-      "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 12,
-        "y": 61
-      },
-      "fieldConfig": {
-        "defaults": {},
-        "overrides": []
-      },
-      "options": {
-        "mode": "markdown",
-        "content": "\n# ???\n\nrequires tracking the page’s own posting/commenting activity (not collected)"
-      }
-    },
-    {
-      "id": 34,
+      "id": 39,
       "type": "text",
       "title": "Posts published vs impressions (scatter + linear fit)",
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 68
+        "y": 89
       },
       "fieldConfig": {
         "defaults": {},
@@ -2376,18 +3244,18 @@
       },
       "options": {
         "mode": "markdown",
-        "content": "\n# ???\n\nrequires per-post records (not collected for the page)"
+        "content": "\n# ???\n\nrequires per-post impression records (obtainable from the post export — not collected yet)"
       }
     },
     {
-      "id": 35,
+      "id": 40,
       "type": "text",
       "title": "Impressions per post over time",
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 68
+        "y": 89
       },
       "fieldConfig": {
         "defaults": {},
@@ -2395,26 +3263,26 @@
       },
       "options": {
         "mode": "markdown",
-        "content": "\n# ???\n\nrequires per-post records (not collected for the page)"
+        "content": "\n# ???\n\nrequires per-post impression records (obtainable from the post export — not collected yet)"
       }
     },
     {
-      "id": 36,
+      "id": 41,
       "type": "row",
       "title": "ICP geography — US vs India (company-page extra)",
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 75
+        "y": 96
       },
       "collapsed": false,
       "panels": []
     },
     {
-      "id": 37,
+      "id": 42,
       "type": "stat",
-      "title": "US · ICP share — visitors (6 mo)",
+      "title": "US · ICP share of visitor locations (6 mo)",
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "grafanacloud-infinity"
@@ -2423,7 +3291,7 @@
         "h": 6,
         "w": 6,
         "x": 0,
-        "y": 76
+        "y": 97
       },
       "fieldConfig": {
         "defaults": {
@@ -2493,12 +3361,13 @@
           "filters": [],
           "filterExpression": "audience == \"visitors\""
         }
-      ]
+      ],
+      "description": "Counts from the Visitors export’s Location sheet (only members whose location LinkedIn names), classified into ICP buckets by geo-monthly.py. Read these as COMPOSITION — the sheet is not a count of visitors. Across 2026-03–2026-08 it totals 2201, against 1681 unique visitors and 3890 page views over the same months — it matches neither, so it cannot be read as \"how many people looked at the page\"."
     },
     {
-      "id": 38,
+      "id": 43,
       "type": "stat",
-      "title": "US · ICP share — followers (base)",
+      "title": "US · ICP share — followers (geo-classified subset)",
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "grafanacloud-infinity"
@@ -2507,7 +3376,7 @@
         "h": 6,
         "w": 6,
         "x": 6,
-        "y": 76
+        "y": 97
       },
       "fieldConfig": {
         "defaults": {
@@ -2577,12 +3446,13 @@
           "filters": [],
           "filterExpression": "audience == \"followers\""
         }
-      ]
+      ],
+      "description": "Computed over ONLY those followers whose country the export names — NOT over the follower base shown above. Unclassified followers are excluded from both the numerator and the denominator, so this percentage is an upper bound on the share of the real base. As recorded in manual.json, recorded 2026-08-20: 837 of 1362 followers are geo-classified, so 525 are invisible here; the US share of the FULL base is at most 356/1362 = 26.1%."
     },
     {
-      "id": 39,
+      "id": 44,
       "type": "bargauge",
-      "title": "Visitors by ICP bucket (6 mo)",
+      "title": "Visitor locations by ICP bucket (6 mo)",
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "grafanacloud-infinity"
@@ -2591,7 +3461,7 @@
         "h": 6,
         "w": 6,
         "x": 12,
-        "y": 76
+        "y": 97
       },
       "fieldConfig": {
         "defaults": {
@@ -2660,12 +3530,13 @@
             "renameByName": {}
           }
         }
-      ]
+      ],
+      "description": "Counts from the Visitors export’s Location sheet (only members whose location LinkedIn names), classified into ICP buckets by geo-monthly.py. Read these as COMPOSITION — the sheet is not a count of visitors. Across 2026-03–2026-08 it totals 2201, against 1681 unique visitors and 3890 page views over the same months — it matches neither, so it cannot be read as \"how many people looked at the page\"."
     },
     {
-      "id": 40,
+      "id": 45,
       "type": "bargauge",
-      "title": "Followers by ICP bucket (base)",
+      "title": "Followers by ICP bucket (geo-classified subset)",
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "grafanacloud-infinity"
@@ -2674,7 +3545,7 @@
         "h": 6,
         "w": 6,
         "x": 18,
-        "y": 76
+        "y": 97
       },
       "fieldConfig": {
         "defaults": {
@@ -2743,12 +3614,13 @@
             "renameByName": {}
           }
         }
-      ]
+      ],
+      "description": "Computed over ONLY those followers whose country the export names — NOT over the follower base shown above. Unclassified followers are excluded from both the numerator and the denominator, so this percentage is an upper bound on the share of the real base. As recorded in manual.json, recorded 2026-08-20: 837 of 1362 followers are geo-classified, so 525 are invisible here; the US share of the FULL base is at most 356/1362 = 26.1%."
     },
     {
-      "id": 41,
+      "id": 46,
       "type": "barchart",
-      "title": "US · ICP share of visitors by month",
+      "title": "US · ICP share of visitor locations by month",
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "grafanacloud-infinity"
@@ -2757,7 +3629,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 82
+        "y": 103
       },
       "fieldConfig": {
         "defaults": {
@@ -2823,12 +3695,13 @@
             ]
           }
         }
-      ]
+      ],
+      "description": "Counts from the Visitors export’s Location sheet (only members whose location LinkedIn names), classified into ICP buckets by geo-monthly.py. Read these as COMPOSITION — the sheet is not a count of visitors. Across 2026-03–2026-08 it totals 2201, against 1681 unique visitors and 3890 page views over the same months — it matches neither, so it cannot be read as \"how many people looked at the page\". The newest month is PARTIAL: monthly.json was generated 2026-08-20, so 2026-08 covers about 20 days against 31 — it is NOT comparable to the full months beside it, and a drop in the last point or bar may be nothing but the missing days."
     },
     {
-      "id": 42,
+      "id": 47,
       "type": "barchart",
-      "title": "Visitor geography by month",
+      "title": "Visitor locations by month",
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "grafanacloud-infinity"
@@ -2837,7 +3710,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 82
+        "y": 103
       },
       "fieldConfig": {
         "defaults": {
@@ -2918,10 +3791,11 @@
             ]
           }
         }
-      ]
+      ],
+      "description": "Counts from the Visitors export’s Location sheet (only members whose location LinkedIn names), classified into ICP buckets by geo-monthly.py. Read these as COMPOSITION — the sheet is not a count of visitors. Across 2026-03–2026-08 it totals 2201, against 1681 unique visitors and 3890 page views over the same months — it matches neither, so it cannot be read as \"how many people looked at the page\". The newest month is PARTIAL: monthly.json was generated 2026-08-20, so 2026-08 covers about 20 days against 31 — it is NOT comparable to the full months beside it, and a drop in the last point or bar may be nothing but the missing days."
     },
     {
-      "id": 43,
+      "id": 48,
       "type": "barchart",
       "title": "Page views & unique visitors",
       "datasource": {
@@ -2932,7 +3806,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 90
+        "y": 111
       },
       "fieldConfig": {
         "defaults": {
@@ -3003,10 +3877,11 @@
             ]
           }
         }
-      ]
+      ],
+      "description": "LinkedIn’s Page metric “unique visitors”: a SUM OF DAILY UNIQUES over the month — one person who visits on three days counts three times. It is NOT a personal profile’s “profile viewers”, which counts distinct members over a rolling 90 days. Different object, different window, different definition. The newest month is PARTIAL: monthly.json was generated 2026-08-20, so 2026-08 covers about 20 days against 31 — it is NOT comparable to the full months beside it, and a drop in the last point or bar may be nothing but the missing days."
     },
     {
-      "id": 44,
+      "id": 49,
       "type": "barchart",
       "title": "New followers per month",
       "datasource": {
@@ -3017,7 +3892,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 90
+        "y": 111
       },
       "fieldConfig": {
         "defaults": {
@@ -3083,25 +3958,26 @@
             ]
           }
         }
-      ]
+      ],
+      "description": "The newest month is PARTIAL: monthly.json was generated 2026-08-20, so 2026-08 covers about 20 days against 31 — it is NOT comparable to the full months beside it, and a drop in the last point or bar may be nothing but the missing days."
     },
     {
-      "id": 45,
+      "id": 50,
       "type": "row",
       "title": "Selected month — pick $month above",
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 98
+        "y": 119
       },
       "collapsed": false,
       "panels": []
     },
     {
-      "id": 46,
+      "id": 51,
       "type": "stat",
-      "title": "US · ICP share ($month)",
+      "title": "US · ICP share of locations ($month)",
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "grafanacloud-infinity"
@@ -3110,7 +3986,7 @@
         "h": 5,
         "w": 6,
         "x": 0,
-        "y": 99
+        "y": 120
       },
       "fieldConfig": {
         "defaults": {
@@ -3180,12 +4056,13 @@
           "filters": [],
           "filterExpression": "month == \"${month}\""
         }
-      ]
+      ],
+      "description": "Counts from the Visitors export’s Location sheet (only members whose location LinkedIn names), classified into ICP buckets by geo-monthly.py. Read these as COMPOSITION — the sheet is not a count of visitors. Across 2026-03–2026-08 it totals 2201, against 1681 unique visitors and 3890 page views over the same months — it matches neither, so it cannot be read as \"how many people looked at the page\". The newest month is PARTIAL: monthly.json was generated 2026-08-20, so 2026-08 covers about 20 days against 31 — it is NOT comparable to the full months beside it, and a drop in the last point or bar may be nothing but the missing days."
     },
     {
-      "id": 47,
+      "id": 52,
       "type": "stat",
-      "title": "India / China share ($month)",
+      "title": "India / China share of locations ($month)",
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "grafanacloud-infinity"
@@ -3194,7 +4071,7 @@
         "h": 5,
         "w": 6,
         "x": 6,
-        "y": 99
+        "y": 120
       },
       "fieldConfig": {
         "defaults": {
@@ -3247,12 +4124,13 @@
           "filters": [],
           "filterExpression": "month == \"${month}\""
         }
-      ]
+      ],
+      "description": "Counts from the Visitors export’s Location sheet (only members whose location LinkedIn names), classified into ICP buckets by geo-monthly.py. Read these as COMPOSITION — the sheet is not a count of visitors. Across 2026-03–2026-08 it totals 2201, against 1681 unique visitors and 3890 page views over the same months — it matches neither, so it cannot be read as \"how many people looked at the page\". The newest month is PARTIAL: monthly.json was generated 2026-08-20, so 2026-08 covers about 20 days against 31 — it is NOT comparable to the full months beside it, and a drop in the last point or bar may be nothing but the missing days."
     },
     {
-      "id": 48,
+      "id": 53,
       "type": "stat",
-      "title": "US visitors ($month)",
+      "title": "US · Location-sheet count ($month)",
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "grafanacloud-infinity"
@@ -3261,7 +4139,7 @@
         "h": 5,
         "w": 6,
         "x": 12,
-        "y": 99
+        "y": 120
       },
       "fieldConfig": {
         "defaults": {
@@ -3314,12 +4192,13 @@
           "filters": [],
           "filterExpression": "month == \"${month}\""
         }
-      ]
+      ],
+      "description": "Counts from the Visitors export’s Location sheet (only members whose location LinkedIn names), classified into ICP buckets by geo-monthly.py. Read these as COMPOSITION — the sheet is not a count of visitors. Across 2026-03–2026-08 it totals 2201, against 1681 unique visitors and 3890 page views over the same months — it matches neither, so it cannot be read as \"how many people looked at the page\". The newest month is PARTIAL: monthly.json was generated 2026-08-20, so 2026-08 covers about 20 days against 31 — it is NOT comparable to the full months beside it, and a drop in the last point or bar may be nothing but the missing days."
     },
     {
-      "id": 49,
+      "id": 54,
       "type": "stat",
-      "title": "India / China visitors ($month)",
+      "title": "India / China · Location-sheet count ($month)",
       "datasource": {
         "type": "yesoreyeram-infinity-datasource",
         "uid": "grafanacloud-infinity"
@@ -3328,7 +4207,7 @@
         "h": 5,
         "w": 6,
         "x": 18,
-        "y": 99
+        "y": 120
       },
       "fieldConfig": {
         "defaults": {
@@ -3381,7 +4260,8 @@
           "filters": [],
           "filterExpression": "month == \"${month}\""
         }
-      ]
+      ],
+      "description": "Counts from the Visitors export’s Location sheet (only members whose location LinkedIn names), classified into ICP buckets by geo-monthly.py. Read these as COMPOSITION — the sheet is not a count of visitors. Across 2026-03–2026-08 it totals 2201, against 1681 unique visitors and 3890 page views over the same months — it matches neither, so it cannot be read as \"how many people looked at the page\". The newest month is PARTIAL: monthly.json was generated 2026-08-20, so 2026-08 covers about 20 days against 31 — it is NOT comparable to the full months beside it, and a drop in the last point or bar may be nothing but the missing days."
     }
   ]
 }
