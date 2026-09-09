@@ -104,6 +104,10 @@ def parse(xls_dir, months):
             row.setdefault(k, 0)
         out_months[mk] = row
 
+    # Ці п'ять ключів — увесь вміст monthly.json, і scrape-page.mjs пише його
+    # ПОВЕРХ старого файлу. Тому нічого рукописного тут лежати не може:
+    # total_followers / search_appearances / geography живуть у
+    # dashboards/li-stats/page/manual.json, який не чіпає жоден скрипт.
     demo_sheets = ["Seniority", "Job function", "Industry", "Company size", "Location"]
     return {
         "source": "linkedin-page-admin-analytics-xls",
