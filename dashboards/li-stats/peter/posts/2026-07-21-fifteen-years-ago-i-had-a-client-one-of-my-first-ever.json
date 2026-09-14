@@ -99,6 +99,53 @@
         }
       },
       "comments": []
+    },
+    "2026-09-14": {
+      "snapshot_at": "2026-09-14T03:40:01Z",
+      "metrics": {
+        "impressions": 288,
+        "members_reached": 110,
+        "reactions": 4,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 1,
+        "followers_gained": 0,
+        "engagement_rate": 1.39
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 32.7,
+          "Senior": 28.2,
+          "Director": 6.4,
+          "CXO": 5.5,
+          "Manager": 5.5
+        },
+        "job_title": {
+          "Software Engineer": 14.5
+        },
+        "industry": {
+          "IT Services and IT Consulting": 37.3,
+          "Software Development": 22.7,
+          "Technology, Information and Internet": 11.8
+        },
+        "company_size": {
+          "51-200 employees": 31.8,
+          "1-10 employees": 10,
+          "11-50 employees": 10,
+          "10,001+ employees": 8.2,
+          "1001-5000 employees": 6.4
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 6.4,
+          "Lviv": 6.4
+        },
+        "company": {
+          "Speed and Function": 22.7
+        }
+      },
+      "comments": []
     }
   }
 }

@@ -203,6 +203,104 @@
         "https://www.linkedin.com/in/ross-fedchuk",
         "https://www.linkedin.com/in/valeriia-aksiutina"
       ]
+    },
+    "2026-09-14": {
+      "snapshot_at": "2026-09-14T03:44:44Z",
+      "metrics": {
+        "impressions": 1795,
+        "members_reached": 0,
+        "reactions": 37,
+        "comments": 6,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 12,
+        "followers_gained": 0,
+        "engagement_rate": 2.4
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 40,
+          "Entry": 26.7
+        },
+        "job_title": {},
+        "industry": {
+          "IT Services and IT Consulting": 40
+        },
+        "company_size": {
+          "51-200 employees": 30
+        },
+        "location": {
+          "Lviv": 26.7
+        },
+        "company": {
+          "Speed and Function": 20
+        }
+      },
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/ross-fedchuk",
+          "author_headline": "",
+          "comment_urn": "",
+          "text": "Ross Fedchuk Verified Profile 1st\nRoss Fedchuk\n• 1st\n3D CPQ for configurable product manufacturers\nGood luck with your new role!\n1 reaction\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/imatrof",
+          "author_headline": "",
+          "comment_urn": "",
+          "text": "Igor Matrofailo Premium Profile 1st\nIgor Matrofailo\n• 1st\nDelivering Data, AI and Agentic Tech | Driving Business Impact through Transformation\nCongratulations Andrii!\n1 reaction\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/valeriia-aksiutina",
+          "author_headline": "",
+          "comment_urn": "",
+          "text": "Valeriia Aksiutina Verified Profile 1st\nValeriia Aksiutina\n• 1st\nProject Manager / Technical Manager / Engagement Manager\nCongrats Andrii\n1 reaction\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/ostaposadtsia",
+          "author_headline": "",
+          "comment_urn": "",
+          "text": "Ostap Osadtsia Verified Profile 1st\nOstap Osadtsia\n• 1st\nVP, Client Success at SoftServe\nCongratulations!\n1 reaction\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/anand-bodhe",
+          "author_headline": "",
+          "comment_urn": "",
+          "text": "Anand Bodhe Verified Profile 3rd+\nAnand Bodhe\n• 3rd+\nYour reps lie about pipeline because nobody taught them better | Implement clean HubSpot systems + train teams to use them | HubSpot Solutions Partner\nFollow\ncongratulations on the new role! 🎉 how will you infuse a teal spirit into daily tasks?\n1 reaction\n1\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/arozhylo",
+          "author_headline": "",
+          "comment_urn": "",
+          "text": "Andrii Rozhylo\nAuthor\nAI Transformation Leader | Business Strategist | Entrepreneur | Delivery Manager | Product Manager | Marketing Expert\nAnand Bodhe through the pillars of Teal: purpose, wholeness and self-management.\n0\n14 impressions\n14",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/anand-bodhe",
+        "https://www.linkedin.com/in/arozhylo",
+        "https://www.linkedin.com/in/imatrof",
+        "https://www.linkedin.com/in/ostaposadtsia",
+        "https://www.linkedin.com/in/ross-fedchuk",
+        "https://www.linkedin.com/in/valeriia-aksiutina"
+      ]
     }
   }
 }

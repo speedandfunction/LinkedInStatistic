@@ -132,6 +132,63 @@
         "https://www.linkedin.com/in/odyslav-bozhenko-13ab17b6",
         "https://www.linkedin.com/in/olenakuibida"
       ]
+    },
+    "2026-09-14": {
+      "snapshot_at": "2026-09-14T03:46:23Z",
+      "metrics": {
+        "impressions": 478,
+        "members_reached": 249,
+        "reactions": 4,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 3,
+        "followers_gained": 1,
+        "engagement_rate": 0.84
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 28.9,
+          "Entry": 26.9,
+          "Director": 10.4,
+          "Manager": 8.4,
+          "CXO": 6
+        },
+        "job_title": {
+          "Software Engineer": 5.6,
+          "Project Manager": 3.6,
+          "Founder": 2.4,
+          "Product Manager": 2.4
+        },
+        "industry": {
+          "IT Services and IT Consulting": 25.3,
+          "Software Development": 15.3,
+          "Technology, Information and Internet": 6.4,
+          "Advertising Services": 5.6,
+          "Design Services": 4.8
+        },
+        "company_size": {
+          "51-200 employees": 16.9,
+          "10,001+ employees": 15.7,
+          "11-50 employees": 12.4,
+          "1001-5000 employees": 12,
+          "1-10 employees": 9.6
+        },
+        "location": {
+          "Lviv": 11.6,
+          "Kyiv Metropolitan Area": 4.4,
+          "Greater Stockholm Metropolitan Area": 3.2,
+          "Trondheim Region": 3.2,
+          "Prague Metropolitan Area": 2.4
+        },
+        "company": {
+          "Speed and Function": 3.6,
+          "SoftServe": 3.2,
+          "Vend": 2.8
+        }
+      },
+      "comments": []
     }
   }
 }

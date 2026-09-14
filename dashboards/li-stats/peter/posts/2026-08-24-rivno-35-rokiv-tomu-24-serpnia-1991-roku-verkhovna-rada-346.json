@@ -116,6 +116,62 @@
         "https://www.linkedin.com/in/ACoAACla-sUB4yabmHHDRkZsWljpMyNVk_VRXvc",
         "https://www.linkedin.com/in/ACoAACmtHz8BKXHCwvuiyAilrbNcIyQFCxIaMhI"
       ]
+    },
+    "2026-09-14": {
+      "snapshot_at": "2026-09-14T03:40:22Z",
+      "metrics": {
+        "impressions": 315,
+        "members_reached": 150,
+        "reactions": 7,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 2,
+        "followers_gained": 0,
+        "engagement_rate": 2.22
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 32.7,
+          "Senior": 32,
+          "CXO": 8,
+          "Manager": 6,
+          "Owner": 4
+        },
+        "job_title": {
+          "Software Engineer": 16
+        },
+        "industry": {
+          "IT Services and IT Consulting": 34.7,
+          "Software Development": 20,
+          "Technology, Information and Internet": 6
+        },
+        "company_size": {
+          "51-200 employees": 28,
+          "10,001+ employees": 14.7,
+          "1001-5000 employees": 10,
+          "11-50 employees": 8.7,
+          "1-10 employees": 6
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 10,
+          "Lviv": 9.3,
+          "Wroclaw Metropolitan Area": 4.7
+        },
+        "company": {
+          "Speed and Function": 12.7
+        }
+      },
+      "comments": [],
+      "reactors": [
+        "https://www.linkedin.com/in/ACoAAA5SQjkBae7byuJMQQ9ZTsajvSjXxAu7eLU",
+        "https://www.linkedin.com/in/ACoAAAY6qPkBCmhBwsqaCMoRKxgRv6P_VydjsWA",
+        "https://www.linkedin.com/in/ACoAAAh1uR8Bl17rVgpHBNIZy-0Jg2D6IxMi9ps",
+        "https://www.linkedin.com/in/ACoAACla-sUB4yabmHHDRkZsWljpMyNVk_VRXvc",
+        "https://www.linkedin.com/in/ACoAACm2JOMBYg0qqhkcZlAbS9WhVHU-XJ5xGcA",
+        "https://www.linkedin.com/in/ACoAACmtHz8BKXHCwvuiyAilrbNcIyQFCxIaMhI"
+      ]
     }
   }
 }

@@ -121,6 +121,63 @@
         }
       },
       "comments": []
+    },
+    "2026-09-14": {
+      "snapshot_at": "2026-09-14T03:37:08Z",
+      "metrics": {
+        "impressions": 699,
+        "members_reached": 260,
+        "reactions": 11,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 1.57
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 31.2,
+          "Senior": 28.5,
+          "CXO": 6.9,
+          "Owner": 5.8,
+          "Director": 4.2
+        },
+        "job_title": {
+          "Software Engineer": 10.8,
+          "Founder": 4.2,
+          "Project Manager": 3.5,
+          "Full Stack Engineer": 3.1,
+          "Chief Executive Officer": 2.7
+        },
+        "industry": {
+          "IT Services and IT Consulting": 36.9,
+          "Software Development": 26.2,
+          "Technology, Information and Internet": 6.9,
+          "Business Consulting and Services": 2.7,
+          "IT System Custom Software Development": 2.3
+        },
+        "company_size": {
+          "51-200 employees": 21.9,
+          "11-50 employees": 18.1,
+          "1-10 employees": 10.4,
+          "1001-5000 employees": 8.8,
+          "201-500 employees": 5.4
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 12.7,
+          "Lviv": 9.6,
+          "Warsaw Metropolitan Area": 2.7,
+          "Kharkiv Metropolitan Area": 2.7,
+          "Odesa": 2.3
+        },
+        "company": {
+          "Speed and Function": 8.5,
+          "NDA": 2.3
+        }
+      },
+      "comments": []
     }
   }
 }

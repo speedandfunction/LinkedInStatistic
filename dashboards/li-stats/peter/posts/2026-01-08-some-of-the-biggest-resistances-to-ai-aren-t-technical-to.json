@@ -125,6 +125,65 @@
       "commenters": [
         "https://www.linkedin.com/in/untanglingsystems"
       ]
+    },
+    "2026-09-14": {
+      "snapshot_at": "2026-09-14T03:28:06Z",
+      "metrics": {
+        "impressions": 402,
+        "members_reached": 88,
+        "reactions": 4,
+        "comments": 3,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 3,
+        "followers_gained": 0,
+        "engagement_rate": 1.74
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 36.4,
+          "Entry": 28.4,
+          "CXO": 9.1
+        },
+        "job_title": {
+          "Software Engineer": 11.4,
+          "Project Manager": 6.8
+        },
+        "industry": {
+          "IT Services and IT Consulting": 44.3,
+          "Software Development": 28.4,
+          "Technology, Information and Internet": 6.8
+        },
+        "company_size": {
+          "51-200 employees": 26.1,
+          "11-50 employees": 12.5,
+          "1-10 employees": 11.4,
+          "201-500 employees": 9.1,
+          "10,001+ employees": 8
+        },
+        "location": {
+          "New York City Metropolitan Area": 6.8,
+          "Odesa": 6.8
+        },
+        "company": {
+          "Speed and Function": 18.2
+        }
+      },
+      "comments": [
+        {
+          "author_name": "Kate Chapman",
+          "author_url": "https://www.linkedin.com/in/untanglingsystems",
+          "author_headline": "Fractional CTO | Platform, Product & AI strategy | Sociotechnical Systems | Open Source Governance | Helping Humans & Tech Collaborate",
+          "comment_urn": "urn:li:comment:(activity:7415030743866929153,7415057236110176256)",
+          "text": "Exactly, the first round isn't the final round when working with AI to code. People often plan the AI, but are they using the tool in an optimal way? It is easier for someone that doesn't have 10 years of experience I think though. Habits are deep and it can feel easier to do it themselves. I wonder how the senior dev would be with a junior dev that didn't do it their way.",
+          "reactions": 1,
+          "replies_count": 2
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/untanglingsystems"
+      ]
     }
   }
 }

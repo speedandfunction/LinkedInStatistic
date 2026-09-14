@@ -153,6 +153,79 @@
       "commenters": [
         "https://www.linkedin.com/in/dhayfule"
       ]
+    },
+    "2026-09-14": {
+      "snapshot_at": "2026-09-14T03:28:41Z",
+      "metrics": {
+        "impressions": 3459,
+        "members_reached": 2554,
+        "reactions": 8,
+        "comments": 3,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 1,
+        "followers_gained": 0,
+        "engagement_rate": 0.32
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 38.8,
+          "Senior": 26.1,
+          "Director": 6.1,
+          "CXO": 4.4,
+          "Manager": 4.3
+        },
+        "job_title": {
+          "Software Engineer": 13.2,
+          "Project Manager": 2.8,
+          "Chief Executive Officer": 2.2,
+          "Founder": 1.8,
+          "Full Stack Engineer": 1.7
+        },
+        "industry": {
+          "IT Services and IT Consulting": 23.6,
+          "Software Development": 16.8,
+          "Technology, Information and Internet": 3.3,
+          "Banking": 2.9,
+          "Financial Services": 2.1
+        },
+        "company_size": {
+          "11-50 employees": 14.7,
+          "51-200 employees": 14.6,
+          "1001-5000 employees": 12.3,
+          "1-10 employees": 9.6,
+          "201-500 employees": 9.1
+        },
+        "location": {
+          "Ljubljana Metropolitan Area": 18.7,
+          "Belgrade Metropolitan Area": 11.7,
+          "Zagreb Metropolitan Area": 11.5,
+          "Novi Sad Metropolitan Area": 3.8,
+          "Maribor Metropolitan Area": 2.6
+        },
+        "company": {
+          "Speed and Function": 0,
+          "NLB d.d.": 0,
+          "OTP banka, Slovenija": 0,
+          "HTEC": 0,
+          "NCR Voyix": 0
+        }
+      },
+      "comments": [
+        {
+          "author_name": "Pravin Dhayfule",
+          "author_url": "https://www.linkedin.com/in/dhayfule",
+          "author_headline": "CEO - Cybrent Technology solutions | Ethical AI Governance | Quantum Resilient Cybersecurity Solution Provider | Helping Industry Recover From Blind AI Expenditure",
+          "comment_urn": "urn:li:comment:(activity:7464644189239091201,7464923016796459008)",
+          "text": "Peter Ovchynnikov but why even allow AI to directly touch the codebase?\n\nAnd why not mentor AI for ethical behaviour and follow code of conduct?",
+          "reactions": 0,
+          "replies_count": 2
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/dhayfule"
+      ]
     }
   }
 }

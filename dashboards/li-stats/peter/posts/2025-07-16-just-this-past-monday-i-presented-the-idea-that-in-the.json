@@ -107,6 +107,52 @@
       "commenters": [
         "https://www.linkedin.com/in/yostapchuk"
       ]
+    },
+    "2026-09-14": {
+      "snapshot_at": "2026-09-14T03:29:14Z",
+      "metrics": {
+        "impressions": 644,
+        "members_reached": 0,
+        "reactions": 10,
+        "comments": 2,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 7,
+        "followers_gained": 0,
+        "engagement_rate": 1.86
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 36,
+          "Senior": 24
+        },
+        "job_title": {},
+        "industry": {
+          "IT Services and IT Consulting": 40,
+          "Software Development": 32
+        },
+        "company_size": {
+          "51-200 employees": 36,
+          "11-50 employees": 24
+        },
+        "location": {},
+        "company": {}
+      },
+      "comments": [
+        {
+          "author_name": "Yuri Ostapchuk",
+          "author_url": "https://www.linkedin.com/in/yostapchuk",
+          "author_headline": "Tech Lead | Data · ML · Cloud | Speaker | Lecturer",
+          "comment_urn": "urn:li:comment:(activity:7351255940483923968,7355735056218210304)",
+          "text": "The next step then would be to automate requirements discovery phase and eliminate middle man between creator and finished product 😛 though I'll be the last one to debug that code when it breaks😁",
+          "reactions": 0,
+          "replies_count": 1
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/yostapchuk"
+      ]
     }
   }
 }

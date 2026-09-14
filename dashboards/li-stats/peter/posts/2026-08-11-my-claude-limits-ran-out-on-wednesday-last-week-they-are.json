@@ -150,6 +150,71 @@
       "commenters": [
         "https://www.linkedin.com/in/vasilyyaremchuk"
       ]
+    },
+    "2026-09-14": {
+      "snapshot_at": "2026-09-14T03:29:37Z",
+      "metrics": {
+        "impressions": 395,
+        "members_reached": 172,
+        "reactions": 4,
+        "comments": 2,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 1,
+        "followers_gained": 0,
+        "engagement_rate": 1.52
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 36,
+          "Entry": 19.8,
+          "Director": 11.6,
+          "CXO": 8.7,
+          "VP": 5.2
+        },
+        "job_title": {
+          "Software Engineer": 11.6
+        },
+        "industry": {
+          "IT Services and IT Consulting": 23.3,
+          "Software Development": 15.7,
+          "Financial Services": 12.8,
+          "Banking": 9.3,
+          "Technology, Information and Internet": 5.8
+        },
+        "company_size": {
+          "10,001+ employees": 37.8,
+          "51-200 employees": 18,
+          "11-50 employees": 8.1,
+          "1001-5000 employees": 7,
+          "5001-10,000 employees": 4.7
+        },
+        "location": {
+          "London Area, United Kingdom": 8.1,
+          "Lviv": 5.8,
+          "Kyiv Metropolitan Area": 5.2,
+          "Odesa": 3.5
+        },
+        "company": {
+          "HSBC": 22.7,
+          "Speed and Function": 11.6
+        }
+      },
+      "comments": [
+        {
+          "author_name": "Vasyl Yaremchuk",
+          "author_url": "https://www.linkedin.com/in/vasilyyaremchuk",
+          "author_headline": "Results-Driven Solutions Designer | IT Consultant | Web Development Expert",
+          "comment_urn": "urn:li:comment:(activity:7492904487343288320,7497719034486992896)",
+          "text": "You can run you model on your Mac mini. It could be not so smart but without any limits.",
+          "reactions": 0,
+          "replies_count": 1
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/vasilyyaremchuk"
+      ]
     }
   }
 }

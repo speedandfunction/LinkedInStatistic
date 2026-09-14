@@ -26,6 +26,11 @@
           "replies_count": 0,
           "impressions": 0,
           "commenters": []
+        },
+        "2026-09-14": {
+          "snapshot_at": "2026-09-14T03:53:11Z",
+          "people_only": true,
+          "commenters": []
         }
       }
     },
@@ -54,6 +59,11 @@
           "reactions": 0,
           "replies_count": 0,
           "impressions": 0,
+          "commenters": []
+        },
+        "2026-09-14": {
+          "snapshot_at": "2026-09-14T03:53:11Z",
+          "people_only": true,
           "commenters": []
         }
       }
@@ -84,6 +94,11 @@
           "replies_count": 0,
           "impressions": 0,
           "commenters": []
+        },
+        "2026-09-14": {
+          "snapshot_at": "2026-09-14T03:53:11Z",
+          "people_only": true,
+          "commenters": []
         }
       }
     },
@@ -113,6 +128,11 @@
           "replies_count": 0,
           "impressions": 0,
           "commenters": []
+        },
+        "2026-09-14": {
+          "snapshot_at": "2026-09-14T03:53:11Z",
+          "people_only": true,
+          "commenters": []
         }
       }
     },
@@ -138,6 +158,11 @@
         },
         "2026-09-07": {
           "snapshot_at": "2026-09-07T03:29:26Z",
+          "people_only": true,
+          "commenters": []
+        },
+        "2026-09-14": {
+          "snapshot_at": "2026-09-14T03:53:11Z",
           "people_only": true,
           "commenters": []
         }
