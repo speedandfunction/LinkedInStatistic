@@ -542,16 +542,67 @@ async function launchBrowser() {
 
 // ============================================================ phase: posts
 
+// Дві розмітки стрічки активності живуть одночасно: LinkedIn викочує нову
+// поакаунтно. 2026-09-14 на акаунті maria вона прийшла повністю — нуль
+// [data-urn], нуль .feed-shared-update-v2, нуль .update-components-text, тож
+// старий селектор знайшов 0 карток і фаза posts упала (ERROR=SCRAPE), хоча
+// сторінка відрендерилась нормально. Єдиний носій URN у новій розмітці —
+// посилання автора на аналітику поста, по одному на картку. Його бачить лише
+// автор, а скрейпимо ми завжди сторінку автора його ж сесією.
+//
+// Старий шлях лишено дослівно (peter і andy досі на ньому), новий додано
+// поруч, результат об'єднано за URN — сторінка в перехідному стані теж
+// читається. Межу картки в новій розмітці класи не дають (вони обфусковані),
+// тому вона визначається структурно: найвищий предок, що містить РІВНО ОДНЕ
+// посилання на аналітику.
+const ANALYTICS_LINK = 'a[href*="/analytics/post-summary/urn:li:activity:"]';
+const CARD_ANCHORS = `div[data-urn^="urn:li:activity"], ${ANALYTICS_LINK}`;
+
 const CARD_SCRAPE = asFn(`() => {
-  const cards = Array.from(document.querySelectorAll('div[data-urn^="urn:li:activity"]'));
-  return cards.map(c => {
+  const out = new Map();
+
+  for (const c of document.querySelectorAll('div[data-urn^="urn:li:activity"]')) {
     const urn = c.getAttribute('data-urn');
     const id = urn.replace(/^urn:li:activity:/, '');
     const textEl = c.querySelector('.update-components-text, .feed-shared-update-v2__description');
     const previewRaw = (textEl?.innerText || c.innerText || '').trim().replace(/\\s+/g, ' ');
     const isRepost = /\\breposted this\\b/i.test((c.innerText || '').slice(0, 150));
-    return { urn, id, previewRaw: previewRaw.slice(0, 400), isRepost };
-  });
+    out.set(urn, { urn, id, previewRaw: previewRaw.slice(0, 400), isRepost });
+  }
+
+  const SEL = '${ANALYTICS_LINK}';
+  // Нова картка: "Feed post <ім'я> • You <посада> <вік> • <ТЕКСТ> … more
+  // <реакції> <коментарі> <N> impressions View analytics". Виділеного блоку
+  // з текстом більше немає, тож заголовок і хвіст зрізаються. Звірено на
+  // семи живих картках: перші 12 слів дають ті самі slug-и, що вже лежать
+  // у posts/ — тобто нові файли не отримають сміттєвих назв.
+  const HEAD = /^[\\s\\S]*?\\b(?:\\d+\\s?(?:s|m|h|d|w|mo|yr|y)|Edited)\\s*•\\s*/;
+  const TAIL_MORE = /\\s*(?:…|\\.{3})\\s*more\\b[\\s\\S]*$/;
+  // Блок лічильників ОБОВ'ЯЗКОВО починається з пробілу й цифри: інакше клас
+  // [\\d\\s,.] жадібно з'їдав фінальну крапку тексту короткого поста (у довгих
+  // це не видно — їх раніше обрізає TAIL_MORE). Свідомий компроміс: пост, що
+  // закінчується голим числом упритул до лічильників, втратить це число в
+  // превью. На slug це не впливає — він з перших 12 слів.
+  const TAIL_STATS = /\\s+\\d[\\d\\s\\u200b,.]*\\bimpressions?\\b[\\s\\S]*$/i;
+  const TAIL_VIEW = /\\s*View analytics[\\s\\S]*$/;
+  for (const a of document.querySelectorAll(SEL)) {
+    const m = (a.getAttribute('href') || '').match(/urn:li:activity:(\\d+)/);
+    if (!m) continue;
+    const urn = 'urn:li:activity:' + m[1];
+    if (out.has(urn)) continue;
+    let card = a;
+    while (card.parentElement && card.parentElement !== document.body
+           && card.parentElement.querySelectorAll(SEL).length === 1) {
+      card = card.parentElement;
+    }
+    const full = (card.innerText || '').trim().replace(/\\s+/g, ' ');
+    const previewRaw = full.replace(HEAD, '').replace(TAIL_MORE, '')
+      .replace(TAIL_STATS, '').replace(TAIL_VIEW, '').trim();
+    const isRepost = /\\breposted this\\b/i.test(full.slice(0, 150));
+    out.set(urn, { urn, id: m[1], previewRaw: previewRaw.slice(0, 400), isRepost });
+  }
+
+  return [...out.values()];
 }`);
 
 const CYR = {
@@ -618,11 +669,19 @@ async function phasePosts(page) {
   // Wait for a previously-unseen URN (not a count change — virtualization can
   // swap cards without growing the count).
   const waitForNew = (timeout) => page.waitForFunction(
-    (known) => {
+    ([known, analyticsSel]) => {
       const set = new Set(known);
-      return Array.from(document.querySelectorAll('div[data-urn^="urn:li:activity"]'))
-        .some((c) => !set.has(c.getAttribute('data-urn')));
-    }, [...allCards.keys()], { timeout },
+      // Ключі allCards — повні URN; з посилання на аналітику URN
+      // витягується тим самим форматом, інакше нова картка ніколи не
+      // визнавалась би новою і прокрутка зупинялась би на першому екрані.
+      const urns = Array.from(document.querySelectorAll('div[data-urn^="urn:li:activity"]'))
+        .map((c) => c.getAttribute('data-urn'));
+      for (const a of document.querySelectorAll(analyticsSel)) {
+        const m = (a.getAttribute('href') || '').match(/urn:li:activity:(\d+)/);
+        if (m) urns.push('urn:li:activity:' + m[1]);
+      }
+      return urns.some((u) => !set.has(u));
+    }, [[...allCards.keys()], ANALYTICS_LINK], { timeout },
   ).catch(() => {});
 
   // LinkedIn occasionally serves the activity feed empty (observed
@@ -630,7 +689,7 @@ async function phasePosts(page) {
   // — one paced re-navigation covers the transient before the phase dies.
   for (let round = 1; round <= 2; round++) {
     await pacedGotoRetry(page, PROFILE_URL, null);
-    await page.waitForSelector('div[data-urn^="urn:li:activity"]', { timeout: 15000 })
+    await page.waitForSelector(CARD_ANCHORS, { timeout: 15000 })
       .catch(() => {});
     await scrape();
     const { iterations, endReason } = await feedScrollLoop(page, {
@@ -648,6 +707,8 @@ async function phasePosts(page) {
       url: location.href,
       title: document.title,
       anyDataUrn: document.querySelectorAll('[data-urn]').length,
+      analyticsLinks: document.querySelectorAll('a[href*="/analytics/post-summary/urn:li:activity:"]').length,
+      componentkey: document.querySelectorAll('[componentkey]').length,
       mainLi: document.querySelectorAll('main li').length,
       text: ((document.querySelector('main') || document.body).innerText || '')
         .slice(0, 300).replace(/\n+/g, ' | '),
