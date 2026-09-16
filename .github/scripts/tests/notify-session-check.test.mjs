@@ -507,3 +507,64 @@ test("partition never puts new or live authors in the alert buckets", () => {
   assert.deepEqual(p.fine.map((a) => a.slug), ["peter"]);
   assert.deepEqual(p.skipped.map((a) => a.slug), ["olga"]);
 });
+
+// ---------------------------------------------------------------------------
+// Зависання Slack не має права перефарбувати прогін. Без стелі на запит fetch
+// висів би кілька хвилин на спробу, джоб сповіщення впирався б у свій
+// timeout-minutes і ставав CANCELLED — а job-level continue-on-error страхує
+// лише від failed. Тести йдуть у підпроцесі, бо стеля читається з env при
+// імпорті модуля.
+const MODULE_URL = new URL("../notify-session-check.mjs", import.meta.url).href;
+
+function runSlackPost(fetchStub) {
+  const code = `
+    globalThis.fetch = ${fetchStub};
+    const { slackPost } = await import(${JSON.stringify(MODULE_URL)});
+    const t0 = Date.now();
+    let result, threw = null;
+    try { result = await slackPost({ channel: "C0FAKE", text: "x" }); }
+    catch (e) { threw = String(e && e.message || e); }
+    process.stdout.write(JSON.stringify({ result, threw, ms: Date.now() - t0 }));
+  `;
+  const r = spawnSync(process.execPath, ["--input-type=module", "-e", code], {
+    env: { ...process.env, SLACK_BOT_TOKEN: "xoxb-not-a-real-token", SLACK_FETCH_TIMEOUT_MS: "150" },
+    encoding: "utf8",
+    timeout: 30_000,
+  });
+  assert.equal(r.status, 0, `subprocess failed: ${r.stderr}`);
+  return JSON.parse(r.stdout);
+}
+
+test("a Slack request that never answers is cut off and reported, not left hanging", () => {
+  // Імітує зависле з'єднання: відповіді немає, доки не спрацює сигнал.
+  // setInterval — це відкритий сокет справжнього запиту. Без нього процес
+  // виходив раніше за таймаут: таймер AbortSignal.timeout у Node не тримає
+  // цикл подій живим, а реальне з'єднання — тримає.
+  const out = runSlackPost(`(url, opts) => new Promise((_, reject) => {
+    const socket = setInterval(() => {}, 1000);
+    opts.signal.addEventListener("abort", () => { clearInterval(socket); reject(opts.signal.reason); });
+  })`);
+  assert.equal(out.threw, null, "відмова мусить повертатись як результат, а не вилітати винятком");
+  assert.equal(out.result.ok, false);
+  assert.equal(out.result.kind, "transient");
+  assert.equal(out.result.error, "timeout");
+  // 3 × 150 мс + паузи 1 с і 2 с ≈ 3.5 с. Без стелі тест висів би до timeout.
+  assert.ok(out.ms < 8000, `took ${out.ms} ms`);
+});
+
+test("a network error is retried and reported as transient, not thrown", () => {
+  const out = runSlackPost(`() => Promise.reject(new TypeError("fetch failed"))`);
+  assert.equal(out.threw, null);
+  assert.equal(out.result.ok, false);
+  assert.equal(out.result.kind, "transient");
+  assert.equal(out.result.error, "network");
+});
+
+test("a request that recovers on a later attempt still delivers", () => {
+  const out = runSlackPost(`(() => { let n = 0; return async () => {
+    if (++n < 2) throw new TypeError("fetch failed");
+    return new Response(JSON.stringify({ ok: true, ts: "1.2" }), { status: 200 });
+  }; })()`);
+  assert.equal(out.threw, null);
+  assert.equal(out.result.ok, true, JSON.stringify(out.result));
+});

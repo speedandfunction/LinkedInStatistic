@@ -33,7 +33,7 @@ a CI run, so do not go looking for them.** What it keeps: sequential
 per-author scraping, the truncated-snapshot guard, PR-not-direct-to-main, and
 "only a boring clean run auto-merges".
 
-The job, step by step:
+The `scrape` job, step by step (then `publish`, then `notify`):
 
 1. checks the three required secrets are non-empty and fails immediately with
    a readable message if not;
@@ -51,14 +51,30 @@ The job, step by step:
    author exited 0, wrote data, and produced this week's `weeks[<monday>]`
    key, and every snapshot parsed;
 8. on auto-merge only, sets `main_updated=true`, which gates the `publish`
-   job (build Pages `stats.json` → deploy → refresh the Grafana `$post`
-   variable);
-9. **always** — success, failure or cancellation — posts one message to
-   `#linkedin-session-bot` (`.github/scripts/notify-weekly.mjs`): *merged*
-   (no ping), *NOT published, waiting for review* (PR link, each author's
-   problem, the next-Monday deadline, @-mentions the operator), or *crashed
-   before a PR existed* (run link, @-mentions the operator). Authors are never
-   tagged.
+   job (build Pages `stats.json` → deploy → mark `deployed=true` → refresh
+   the Grafana `$post` variable). `deployed` is written by its own step right
+   after `actions/deploy-pages`, so it exists only when the deploy itself
+   succeeded — a red `publish` with `deployed=true` means only the Grafana
+   refresh failed;
+9. **always** — success, failure, cancellation or a `scrape` timeout — a
+   separate final job, `notify` (`needs: [scrape, publish]`,
+   `if: always()`, `continue-on-error: true`), posts **one** message to
+   `#linkedin-session-bot` (`.github/scripts/notify-weekly.mjs`). Because it
+   runs after `publish`, it can tell these apart:
+
+   | outcome | ping | deadline |
+   |---|---|---|
+   | *collected and published* — merged, deployed, `publish` green | no | — |
+   | *published, but the Grafana post picker refresh failed* — merged, deployed, `publish` red | no | none — data is live; the next successful publish rebuilds the picker |
+   | *safe on main, dashboards NOT updated* — merged, deploy failed / cancelled / unconfirmed; or `publish` skipped after a merge | operator | **none** — the week is merged; run `pages-deploy` |
+   | *NOT published, waiting for review* — PR open, not merged (PR link, each author's problem) | operator | **next Monday 00:00 UTC** — merge before it or the week is lost |
+   | *crashed before a PR existed* (run link) | operator | **next Monday 00:00 UTC** |
+
+   The two "no deadline" rows and the two "Monday" rows are deliberately
+   different: an unmerged week is lost for good at the next run; a merged but
+   unpublished week only means stale dashboards. Authors are never tagged.
+   If the `notify` job cannot check out its script (it retries once), it
+   leaves an `::error::` annotation on the run and posts nothing.
 
 **Runner.** Our browser is remote (Browserbase), so this needs
 `runs-on: ubuntu-latest`. Upstream's `[self-hosted, macOS]` exists because
@@ -108,9 +124,9 @@ step exists to tell you that in one line instead of failing 25 minutes in.
 | `GRAFANA_URL` | variable | `update-post-variable.mjs:36`. The weekly workflow falls back inline to `https://speedandfunction.grafana.net`; `pages-deploy.yml` has **no** fallback and skips the step instead. Set it so the two agree. |
 | `LIFLEET_PROXIES` | variable | Default `on`. On the free Browserbase plan proxies `402` and the backend falls back automatically (`browserbase-backend.mjs:95-108`); `off` just skips the wasted call. |
 | `LI_SESSION_TIMEOUT` | variable | Default `1800` s (`browserbase-backend.mjs:90`). The scrape hard cap is 2100 s, so a slow author can outlive its own Browserbase session. Set `2400`. |
-| `SLACK_BOT_TOKEN` | secret | The session-check bot, reused by the weekly result message. Unset or revoked → a `::warning::` in the "Post the weekly result to Slack" step and **no message**; the run's conclusion is unaffected. |
+| `SLACK_BOT_TOKEN` | secret | The session-check bot, reused by the weekly result message. Also read by `pages-deploy.yml`. Unset or revoked → a `::warning::` in the "Post the weekly result to Slack" step of the `notify` job (or "Post the pages-deploy result to Slack") and **no message**; the run's conclusion is unaffected. |
 | `SLACK_CHANNEL_ID` | variable | The `C…` id of `#linkedin-session-bot` — the same variable the daily session check reads. Unset → same warning, no message. |
-| `SLACK_PEOPLE_JSON` | secret | Only its `_operator` key is read here: the member id pinged when a week is not published. Missing or not a `U…`/`W…` id → the message still posts, says nobody was pinged, and the log carries a `::warning::`. |
+| `SLACK_PEOPLE_JSON` | secret | Only its `_operator` key is read here: the member id pinged when a week is not published or a deploy failed. Missing or not a `U…`/`W…` id → the message still posts, says nobody was pinged, and the log carries a `::warning::`. |
 
 ### Set by the workflow, not by you
 
@@ -139,7 +155,8 @@ Do not set these expecting the weekly run to read them — it will not:
   `run-weekly.sh` and post through the claude.ai connector
   `mcp__claude_ai_Slack_Bot__postMessage`, which only exists inside an
   OAuth-authenticated Claude Code session; CI never posts them. CI posts only
-  the one result message above (§1 step 9). A failed post is a `::warning::`,
+  the one result message above (§1 step 9), plus one message per manual
+  `pages-deploy` run (§7). A failed post is a `::warning::`,
   not a red run, so **do not treat Slack silence as a health signal** —
   use the run's red/green status (§8).
 - **`LI_CHROME_PROFILE_DIR`.** Only the local-Chrome path reads it
@@ -334,6 +351,15 @@ gh workflow run pages-deploy.yml --repo "$R" --ref main
 Both workflows share the `pages` concurrency group, so a manual
 `pages-deploy` queues behind an in-flight weekly rather than racing it.
 
+`pages-deploy` also ends with a `notify` job (same script,
+`NOTIFY_MODE=pages-deploy`) that posts one message to
+`#linkedin-session-bot`: a **failed or cancelled** build/deploy @-mentions
+the operator with the run link; a deploy whose only failure is the Grafana
+`$post` refresh posts a yellow line without a ping; a **successful** run posts
+one closing line without a ping — so the channel's last word after a
+"dashboards were NOT updated" alert is not left standing. Like the weekly,
+a Slack failure there never changes the run's red/green.
+
 ---
 
 ## 8. Was the run healthy?
@@ -393,6 +419,13 @@ done
 ```
 
 The newest key must be this week's Monday, for **every** author.
+
+**Publish failures are not week failures.** A red run whose `scrape` job is
+green and whose `publish` job is red means the week IS merged: either the
+deploy failed (Slack says *dashboards NOT updated* — dispatch
+`pages-deploy.yml`, no deadline) or only the Grafana refresh failed (Slack
+says *post picker refresh failed* — the data is live). Only a red `scrape`
+carries the next-Monday deadline.
 
 **e. Publishing.** `https://speedandfunction.github.io/LinkedInStatistic/<author>/stats.json`
 should carry the new week, and the Grafana `$post` picker on
