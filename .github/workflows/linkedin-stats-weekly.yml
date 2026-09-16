@@ -48,8 +48,9 @@ env:
 # the Slack bookends and the incident write-up. What is kept: sequential
 # per-author scraping, the truncated-snapshot guard, PR-not-direct-to-main,
 # and "only a boring clean run auto-merges". The Slack bookends are replaced
-# by one result message per run (notify-weekly.mjs, last step of `scrape`),
-# posted with the session-check bot rather than the claude.ai connector.
+# by one result message per run (notify-weekly.mjs, run by the final `notify`
+# job so it sees both scrape AND publish), posted with the session-check bot
+# rather than the claude.ai connector.
 # NOTE: run-weekly.sh is concurrently being reworked to do the multi-author
 # Browserbase loop itself. If it is ever made runnable without `claude`
 # (or the runner is given a Claude credential), the right move is to delete
@@ -74,7 +75,17 @@ jobs:
     # only a backstop: 90 min budget + one 35 min overshoot + npm/checkout/PR
     # ~= 135 min. 180 keeps real headroom and is roster-independent.
     timeout-minutes: 180
+    # Everything the final `notify` job needs, exposed as JOB outputs: a later
+    # job cannot read steps.* of this one. A step that never ran (a crash or a
+    # cancellation before it) leaves its output empty, and notify-weekly.mjs
+    # treats empty as "unknown", never as "fine".
     outputs:
+      week: ${{ steps.week.outputs.week }}
+      clean: ${{ steps.scrape.outputs.clean }}
+      notes: ${{ steps.scrape.outputs.notes }}
+      invalid_json: ${{ steps.jsoncheck.outputs.invalid_json }}
+      branch: ${{ steps.commit.outputs.branch }}
+      pr_url: ${{ steps.commit.outputs.pr_url }}
       main_updated: ${{ steps.commit.outputs.main_updated }}
     steps:
       - uses: actions/checkout@v7
@@ -449,8 +460,8 @@ jobs:
           git commit -m "chore: linkedin stats for week ${WEEK}" \
                      -m "Automated weekly scrape via Browserbase (${summary})."
           git push -u origin "${BRANCH}"
-          # Written as soon as each fact is true, not at the end: the Slack step
-          # below reads these after an abort too, and "the data is on a branch
+          # Written as soon as each fact is true, not at the end: the `notify`
+          # job reads these (via job outputs) after an abort too, and "the data is on a branch
           # but no PR exists" is exactly what the operator needs to be told.
           echo "branch=${BRANCH}" >> "${GITHUB_OUTPUT}"
 
@@ -522,52 +533,6 @@ jobs:
             exit 1
           fi
 
-      # A red run is a signal nobody watches: on 2026-09-14 this step correctly
-      # refused to merge an incomplete week, opened the PR, went red — and the
-      # week sat unmerged for two days. So every run ends with ONE message in
-      # #linkedin-session-bot: merged (no ping), waiting for review (PR link,
-      # per-author problems, the next-Monday deadline, @operator), or crashed
-      # before a PR existed (run link, @operator). Authors are never tagged —
-      # they cannot fix a scrape.
-      - name: Post the weekly result to Slack
-        # always(), not !cancelled() as in linkedin-session-check.yml. That file
-        # avoids always() because a cancelled run may leave a half-written
-        # report it would @-tag people from. This step reads no file, only
-        # step outputs, and a cancelled or timed-out weekly run is precisely a
-        # week at risk — the case that most needs a human.
-        if: always()
-        # Belt and braces: notify-weekly.mjs already exits 0 on every Slack-side
-        # failure (missing or revoked token, 429, network) and says so in a
-        # ::warning::. This only covers a crash of the script itself. The run's
-        # conclusion must keep meaning "did the week land" (WEEKLY-CADENCE.md
-        # section 8), never "did Slack answer".
-        continue-on-error: true
-        env:
-          # Same secret/variable names as linkedin-session-check.yml — same bot,
-          # same channel. Only the "_operator" key of the people map is used.
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-          SLACK_CHANNEL_ID: ${{ vars.SLACK_CHANNEL_ID }}
-          SLACK_PEOPLE_JSON: ${{ secrets.SLACK_PEOPLE_JSON || vars.SLACK_PEOPLE_JSON }}
-          # Every value goes through env, never ${{ }} inside run: — notes and
-          # URLs are data, and data must not become shell.
-          WEEK: ${{ steps.week.outputs.week }}
-          CLEAN: ${{ steps.scrape.outputs.clean }}
-          NOTES: ${{ steps.scrape.outputs.notes }}
-          INVALID_JSON: ${{ steps.jsoncheck.outputs.invalid_json }}
-          BRANCH: ${{ steps.commit.outputs.branch }}
-          PR_URL: ${{ steps.commit.outputs.pr_url }}
-          MAIN_UPDATED: ${{ steps.commit.outputs.main_updated }}
-          JOB_STATUS: ${{ job.status }}
-        run: |
-          set -uo pipefail
-          # A run that died before checkout has no script to run. Say so rather
-          # than fail with a bare "module not found".
-          if [ ! -f .github/scripts/notify-weekly.mjs ]; then
-            echo "::warning::.github/scripts/notify-weekly.mjs is not in the workspace (the run died before checkout) — the weekly result was NOT posted to Slack"
-            exit 0
-          fi
-          node .github/scripts/notify-weekly.mjs
-
   publish:
     needs: scrape
     # A partial/failed run leaves its data on an unmerged PR — republishing
@@ -582,6 +547,16 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    # A red `publish` means two very different things: the deploy failed (the
+    # dashboards are stale) or the deploy went through and only the Grafana
+    # refresh below failed (the data IS live). needs.publish.result cannot tell
+    # them apart, so `deployed` is a separate, positive marker. It is "true"
+    # ONLY when the marker step ran, i.e. actions/deploy-pages succeeded; if the
+    # deploy fails the marker step is skipped and the output is EMPTY — never
+    # "false" — so notify-weekly.mjs reads anything but "true" as "not deployed".
+    outputs:
+      deployed: ${{ steps.deployed.outputs.deployed }}
+      page_url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -603,6 +578,12 @@ jobs:
           path: pages-dist
       - id: deployment
         uses: actions/deploy-pages@v5
+      # Default `if: success()`: runs only when the deploy above succeeded.
+      # Must stay directly after it — anything in between that can fail would
+      # make a live deploy look like a failed one.
+      - name: Mark the deploy as done
+        id: deployed
+        run: echo "deployed=true" >> "${GITHUB_OUTPUT}"
       # After the new stats.json is live: push the regenerated $post
       # Custom-variable list to each author's Grafana dashboard so the picker
       # always includes the week's new posts (Query variables can't read
@@ -629,3 +610,82 @@ jobs:
             echo "== ${author} =="
             node .github/scripts/update-post-variable.mjs --author "${author}"
           done
+
+  # ONE Slack message per run, posted after BOTH jobs have finished. It used to
+  # be the last step of `scrape`, which runs before `publish` — so the clean
+  # message could only say "merged", and a publish that failed after a good
+  # merge told nobody. A red run is a signal nobody watches: on 2026-09-14 the
+  # weekly correctly refused to merge an incomplete week, went red, and the
+  # week sat unmerged for two days.
+  #
+  # Outcomes (notify-weekly.mjs): published (no ping) · published but the
+  # Grafana $post picker was not refreshed (no ping, no deadline) · merged but
+  # NOT deployed, or publish skipped (@operator, run pages-deploy, no data-loss
+  # deadline) · waiting for review (PR link, per-author problems, the
+  # next-Monday deadline, @operator) · crashed before a PR existed (run link,
+  # @operator). Authors are never tagged — they cannot fix a scrape.
+  notify:
+    needs: [scrape, publish]
+    # always(), not !cancelled() as in linkedin-session-check.yml. That file
+    # avoids always() because a cancelled run may leave a half-written report
+    # it would @-tag people from. This job reads no report, only job outputs
+    # and results, and a cancelled or timed-out weekly run is precisely a week
+    # at risk — the case that most needs a human. always() also runs this job
+    # when the run itself is cancelled, and when `scrape` hit timeout-minutes
+    # (that arrives as needs.scrape.result == 'cancelled').
+    if: always()
+    # The run's conclusion must keep meaning "did the week land and publish"
+    # (WEEKLY-CADENCE.md section 8), never "did Slack answer". notify-weekly.mjs
+    # already exits 0 on every Slack-side failure with a ::warning::; this
+    # covers everything else in this job (checkout, setup-node, a crash).
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      # A failed checkout here would silence exactly the run that most needs a
+      # message, so it gets one retry instead of failing the job outright.
+      - uses: actions/checkout@v7
+        id: checkout
+        continue-on-error: true
+      - uses: actions/checkout@v7
+        if: steps.checkout.outcome == 'failure'
+        continue-on-error: true
+      # ubuntu-latest ships a Node that runs the notifier too; setup-node only
+      # pins the same major as the other jobs, so its failure is not fatal.
+      - uses: actions/setup-node@v7
+        continue-on-error: true
+        with:
+          node-version: 22
+      - name: Post the weekly result to Slack
+        env:
+          # Same secret/variable names as linkedin-session-check.yml — same bot,
+          # same channel. Only the "_operator" key of the people map is used.
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL_ID: ${{ vars.SLACK_CHANNEL_ID }}
+          SLACK_PEOPLE_JSON: ${{ secrets.SLACK_PEOPLE_JSON || vars.SLACK_PEOPLE_JSON }}
+          # Every value goes through env, never ${{ }} inside run: — notes and
+          # URLs are data, and data must not become shell.
+          WEEK: ${{ needs.scrape.outputs.week }}
+          CLEAN: ${{ needs.scrape.outputs.clean }}
+          NOTES: ${{ needs.scrape.outputs.notes }}
+          INVALID_JSON: ${{ needs.scrape.outputs.invalid_json }}
+          BRANCH: ${{ needs.scrape.outputs.branch }}
+          PR_URL: ${{ needs.scrape.outputs.pr_url }}
+          MAIN_UPDATED: ${{ needs.scrape.outputs.main_updated }}
+          SCRAPE_RESULT: ${{ needs.scrape.result }}
+          PUBLISH_RESULT: ${{ needs.publish.result }}
+          DEPLOYED: ${{ needs.publish.outputs.deployed }}
+          PAGE_URL: ${{ needs.publish.outputs.page_url }}
+        run: |
+          set -uo pipefail
+          # Both checkout attempts failed: there is no script to run. Say so
+          # loudly in the run's annotations rather than fail with a bare
+          # "module not found". Deliberately NOT a hand-rolled curl fallback —
+          # that would be a second, untested copy of the Slack transport.
+          if [ ! -f .github/scripts/notify-weekly.mjs ]; then
+            echo "::error::.github/scripts/notify-weekly.mjs could not be checked out — the weekly result was NOT posted to Slack (scrape=${SCRAPE_RESULT:-unknown}, publish=${PUBLISH_RESULT:-unknown}, main_updated=${MAIN_UPDATED:-empty}). Check this run by hand."
+            exit 0
+          fi
+          node .github/scripts/notify-weekly.mjs

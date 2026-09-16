@@ -36,6 +36,10 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    # Джоба з одного кроку, тож needs.deploy.result == 'success' і є «деплой
+    # пройшов». Окремий маркер, як у щотижневому publish, тут не потрібен.
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
         uses: actions/deploy-pages@v5
@@ -67,3 +71,54 @@ jobs:
             echo "== $author =="
             node .github/scripts/update-post-variable.mjs --author "$author"
           done
+
+  # Це шлях відновлення, до якого щотижневий бот сам відсилає оператора
+  # («merge by hand, then run pages-deploy»), тож його провал не має бути тихим.
+  # Одне повідомлення на прогін через той самий notify-weekly.mjs
+  # (NOTIFY_MODE=pages-deploy) і той самий транспорт з notify-session-check.mjs:
+  #   - деплой упав / скасований / збірка впала — @operator + посилання на прогін;
+  #   - деплой пройшов, впав лише рефреш $post — жовтий рядок, без пінгу;
+  #   - усе пройшло — один рядок БЕЗ пінгу. Оператор зазвичай щойно сам натиснув
+  #     кнопку, але в каналі останнім словом лишилося б «dashboards were NOT
+  #     updated» з @-згадкою; рядок-закриття коштує майже нічого (ручний деплой
+  #     рідкісний) і закриває петлю там, де її відкрили.
+  notify:
+    needs: [build, deploy, refresh-post-variable]
+    # always(): провалений або скасований деплой — саме той випадок, про який
+    # треба сказати.
+    if: always()
+    # Висновок прогону означає «чи спрацював деплой», а не «чи відповів Slack».
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+        id: checkout
+        continue-on-error: true
+      - uses: actions/checkout@v7
+        if: steps.checkout.outcome == 'failure'
+        continue-on-error: true
+      - uses: actions/setup-node@v7
+        continue-on-error: true
+        with:
+          node-version: 22
+      - name: Post the pages-deploy result to Slack
+        env:
+          NOTIFY_MODE: pages-deploy
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL_ID: ${{ vars.SLACK_CHANNEL_ID }}
+          SLACK_PEOPLE_JSON: ${{ secrets.SLACK_PEOPLE_JSON || vars.SLACK_PEOPLE_JSON }}
+          # Усе — через env, ніколи не ${{ }} усередині run:.
+          BUILD_RESULT: ${{ needs.build.result }}
+          DEPLOY_RESULT: ${{ needs.deploy.result }}
+          REFRESH_RESULT: ${{ needs.refresh-post-variable.result }}
+          PAGE_URL: ${{ needs.deploy.outputs.page_url }}
+        run: |
+          set -uo pipefail
+          if [ ! -f .github/scripts/notify-weekly.mjs ]; then
+            echo "::error::.github/scripts/notify-weekly.mjs could not be checked out — the pages-deploy result was NOT posted to Slack (build=${BUILD_RESULT:-unknown}, deploy=${DEPLOY_RESULT:-unknown}, refresh=${REFRESH_RESULT:-unknown}). Check this run by hand."
+            exit 0
+          fi
+          node .github/scripts/notify-weekly.mjs

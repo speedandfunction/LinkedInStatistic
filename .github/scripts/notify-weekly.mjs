@@ -8,14 +8,30 @@
 // бачив ніхто. LinkedIn не зберігає історії, тож тиждень, не змерджений до
 // наступного понеділка, втрачено назавжди.
 //
-// Три випадки, рівно одне повідомлення:
-//   1. тиждень чистий і змерджений — короткий рядок і статус по кожному автору,
-//      без жодної @-згадки: у день, коли робити нічого, пінгувати нікого;
-//   2. PR відкритий, але НЕ змерджений — тиждень не опублікований: посилання на
-//      PR, проблема кожного автора людськими словами, дедлайн і @-згадка
-//      оператора;
+// Рівно одне повідомлення на прогін. Звідки воно приходить: окремий job
+// `notify` у самому кінці воркфлоу (needs: [scrape, publish], if: always()) —
+// тож бачить і результат збору, і результат публікації.
+//
+// Тиждень змерджено (MAIN_UPDATED=true) — далі вирішує publish:
+//   1a. задеплоєно і publish зелений — «collected and published», без пінгу;
+//   1b. задеплоєно, але publish червоний/недоїхав — впав лише рефреш $post у
+//       Grafana: дані ЖИВІ, пікер постів може не мати постів тижня. Без пінгу і
+//       без дедлайну (обґрунтування — біля коду);
+//   1c. НЕ задеплоєно (publish failure/cancelled) — тиждень у безпеці на main,
+//       але дашборди НЕ оновлені: @оператор, «запусти pages-deploy», і прямим
+//       текстом — дедлайну втрати даних тут НЕМАЄ;
+//   1d. publish SKIPPED, хоча main оновлено — не мав так поводитись; чесно
+//       кажемо «не опубліковано», @оператор, pages-deploy.
+// Тиждень НЕ змерджено:
+//   2. PR відкритий — тиждень не опублікований: посилання на PR, проблема
+//      кожного автора людськими словами, дедлайн (жорсткий, понеділок) і
+//      @-згадка оператора;
 //   3. прогін упав до того, як з'явився PR — @-згадка оператора і посилання на
 //      сам прогін.
+//
+// Окремий режим NOTIFY_MODE=pages-deploy — для ручного pages-deploy.yml
+// (buildPagesDeployMessage): провал деплою пінгує оператора, успіх закриває
+// петлю одним рядком без пінгу.
 //
 // Авторів (Peter, Andy, Maria) НЕ тегаємо ніколи, навіть мапнутих у
 // SLACK_PEOPLE_JSON: скрап вони полагодити не можуть, а пінг, з яким нічого не
@@ -28,6 +44,7 @@
 // як у решті репозиторію.
 //
 //   node .github/scripts/notify-weekly.mjs
+//   SLACK_DRY_RUN=1 NOTIFY_MODE=pages-deploy DEPLOY_RESULT=failure node .github/scripts/notify-weekly.mjs
 //   SLACK_DRY_RUN=1 WEEK=2026-09-14 CLEAN=0 NOTES="peter:partial" PR_URL=… node .github/scripts/notify-weekly.mjs
 //
 // Env (у CI все приходить через `env:` кроку, НІКОЛИ не через ${{ }} у run:):
@@ -42,7 +59,16 @@
 //   BRANCH             гілка, яку вдалося запушити (steps.commit.outputs.branch)
 //   PR_URL             PR, існування якого перевірено (steps.commit.outputs.pr_url)
 //   MAIN_UPDATED       "true" лише після успішного мерджу
-//   JOB_STATUS         job.status — "cancelled" означає скасування або таймаут
+//   SCRAPE_RESULT      needs.scrape.result — success/failure/cancelled; таймаут
+//                      job'а теж приходить як "cancelled"
+//   PUBLISH_RESULT     needs.publish.result — success/failure/cancelled/skipped
+//   DEPLOYED           needs.publish.outputs.deployed — "true" ЛИШЕ якщо крок
+//                      actions/deploy-pages пройшов; порожньо, якщо він упав
+//                      або publish не запускався
+//   PAGE_URL           needs.publish.outputs.page_url
+//   NOTIFY_MODE        "pages-deploy" — повідомлення ручного pages-deploy.yml;
+//                      тоді читаються BUILD_RESULT, DEPLOY_RESULT,
+//                      REFRESH_RESULT, PAGE_URL і GITHUB_ACTOR замість полів вище
 //   PROFILES_FILE      profiles.json — імена авторів (за замовчуванням шлях репо)
 //   GITHUB_SERVER_URL, GITHUB_REPOSITORY, GITHUB_RUN_ID — посилання на прогін
 //
@@ -218,6 +244,25 @@ const prLabel = (url) => {
 
 const link = (url, label) => (isHttpUrl(url) ? `<${safeUrl(url)}|${label}>` : label);
 
+const dashboardsRef = (pageUrl) => (isHttpUrl(pageUrl) ? `Published to ${link(pageUrl, "GitHub Pages")}. ` : "");
+
+// Що сталося з публікацією змердженого тижня. Два НЕЗАЛЕЖНІ сигнали, бо
+// needs.publish.result один їх не розрізняє: червоний publish — це і «деплой
+// упав» (дашборди старі), і «деплой пройшов, упав лише рефреш Grafana» (дані
+// живі). DEPLOYED="true" пише окремий крок одразу після actions/deploy-pages,
+// тож він є лише тоді, коли деплой справді пройшов; якщо деплой упав, крок не
+// запускається і output порожній — тобто «не підтверджено», а не «так».
+//   published     — задеплоєно і publish зелений
+//   picker-stale  — задеплоєно, але publish не зелений (лише рефреш $post)
+//   not-deployed  — publish запускався (failure/cancelled, або success без
+//                   маркера — не підтверджено), а деплою немає
+//   skipped       — publish не запускався зовсім (skipped або результату нема)
+export function publishState(publishResult, deployed) {
+  if (deployed === "true") return publishResult === "success" ? "published" : "picker-stale";
+  if (publishResult === "skipped" || !publishResult) return "skipped";
+  return "not-deployed";
+}
+
 // ------------------------------------------------------------- збірка
 
 // Чистий білдер: жодного env, мережі чи файлів — усе приходить аргументом.
@@ -226,7 +271,8 @@ const link = (url, label) => (isHttpUrl(url) ? `<${safeUrl(url)}|${label}>` : la
 // лише ЦІЛЕ значення секрету, а не шматок мапи).
 export function buildWeeklyMessage(input) {
   const {
-    channel, week, clean, notes, invalidJson, branch, prUrl, mainUpdated, jobStatus,
+    channel, week, clean, notes, invalidJson, branch, prUrl, mainUpdated,
+    scrapeResult, publishResult = "", deployed = "", pageUrl = "",
     profiles, operator, runLink, now = Date.now(),
   } = input;
 
@@ -238,26 +284,90 @@ export function buildWeeklyMessage(input) {
     ? null
     : context(":information_source: No `_operator` id is mapped in SLACK_PEOPLE_JSON, so nobody was pinged — someone has to pick this up by hand.");
 
-  // 1. Чистий і змерджений. MAIN_UPDATED пишеться ЛИШЕ після успішного
-  // `gh pr merge`, тож це єдиний надійний доказ, що тиждень на main.
+  // 1. Змерджений. MAIN_UPDATED пишеться ЛИШЕ після успішного `gh pr merge`,
+  // тож це єдиний надійний доказ, що тиждень на main. Що сталося далі — вирішує
+  // publishState(): «published» пишемо лише тоді, коли деплой ПІДТВЕРДЖЕНО.
   if (mainUpdated === "true") {
     const rows = authorRows(profiles, parsed, { assumeCollected: true });
-    // «published» тут не пишемо: сам деплой робить наступний job (publish), і
-    // цей крок його результату не бачить. Кажемо рівно те, що знаємо.
-    const head = `:white_check_mark: *${weekName} collected and merged into main* — the dashboards are being published now.`;
+    const merged = isHttpUrl(prUrl) ? `${link(prUrl, prLabel(prUrl))} was merged automatically. ` : "";
+    const state = publishState(publishResult, deployed);
+    const withRows = (head) => section(rows.length ? `${head}\n${rows.join("\n")}` : head);
+    const payloadOf = (text, blocks) => ({ channel, text, unfurl_links: false, unfurl_media: false, blocks });
+
+    // 1a. Усе доїхало — день, коли робити нічого, тож і пінгувати нікого.
+    if (state === "published") {
+      const head = `:white_check_mark: *${weekName} collected and published* — the dashboards are up to date.`;
+      return {
+        kind: "published",
+        summary: `${weekName} collected and published`,
+        payload: payloadOf(`LinkedIn ${weekName.toLowerCase()} collected and published`, [
+          withRows(head),
+          context(`${merged}${dashboardsRef(pageUrl)}Details in the ${runRef}.`),
+        ]),
+      };
+    }
+
+    // 1b. Деплой пройшов, упав (або не доїхав) лише рефреш $post у Grafana.
+    // БЕЗ пінгу, свідомо: дані вже живі, втратити нічого, дедлайну немає, а
+    // update-post-variable.mjs щоразу перебудовує список з УСІХ постів — тож
+    // наступна успішна публікація (найпізніше наступного понеділка) лагодить
+    // пікер сама. Пінг за те, що само минає і нічого не коштує, привчає глушити
+    // бота — і тоді глушиться той пінг, за яким справді горить тиждень. Людина,
+    // якій потрібен пікер раніше, побачить жовтий рядок у каналі і червоний
+    // publish у прогоні.
+    if (state === "picker-stale") {
+      const how = publishResult === "failure" ? "failed" : "did not finish";
+      const head = `:large_yellow_circle: *${weekName} collected and published — the dashboards show the new data*, ` +
+        `but the Grafana post picker refresh ${how}.`;
+      return {
+        kind: "published-picker-stale",
+        summary: `${weekName} collected and published, but the Grafana post picker refresh ${how}`,
+        payload: payloadOf(`LinkedIn ${weekName.toLowerCase()} published; the Grafana post picker was not refreshed`, [
+          withRows(head),
+          section(
+            ":information_source: The `$post` picker on the per-author posts dashboards may not list this week's new posts yet. " +
+            "*Nothing is lost and there is no deadline* — the data is merged and live, and the next successful publish rebuilds the picker " +
+            "from all posts. To fix it sooner, run the *pages-deploy* workflow.",
+          ),
+          context(`${merged}${dashboardsRef(pageUrl)}The failing step is in the ${runRef}.`),
+        ]),
+      };
+    }
+
+    // 1c/1d. Тиждень у безпеці на main, але дашборди НЕ оновлені. Пінгуємо:
+    // без людини вони так і лишаться старими. Але саме тут найлегше збрехати в
+    // обидва боки: сказати «дедлайн» — паніка через те, що нічого не ризикує;
+    // промовчати про різницю з випадком 2 — і наступного разу непомерджений
+    // тиждень теж здасться «не горить». Тому прямо: дедлайну втрати даних НЕМАЄ.
+    const why = {
+      "not-deployed": publishResult === "cancelled"
+        ? "the publish job was cancelled before the deploy finished"
+        : publishResult === "success"
+          ? "the publish job did not confirm the deploy"
+          : "the deploy to GitHub Pages failed",
+      skipped: `the publish job did not run (result: \`${escape(publishResult || "unknown")}\`), although it should after a merge`,
+    }[state];
+    const head = `${opPing}:warning: *${weekName} is collected and safe on main, but the dashboards were NOT updated* — ${why}.`;
+    const blocks = [
+      withRows(head),
+      section(
+        ":point_right: Run the *pages-deploy* workflow on `main` (Actions → pages-deploy → Run workflow) to publish it. " +
+        `If that fails too, open the ${runLink ? `<${safeUrl(runLink)}|workflow run>` : "workflow run"} to see why.`,
+      ),
+      section(
+        ":shield: *No data-loss deadline here* — the week is already merged into main, so nothing is lost if this waits. " +
+        "Until pages-deploy succeeds, the dashboards keep showing the previous data.",
+      ),
+      context(`${merged}Details in the ${runRef}.`),
+    ];
+    if (noOperator) blocks.push(noOperator);
     return {
-      kind: "clean",
-      summary: `${weekName} collected and merged`,
-      payload: {
-        channel,
-        text: `LinkedIn ${weekName.toLowerCase()} collected and merged`,
-        unfurl_links: false,
-        unfurl_media: false,
-        blocks: [
-          section(rows.length ? `${head}\n${rows.join("\n")}` : head),
-          context(`${isHttpUrl(prUrl) ? `${link(prUrl, prLabel(prUrl))} was merged automatically. ` : ""}Details in the ${runRef}.`),
-        ],
-      },
+      kind: state === "skipped" ? "merged-publish-skipped" : "merged-not-deployed",
+      summary: `${weekName} is merged but NOT published — ${why.replace(/`/g, "")}; run pages-deploy (no data-loss deadline)`,
+      payload: payloadOf(
+        `${opPing}LinkedIn ${weekName.toLowerCase()} is merged but NOT published — run pages-deploy (no data-loss deadline)`,
+        blocks,
+      ),
     };
   }
 
@@ -301,7 +411,7 @@ export function buildWeeklyMessage(input) {
     `${opPing}:x: *The weekly LinkedIn run crashed before it opened a pull request* (${weekName.toLowerCase()}).`,
     "Nothing was published and nothing is waiting for review.",
   ];
-  if (jobStatus === "cancelled") lines.push("The run was cancelled or hit its time limit.");
+  if (scrapeResult === "cancelled") lines.push("The run was cancelled or hit its time limit.");
   if (branch) {
     lines.push(`Some data was pushed to branch \`${escape(branch)}\`, but no pull request exists for it.`);
   }
@@ -328,35 +438,130 @@ export function buildWeeklyMessage(input) {
   };
 }
 
+// ------------------------------------------------------------- ручний pages-deploy
+
+// pages-deploy.yml — це шлях відновлення, до якого бот сам відсилає оператора
+// («merge by hand, then run pages-deploy»). Без повідомлення його провал знову
+// тихий. Три job'и: build -> deploy -> refresh-post-variable; результат кожного
+// приходить окремо, тож ті самі два сигнали, що й у щотижневому publish.
+//
+// Успіх теж постимо — одним рядком і БЕЗ пінгу. Так, оператор зазвичай щойно
+// сам натиснув кнопку і дивиться на прогін. Але останнім словом каналу про цей
+// тиждень лишилось би «dashboards were NOT updated» з @-згадкою: хто читає
+// канал, а не Actions (інші учасники, той самий оператор завтра), вважатиме, що
+// все ще зламано. Ручний деплой рідкісний, тож рядок-закриття коштує майже
+// нічого, а петлю закриває там, де її відкрили.
+export function buildPagesDeployMessage(input) {
+  const { channel, buildResult = "", deployResult = "", refreshResult = "", pageUrl = "", operator, runLink, actor = "" } = input;
+  const runRef = runLink ? `<${safeUrl(runLink)}|run log>` : "run log";
+  const who = actor ? `Triggered by \`${escape(actor)}\`. ` : "";
+  const payloadOf = (text, blocks) => ({ channel, text, unfurl_links: false, unfurl_media: false, blocks });
+
+  // deploy-джоба складається з одного кроку actions/deploy-pages, тож її
+  // success і є «деплой пройшов» — окремий маркер тут не потрібен.
+  if (deployResult === "success") {
+    if (refreshResult === "success") {
+      return {
+        kind: "pages-deployed",
+        summary: "manual pages-deploy succeeded — the dashboards are up to date",
+        payload: payloadOf("LinkedIn dashboards published (manual pages-deploy)", [
+          section(":white_check_mark: *Manual pages-deploy succeeded* — the dashboards now show everything merged into main."),
+          context(`${who}${dashboardsRef(pageUrl)}Details in the ${runRef}.`),
+        ]),
+      };
+    }
+    // Без пінгу — з тієї ж причини, що й 1b у щотижневому: дані живі, нічого не
+    // горить, наступна успішна публікація перебудує пікер.
+    const how = refreshResult === "failure" ? "failed" : "did not finish";
+    return {
+      kind: "pages-picker-stale",
+      summary: `manual pages-deploy published the data, but the Grafana post picker refresh ${how}`,
+      payload: payloadOf("LinkedIn dashboards published; the Grafana post picker was not refreshed (manual pages-deploy)", [
+        section(
+          `:large_yellow_circle: *Manual pages-deploy published the data*, but the Grafana post picker refresh ${how}.\n` +
+          "The `$post` picker on the per-author posts dashboards may not list the newest posts yet. " +
+          "*Nothing is lost and there is no deadline* — the next successful publish rebuilds the picker from all posts.",
+        ),
+        context(`${who}${dashboardsRef(pageUrl)}The failing step is in the ${runRef}.`),
+      ]),
+    };
+  }
+
+  // Деплою немає. Пінг: людина запустила відновлення, і воно не вдалося.
+  const opPing = operator ? `<@${operator}> ` : "";
+  const where = buildResult !== "success"
+    ? `the build job ${buildResult === "cancelled" ? "was cancelled" : "failed"}`
+    : deployResult === "cancelled"
+      ? "the deploy job was cancelled"
+      : "the deploy to GitHub Pages failed";
+  const blocks = [
+    section(
+      `${opPing}:x: *Manual pages-deploy FAILED — the dashboards were NOT updated* (${where}).\n` +
+      "Whatever is merged into main is safe: a failed deploy loses no data, the dashboards just keep showing the previous publish.",
+    ),
+    section(`:mag: Open the ${runLink ? `<${safeUrl(runLink)}|workflow run>` : "workflow run"} to see which step failed, fix it and run *pages-deploy* again.`),
+  ];
+  if (who) blocks.push(context(who.trim()));
+  if (!operator) {
+    blocks.push(context(":information_source: No `_operator` id is mapped in SLACK_PEOPLE_JSON, so nobody was pinged — someone has to pick this up by hand."));
+  }
+  return {
+    kind: "pages-failed",
+    summary: `manual pages-deploy FAILED — ${where}; the dashboards were NOT updated`,
+    payload: payloadOf(`${opPing}LinkedIn manual pages-deploy FAILED — the dashboards were NOT updated`, blocks),
+  };
+}
+
 // ------------------------------------------------------------- main
 
 async function main(env = process.env) {
-  const profilesPath = env.PROFILES_FILE || DEFAULT_PROFILES;
-  let profiles = readProfiles(profilesPath);
-  if (!profiles) {
-    console.error(`::warning::cannot read ${escape(profilesPath)} — authors are listed by slug, and only those with a problem`);
-    profiles = [];
-  }
+  const pagesMode = env.NOTIFY_MODE === "pages-deploy";
+  const what = pagesMode ? "the pages-deploy result" : "the weekly result";
 
   const op = operatorId(env.SLACK_PEOPLE_JSON);
-  if (op.problem) console.error(`::warning::${op.problem} — the weekly result will not ping the operator`);
+  if (op.problem) console.error(`::warning::${op.problem} — ${what} will not ping the operator`);
 
-  const { kind, summary, payload } = buildWeeklyMessage({
-    channel: CHANNEL,
-    week: env.WEEK ?? "",
-    clean: env.CLEAN ?? "",
-    notes: env.NOTES ?? "",
-    invalidJson: env.INVALID_JSON ?? "",
-    branch: env.BRANCH ?? "",
-    prUrl: env.PR_URL ?? "",
-    mainUpdated: env.MAIN_UPDATED ?? "",
-    jobStatus: env.JOB_STATUS ?? "",
-    profiles,
-    operator: op.id,
-    runLink: runUrl(env),
-    now: Date.now(),
-  });
-  console.error(`weekly result for ${escape(env.WEEK || "an unresolved week")}: ${kind}`);
+  let built;
+  if (pagesMode) {
+    built = buildPagesDeployMessage({
+      channel: CHANNEL,
+      buildResult: env.BUILD_RESULT ?? "",
+      deployResult: env.DEPLOY_RESULT ?? "",
+      refreshResult: env.REFRESH_RESULT ?? "",
+      pageUrl: env.PAGE_URL ?? "",
+      operator: op.id,
+      runLink: runUrl(env),
+      actor: env.GITHUB_ACTOR ?? "",
+    });
+    console.error(`pages-deploy result: ${built.kind}`);
+  } else {
+    const profilesPath = env.PROFILES_FILE || DEFAULT_PROFILES;
+    let profiles = readProfiles(profilesPath);
+    if (!profiles) {
+      console.error(`::warning::cannot read ${escape(profilesPath)} — authors are listed by slug, and only those with a problem`);
+      profiles = [];
+    }
+    built = buildWeeklyMessage({
+      channel: CHANNEL,
+      week: env.WEEK ?? "",
+      clean: env.CLEAN ?? "",
+      notes: env.NOTES ?? "",
+      invalidJson: env.INVALID_JSON ?? "",
+      branch: env.BRANCH ?? "",
+      prUrl: env.PR_URL ?? "",
+      mainUpdated: env.MAIN_UPDATED ?? "",
+      scrapeResult: env.SCRAPE_RESULT ?? "",
+      publishResult: env.PUBLISH_RESULT ?? "",
+      deployed: env.DEPLOYED ?? "",
+      pageUrl: env.PAGE_URL ?? "",
+      profiles,
+      operator: op.id,
+      runLink: runUrl(env),
+      now: Date.now(),
+    });
+    console.error(`weekly result for ${escape(env.WEEK || "an unresolved week")}: ${built.kind}`);
+  }
+  const { summary, payload } = built;
 
   if (DRY_RUN) {
     // Контракт той самий, що в notify-session-check.mjs: stdout — рівно
@@ -370,7 +575,7 @@ async function main(env = process.env) {
   // висновок прогону — про тиждень, а не про сповіщення.
   const missing = [!TOKEN && "SLACK_BOT_TOKEN", !CHANNEL && "SLACK_CHANNEL_ID"].filter(Boolean);
   if (missing.length) {
-    console.error(`::warning::${missing.join(" and ")} not set — the weekly result was NOT posted to Slack. It would have said: ${summary}`);
+    console.error(`::warning::${missing.join(" and ")} not set — ${what} was NOT posted to Slack. It would have said: ${summary}`);
     return;
   }
 
@@ -389,7 +594,7 @@ async function main(env = process.env) {
     return;
   }
   const bug = res.kind === "bug" ? " (Slack rejected the payload itself — a bug in notify-weekly.mjs)" : "";
-  console.error(`::warning::the weekly result was NOT posted to Slack: ${res.error}${bug} — ${remedy(res.error)} It would have said: ${summary}`);
+  console.error(`::warning::${what} was NOT posted to Slack: ${res.error}${bug} — ${remedy(res.error)} It would have said: ${summary}`);
 }
 
 // Імпорт віддає чисті білдери для тестів; main() — тільки при прямому запуску.

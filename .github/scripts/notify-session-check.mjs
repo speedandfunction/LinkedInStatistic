@@ -46,6 +46,14 @@ const PAUSE_BETWEEN_POSTS_MS = 1200;
 // Стеля на Retry-After: Slack може попросити чекати довго, а прогін CI має
 // померти від власного timeout-minutes, а не висіти в sleep пів години.
 const MAX_RETRY_WAIT_SECS = 60;
+// Стеля на ОДИН запит. fetch у Node без сигналу не має власного таймауту на
+// зависле з'єднання — лише внутрішні ліміти undici, по кілька хвилин. Три такі
+// спроби плюс паузи Retry-After — це ~17 хв, а джоб сповіщення живе 10: він
+// упирався б у timeout-minutes і закінчувався CANCELLED, від чого job-level
+// continue-on-error НЕ страхує (він покриває лише failed). Тобто зависання
+// Slack перефарбувало б зелений тиждень. З цією стелею найгірший випадок —
+// 3 × 20 с + 2 × 60 с = 3 хв. Env-перемикач — лише для тесту.
+const FETCH_TIMEOUT_MS = Number(process.env.SLACK_FETCH_TIMEOUT_MS) || 20_000;
 // Ліміт Block Kit — 3000 символів на текстовий об'єкт. Перевищення повертає
 // ok:false invalid_blocks, тобто алерт просто зникає. Ріжемо із запасом.
 const TEXT_CAP = 2800;
@@ -183,6 +191,8 @@ const REMEDY = {
   rate_limited: "Too many messages from the app — every attempt is used up.",
   internal_error: "A temporary failure on Slack's side — every attempt is used up.",
   service_unavailable: "Slack is unavailable — every attempt is used up.",
+  timeout: "Slack did not answer within the request time limit, on every attempt — the message was NOT posted.",
+  network: "Could not reach Slack (network error), on every attempt — the message was NOT posted.",
 };
 export const remedy = (code) => REMEDY[code] ?? "See https://docs.slack.dev/reference/methods/chat.postMessage/ (the Errors section).";
 
@@ -484,15 +494,28 @@ function retryAfterSecs(header) {
 
 export async function slackPost(payload) {
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
-    const res = await fetch(SLACK_API, {
-      method: "POST",
-      headers: {
-        // Токен ТІЛЬКИ в заголовку: для JSON-тіла Slack його там не приймає.
-        Authorization: `Bearer ${TOKEN}`,
-        "Content-Type": "application/json; charset=utf-8",
-      },
-      body: JSON.stringify(payload),
-    });
+    let res;
+    try {
+      res = await fetch(SLACK_API, {
+        method: "POST",
+        headers: {
+          // Токен ТІЛЬКИ в заголовку: для JSON-тіла Slack його там не приймає.
+          Authorization: `Bearer ${TOKEN}`,
+          "Content-Type": "application/json; charset=utf-8",
+        },
+        body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+      });
+    } catch (e) {
+      // Обрив, DNS, ECONNRESET і наш власний таймаут — усе це транзієнтне.
+      // Без цього catch відмова fetch вилітала з функції як виняток, а не як
+      // {ok:false}, і повторів не було взагалі.
+      const code = e?.name === "TimeoutError" ? "timeout" : "network";
+      if (attempt === MAX_ATTEMPTS) return { ok: false, error: code, kind: "transient" };
+      console.error(`  ${code} — retrying, attempt ${attempt + 1}/${MAX_ATTEMPTS}`);
+      await sleep(1000 * attempt);
+      continue;
+    }
 
     // Єдиний випадок, коли Slack віддає справжній http-статус замість
     // конверта ok/error — тому статус треба дивитись ДО json-розбору.
