@@ -74,6 +74,30 @@
         "company": {}
       },
       "comments": []
+    },
+    "2026-09-14": {
+      "snapshot_at": "2026-09-14T03:35:38Z",
+      "metrics": {
+        "impressions": 1207,
+        "members_reached": 0,
+        "reactions": 18,
+        "comments": 0,
+        "reposts": 2,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 1,
+        "followers_gained": 1,
+        "engagement_rate": 1.66
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": []
     }
   }
 }

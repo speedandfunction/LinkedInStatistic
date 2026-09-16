@@ -113,6 +113,55 @@
         "https://www.linkedin.com/in/harasymiv",
         "https://www.linkedin.com/in/mohsan-gulzar-9b48bb205"
       ]
+    },
+    "2026-09-14": {
+      "snapshot_at": "2026-09-14T03:28:53Z",
+      "metrics": {
+        "impressions": 992,
+        "members_reached": 0,
+        "reactions": 6,
+        "comments": 2,
+        "reposts": 1,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 3,
+        "followers_gained": 0,
+        "engagement_rate": 0.91
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {
+          "IT Services and IT Consulting": 41.2
+        },
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": [
+        {
+          "author_name": "Vladyslav Harasim",
+          "author_url": "https://www.linkedin.com/in/harasymiv",
+          "author_headline": "Cybersecurity Advisor for Founders | We find security gaps and tell you what they cost - in dollars, not CVE codes | Pentest · Smart Contracts · ISO27001 prep | @DATAMI Cybersecurity | 5.0 Clutch",
+          "comment_urn": "urn:li:comment:(activity:7270748651860185088,7270821502134988800)",
+          "text": "Your focus on digital access is spot on \n! With SDKs needing robust security, incorporating pentesting can safeguard those systems. Our team at DATAMI specializes in penetration testing which might just add that needed layer of cybersecurity\n\nFancy a deeper dive into this? Let's chat!",
+          "reactions": 1,
+          "replies_count": 0
+        },
+        {
+          "author_name": "Mohsan Gulzar",
+          "author_url": "https://www.linkedin.com/in/mohsan-gulzar-9b48bb205",
+          "author_headline": "Senior Account Manager @ Syecon Co. | Account Management | Financial Reporting, VAT & ZATCA Compliance",
+          "comment_urn": "urn:li:comment:(activity:7270748651860185088,7273253501885894656)",
+          "text": "Great to see your focus on digital building access! 🏢 How do you foresee the integration of these technologies enhancing user experience in smart buildings? On a different note, I’d love to connect with you! Please feel free to send me a request.",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/harasymiv",
+        "https://www.linkedin.com/in/mohsan-gulzar-9b48bb205"
+      ]
     }
   }
 }

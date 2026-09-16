@@ -110,6 +110,57 @@
         }
       },
       "comments": []
+    },
+    "2026-09-14": {
+      "snapshot_at": "2026-09-14T03:40:14Z",
+      "metrics": {
+        "impressions": 445,
+        "members_reached": 206,
+        "reactions": 1,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 4,
+        "followers_gained": 0,
+        "engagement_rate": 0.22
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 41.3,
+          "Entry": 30.1,
+          "Director": 5.8,
+          "CXO": 5.8
+        },
+        "job_title": {
+          "Software Engineer": 22.3,
+          "Quality Assurance Engineer": 6.3,
+          "Quality Assurance Automation Engineer": 5.8,
+          "Founder": 2.9
+        },
+        "industry": {
+          "IT Services and IT Consulting": 38.3,
+          "Software Development": 30.1,
+          "Technology, Information and Internet": 8.3,
+          "Financial Services": 3.4
+        },
+        "company_size": {
+          "51-200 employees": 17.5,
+          "1001-5000 employees": 16,
+          "11-50 employees": 11.2,
+          "10,001+ employees": 11.2,
+          "1-10 employees": 9.7
+        },
+        "location": {
+          "Greater Bengaluru Area": 4.4,
+          "Lviv": 3.9,
+          "Amsterdam Area": 2.9
+        },
+        "company": {
+          "Speed and Function": 8.3
+        }
+      },
+      "comments": []
     }
   }
 }

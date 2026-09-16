@@ -112,6 +112,49 @@
       "commenters": [
         "https://www.linkedin.com/in/vitalii-pikozh"
       ]
+    },
+    "2026-09-14": {
+      "snapshot_at": "2026-09-14T03:30:11Z",
+      "metrics": {
+        "impressions": 1483,
+        "members_reached": 0,
+        "reactions": 18,
+        "comments": 1,
+        "reposts": 8,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 9,
+        "followers_gained": 1,
+        "engagement_rate": 1.82
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 46.4
+        },
+        "job_title": {},
+        "industry": {
+          "IT Services and IT Consulting": 35.7
+        },
+        "company_size": {
+          "51-200 employees": 28.6
+        },
+        "location": {},
+        "company": {}
+      },
+      "comments": [
+        {
+          "author_name": "Vitalii Pikozh",
+          "author_url": "https://www.linkedin.com/in/vitalii-pikozh",
+          "author_headline": "Full-stack JavaScript Engineer | React, Next.js, Node.js | CI/CD, Docker | End-to-End Development",
+          "comment_urn": "urn:li:comment:(activity:7254561384724652035,7254775640204169216)",
+          "text": "Дякую. З радістю поширю.",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/vitalii-pikozh"
+      ]
     }
   }
 }

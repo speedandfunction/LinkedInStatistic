@@ -332,7 +332,7 @@
     },
     "in/acoaaamwod0bjboi_c5-vr1bajuay8vry3rrbny": {
       "key": "in/acoaaamwod0bjboi_c5-vr1bajuay8vry3rrbny",
-      "name": "Brianna Nadrofsky (Leonard) View Brianna Nadrofsky (Leonard)’s profile 1st degree connection · 1st Executive Operations",
+      "name": "Brianna Nadrofsky (Leonard) View Brianna Nadrofsky (Leonard)’s profile 1st degree connection · 1st Chief of Staff | Stra",
       "profile_url": "https://www.linkedin.com/in/ACoAAAmwOd0BjBOI_C5-vR1BaJuAY8vry3rRBnY",
       "headline": "",
       "headline_seen_at": "2026-09-05T16:22:34Z",
@@ -570,6 +570,21 @@
         "headline_hash": null
       }
     },
+    "in/acoaacm2jombyg0qqhkczlabs9whvhu-xj5xgca": {
+      "key": "in/acoaacm2jombyg0qqhkczlabs9whvhu-xj5xgca",
+      "name": "Oleksandr Orlyk View Oleksandr Orlyk’s profile 2nd degree connection · 2nd Marketing Manager at Speed and Function",
+      "profile_url": "https://www.linkedin.com/in/ACoAACm2JOMBYg0qqhkcZlAbS9WhVHU-XJ5xGcA",
+      "headline": "",
+      "headline_seen_at": "2026-09-14T03:53:11Z",
+      "first_seen_at": "2026-09-14T03:53:11Z",
+      "icp": {
+        "verdict": null,
+        "reason": null,
+        "model": null,
+        "classified_at": null,
+        "headline_hash": null
+      }
+    },
     "in/acoaacyhg4obazqhw8ynjnesqygxux0rah2912u": {
       "key": "in/acoaacyhg4obazqhw8ynjnesqygxux0rah2912u",
       "name": "Anastasiia Kamenetska View Anastasiia Kamenetska’s profile 1st degree connection · 1st Global PR at GG.BET",
@@ -667,6 +682,21 @@
       "headline": "",
       "headline_seen_at": "2026-09-05T16:22:34Z",
       "first_seen_at": "2026-09-05T16:22:34Z",
+      "icp": {
+        "verdict": null,
+        "reason": null,
+        "model": null,
+        "classified_at": null,
+        "headline_hash": null
+      }
+    },
+    "in/acoaaebdvpob6nls_ur8fiwelejr2ctaej21fnq": {
+      "key": "in/acoaaebdvpob6nls_ur8fiwelejr2ctaej21fnq",
+      "name": "Mariia Makushnenko View Mariia Makushnenko’s profile 1st degree connection · 1st Head of Growth | Business Development M",
+      "profile_url": "https://www.linkedin.com/in/ACoAAEBdvpoB6nls_Ur8fIweLeJr2cTaej21fnQ",
+      "headline": "",
+      "headline_seen_at": "2026-09-14T03:53:11Z",
+      "first_seen_at": "2026-09-14T03:53:11Z",
       "icp": {
         "verdict": null,
         "reason": null,
@@ -2457,6 +2487,18 @@
       "backfill": true,
       "first_seen_at": "2026-09-05T16:22:34Z"
     },
+    "react:post:urn:li:activity:7498789820241010688:in/acoaaabnejabrwezmyt0c7a8bdkeoripmxckywg": {
+      "event_id": "react:post:urn:li:activity:7498789820241010688:in/acoaaabnejabrwezmyt0c7a8bdkeoripmxckywg",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7498789820241010688",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7498789820241010688/",
+      "person_key": "in/acoaaabnejabrwezmyt0c7a8bdkeoripmxckywg",
+      "occurred_at": null,
+      "attributed_week": "2026-09-07",
+      "backfill": false,
+      "first_seen_at": "2026-09-14T03:53:11Z"
+    },
     "react:post:urn:li:activity:7498789820241010688:in/acoaaags0lkbbg7e0tre_m7zavsyo9cbxbdsrsw": {
       "event_id": "react:post:urn:li:activity:7498789820241010688:in/acoaaags0lkbbg7e0tre_m7zavsyo9cbxbdsrsw",
       "kind": "reaction",
@@ -2517,6 +2559,18 @@
       "backfill": true,
       "first_seen_at": "2026-09-05T16:22:34Z"
     },
+    "react:post:urn:li:activity:7498789820241010688:in/acoaacm2jombyg0qqhkczlabs9whvhu-xj5xgca": {
+      "event_id": "react:post:urn:li:activity:7498789820241010688:in/acoaacm2jombyg0qqhkczlabs9whvhu-xj5xgca",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7498789820241010688",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7498789820241010688/",
+      "person_key": "in/acoaacm2jombyg0qqhkczlabs9whvhu-xj5xgca",
+      "occurred_at": null,
+      "attributed_week": "2026-09-07",
+      "backfill": false,
+      "first_seen_at": "2026-09-14T03:53:11Z"
+    },
     "react:post:urn:li:activity:7498789820241010688:in/acoaaf13symbibdmcue9cjwkx1lvynppoa1jpqa": {
       "event_id": "react:post:urn:li:activity:7498789820241010688:in/acoaaf13symbibdmcue9cjwkx1lvynppoa1jpqa",
       "kind": "reaction",
@@ -2528,6 +2582,18 @@
       "attributed_week": null,
       "backfill": true,
       "first_seen_at": "2026-09-05T16:22:34Z"
+    },
+    "react:post:urn:li:activity:7500116105856749568:in/acoaaabnejabrwezmyt0c7a8bdkeoripmxckywg": {
+      "event_id": "react:post:urn:li:activity:7500116105856749568:in/acoaaabnejabrwezmyt0c7a8bdkeoripmxckywg",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7500116105856749568",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7500116105856749568/",
+      "person_key": "in/acoaaabnejabrwezmyt0c7a8bdkeoripmxckywg",
+      "occurred_at": null,
+      "attributed_week": "2026-09-07",
+      "backfill": false,
+      "first_seen_at": "2026-09-14T03:53:11Z"
     },
     "react:post:urn:li:activity:7500116105856749568:in/acoaaabrf5ibsdte8yoptde1ckgslvdpizap8q0": {
       "event_id": "react:post:urn:li:activity:7500116105856749568:in/acoaaabrf5ibsdte8yoptde1ckgslvdpizap8q0",
@@ -2625,6 +2691,18 @@
       "backfill": true,
       "first_seen_at": "2026-09-05T16:22:34Z"
     },
+    "react:post:urn:li:activity:7500116105856749568:in/acoaacm2jombyg0qqhkczlabs9whvhu-xj5xgca": {
+      "event_id": "react:post:urn:li:activity:7500116105856749568:in/acoaacm2jombyg0qqhkczlabs9whvhu-xj5xgca",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7500116105856749568",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7500116105856749568/",
+      "person_key": "in/acoaacm2jombyg0qqhkczlabs9whvhu-xj5xgca",
+      "occurred_at": null,
+      "attributed_week": "2026-09-07",
+      "backfill": false,
+      "first_seen_at": "2026-09-14T03:53:11Z"
+    },
     "react:post:urn:li:activity:7500116105856749568:in/acoaadc-8vub80-3con1mzn1bnpxblyuj8sakfe": {
       "event_id": "react:post:urn:li:activity:7500116105856749568:in/acoaadc-8vub80-3con1mzn1bnpxblyuj8sakfe",
       "kind": "reaction",
@@ -2648,6 +2726,18 @@
       "attributed_week": null,
       "backfill": true,
       "first_seen_at": "2026-09-05T16:22:34Z"
+    },
+    "react:post:urn:li:activity:7500116105856749568:in/acoaaebdvpob6nls_ur8fiwelejr2ctaej21fnq": {
+      "event_id": "react:post:urn:li:activity:7500116105856749568:in/acoaaebdvpob6nls_ur8fiwelejr2ctaej21fnq",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7500116105856749568",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7500116105856749568/",
+      "person_key": "in/acoaaebdvpob6nls_ur8fiwelejr2ctaej21fnq",
+      "occurred_at": null,
+      "attributed_week": "2026-09-07",
+      "backfill": false,
+      "first_seen_at": "2026-09-14T03:53:11Z"
     },
     "react:post:urn:li:activity:7500116105856749568:in/acoaaf13symbibdmcue9cjwkx1lvynppoa1jpqa": {
       "event_id": "react:post:urn:li:activity:7500116105856749568:in/acoaaf13symbibdmcue9cjwkx1lvynppoa1jpqa",
@@ -2714,8 +2804,8 @@
       "target_urn": "urn:li:activity:7498789820241010688",
       "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7498789820241010688/",
       "first_scanned_week": "2026-08-31",
-      "last_scanned_week": "2026-09-07",
-      "reactor_count": 8
+      "last_scanned_week": "2026-09-14",
+      "reactor_count": 10
     },
     "post:urn:li:activity:7500116105856749568": {
       "target_id": "post:urn:li:activity:7500116105856749568",
@@ -2723,8 +2813,8 @@
       "target_urn": "urn:li:activity:7500116105856749568",
       "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7500116105856749568/",
       "first_scanned_week": "2026-08-31",
-      "last_scanned_week": "2026-09-07",
-      "reactor_count": 11
+      "last_scanned_week": "2026-09-14",
+      "reactor_count": 14
     }
   }
 }

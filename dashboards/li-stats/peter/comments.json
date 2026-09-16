@@ -1,5 +1,47 @@
 {
   "comments": {
+    "urn:li:comment:(activity:7504191406815731712,7504206670990913536)": {
+      "comment_urn": "urn:li:comment:(activity:7504191406815731712,7504206670990913536)",
+      "commented_at": "2026-09-11T15:58:11Z",
+      "verb": "commented",
+      "text": "My issue with retrospectives is that the questions they offer are too simple and mostly depict \"what is bad\". They for some reason miss: why it is bad and for whom it is bad. \n\nNVC teaches you to look for answers to exactly these questions. If you have repeating conflicts, really read about NVC.",
+      "comment_author_name": "Peter Ovchynnikov",
+      "comment_author_url": "https://www.linkedin.com/in/ovchyn",
+      "post_urn": "urn:li:activity:7504206711361077248",
+      "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7504206711361077248/",
+      "post_author_name": "Olga Mykhailova (Michai)",
+      "post_author_url": "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b",
+      "permalink": "https://www.linkedin.com/feed/update/urn:li:activity:7504206711361077248/?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7504191406815731712%2C7504206670990913536%29",
+      "weeks": {
+        "2026-09-14": {
+          "snapshot_at": "2026-09-14T03:25:56Z",
+          "reactions": 2,
+          "replies_count": 1,
+          "impressions": 135
+        }
+      }
+    },
+    "urn:li:comment:(activity:7502899042624987136,7503392621839663105)": {
+      "comment_urn": "urn:li:comment:(activity:7502899042624987136,7503392621839663105)",
+      "commented_at": "2026-09-09T10:03:27Z",
+      "verb": "commented",
+      "text": "The same. Use Mac Studio just to run Claude Code remotely.",
+      "comment_author_name": "Peter Ovchynnikov",
+      "comment_author_url": "https://www.linkedin.com/in/ovchyn",
+      "post_urn": "urn:li:activity:7503392625966751744",
+      "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7503392625966751744/",
+      "post_author_name": "Constantine Kurianoff",
+      "post_author_url": "https://www.linkedin.com/in/constantine-kurianoff",
+      "permalink": "https://www.linkedin.com/feed/update/urn:li:activity:7503392625966751744/?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7502899042624987136%2C7503392621839663105%29",
+      "weeks": {
+        "2026-09-14": {
+          "snapshot_at": "2026-09-14T03:25:56Z",
+          "reactions": 1,
+          "replies_count": 0,
+          "impressions": 27
+        }
+      }
+    },
     "urn:li:comment:(activity:7498711668579799041,7498807679990071296)": {
       "comment_urn": "urn:li:comment:(activity:7498711668579799041,7498807679990071296)",
       "commented_at": "2026-08-27T18:24:32Z",
@@ -22,6 +64,13 @@
         },
         "2026-09-07": {
           "snapshot_at": "2026-09-07T03:00:35Z",
+          "reactions": 0,
+          "replies_count": 0,
+          "impressions": 0,
+          "commenters": []
+        },
+        "2026-09-14": {
+          "snapshot_at": "2026-09-14T03:25:56Z",
           "reactions": 0,
           "replies_count": 0,
           "impressions": 0,
@@ -55,6 +104,13 @@
           "replies_count": 0,
           "impressions": 0,
           "commenters": []
+        },
+        "2026-09-14": {
+          "snapshot_at": "2026-09-14T03:25:56Z",
+          "reactions": 0,
+          "replies_count": 0,
+          "impressions": 0,
+          "commenters": []
         }
       }
     },
@@ -80,6 +136,13 @@
         },
         "2026-09-07": {
           "snapshot_at": "2026-09-07T03:00:35Z",
+          "reactions": 0,
+          "replies_count": 0,
+          "impressions": 0,
+          "commenters": []
+        },
+        "2026-09-14": {
+          "snapshot_at": "2026-09-14T03:25:56Z",
           "reactions": 0,
           "replies_count": 0,
           "impressions": 0,

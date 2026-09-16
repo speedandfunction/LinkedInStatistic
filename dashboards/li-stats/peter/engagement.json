@@ -1485,6 +1485,21 @@
         "headline_hash": null
       }
     },
+    "in/acoaacm2jombyg0qqhkczlabs9whvhu-xj5xgca": {
+      "key": "in/acoaacm2jombyg0qqhkczlabs9whvhu-xj5xgca",
+      "name": "Oleksandr Orlyk View Oleksandr Orlyk’s profile 1st degree connection · 1st Marketing Manager at Speed and Function",
+      "profile_url": "https://www.linkedin.com/in/ACoAACm2JOMBYg0qqhkcZlAbS9WhVHU-XJ5xGcA",
+      "headline": "",
+      "headline_seen_at": "2026-09-14T03:41:44Z",
+      "first_seen_at": "2026-09-14T03:41:44Z",
+      "icp": {
+        "verdict": null,
+        "reason": null,
+        "model": null,
+        "classified_at": null,
+        "headline_hash": null
+      }
+    },
     "in/acoaacmjyzabtbofq2fh1-itxyhuu-a4_po6lwg": {
       "key": "in/acoaacmjyzabtbofq2fh1-itxyhuu-a4_po6lwg",
       "name": "Irina Maliugova View Irina Maliugova’s profile 1st degree connection · 1st Front-End Developer",
@@ -3709,8 +3724,8 @@
       "key": "in/dhayfule",
       "name": "Pravin Dhayfule",
       "profile_url": "https://www.linkedin.com/in/dhayfule",
-      "headline": "CEO - Cybrent Technology solutions | Ethical AI Governance | Post Ransomware Attack Reputation Immunity | Helping Industry Recover From Blind AI Expenditure",
-      "headline_seen_at": "2026-09-07T03:17:25Z",
+      "headline": "CEO - Cybrent Technology solutions | Ethical AI Governance | Quantum Resilient Cybersecurity Solution Provider | Helping Industry Recover From Blind AI Expenditure",
+      "headline_seen_at": "2026-09-14T03:41:44Z",
       "first_seen_at": "2026-09-02T07:34:40Z",
       "icp": {
         "verdict": null,
@@ -3784,8 +3799,8 @@
       "key": "in/dimashatalov",
       "name": "Dmytro Shatalov",
       "profile_url": "https://www.linkedin.com/in/dimashatalov",
-      "headline": "WordPress, WooCommerce & Full-Stack Development | 10+ Year",
-      "headline_seen_at": "2026-09-05T13:13:42Z",
+      "headline": "Web projects for small and medium businesses, AI integrations, Websites, Ecommerce, APIs, MVPs",
+      "headline_seen_at": "2026-09-14T03:41:44Z",
       "first_seen_at": "2026-09-01T20:59:30Z",
       "icp": {
         "verdict": null,
@@ -6454,8 +6469,8 @@
       "key": "in/nickot",
       "name": "Nikolai S.",
       "profile_url": "https://www.linkedin.com/in/nickot",
-      "headline": "AI Engineer | Automation | Full-Stack | Build Startups | 0 → 1 | Python, Claude, AI Agents, n8n, RAG, MCP, Harness, React, Node | SaaS, Web, Mobile",
-      "headline_seen_at": "2026-09-05T13:13:42Z",
+      "headline": "AI Engineer & Full-Stack | System Design | End-to-End | Tech Lead | LLM Agents, RAG, MCP, Evals | AI Automation / n8n | Python / FastAPI | React / Next.js | Node.js / Nest.js | LATAM",
+      "headline_seen_at": "2026-09-14T03:41:44Z",
       "first_seen_at": "2026-09-01T20:59:30Z",
       "icp": {
         "verdict": null,
@@ -22724,6 +22739,18 @@
       "backfill": false,
       "first_seen_at": "2026-09-05T13:13:42Z"
     },
+    "react:post:urn:li:activity:7497738380709998592:in/acoaacm2jombyg0qqhkczlabs9whvhu-xj5xgca": {
+      "event_id": "react:post:urn:li:activity:7497738380709998592:in/acoaacm2jombyg0qqhkczlabs9whvhu-xj5xgca",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7497738380709998592",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7497738380709998592/",
+      "person_key": "in/acoaacm2jombyg0qqhkczlabs9whvhu-xj5xgca",
+      "occurred_at": null,
+      "attributed_week": "2026-09-07",
+      "backfill": false,
+      "first_seen_at": "2026-09-14T03:41:44Z"
+    },
     "react:post:urn:li:activity:7497738380709998592:in/acoaacmthz8bkxhcwvuiyailrbnciyqfcxiamhi": {
       "event_id": "react:post:urn:li:activity:7497738380709998592:in/acoaacmthz8bkxhcwvuiyailrbnciyqfcxiamhi",
       "kind": "reaction",
@@ -23584,7 +23611,7 @@
       "target_urn": "urn:li:activity:7495451131888934913",
       "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7495451131888934913/",
       "first_scanned_week": "2026-08-31",
-      "last_scanned_week": "2026-09-07",
+      "last_scanned_week": "2026-09-14",
       "reactor_count": 1
     },
     "post:urn:li:activity:7497738380709998592": {
@@ -23593,8 +23620,8 @@
       "target_urn": "urn:li:activity:7497738380709998592",
       "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7497738380709998592/",
       "first_scanned_week": "2026-08-31",
-      "last_scanned_week": "2026-09-07",
-      "reactor_count": 4
+      "last_scanned_week": "2026-09-14",
+      "reactor_count": 6
     },
     "post:urn:li:activity:7498711668579799041": {
       "target_id": "post:urn:li:activity:7498711668579799041",
@@ -23602,7 +23629,7 @@
       "target_urn": "urn:li:activity:7498711668579799041",
       "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7498711668579799041/",
       "first_scanned_week": "2026-08-31",
-      "last_scanned_week": "2026-09-07",
+      "last_scanned_week": "2026-09-14",
       "reactor_count": 2
     }
   }

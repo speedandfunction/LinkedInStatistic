@@ -114,6 +114,43 @@
       "commenters": [
         "https://www.linkedin.com/in/inesadruzhkova"
       ]
+    },
+    "2026-09-14": {
+      "snapshot_at": "2026-09-14T03:30:14Z",
+      "metrics": {
+        "impressions": 29,
+        "members_reached": 0,
+        "reactions": 31,
+        "comments": 1,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 110.34
+      },
+      "demographics": {
+        "seniority": {},
+        "job_title": {},
+        "industry": {},
+        "company_size": {},
+        "location": {},
+        "company": {}
+      },
+      "comments": [
+        {
+          "author_name": "Inesa Druzhkova",
+          "author_url": "https://www.linkedin.com/in/inesadruzhkova",
+          "author_headline": "Full Stack Engineer",
+          "comment_urn": "urn:li:comment:(ugcPost:7084280579067715584,7084469675450937344)",
+          "text": "Congrats!",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/inesadruzhkova"
+      ]
     }
   }
 }

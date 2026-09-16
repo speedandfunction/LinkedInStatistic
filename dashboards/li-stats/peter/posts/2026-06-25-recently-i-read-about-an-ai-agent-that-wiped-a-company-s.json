@@ -101,6 +101,54 @@
         }
       },
       "comments": []
+    },
+    "2026-09-14": {
+      "snapshot_at": "2026-09-14T03:39:31Z",
+      "metrics": {
+        "impressions": 349,
+        "members_reached": 154,
+        "reactions": 3,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 0.86
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 39,
+          "Entry": 32.5,
+          "Director": 5.8,
+          "CXO": 3.9
+        },
+        "job_title": {
+          "Software Engineer": 28.6,
+          "Full Stack Engineer": 4.5
+        },
+        "industry": {
+          "Software Development": 37.7,
+          "IT Services and IT Consulting": 29.9,
+          "Technology, Information and Internet": 9.1
+        },
+        "company_size": {
+          "51-200 employees": 22.1,
+          "10,001+ employees": 13,
+          "1001-5000 employees": 12.3,
+          "1-10 employees": 9.1,
+          "11-50 employees": 7.8
+        },
+        "location": {
+          "Greater Bengaluru Area": 5.2,
+          "Greater Kitchener-Cambridge-Waterloo Metropolitan Area": 4.5,
+          "Kyiv Metropolitan Area": 3.9
+        },
+        "company": {
+          "Speed and Function": 11.7
+        }
+      },
+      "comments": []
     }
   }
 }

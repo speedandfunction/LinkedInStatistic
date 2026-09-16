@@ -125,6 +125,67 @@
       "commenters": [
         "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b"
       ]
+    },
+    "2026-09-14": {
+      "snapshot_at": "2026-09-14T03:29:42Z",
+      "metrics": {
+        "impressions": 264,
+        "members_reached": 107,
+        "reactions": 2,
+        "comments": 2,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 1.52
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 44.9,
+          "Entry": 27.1
+        },
+        "job_title": {
+          "Software Engineer": 17.8
+        },
+        "industry": {
+          "Software Development": 30.8,
+          "IT Services and IT Consulting": 28,
+          "Technology, Information and Internet": 9.3
+        },
+        "company_size": {
+          "51-200 employees": 26.2,
+          "10,001+ employees": 15.9,
+          "11-50 employees": 15.9,
+          "1001-5000 employees": 6.5,
+          "501-1000 employees": 5.6
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 5.6,
+          "Lviv": 5.6
+        },
+        "company": {
+          "Speed and Function": 18.7
+        }
+      },
+      "comments": [
+        {
+          "author_name": "Olga Mykhailova (Michai)",
+          "author_url": "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b",
+          "author_headline": "I design culture that works | Less drama and more movement | Helping C-level leaders turn resistance and difficult dynamics into collaboration and change | Developmental Culture | Nonviolent Communication",
+          "comment_urn": "urn:li:comment:(activity:7498711668579799041,7498778015695429632)",
+          "text": "exactly! It drafts great, helps to brainstorm, but final polishing.... the devil is in the details!",
+          "reactions": 1,
+          "replies_count": 1
+        }
+      ],
+      "reactors": [
+        "https://www.linkedin.com/in/ACoAAAqUgLsBMjjr1evGW9ylnNSkUAGh06eUn5k",
+        "https://www.linkedin.com/in/ACoAABW8lKQB0QrxIhivHfM0-9R5Trzh9d7dwVc"
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b"
+      ]
     }
   }
 }
