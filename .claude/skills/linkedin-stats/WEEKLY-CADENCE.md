@@ -52,7 +52,13 @@ The job, step by step:
    key, and every snapshot parsed;
 8. on auto-merge only, sets `main_updated=true`, which gates the `publish`
    job (build Pages `stats.json` → deploy → refresh the Grafana `$post`
-   variable).
+   variable);
+9. **always** — success, failure or cancellation — posts one message to
+   `#linkedin-session-bot` (`.github/scripts/notify-weekly.mjs`): *merged*
+   (no ping), *NOT published, waiting for review* (PR link, each author's
+   problem, the next-Monday deadline, @-mentions the operator), or *crashed
+   before a PR existed* (run link, @-mentions the operator). Authors are never
+   tagged.
 
 **Runner.** Our browser is remote (Browserbase), so this needs
 `runs-on: ubuntu-latest`. Upstream's `[self-hosted, macOS]` exists because
@@ -102,6 +108,9 @@ step exists to tell you that in one line instead of failing 25 minutes in.
 | `GRAFANA_URL` | variable | `update-post-variable.mjs:36`. The weekly workflow falls back inline to `https://speedandfunction.grafana.net`; `pages-deploy.yml` has **no** fallback and skips the step instead. Set it so the two agree. |
 | `LIFLEET_PROXIES` | variable | Default `on`. On the free Browserbase plan proxies `402` and the backend falls back automatically (`browserbase-backend.mjs:95-108`); `off` just skips the wasted call. |
 | `LI_SESSION_TIMEOUT` | variable | Default `1800` s (`browserbase-backend.mjs:90`). The scrape hard cap is 2100 s, so a slow author can outlive its own Browserbase session. Set `2400`. |
+| `SLACK_BOT_TOKEN` | secret | The session-check bot, reused by the weekly result message. Unset or revoked → a `::warning::` in the "Post the weekly result to Slack" step and **no message**; the run's conclusion is unaffected. |
+| `SLACK_CHANNEL_ID` | variable | The `C…` id of `#linkedin-session-bot` — the same variable the daily session check reads. Unset → same warning, no message. |
+| `SLACK_PEOPLE_JSON` | secret | Only its `_operator` key is read here: the member id pinged when a week is not published. Missing or not a `U…`/`W…` id → the message still posts, says nobody was pinged, and the log carries a `::warning::`. |
 
 ### Set by the workflow, not by you
 
@@ -126,10 +135,12 @@ Do not set these expecting the weekly run to read them — it will not:
   invokes the `claude` CLI. Only the local `run-weekly.sh` path needs a
   Claude credential. Storing one in the repo adds a credential to your blast
   radius for no benefit.
-- **`SLACK_CHANNEL_ID`.** The Slack bookends live in `run-weekly.sh` and post
-  through the claude.ai connector `mcp__claude_ai_Slack_Bot__postMessage`,
-  which only exists inside an OAuth-authenticated Claude Code session. CI
-  never posts to Slack. **Do not treat Slack silence as a health signal** —
+- **The Slack bookends.** The run-started / run-finished bookends live in
+  `run-weekly.sh` and post through the claude.ai connector
+  `mcp__claude_ai_Slack_Bot__postMessage`, which only exists inside an
+  OAuth-authenticated Claude Code session; CI never posts them. CI posts only
+  the one result message above (§1 step 9). A failed post is a `::warning::`,
+  not a red run, so **do not treat Slack silence as a health signal** —
   use the run's red/green status (§8).
 - **`LI_CHROME_PROFILE_DIR`.** Only the local-Chrome path reads it
   (`scrape-weekly.mjs:116`). Dead weight under `LI_BACKEND=browserbase`.

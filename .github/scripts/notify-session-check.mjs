@@ -53,7 +53,8 @@ const TEXT_CAP = 2800;
 // продубльований у прифлайті воркфлоу (linkedin-session-check.yml, крок "Check
 // required secrets") — свідомо, щоб одруківку в мапі було видно за 5 секунд, а
 // не після того, як прогін уже спалив хвилини Browserbase. Міняєш тут — міняй і там.
-const MEMBER_ID = /^[UW][A-Z0-9]{2,}$/i;
+// Експортований: notify-weekly.mjs перевіряє ним id оператора.
+export const MEMBER_ID = /^[UW][A-Z0-9]{2,}$/i;
 
 // ------------------------------------------------------------- аргументи/env
 
@@ -183,12 +184,15 @@ const REMEDY = {
   internal_error: "A temporary failure on Slack's side — every attempt is used up.",
   service_unavailable: "Slack is unavailable — every attempt is used up.",
 };
-const remedy = (code) => REMEDY[code] ?? "See https://docs.slack.dev/reference/methods/chat.postMessage/ (the Errors section).";
+export const remedy = (code) => REMEDY[code] ?? "See https://docs.slack.dev/reference/methods/chat.postMessage/ (the Errors section).";
 
 // ------------------------------------------------------------- збірка payload'ів
 
-const section = (text) => ({ type: "section", text: { type: "mrkdwn", text: cap(text) } });
-const context = (text) => ({ type: "context", elements: [{ type: "mrkdwn", text: cap(text) }] });
+// section/context, remedy і slackPost експортовані для notify-weekly.mjs (підсумок
+// щотижневого збору в той самий канал): транспорт, ретраї й підказки до помилок
+// мусять бути одні на обидва нотифаєри, а не дві копії, що розійдуться.
+export const section = (text) => ({ type: "section", text: { type: "mrkdwn", text: cap(text) } });
+export const context = (text) => ({ type: "context", elements: [{ type: "mrkdwn", text: cap(text) }] });
 
 // Пінгуємо ВИКЛЮЧНО по member-id зі SLACK_PEOPLE_JSON. Docs прямо кажуть, що
 // display name «may change at any time», а @channel як фолбек заборонений —
@@ -478,7 +482,7 @@ function retryAfterSecs(header) {
   return Math.min(n, MAX_RETRY_WAIT_SECS);
 }
 
-async function slackPost(payload) {
+export async function slackPost(payload) {
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
     const res = await fetch(SLACK_API, {
       method: "POST",
