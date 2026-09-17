@@ -20,8 +20,16 @@ const POSTS_DIR = join(LI_STATS, "posts");
 const ACCOUNT_FILE = join(LI_STATS, "account.json");
 const COMMENTS_FILE = join(LI_STATS, "comments.json");
 const ENGAGEMENT_FILE = join(LI_STATS, "engagement.json");
-const SCORING_FILE = join(REPO_ROOT, ".claude", "skills", "linkedin-stats", "scoring.json");
-const VIP_FILE = join(REPO_ROOT, ".claude", "skills", "linkedin-stats", "vip-people.md");
+// --skill-dir does for the scoring knobs what --li-stats does for the data:
+// points them at a fixture. Without it the ICP/VIP branch of the scoring code
+// cannot be tested against a fixture corpus at all, because these two paths were
+// nailed to the real repo root. CI always uses the real ones.
+const SKILL_DIR_ARG = process.argv.indexOf("--skill-dir");
+const SKILL_DIR = SKILL_DIR_ARG > -1 && process.argv[SKILL_DIR_ARG + 1]
+  ? resolve(process.argv[SKILL_DIR_ARG + 1])
+  : join(REPO_ROOT, ".claude", "skills", "linkedin-stats");
+const SCORING_FILE = join(SKILL_DIR, "scoring.json");
+const VIP_FILE = join(SKILL_DIR, "vip-people.md");
 
 const METRIC_KEYS = [
   "impressions", "members_reached", "reactions", "comments",
@@ -33,13 +41,25 @@ function parseArgs(argv) {
   const out = {};
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === "--out" && argv[i + 1]) { out.out = argv[++i]; }
+    if (argv[i] === "--now" && argv[i + 1]) { out.now = argv[++i]; }
   }
   return out;
 }
 
 const args = parseArgs(process.argv.slice(2));
+// The wall clock, pinnable. This script reads it in exactly two places — the
+// month-range tail of zeroFillMonths(), and `currentWeekMonday` in the
+// engagement block — and both change the OUTPUT, so a byte-comparison against
+// another build (db/verify.mjs) has to run both sides at the same instant.
+// Unpinned it is `new Date()`, i.e. exactly what it always was.
+const NOW = args.now ? new Date(args.now) : null;
+if (args.now && Number.isNaN(NOW.getTime())) {
+  console.error(`--now: not a date: ${args.now}`);
+  process.exit(2);
+}
+const now = () => (NOW ? new Date(NOW) : new Date());
 if (!args.out) {
-  console.error("usage: build-stats-json.mjs --out <path>");
+  console.error("usage: build-stats-json.mjs --out <path> [--li-stats <dir>] [--skill-dir <dir>] [--now <iso>]");
   process.exit(2);
 }
 
@@ -144,7 +164,7 @@ try {
 
 // Current calendar month in UTC as "YYYY-MM".
 function currentMonthUTC() {
-  const d = new Date();
+  const d = now();
   return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, "0")}`;
 }
 
@@ -308,7 +328,7 @@ try {
   // report. Derived from the data, not the clock, so a delayed publish still
   // shows the week the scrape covered.
   const currentWeekMonday = (() => {
-    const d = new Date();
+    const d = now();
     const day = (d.getUTCDay() + 6) % 7;
     return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() - day))
       .toISOString().slice(0, 10);

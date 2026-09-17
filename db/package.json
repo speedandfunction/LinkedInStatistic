@@ -1,0 +1,18 @@
+{
+  "name": "linkedinstatistic-db",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "JSON corpus -> Postgres, the merge rules that go with it, and the parity check that proves them.",
+  "scripts": {
+    "schema": "echo 'docker exec -i li-pg psql -U postgres -d linkedin -v ON_ERROR_STOP=1 < db/schema.sql'",
+    "import": "node import.mjs",
+    "export": "node export.mjs",
+    "verify": "node verify.mjs",
+    "test:rules": "node test-merge-rules.mjs",
+    "test:icp": "node fixture-icp.mjs"
+  },
+  "dependencies": {
+    "pg": "^8.13.1"
+  }
+}

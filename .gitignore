@@ -18,3 +18,14 @@ report.json
 report.json.tmp
 *-report.json
 *-report.json.tmp
+
+# Regenerable
+db/node_modules/
+
+# Експорт з бази (db/export.mjs): 720 іменованих людей з headline і profile URL —
+# рівно те, що ця міграція виносить з публічного репо. Скрипт вимагає --out/--out-dir
+# і нічого не пише за замовчуванням, але дефолти колись повернуться — страхуємо.
+pages-dist-db/
+/page-stats.json
+/*-stats.json
+out/
