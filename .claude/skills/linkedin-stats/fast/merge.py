@@ -65,9 +65,48 @@ def ms_to_iso(ms):
         ms / 1000, datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
+def _load_data_floor_ms():
+    """The hard lower bound for anything dated that this writer stores.
+
+    Read from config.json (`data_floor`, YYYY-MM-DD, UTC). It lives in the WRITER
+    on purpose. Discovery already has cutoffs, but each has a way around it: a
+    --cutoff-override, an empty posts folder falling back to posts_cutoff, and —
+    the one that actually bites — merge_comments stores every comment the page
+    shows, and an owner who comments rarely gets years of history on the first
+    screen. History before the floor was deleted deliberately (2026-09-18) so that
+    every time-axis chart starts there; without a guard here the next weekly run
+    would quietly bring it back. No key means no floor, which is upstream's
+    behaviour. A malformed key is fatal: a typo must not silently disable this.
+    """
+    cfg = os.environ.get("LI_CONFIG_FILE") or os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "..", "config.json")
+    try:
+        with open(cfg) as f:
+            floor = json.load(f).get("data_floor")
+    except FileNotFoundError:
+        return None
+    if not floor:
+        return None
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(floor)):
+        raise SystemExit(f"config.json: data_floor must be YYYY-MM-DD, got {floor!r}")
+    d = datetime.datetime.strptime(floor, "%Y-%m-%d").replace(tzinfo=datetime.timezone.utc)
+    return int(d.timestamp() * 1000)
+
+
+DATA_FLOOR_MS = _load_data_floor_ms()
+
+
 def new_file(p):
     """Dump a freshly-discovered post record. Refuses to overwrite."""
     path = p["path"]
+    posted = (p.get("record") or {}).get("posted_date")
+    if DATA_FLOOR_MS is not None and posted:
+        posted_ms = int(datetime.datetime.strptime(posted[:10], "%Y-%m-%d")
+                        .replace(tzinfo=datetime.timezone.utc).timestamp() * 1000)
+        if posted_ms < DATA_FLOOR_MS:
+            # Loud, not silent: the scraper clamps its cutoff to the floor, so
+            # reaching this line means something upstream is wrong.
+            raise SystemExit(f"refusing to store a post dated {posted[:10]}: it is before data_floor")
     if os.path.exists(path):
         raise SystemExit(f"refusing to overwrite existing file: {path}")
     write_atomic(path, p["record"])
@@ -117,6 +156,12 @@ def merge_comments(p):
         if missing:
             raise SystemExit(
                 f"SCRAPE_BAD_SHAPE: item missing fields {sorted(missing)}: {item.get('comment_urn')}")
+
+    below_floor = 0
+    if DATA_FLOOR_MS is not None:
+        kept = [i for i in incoming if i["commented_at_ms"] >= DATA_FLOOR_MS]
+        below_floor = len(incoming) - len(kept)
+        incoming = kept
 
     try:
         with open(path) as f:
@@ -169,6 +214,9 @@ def merge_comments(p):
     data["comments"] = dict(sorted_pairs)
     write_atomic(path, data)
     print(f"NEW={new_count} SNAPSHOTTED={snapshotted_count}")
+    if below_floor:
+        # Own line, after the one the scraper's regex reads.
+        print(f"BELOW_FLOOR={below_floor}")
 
 
 def merge_engagement(p):
@@ -235,6 +283,23 @@ def merge_engagement(p):
     people = data.setdefault("people", {})
     events = data.setdefault("events", {})
     targets = data.setdefault("targets", {})
+
+    # Data floor. Only DATED events can be below it; an undated reaction hangs on
+    # a stored post, and stored posts are all at or above the floor. A person who
+    # arrives with nothing but dropped events is not stored either — otherwise the
+    # registry would collect people with no engagement on record.
+    below_floor = 0
+    if DATA_FLOOR_MS is not None:
+        dropped = [e for e in incoming_events
+                   if e["occurred_at_ms"] and e["occurred_at_ms"] < DATA_FLOOR_MS]
+        if dropped:
+            below_floor = len(dropped)
+            dropped_ids = {e["event_id"] for e in dropped}
+            incoming_events = [e for e in incoming_events if e["event_id"] not in dropped_ids]
+            surviving = {e["person_key"] for e in incoming_events}
+            only_dropped = {e["person_key"] for e in dropped} - surviving
+            incoming_people = [i for i in incoming_people
+                               if i["key"] in people or i["key"] not in only_dropped]
 
     people_new = people_updated = 0
     for item in incoming_people:
@@ -328,6 +393,8 @@ def merge_engagement(p):
     write_atomic(path, data)
     print(f"PEOPLE_NEW={people_new} PEOPLE_UPDATED={people_updated} "
           f"EVENTS_NEW={events_new} ICP_SET={icp_set} TARGETS_NEW={targets_new}")
+    if below_floor:
+        print(f"BELOW_FLOOR={below_floor}")
 
 
 def merge_week_people(p):

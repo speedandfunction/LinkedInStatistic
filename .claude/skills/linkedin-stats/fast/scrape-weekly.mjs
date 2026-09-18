@@ -120,6 +120,16 @@ const PROFILE_FRAG = `/${PROFILE_SLUG}`;
 const PROFILE_URL = `https://www.linkedin.com/${PROFILE_SLUG}/recent-activity/all/`;
 const COMMENTS_URL = `https://www.linkedin.com/${PROFILE_SLUG}/recent-activity/comments/`;
 const DEFAULT_CUTOFF = CONFIG.posts_cutoff || '2026-01-01';
+// Нижня межа дат — глобальна, з config.json (не з профілю автора): одна для
+// всіх. Справжній сторож стоїть у merge.py, бо саме запис вирішує, що потрапить
+// у файли; тут межа лише не дає скрейперу гортати стрічку заради даних, які
+// merge.py однаково відкине. Історію до цієї дати видалено свідомо.
+const DATA_FLOOR = (() => {
+  try {
+    const f = JSON.parse(fs.readFileSync(path.join(SCRIPT_DIR, '..', 'config.json'), 'utf8')).data_floor;
+    return /^\d{4}-\d{2}-\d{2}$/.test(String(f || '')) ? String(f) : null;
+  } catch { return null; }
+})();
 const POST_SUMMARY_URL = (urn) => `https://www.linkedin.com/analytics/post-summary/${urn}/`;
 const DEMO_URL = (urn) => `https://www.linkedin.com/analytics/demographic-detail/${urn}/?metricType=IMPRESSIONS`;
 const DASHBOARD_URL = 'https://www.linkedin.com/dashboard/';
@@ -650,6 +660,12 @@ async function phasePosts(page) {
   if (args['cutoff-override']) cutoff = String(args['cutoff-override']);
   else if (existing.size === 0) cutoff = DEFAULT_CUTOFF;
   else cutoff = [...existing.values()].filter(Boolean).sort().at(-1);
+  if (DATA_FLOOR && cutoff < DATA_FLOOR) {
+    // --cutoff-override або posts_cutoff старіші за межу: merge.py відмовив би
+    // на першому ж такому пості й поклав усю фазу, тож обрізаємо тут і кажемо чому.
+    log(`posts: cutoff ${cutoff} is before data_floor ${DATA_FLOOR} — clamped to the floor`);
+    cutoff = DATA_FLOOR;
+  }
   const cutoffMs = Date.parse(cutoff + 'T00:00:00Z');
 
   const allCards = new Map(); // urn -> card
@@ -1499,6 +1515,7 @@ function computeCommentFloors() {
     } catch { /* skip */ }
   }
   if (oldest !== null) discoveryCutoffMs = oldest;
+  if (DATA_FLOOR) discoveryCutoffMs = Math.max(discoveryCutoffMs, Date.parse(DATA_FLOOR + 'T00:00:00Z'));
 
   let recentFloorMs = discoveryCutoffMs;
   try {
