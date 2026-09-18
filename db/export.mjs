@@ -28,6 +28,7 @@ import { writeFileSync, mkdirSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import pg from "pg";
 
+import { pgConfig } from "./pg-config.mjs";
 // numeric -> Number, exactly as the reader's Number(pct) does. NOT via float8:
 // the whole point of storing these as numeric is that 0.41 stays 0.41.
 pg.types.setTypeParser(1700, (v) => Number(v));
@@ -43,7 +44,7 @@ const flag = (n) => process.argv.includes(`--${n}`);
 const DSN = arg("dsn", process.env.LI_DSN || "postgresql://postgres:devpw@localhost:55432/linkedin");
 
 export async function openDb(dsn = DSN, now = null) {
-  const pool = new pg.Pool({ connectionString: dsn, max: 2 });
+  const pool = new pg.Pool(pgConfig(dsn, { max: 2 }));
   const c = await pool.connect();
   // Pinning the clock is a write to li.dash_config, so it is the owner's job,
   // not Grafana's. Views read it through li.as_of().

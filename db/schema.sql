@@ -1666,11 +1666,20 @@ do $$ begin
   if not exists (select 1 from pg_roles where rolname='li_owner')   then create role li_owner   nologin; end if;
   if not exists (select 1 from pg_roles where rolname='li_writer')  then create role li_writer  login; end if;
   if not exists (select 1 from pg_roles where rolname='grafana_ro') then create role grafana_ro login; end if;
+  -- The role applying this file is NOT assumed to be a superuser. On managed
+  -- Postgres (Supabase: rolsuper = false, rolcreaterole = true) the creator of a
+  -- role gets ADMIN OPTION on it but, since PG16, not the right to SET ROLE to
+  -- it — and ALTER ... OWNER TO below needs exactly that. Without this grant the
+  -- file died halfway with `must be able to SET ROLE "li_owner"`, leaving the
+  -- schemas created and nothing owned or granted. ADMIN OPTION is what makes the
+  -- self-grant legal; for a real superuser it is a harmless no-op. Membership
+  -- also lets the applying role run the importer: it inherits li_owner's rights.
+  execute format('grant li_owner to %I', current_user);
 end $$;
 
--- Hand everything to li_owner. This runs as the superuser applying the file;
--- ALTER ... OWNER TO needs membership in the new role, which a superuser has by
--- definition. After this, no object here is owned by a superuser.
+-- Hand everything to li_owner. ALTER ... OWNER TO needs the applying role to be
+-- able to SET ROLE to the new owner — guaranteed by the grant above. After this,
+-- no object here is owned by the role that applied the file.
 do $$
 declare r record;
 begin
