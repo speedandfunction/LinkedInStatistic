@@ -19,7 +19,7 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
-  buildPagesDeployMessage, buildWeeklyMessage, describe, deadlineFor, operatorId, parseNotes, publishState,
+  buildPagesDeployMessage, buildWeeklyMessage, databaseLine, describe, deadlineFor, operatorId, parseNotes, publishState,
 } from "../notify-weekly.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -485,4 +485,236 @@ test("operatorId accepts only a member id", () => {
   assert.equal(operatorId(JSON.stringify({ _operator: "U0FAKEOP01" })).id, "U0FAKEOP01");
   assert.equal(operatorId(JSON.stringify({ _operator: "@op" })).id, null);
   assert.equal(operatorId("").id, null);
+});
+
+// ------------------------------------------------------------- база даних (dual-write)
+
+// Так DB_* приходять з воркфлоу: needs.db-sync.outputs.* і needs.db-backup.outputs.*.
+const DB_OK = { DB_SYNC: "ok", DB_PARITY: "ok", DB_BACKUP: "ok", DB_BACKUP_EXPECTED: "true" };
+const SYNC_STATES = ["ok", "skipped-no-secret", "failed:connect", "failed:import", "failed:deps", "timeout:import", "", "banana"];
+const PARITY_STATES = ["ok", "differs", "incomplete", "error", "timeout", "", "banana"];
+const BACKUP_STATES = ["ok", "skipped-no-secret", "failed:push", "failed:dump", "failed:client", "timeout:dump", "", "banana"];
+const dbBlocks = (payload) => payload.blocks.filter((b) => /Database \(dual-write stage\)/.test(JSON.stringify(b)));
+
+const weeklyInput = (db, extra = {}) => ({
+  channel: CHANNEL, week: "2026-09-14", clean: "1", notes: "", prUrl: PR, mainUpdated: "true",
+  scrapeResult: "success", publishResult: "success", deployed: "true", pageUrl: PAGE,
+  profiles: [{ slug: "peter", name: "Peter Ovchynnikov" }], operator: OPERATOR, runLink: RUN_URL,
+  now: Date.parse("2026-09-14T03:00:00Z"), db, ...extra,
+});
+const pagesInput = (db, extra = {}) => ({
+  channel: CHANNEL, buildResult: "success", deployResult: "success", refreshResult: "success",
+  pageUrl: PAGE, operator: OPERATOR, runLink: RUN_URL, actor: "octo-operator", db, ...extra,
+});
+
+test("an all-good database state changes NOTHING about the verdict — it only appends one grey soak confirmation, with no ping and no warning", () => {
+  const good = { sync: "ok", parity: "ok", backup: "ok", backupExpected: true };
+  const goodNoBackup = { sync: "ok", parity: "ok", backup: "", backupExpected: false };
+  // Порівнюємо з повідомленням БЕЗ етапу бази: усе те саме плюс один context у кінці.
+  const sameButConfirmed = (built, bare, db) => {
+    const id = JSON.stringify(db);
+    assert.equal(built.kind, bare.kind, id);
+    assert.equal(built.payload.text, bare.payload.text, "fallback-текст пуша не змінюється");
+    assert.equal(built.database, undefined, "жодного ::warning::");
+    assert.deepEqual(built.payload.blocks.slice(0, -1), bare.payload.blocks, id);
+    const last = built.payload.blocks.at(-1);
+    assert.equal(last.type, "context", "сірий рядок, а не section");
+    assert.equal(last.elements[0].text, db.backupExpected
+      ? ":white_check_mark: Database (dual-write soak): synced · parity byte-identical · backup pushed"
+      : ":white_check_mark: Database (dual-write soak): synced · parity byte-identical · backup not requested for this run");
+    assert.equal(built.summary, `${bare.summary}; database (dual-write): synced, parity byte-identical, ${db.backupExpected ? "backup pushed" : "backup not requested for this run"}`);
+    assert.doesNotMatch(JSON.stringify(last), /<@|<!/);
+  };
+  const weeklyVariants = [
+    {}, { publishResult: "failure" }, { publishResult: "failure", deployed: "" }, { publishResult: "skipped", deployed: "" },
+  ];
+  for (const extra of weeklyVariants) {
+    for (const db of [good, goodNoBackup]) {
+      sameButConfirmed(buildWeeklyMessage(weeklyInput(db, extra)), buildWeeklyMessage(weeklyInput(undefined, extra)), db);
+    }
+  }
+  for (const extra of [{}, { refreshResult: "failure" }, { deployResult: "failure" }, { buildResult: "failure", deployResult: "skipped" }]) {
+    for (const db of [good, goodNoBackup]) {
+      sameButConfirmed(buildPagesDeployMessage(pagesInput(db, extra)), buildPagesDeployMessage(pagesInput(undefined, extra)), db);
+    }
+  }
+  const line = databaseLine(good);
+  assert.deepEqual([line.problems, line.actions, line.text, line.plain], [[], [], null, null]);
+  // Без етапу бази (локальний dry-run) — справді нічого.
+  assert.deepEqual(databaseLine(undefined), { problems: [], actions: [], text: null, plain: null });
+
+  // І наскрізно, через env, як у CI.
+  const r = run({ ...CLEAN_RUN, ...DB_OK });
+  const bare = run(CLEAN_RUN);
+  assert.deepEqual(r.payloads[0].blocks.slice(0, -1), bare.payloads[0].blocks);
+  assert.match(r.payloads[0].blocks.at(-1).elements[0].text, /synced · parity byte-identical · backup pushed$/);
+  assert.doesNotMatch(r.stderr, /::warning::/);
+  assert.doesNotMatch(bare.stdout + bare.stderr, /[Dd]atabase|dual-write/);
+  const pr = run({ ...PAGES_OK, DB_SYNC: "ok", DB_PARITY: "ok", DB_BACKUP: "", DB_BACKUP_EXPECTED: "false" });
+  assert.deepEqual(pr.payloads[0].blocks.slice(0, -1), run(PAGES_OK).payloads[0].blocks);
+  assert.match(pr.payloads[0].blocks.at(-1).elements[0].text, /backup not requested for this run$/);
+});
+
+test("an unreachable database names the likeliest cause and the action: a paused Supabase project, resume, re-run pages-deploy", () => {
+  const say = (db) => databaseLine({ sync: "ok", parity: "ok", backup: "ok", backupExpected: true, ...db });
+  const PAUSED = /Most likely the Supabase project is \*paused\* \(the free tier pauses after 7 idle days\) — resume it in the Supabase dashboard, then run `pages-deploy` to re-sync; the import is idempotent/;
+  for (const sync of ["failed:connect", "timeout:import"]) {
+    const line = say({ sync });
+    assert.match(line.text, PAUSED, sync);
+    assert.match(line.text, /\n:point_right: /, sync);
+    assert.match(line.plain, /What to do: Most likely the Supabase project is paused/, sync);
+    assert.doesNotMatch(line.plain, /[*`]/, sync);
+  }
+  assert.match(say({ sync: "failed:connect" }).text, /the sync \*FAILED\* \(could not connect to the database\)/);
+  assert.match(say({ sync: "failed:connect" }).text, /the import is idempotent\. If the `db-sync` job shows `password authentication failed` or `does not exist` instead of a timeout, the `LI_SYNC_DATABASE_URL` secret is wrong\.\n/);
+  assert.doesNotMatch(say({ sync: "timeout:import" }).text, /secret is wrong/);
+  // Імпорт, що ПІДКЛЮЧИВСЯ і відкотився, — не пауза: радимо дивитись підказки.
+  const rolledBack = say({ sync: "failed:import" });
+  assert.doesNotMatch(rolledBack.text, /paused/);
+  assert.match(rolledBack.text, /connected and then rolled back.*hints in the `db-sync` job/);
+  // Parity, що не відпрацювала: перезапуск + тиждень не рахується.
+  for (const parity of ["error", "timeout"]) {
+    const line = say({ parity });
+    assert.match(line.text, /Run `pages-deploy` to re-sync and re-check .* project is not paused\. \*This week does not count as verified\*/, parity);
+  }
+  // Де дії немає — немає й рядка з нею.
+  for (const db of [{ sync: "skipped-no-secret" }, { sync: "failed:deps" }, { parity: "differs" }, { backup: "failed:push" }, { sync: "" }]) {
+    assert.doesNotMatch(say(db).text, /:point_right:/, JSON.stringify(db));
+    assert.deepEqual(say(db).actions, [], JSON.stringify(db));
+  }
+  // Наскрізно: у Slack і в ::warning:: логу.
+  const r = run({ ...CLEAN_RUN, DB_SYNC: "failed:connect", DB_PARITY: "", DB_BACKUP: "", DB_BACKUP_EXPECTED: "true" });
+  assert.match(r.payloads[0].blocks[1].text.text, PAUSED);
+  assert.match(r.stderr, /::warning::database \(dual-write\): the sync FAILED \(could not connect to the database\).*What to do: Most likely the Supabase project is paused/);
+  assert.doesNotMatch(body(r), /<@/);
+});
+
+test("every combination of sync / parity / backup outcome: silent only when all three held, otherwise exactly the broken ones are named", () => {
+  let combos = 0;
+  for (const backupExpected of [true, false]) {
+    for (const sync of SYNC_STATES) for (const parity of PARITY_STATES) for (const backup of BACKUP_STATES) {
+      combos += 1;
+      const id = JSON.stringify({ sync, parity, backup, backupExpected });
+      const line = databaseLine({ sync, parity, backup, backupExpected });
+      const allGood = sync === "ok" && parity === "ok" && (!backupExpected || backup === "ok");
+      if (allGood) { assert.equal(line.text, null, id); continue; }
+
+      assert.ok(line.text, `мовчати не можна: ${id}`);
+      assert.match(line.text, /^:large_orange_diamond: \*Database \(dual-write stage\):\*/, id);
+      assert.match(line.text, /The week itself is not affected\* — the JSON in git is still the source of truth/, id);
+      assert.doesNotMatch(line.text, /<@|<!/, `без пінгу: ${id}`);
+      assert.doesNotMatch(line.plain, /[*`]/, id);
+
+      if (sync !== "ok") {
+        // Parity і backup від sync залежать: окремо їх не перелічуємо.
+        assert.equal(line.problems.length, 1, id);
+        assert.match(line.text, /the sync /, id);
+        assert.match(line.text, backupExpected
+          ? /so the parity check and the backup did not run either/
+          : /so the parity check did not run either/, id);
+        if (!backupExpected) assert.doesNotMatch(line.text, /backup/, id);
+      } else {
+        assert.doesNotMatch(line.text, /the sync /, id);
+        assert.equal(/the parity check/.test(line.text), parity !== "ok", id);
+        assert.equal(/the backup/.test(line.text), backupExpected && backup !== "ok", id);
+        assert.equal(line.problems.length, (parity !== "ok" ? 1 : 0) + (backupExpected && backup !== "ok" ? 1 : 0), id);
+      }
+
+      // Те саме — у готових повідомленнях обох режимів: рівно один рядок бази,
+      // одразу під головним блоком, і вердикт про тиждень не змінюється.
+      for (const [built, bare] of [
+        [buildWeeklyMessage(weeklyInput({ sync, parity, backup, backupExpected })), buildWeeklyMessage(weeklyInput(undefined))],
+        [buildPagesDeployMessage(pagesInput({ sync, parity, backup, backupExpected })), buildPagesDeployMessage(pagesInput(undefined))],
+      ]) {
+        assert.equal(dbBlocks(built.payload).length, 1, id);
+        assert.equal(built.payload.blocks[1].type, "section", "section, а не сірий context");
+        assert.equal(built.payload.blocks[1].text.text, line.text, id);
+        assert.equal(built.kind, bare.kind, "база не змінює вердикт про тиждень");
+        assert.deepEqual(built.payload.blocks[0], bare.payload.blocks[0], id);
+        assert.equal(built.payload.blocks.length, bare.payload.blocks.length + 1, id);
+        assert.match(built.payload.text, /database sync needs a look \(the week is fine\)$/, id);
+        assert.match(built.summary, /; database \(dual-write\): /, id);
+        assert.doesNotMatch(JSON.stringify(built.payload), /<@/, "день без дій лишається без пінгу");
+      }
+    }
+  }
+  assert.equal(combos, 2 * SYNC_STATES.length * PARITY_STATES.length * BACKUP_STATES.length);
+});
+
+test("each database outcome is named in plain English", () => {
+  const say = (db) => databaseLine({ sync: "ok", parity: "ok", backup: "ok", backupExpected: true, ...db }).text;
+  assert.match(say({ sync: "skipped-no-secret" }), /the sync was \*skipped\* — the `LI_SYNC_DATABASE_URL` secret is not set, so the parity check and the backup did not run either\./);
+  assert.match(say({ sync: "failed:import" }), /the sync \*FAILED\* \(the import\)/);
+  assert.match(say({ sync: "failed:deps" }), /the sync \*FAILED\* \(installing the db\/ dependencies\)/);
+  assert.match(say({ sync: "timeout:import" }), /the sync \*timed out\* \(the import\) — the database did not answer in time/);
+  assert.match(say({ sync: "" }), /the sync \*did not run or did not finish\*/);
+  assert.match(say({ parity: "differs" }), /the parity check found a \*DIFFERENCE\* between the database and the JSON build\.\n/);
+  assert.match(say({ parity: "incomplete" }), /the parity check was \*INCOMPLETE\* — it found no difference, but it compared fewer feeds than `main` publishes/);
+  assert.match(say({ parity: "incomplete" }), /:point_right: Compare the author folders under `dashboards\/li-stats\/` with `profiles\.json`.*\*This week does not count as verified\*/);
+  assert.match(say({ parity: "error" }), /the parity check \*could not be completed\*/);
+  assert.match(say({ parity: "timeout" }), /the parity check \*timed out\*/);
+  assert.match(say({ parity: "" }), /the parity check \*did not run\*/);
+  assert.match(say({ backup: "skipped-no-secret" }), /the backup was \*skipped\* — `LI_BACKUP_DATABASE_URL` and\/or `LI_BACKUP_DEPLOY_KEY` is not set/);
+  assert.match(say({ backup: "failed:push" }), /the backup \*FAILED\* \(pushing to the backup repository\)/);
+  assert.match(say({ backup: "failed:client" }), /the backup \*FAILED\* \(installing the PostgreSQL 17 client\)/);
+  assert.match(say({ backup: "" }), /the backup \*did not run or did not finish\*/);
+  assert.match(say({ parity: "differs", backup: "failed:dump" }), /found a \*DIFFERENCE\* .*; the backup \*FAILED\* \(pg_dump\)\./);
+  // Невідомий стан чи фаза з воркфлоу — це дані: екрануються і не губляться.
+  assert.match(say({ sync: "failed:<!channel>" }), /the sync \*FAILED\* \(`&lt;!channel&gt;`\)/);
+  assert.match(say({ parity: "<!here>" }), /unexpected state \(`&lt;!here&gt;`\)/);
+});
+
+test("an unmerged or crashed week says nothing about the database — the sync only ever runs from main after a merge", () => {
+  const dead = { DB_SYNC: "", DB_PARITY: "", DB_BACKUP: "", DB_BACKUP_EXPECTED: "true" };
+  for (const env of [REVIEW_RUN, CRASH_RUN]) {
+    const r = run({ ...env, ...dead });
+    assert.deepEqual(r.payloads, run(env).payloads);
+    assert.doesNotMatch(r.stdout + r.stderr, /[Dd]atabase|dual-write/);
+  }
+});
+
+test("a merged week whose db jobs wrote nothing is 'did not run', never silence — empty is unknown, not fine", () => {
+  const r = run({ ...CLEAN_RUN, DB_SYNC: "", DB_PARITY: "", DB_BACKUP: "", DB_BACKUP_EXPECTED: "true" });
+  assert.equal(r.code, 0);
+  assert.equal(r.payloads.length, 1, "усе ще рівно одне повідомлення на прогін");
+  assert.match(firstText(r), /collected and published/, "вердикт про тиждень не змінюється");
+  const text = r.payloads[0].blocks[1].text.text;
+  assert.match(text, /the sync \*did not run or did not finish\*, so the parity check and the backup did not run either/);
+  assert.match(r.stderr, /::warning::database \(dual-write\): the sync did not run or did not finish/);
+  assert.match(r.stderr, /: published\n/);
+  assert.doesNotMatch(body(r), /<@/);
+});
+
+test("a parity difference shows up end to end: weekly (also when the deploy failed) and pages-deploy, with a ::warning:: and no extra ping", () => {
+  const diff = { DB_SYNC: "ok", DB_PARITY: "differs", DB_BACKUP: "ok", DB_BACKUP_EXPECTED: "true" };
+  const weekly = run({ ...CLEAN_RUN, ...diff });
+  assert.match(weekly.payloads[0].blocks[1].text.text, /parity check found a \*DIFFERENCE\*/);
+  assert.match(weekly.stderr, /::warning::database \(dual-write\): the parity check found a DIFFERENCE/);
+  assert.doesNotMatch(body(weekly), /<@/);
+
+  // Деплой упав — оператора пінгують ЗА ДЕПЛОЙ, рядок бази лишається окремим.
+  const notDeployed = run({ ...MERGED_NOT_DEPLOYED, ...diff });
+  assert.match(firstText(notDeployed), new RegExp(`^<@${OPERATOR}> :warning: .*dashboards were NOT updated`));
+  assert.match(notDeployed.payloads[0].blocks[1].text.text, /Database \(dual-write stage\)/);
+  assert.equal((body(notDeployed).match(/<@/g) || []).length, 2, "пінг лише в головному блоці та fallback-тексті, як і без бази");
+
+  // pages-deploy без галочки backup: про бекап ані слова.
+  const pages = run({ ...PAGES_OK, DB_SYNC: "ok", DB_PARITY: "differs", DB_BACKUP: "", DB_BACKUP_EXPECTED: "false" });
+  assert.match(firstText(pages), /Manual pages-deploy succeeded/);
+  assert.match(pages.payloads[0].blocks[1].text.text, /parity check found a \*DIFFERENCE\*/);
+  assert.doesNotMatch(pages.payloads[0].blocks[1].text.text, /backup/);
+  const pagesSkipped = run({ ...PAGES_OK, DEPLOY_RESULT: "failure", DB_SYNC: "skipped-no-secret", DB_PARITY: "", DB_BACKUP: "", DB_BACKUP_EXPECTED: "false" });
+  assert.match(pagesSkipped.payloads[0].blocks[1].text.text, /the sync was \*skipped\* — the `LI_SYNC_DATABASE_URL` secret is not set, so the parity check did not run either/);
+});
+
+test("the database line is English-only and survives a missing Slack token as a ::warning::", () => {
+  const broken = { DB_SYNC: "failed:import", DB_PARITY: "", DB_BACKUP: "", DB_BACKUP_EXPECTED: "true" };
+  const r = run({ ...CLEAN_RUN, ...broken, SLACK_BOT_TOKEN: "" }, { dry: false });
+  assert.equal(r.code, 0);
+  assert.match(r.stderr, /::warning::database \(dual-write\): the sync FAILED \(the import\)/);
+  assert.match(r.stderr, /It would have said: Week .* collected and published; database \(dual-write\): the sync FAILED/);
+  for (const env of [{ ...CLEAN_RUN, ...broken }, { ...PAGES_OK, ...broken }]) {
+    const out = run(env);
+    assert.doesNotMatch(out.stdout + out.stderr, /[Ѐ-ӿ]/);
+  }
 });

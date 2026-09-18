@@ -23,12 +23,18 @@
 //     is strictly before currentWeekMonday().
 // Both are reproduced here by li.as_of(), which --now pins. Without pinning,
 // a parity run straddling midnight UTC would diff for no reason.
+//
+// THE PIN IS LOCAL TO THIS PROCESS'S TRANSACTION — see openDb(). It used to be
+// `update li.dash_config set as_of = $1`, never reset: a read-only parity check
+// that froze "now" for every dashboard reader of the shared database. This file
+// no longer writes anything, anywhere; it runs as a role with SELECT on dash.
 
 import { writeFileSync, mkdirSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import pg from "pg";
 
-import { pgConfig } from "./pg-config.mjs";
+import { pgConfig, resolveDsn } from "./pg-config.mjs";
+import { SafeError, safeError } from "./safe-log.mjs";
 // numeric -> Number, exactly as the reader's Number(pct) does. NOT via float8:
 // the whole point of storing these as numeric is that 0.41 stays 0.41.
 pg.types.setTypeParser(1700, (v) => Number(v));
@@ -41,17 +47,56 @@ function arg(name, def = null) {
 }
 const flag = (n) => process.argv.includes(`--${n}`);
 
-const DSN = arg("dsn", process.env.LI_DSN || "postgresql://postgres:devpw@localhost:55432/linkedin");
+const isMain = process.argv[1] && resolve(process.argv[1]).endsWith("export.mjs");
+// Resolved only when this file IS the program: imported (verify.mjs), the caller
+// hands openDb() its own DSN, and a missing LI_DSN is the caller's to report.
+const DSN = isMain ? resolveDsn(arg("dsn")) : null;
 
-export async function openDb(dsn = DSN, now = null) {
-  const pool = new pg.Pool(pgConfig(dsn, { max: 2 }));
-  const c = await pool.connect();
-  // Pinning the clock is a write to li.dash_config, so it is the owner's job,
-  // not Grafana's. Views read it through li.as_of().
-  await c.query("update li.dash_config set as_of = $1", [now]);
+// One connection, one READ ONLY transaction, and the pin set INSIDE it with
+// set_config(..., is_local => true).
+//
+//   * Not a Pool. A pool hands out whichever backend is free, so a pinned clock
+//     would have to be re-applied on every connection it ever opens; with one
+//     Client there is exactly one connection and it carries the setting by
+//     construction. Every query of an export goes through it.
+//   * Transaction-local, not session-local. `SET` would survive until the
+//     connection closes — and behind a session pooler (Supabase) the backend is
+//     then handed to the NEXT client, which could be Grafana. `SET LOCAL` dies
+//     with the transaction, whatever happens to the connection afterwards.
+//   * REPEATABLE READ, so the dozen queries of one export see one snapshot even
+//     if the importer commits in the middle, and now() is one instant throughout.
+//   * READ ONLY, so "the exporter writes nothing" is enforced by the server
+//     rather than promised by a comment.
+//
+// now === null means the wall clock: no pin is set and li.as_of() falls through
+// to now().
+export async function openDb(dsn, now = null) {
+  if (now !== null && Number.isNaN(Date.parse(now))) {
+    throw new SafeError(`--now is not a timestamp`);
+  }
+  const c = new pg.Client(pgConfig(dsn, { connectionTimeoutMillis: 20000 }));
+  await c.connect();
+  try {
+    await c.query("begin transaction isolation level repeatable read read only");
+    if (now !== null) await c.query("select set_config('li.as_of', $1, true)", [now]);
+    // The global row is an owner-only override of last resort. Anything in it is
+    // somebody's forgotten pin, and every dashboard reader is living in it.
+    // Asked in two steps: for a role with no USAGE on schema li (grafana_ro),
+    // even NAMING li.dash_config raises 42501 — and inside a transaction that
+    // would poison everything after it.
+    const canSee = (await c.query("select has_schema_privilege('li','usage') as can")).rows[0].can
+      && (await c.query("select has_table_privilege('li.dash_config','select') as can")).rows[0].can;
+    const g = canSee
+      ? (await c.query("select as_of is not null as pinned from li.dash_config")).rows[0]?.pinned
+      : false;
+    if (g) console.error("::warning::li.dash_config.as_of is NOT NULL — the clock is pinned globally for every reader of this database. Owner: update li.dash_config set as_of = null;");
+  } catch (e) {
+    await c.end().catch(() => {});
+    throw e;
+  }
   return {
     q: async (sql, params = []) => (await c.query(sql, params)).rows,
-    close: async () => { c.release(); await pool.end(); },
+    close: async () => { await c.query("rollback").catch(() => {}); await c.end().catch(() => {}); },
   };
 }
 
@@ -182,7 +227,7 @@ export async function buildStats(db, author) {
 export async function buildPageStats(db) {
   const meta = (await db.q(`select source, generated_at from dash.page_meta`))[0] ?? {};
   const manual = (await db.q(`select total_followers, geography from dash.page_manual`))[0];
-  if (!manual) throw new Error("li.page_manual is empty — the follower curve would be built backwards from zero");
+  if (!manual) throw new SafeError("li.page_manual is empty — the follower curve would be built backwards from zero");
 
   const page_monthly = (await db.q(
     `select month, page_views, unique_visitors, new_followers, post_impressions,
@@ -296,9 +341,7 @@ export async function listAuthors(db) {
 
 // ---------------------------------------------------------------- cli
 
-const isMain = process.argv[1] && resolve(process.argv[1]).endsWith("export.mjs");
 if (isMain) {
-  const db = await openDb(DSN, arg("now", null));
   const write = (p, obj, nl = "") => {
     mkdirSync(dirname(resolve(p)), { recursive: true });
     writeFileSync(p, JSON.stringify(obj) + nl);
@@ -313,19 +356,23 @@ if (isMain) {
     console.error("write it outside the repo, e.g. --out-dir /tmp/li-export/");
     process.exit(2);
   };
-  if (flag("all")) {
-    const outDir = arg("out-dir");
-    if (!outDir) usage();
-    for (const a of await listAuthors(db)) write(join(outDir, a, "stats.json"), await buildStats(db, a));
-    write(join(outDir, "page-stats.json"), await buildPageStats(db), "\n");
-  } else if (flag("page")) {
-    const out = arg("out");
-    if (!out) usage();
-    write(out, await buildPageStats(db), "\n");
-  } else {
-    const a = arg("author"), out = arg("out");
-    if (!a || !out) usage();
-    write(out, await buildStats(db, a));
+  if (flag("all") ? !arg("out-dir") : !arg("out") || (!flag("page") && !arg("author"))) usage();
+  let db;
+  try {
+    db = await openDb(DSN, arg("now", null));
+    if (flag("all")) {
+      const outDir = arg("out-dir");
+      for (const a of await listAuthors(db)) write(join(outDir, a, "stats.json"), await buildStats(db, a));
+      write(join(outDir, "page-stats.json"), await buildPageStats(db), "\n");
+    } else if (flag("page")) {
+      write(arg("out"), await buildPageStats(db), "\n");
+    } else {
+      write(arg("out"), await buildStats(db, arg("author")));
+    }
+  } catch (e) {
+    console.error("EXPORT FAILED:", safeError(e, { dsn: DSN, showValues: flag("show-values") }));
+    process.exitCode = 1;
+  } finally {
+    await db?.close();
   }
-  await db.close();
 }

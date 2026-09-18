@@ -1,0 +1,219 @@
+name: db-backup
+description: >-
+  Dual-write stage: pg_dump the database with a PostgreSQL 17 client and push the
+  dump to the PRIVATE backup repository over SSH. Never fails the job; reports
+  through its output and warnings.
+
+# The dump is NEVER uploaded as a workflow artifact: artifacts of a public
+# repository are downloadable by anyone who can see the run. It exists only
+# under $RUNNER_TEMP/li-backup (mode 0700) between the dump and the push, and
+# the last step removes that directory even when an earlier one failed.
+#
+# A composite action for the same reasons as ../db-sync/action.yml. The secrets
+# arrive as inputs and go straight into step-level env - only on the ONE step
+# that needs each of them: apt never sees a credential, pg_dump never sees the
+# deploy key, git never sees the DSN.
+
+inputs:
+  dsn:
+    description: DSN of the read-only li_backup role (secrets.LI_BACKUP_DATABASE_URL).
+    required: false
+    default: ""
+  deploy-key:
+    description: SSH private key with WRITE access to the backup repository (secrets.LI_BACKUP_DEPLOY_KEY).
+    required: false
+    default: ""
+  week:
+    description: ISO Monday (YYYY-MM-DD) for the commit message. Empty means the current week.
+    required: false
+    default: ""
+  # The verdict of THIS run's db-sync job. It goes into the backup's commit
+  # message, which makes the private backup repo's `git log` the soak ledger: one
+  # durable, positive entry per week ("parity ok 4/4"). Slack says nothing loud on
+  # a good week and the run log expires after ~90 days, so without this the only
+  # evidence that parity held was the ABSENCE of a line. Fixed vocabulary and
+  # counts only; db-ci.mjs maps anything else to "NOT RECORDED".
+  parity:
+    description: needs.db-sync.outputs.parity (ok | differs | incomplete | error | timeout).
+    required: false
+    default: ""
+  feeds:
+    description: needs.db-sync.outputs.feeds - how many feeds the parity check compared.
+    required: false
+    default: ""
+  feeds-expected:
+    description: needs.db-sync.outputs.feeds-expected - how many feeds main publishes.
+    required: false
+    default: ""
+  repository:
+    description: owner/name of the PRIVATE backup repository.
+    required: false
+    default: speedandfunction/linkedin-stats-backup
+  file:
+    description: Name of the single dump file inside the backup repository. Overwritten on every run.
+    required: false
+    default: linkedin.sql
+
+outputs:
+  backup:
+    description: "ok | skipped-no-secret | failed:<phase> | timeout:<phase>. Empty means it never finished - unknown, NOT fine."
+    value: ${{ steps.pre.outputs.backup || steps.client.outputs.backup || steps.dump.outputs.backup || steps.push.outputs.backup }}
+
+runs:
+  using: composite
+  steps:
+    - name: Preflight (secrets present, scripts on main)
+      id: pre
+      shell: bash
+      env:
+        LI_BACKUP_DSN: ${{ inputs.dsn }}
+        LI_BACKUP_DEPLOY_KEY: ${{ inputs.deploy-key }}
+        BACKUP_REPO: ${{ inputs.repository }}
+        BACKUP_FILE: ${{ inputs.file }}
+      run: |
+        # GitHub runs composite bash steps with -e; every exit code below is read by hand.
+        set +e; set -uo pipefail
+        unaffected="The week is NOT affected: JSON in git is still the source of truth."
+        # A missing secret is a SKIP with a warning, never a failure: this ships
+        # before the operator has created the secrets. Names are not secrets.
+        missing=""
+        [ -n "${LI_BACKUP_DSN}" ]        || missing="${missing} LI_BACKUP_DATABASE_URL"
+        [ -n "${LI_BACKUP_DEPLOY_KEY}" ] || missing="${missing} LI_BACKUP_DEPLOY_KEY"
+        if [ -n "${missing}" ]; then
+          echo "::warning::database backup SKIPPED - missing repo secret(s):${missing}. ${unaffected}"
+          echo "backup=skipped-no-secret" >> "${GITHUB_OUTPUT}"
+          exit 0
+        fi
+        for f in db/backup.sh .github/scripts/db-ci.mjs .github/actions/db-backup/push.sh; do
+          if [ ! -f "${f}" ]; then
+            echo "::warning::database backup FAILED - ${f} is missing from main. ${unaffected}"
+            echo "backup=failed:script-missing" >> "${GITHUB_OUTPUT}"
+            exit 0
+          fi
+        done
+        case "${BACKUP_REPO}" in
+          */*/*|/*|*/|*[!A-Za-z0-9_./-]*|"") bad=1 ;;
+          */*) bad=0 ;;
+          *) bad=1 ;;
+        esac
+        case "${BACKUP_FILE}" in */*|.*|""|*[!A-Za-z0-9_.-]*) bad=1 ;; esac
+        if [ "${bad}" = "1" ]; then
+          echo "::warning::database backup FAILED - the repository/file inputs of the db-backup action are malformed. ${unaffected}"
+          echo "backup=failed:push" >> "${GITHUB_OUTPUT}"
+          exit 0
+        fi
+        umask 077
+        rm -rf "${RUNNER_TEMP}/li-backup"
+        mkdir -p "${RUNNER_TEMP}/li-backup"
+        echo "go=1" >> "${GITHUB_OUTPUT}"
+
+    # The server is PostgreSQL 17.x. ubuntu-latest ships an older pg_dump, and
+    # pg_dump refuses to dump a server newer than itself ("aborting because of
+    # server version mismatch") - so the client comes from the PGDG apt
+    # repository. The repository signing key is checked against its published
+    # fingerprint before apt is told to trust it.
+    - name: Install the PostgreSQL 17 client (PGDG)
+      id: client
+      if: steps.pre.outputs.go == '1'
+      shell: bash
+      run: |
+        # GitHub runs composite bash steps with -e; every exit code below is read by hand.
+        set +e; set -uo pipefail
+        unaffected="The week is NOT affected: JSON in git is still the source of truth."
+        bin=/usr/lib/postgresql/17/bin
+        give_up() { echo "::warning::database backup FAILED - $1 ${unaffected}"; echo "backup=$2" >> "${GITHUB_OUTPUT}"; exit 0; }
+
+        if [ ! -x "${bin}/pg_dump" ]; then
+          echo "::group::apt: postgresql-client-17 from apt.postgresql.org"
+          keyfile="${RUNNER_TEMP}/li-backup/pgdg.asc"
+          timeout 120 curl -fsSL --retry 3 --retry-delay 5 -o "${keyfile}" https://www.postgresql.org/media/keys/ACCC4CF8.asc
+          rc=$?
+          [ "${rc}" -eq 0 ] || { echo "::endgroup::"; give_up "could not download the PGDG signing key (curl exited ${rc})." "failed:client"; }
+          fpr=$(gpg --show-keys --with-colons "${keyfile}" 2>/dev/null | awk -F: '$1 == "fpr" { print $10; exit }')
+          if [ "${fpr}" != "B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8" ]; then
+            echo "::endgroup::"
+            give_up "the PGDG signing key does not have the expected fingerprint - refusing to trust it. If PostgreSQL rotated the key, update the fingerprint in .github/actions/db-backup/action.yml." "failed:client"
+          fi
+          codename=$(. /etc/os-release && printf '%s' "${VERSION_CODENAME}")
+          sudo install -d -m 0755 /usr/share/postgresql-common/pgdg
+          sudo install -m 0644 "${keyfile}" /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc
+          # A runner image may carry its own pgdg entry with a different
+          # Signed-By; two entries for one repository make apt refuse both.
+          sudo rm -f /etc/apt/sources.list.d/pgdg.list /etc/apt/sources.list.d/pgdg.sources
+          echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt ${codename}-pgdg main" \
+            | sudo tee /etc/apt/sources.list.d/pgdg.list >/dev/null
+          sudo timeout --kill-after=30 300 apt-get update -qq
+          rc=$?
+          if [ "${rc}" -ne 0 ]; then echo "apt-get update exited ${rc} - trying the install anyway"; fi
+          sudo DEBIAN_FRONTEND=noninteractive timeout --kill-after=30 600 apt-get install -y -qq --no-install-recommends postgresql-client-17
+          rc=$?
+          echo "::endgroup::"
+          if [ "${rc}" -eq 124 ] || [ "${rc}" -eq 137 ]; then give_up "installing postgresql-client-17 timed out." "timeout:client"; fi
+          [ "${rc}" -eq 0 ] || give_up "installing postgresql-client-17 failed (apt-get exited ${rc})." "failed:client"
+        fi
+
+        major=$("${bin}/pg_dump" --version 2>/dev/null | sed -E 's/^[^0-9]*([0-9]+).*/\1/')
+        case "${major}" in
+          ''|*[!0-9]*) give_up "no working pg_dump under ${bin}." "failed:client" ;;
+        esac
+        [ "${major}" -ge 17 ] || give_up "pg_dump is version ${major}; the server is 17 and refuses an older client." "failed:client"
+        echo "pg_dump major version: ${major}"
+        # For the dump step: db/backup.sh calls a bare `pg_dump`.
+        echo "${bin}" >> "${GITHUB_PATH}"
+        echo "go=1" >> "${GITHUB_OUTPUT}"
+
+    - name: Dump (db/backup.sh - row counts only in this log)
+      id: dump
+      if: steps.client.outputs.go == '1'
+      shell: bash
+      env:
+        LI_BACKUP_DSN: ${{ inputs.dsn }}
+        WEEK: ${{ inputs.week }}
+        BACKUP_FILE: ${{ inputs.file }}
+        # For the commit message only (through env, like everything else).
+        DB_PARITY: ${{ inputs.parity }}
+        DB_FEEDS: ${{ inputs.feeds }}
+        DB_FEEDS_EXPECTED: ${{ inputs.feeds-expected }}
+      run: |
+        # GitHub runs composite bash steps with -e; every exit code below is read by hand.
+        set +e; set -uo pipefail
+        umask 077
+        # db-ci.mjs runs db/backup.sh under a hard cap, shows only allowlisted
+        # lines of its output (per-table counts), checks the file exists and is
+        # under GitHub's 100 MB limit, and writes the commit message (ISO week,
+        # this run's parity verdict, row counts) next to it. It always exits 0 and writes ok=1 or backup=<why>.
+        node .github/scripts/db-ci.mjs dump "${RUNNER_TEMP}/li-backup/${BACKUP_FILE}" \
+          || echo "::warning::database backup: db-ci.mjs could not be run to completion. The week is NOT affected: JSON in git is still the source of truth."
+        exit 0
+
+    - name: Push the dump to the private backup repository (SSH deploy key)
+      id: push
+      if: steps.dump.outputs.ok == '1'
+      shell: bash
+      env:
+        LI_BACKUP_DEPLOY_KEY: ${{ inputs.deploy-key }}
+        BACKUP_REPO: ${{ inputs.repository }}
+        BACKUP_FILE: ${{ inputs.file }}
+      run: |
+        # GitHub runs composite bash steps with -e; every exit code below is read by hand.
+        set +e; set -uo pipefail
+        bash .github/actions/db-backup/push.sh "git@github.com:${BACKUP_REPO}.git" "${RUNNER_TEMP}/li-backup/${BACKUP_FILE}" "${BACKUP_FILE}" \
+          || echo "::warning::database backup: push.sh could not be run to completion. The week is NOT affected: JSON in git is still the source of truth."
+        exit 0
+
+    # always(): also after a failed or cancelled step above. The runner is
+    # ephemeral, but "ephemeral" is not a reason to leave a full copy of the
+    # database and a write key lying in a temp directory a later step could read.
+    - name: Remove the dump and the deploy key from the runner
+      if: always()
+      shell: bash
+      run: |
+        # GitHub runs composite bash steps with -e; every exit code below is read by hand.
+        set +e; set -uo pipefail
+        dir="${RUNNER_TEMP}/li-backup"
+        if [ -d "${dir}" ]; then
+          find "${dir}" -maxdepth 1 -type f -exec shred -u {} + 2>/dev/null || true
+          rm -rf "${dir}"
+        fi
+        [ ! -e "${dir}" ] && echo "removed ${dir}" || echo "::warning::database backup: could not remove ${dir} from the runner"
+        exit 0

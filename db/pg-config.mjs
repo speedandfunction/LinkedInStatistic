@@ -49,3 +49,19 @@ export function pgConfig(dsn, extra = {}) {
   }
   return { ...cfg, ...extra };
 }
+
+// Звідки береться DSN: --dsn (лише локальний термінал — argv видно в `ps` і в
+// лозі), потім LI_DSN, потім локальний контейнер. Останній дефолт у CI вимкнено:
+// порожній секрет там розгортається в порожній рядок, і без цього скрипт мовчки
+// пішов би на localhost і впав би з ECONNREFUSED — «база лежить» замість
+// «секрет не створено». Це різні повідомлення для різних людей.
+export const LOCAL_DSN = "postgresql://postgres:devpw@localhost:55432/linkedin";
+export function resolveDsn(fromArgv, envName = "LI_DSN") {
+  const dsn = fromArgv || process.env[envName] || "";
+  if (dsn) return dsn;
+  if (process.env.GITHUB_ACTIONS || process.env.CI) {
+    console.error(`${envName} is not set — refusing to fall back to the local default in CI.`);
+    process.exit(2);
+  }
+  return LOCAL_DSN;
+}

@@ -791,3 +791,51 @@ jobs:
           set -uo pipefail
           rm -f "${RUNNER_TEMP}/lifleet-session-report.json" \
                 "${RUNNER_TEMP}/lifleet-authors.json"
+
+  # KEEP THE DATABASE AWAKE (dual-write stage, WEEKLY-CADENCE.md section 9)
+  # ------------------------------------------------------------------------
+  # Nothing to do with LinkedIn sessions; it lives here because this is the
+  # repo's one DAILY workflow. The weekly sync runs exactly 7 days apart and the
+  # Supabase free tier pauses a project after 7 idle days, so without a touch in
+  # between, "the database did not answer" is the expected Monday. One tiny read
+  # a day (db/ping.mjs, as the least-privilege li_sync role) keeps the idle
+  # clock under a day.
+  #
+  # Independent of `check` in both directions: no `needs`, its own runner, and
+  # continue-on-error - it can never delay, fail or recolour the session check.
+  # db-ci.mjs always exits 0, caps every child, filters the log and skips with a
+  # ::warning:: when the secret does not exist yet. It posts nothing to Slack: a
+  # project that pauses anyway is named, with the action, in Monday's message.
+  # Skipped on a dry-run dispatch: a rehearsal should touch nothing real.
+  db-keepalive:
+    if: github.event_name == 'schedule' || !inputs.dry_run
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    # Caps inside: npm 5 min + ping 2 min; the uses: steps carry their own.
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+        continue-on-error: true
+        timeout-minutes: 5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        continue-on-error: true
+        timeout-minutes: 5
+        with:
+          node-version: 22
+      - name: Touch the database (one read, nothing written)
+        timeout-minutes: 10
+        env:
+          # Through env only - never argv, never an expression inside run:.
+          LI_DSN: ${{ secrets.LI_SYNC_DATABASE_URL }}
+        run: |
+          set +e; set -uo pipefail
+          if [ ! -f .github/scripts/db-ci.mjs ]; then
+            echo "::warning::database keep-alive did not run - .github/scripts/db-ci.mjs is not in the checkout. Nothing else is affected."
+            exit 0
+          fi
+          node .github/scripts/db-ci.mjs touch || echo "::warning::database keep-alive: db-ci.mjs could not be run to completion. Nothing else is affected."
+          exit 0

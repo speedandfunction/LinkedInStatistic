@@ -55,9 +55,11 @@ The `scrape` job, step by step (then `publish`, then `notify`):
    the Grafana `$post` variable). `deployed` is written by its own step right
    after `actions/deploy-pages`, so it exists only when the deploy itself
    succeeded — a red `publish` with `deployed=true` means only the Grafana
-   refresh failed;
+   refresh failed. The same `main_updated=true` also starts the **dual-write**
+   jobs `db-sync` → `db-backup` (section 9), side by side with `publish`. They
+   are `continue-on-error` and can neither fail the run nor cost the week;
 9. **always** — success, failure, cancellation or a `scrape` timeout — a
-   separate final job, `notify` (`needs: [scrape, publish]`,
+   separate final job, `notify` (`needs: [scrape, publish, db-sync, db-backup]`,
    `if: always()`, `continue-on-error: true`), posts **one** message to
    `#linkedin-session-bot` (`.github/scripts/notify-weekly.mjs`). Because it
    runs after `publish`, it can tell these apart:
@@ -73,6 +75,9 @@ The `scrape` job, step by step (then `publish`, then `notify`):
    The two "no deadline" rows and the two "Monday" rows are deliberately
    different: an unmerged week is lost for good at the next run; a merged but
    unpublished week only means stale dashboards. Authors are never tagged.
+   Any of the three *merged* outcomes can carry one extra **database line**
+   (no ping) when the dual-write sync, parity check or backup did not all
+   succeed — and carries nothing when they did. See section 9.
    If the `notify` job cannot check out its script (it retries once), it
    leaves an `::error::` annotation on the run and posts nothing.
 
@@ -127,6 +132,18 @@ step exists to tell you that in one line instead of failing 25 minutes in.
 | `SLACK_BOT_TOKEN` | secret | The session-check bot, reused by the weekly result message. Also read by `pages-deploy.yml`. Unset or revoked → a `::warning::` in the "Post the weekly result to Slack" step of the `notify` job (or "Post the pages-deploy result to Slack") and **no message**; the run's conclusion is unaffected. |
 | `SLACK_CHANNEL_ID` | variable | The `C…` id of `#linkedin-session-bot` — the same variable the daily session check reads. Unset → same warning, no message. |
 | `SLACK_PEOPLE_JSON` | secret | Only its `_operator` key is read here: the member id pinged when a week is not published or a deploy failed. Missing or not a `U…`/`W…` id → the message still posts, says nobody was pinged, and the log carries a `::warning::`. |
+
+### Optional — the dual-write database stage (section 9)
+
+| Name | Kind | Notes |
+|---|---|---|
+| `LI_SYNC_DATABASE_URL` | secret | DSN of the least-privilege `li_sync` role. Unset → the `db-sync` job **skips with a `::warning::`**, Slack says *the sync was skipped*; the week is unaffected. |
+| `LI_BACKUP_DATABASE_URL` | secret | DSN of the read-only `li_backup` role. Unset → the backup is skipped, with a warning and a Slack line. |
+| `LI_BACKUP_DEPLOY_KEY` | secret | SSH **private** key whose public half is a deploy key **with write access** on the private repo `speedandfunction/linkedin-stats-backup`. Unset → same skip. |
+
+None of the three is an owner credential, and none is required: the JSON path,
+the PR, the Pages deploy and the run's red/green are identical with or without
+them. Setup, reading the Slack line and the exit criteria are in section 9.
 
 ### Set by the workflow, not by you
 
@@ -430,3 +447,207 @@ carries the next-Monday deadline.
 **e. Publishing.** `https://speedandfunction.github.io/LinkedInStatistic/<author>/stats.json`
 should carry the new week, and the Grafana `$post` picker on
 `linkedin-<author>-posts` should list the week's new posts.
+
+## 9. The dual-write stage (JSON + Postgres, in parallel)
+
+**JSON in git is still the source of truth.** Nothing in sections 1–8 changed.
+What was added: once a week's data is **on `main`**, the same data is imported
+into Postgres, the database's view of it is compared byte-for-byte with the
+JSON build, and the database is backed up. For a few weeks the two run side by
+side; Grafana keeps reading the JSON on Pages until the exit criteria at the end
+of this section are met.
+
+The git PR stays **the** quality gate. An incomplete week sits in an open PR, is
+not on `main`, and is therefore never synced. Whatever `main` contains is, by
+definition, published — so the sync publishes what it imports.
+
+### What runs where
+
+| Job | In | Runs when | Does |
+|---|---|---|---|
+| `db-sync` | `linkedin-stats-weekly.yml` | `main_updated == 'true'` (a clean, auto-merged week). Needs only `scrape` — **not** `publish`: a failed Pages deploy does not make `main` any less merged | checkout `main` → `npm ci --prefix db` → `LI_DSN=… node db/import.mjs --publish` → `LI_DSN=… node db/verify.mjs` |
+| `db-sync` | `pages-deploy.yml` | every dispatch, in parallel with `build`. This is how a **hand-merged** week reaches the database | the same; always syncs `main`, whatever ref was dispatched |
+| `db-backup` | `linkedin-stats-weekly.yml` | after `db-sync` reported `sync == 'ok'` (whatever parity said — a week where the two sides disagree is worth keeping) | PostgreSQL 17 client from apt.postgresql.org (key fingerprint pinned) → `db/backup.sh` → one file, `linkedin.sql`, committed over the previous one and pushed over SSH to the private repo |
+| `db-backup` | `pages-deploy.yml` | **only** if the `backup` box is ticked on the dispatch form (default off) | the same |
+| `notify` | both | always | one Slack message: an orange database line with **what to do** when something is off, a grey one-line confirmation (*synced · parity byte-identical · backup pushed*) when nothing is |
+| `db-keepalive` | `linkedin-session-check.yml` (daily, 07:00 UTC) | every scheduled run; skipped on a dry-run dispatch | `db/ping.mjs` as `li_sync`: one read, nothing written. See *Why the project must be kept awake* below. Never red, no Slack line of its own |
+
+The logic lives once: `.github/actions/db-sync`, `.github/actions/db-backup`
+(composite actions, `push.sh` next to the second) and `.github/scripts/db-ci.mjs`.
+Composite actions rather than a reusable workflow, deliberately: a job that calls
+a reusable workflow cannot carry `continue-on-error` / `timeout-minutes`, and a
+mistake in a called workflow file is a *startup failure of the whole weekly run*.
+A broken composite action only fails the one job that loads it.
+
+**Why the project must be kept awake.** The weekly cron (`0 0 * * 1`) runs
+exactly 7 days apart, and the Supabase free tier pauses a project after 7 days
+without activity. Left alone, those two line up: the project falls asleep just
+before the one run a week that needs it, and *could not connect* becomes the
+normal Monday. The daily `db-keepalive` job keeps the idle clock under a day. If
+it has been failing (its `::warning::` is on the daily run), or the secret did
+not exist yet, expect the paused-project line on Monday — the fix is the same:
+resume the project, re-run `pages-deploy`.
+
+Why the backup is weekly-only by default: its git history is meant to read one
+entry per week, a manual deploy is often re-run several times while something is
+being fixed, and during dual-write the database can always be rebuilt from git
+with `db/import.mjs`. A hand-merged week loses nothing by waiting for Monday's
+backup — that is a full dump and includes it. Tick `backup` when you want a
+restore point *now* (before a schema change, after a repair).
+
+### The three guarantees
+
+1. **A database problem never costs a week and never turns the run red.** Every
+   command that talks to the database runs under a hard cap inside `db-ci.mjs`
+   (npm 5 min, import 15 min, parity 10 min, dump 15 min), which always exits 0.
+   `uses:` steps carry their own `timeout-minutes` — a *step* timeout is a
+   failure, which the job's `continue-on-error: true` covers, whereas the
+   *job-level* timeout ends the job as **cancelled**, which `continue-on-error`
+   does not cover. The caps add up to less than the job timeout, so it cannot
+   fire first. A paused Supabase project therefore costs about 20 seconds of a
+   side job (the importer's connect timeout; 15 minutes at the very worst, if
+   the connection hangs instead of timing out) — not a week.
+2. **It is never silent.** Every non-OK outcome is a `::warning::` annotation on
+   the run *and* a line in that run's Slack message. An output that was never
+   written (job crashed, cancelled, never started) reads as empty, and empty is
+   reported as *did not run or did not finish* — never as fine.
+3. **Nothing personal reaches the log.** This repo is public, so its Actions logs
+   are world-readable. `db-ci.mjs` captures everything the `db/` commands print
+   and shows **only allow-listed lines** — row counts, table names, parity paths
+   and hashes. Everything else is *counted* (`N line(s) withheld`), and a short
+   list of fixed-vocabulary hints (`ECONNREFUSED`, `password authentication
+   failed`, `Tenant or user not found`, a constraint *name*) is lifted out so a
+   failure is still diagnosable. The scripts' own failure lines (`IMPORT FAILED —
+   could not connect: …`, `PARITY CHECK COULD NOT RUN: …`) are shown too, but only
+   in the fixed shapes `db/safe-log.mjs` produces — an errno, a SQLSTATE, canned
+   server wording with names replaced by `<redacted>`.
+   To read the withheld lines, run the same command locally. The DSN's password
+   and host are additionally registered with `::add-mask::`. The dump is **never**
+   uploaded as an artifact (artifacts of a public repo are not private); it lives
+   under `$RUNNER_TEMP/li-backup` (mode 0700) between dump and push and is removed
+   by an `if: always()` step, as is the deploy key.
+
+### Operator setup — three secrets
+
+No owner credential goes into CI. Until these exist, every run says *skipped* in
+Slack and changes nothing else — merging this ahead of the secrets is safe.
+
+1. **Roles.** Apply `db/schema.sql` as the owner (it creates `li_sync` and
+   `li_backup`), then give each a password, as the owner:
+   `ALTER ROLE li_sync WITH LOGIN PASSWORD '…';` and the same for `li_backup`.
+2. **Backup repo.** Create the **private** repo
+   `speedandfunction/linkedin-stats-backup` (empty is fine — the first push
+   creates `main`). Generate a key pair with no passphrase
+   (`ssh-keygen -t ed25519 -N "" -C li-backup -f ./li-backup-key`), add
+   `li-backup-key.pub` under that repo's *Settings → Deploy keys* with **Allow
+   write access** ticked, and delete both files once the secret is stored.
+3. **Secrets** (gh prompts for each value; nothing is echoed, nothing lands in
+   shell history):
+
+```bash
+# Supabase: use the SESSION pooler host (runners have no IPv6 route to the direct
+# host; the transaction pooler breaks prepared statements). The user is then
+# <role>.<project-ref> - see db/README.md.
+gh secret set LI_SYNC_DATABASE_URL    # DSN of li_sync
+gh secret set LI_BACKUP_DATABASE_URL  # DSN of li_backup
+gh secret set LI_BACKUP_DEPLOY_KEY < ./li-backup-key
+gh secret list                        # names only
+```
+
+Then dispatch `pages-deploy.yml` once with `backup` ticked: it syncs `main`, and
+the Slack message should end with the grey line *Database (dual-write soak):
+synced · parity byte-identical · backup pushed*. The backup repo then has its
+first commit, whose subject reads `… - parity ok 4/4 - …`.
+
+### Reading the database line in Slack
+
+When the sync, the parity check and the backup all succeeded, the message ends
+with one small grey line — *:white_check_mark: Database (dual-write soak): synced
+· parity byte-identical · backup pushed*. It is there for the soak only: "no line"
+used to be the good outcome, and "no line" is also what a run looks like when the
+database outputs never reached the notifier. Absence proves nothing. (The durable
+record is not Slack at all — see *The soak ledger* below.)
+
+Otherwise there is exactly one extra block, directly under the headline:
+
+> :large_orange_diamond: **Database (dual-write stage):** *…what happened…*.
+> :point_right: *…what to do…* (when there is a specific action)
+> **The week itself is not affected** — the JSON in git is still the source of truth…
+
+Nobody is pinged for it; it is not urgent. It is also not small grey print: it
+will sit under the headline every week until it is fixed.
+
+| The line says | Meaning | What to do |
+|---|---|---|
+| *the sync was skipped — the `LI_SYNC_DATABASE_URL` secret is not set* | setup not done yet | the three secrets above |
+| *the sync FAILED (could not connect to the database)* | the importer never got a connection (it gives up after 20 s). **Almost always a paused Supabase project** — the free tier pauses after 7 idle days, and the cron is 7 days apart. The `db-sync` log shows the importer's own line: `connection timeout`, `ETIMEDOUT`, `ECONNREFUSED`, or `SQLSTATE XX000 — Tenant or user not found` (the pooler cannot route to a paused/deleted project, or the `<role>.<project-ref>` user name is wrong). `password authentication failed` / `database "<redacted>" does not exist` mean the DSN secret is wrong instead | **resume the project in the Supabase dashboard**, then dispatch `pages-deploy.yml` — it re-syncs `main`, and the import is idempotent. Then check why `db-keepalive` in the daily run did not keep it awake |
+| *the sync timed out (the import)* | no answer within 15 min: the connection opened and then hung. Same first suspect — a project that is pausing or resuming | the same: resume, then dispatch `pages-deploy.yml` |
+| *the sync FAILED (the import)* | the importer **connected** and then failed; its transaction rolled back, the database is as it was. Not a pause | open the `db-sync` job: the hints name the cause (`SQLSTATE …`, `permission denied for table …`, a constraint name). For the withheld lines, run the same command locally. Fix, then dispatch `pages-deploy.yml` |
+| *the sync FAILED (installing the db/ dependencies)* | `npm ci --prefix db` failed | usually the registry; re-dispatch |
+| *the sync did not run or did not finish* | the job wrote no output: crashed early, was cancelled, or checkout failed | open the run; re-dispatch `pages-deploy.yml` |
+| *the parity check found a DIFFERENCE* | the import worked, but the database's export is **not** byte-identical to the JSON build. **This is the finding the soak exists for** | the `db-sync` log lists each differing path with type, length and a hash — never the value. Reproduce locally: `LI_DSN=… node db/verify.mjs --show-values`. Fix `db/export.mjs` / the merge rules, re-dispatch. **Resets the soak counter** |
+| *the parity check was INCOMPLETE* | it found no difference, but compared **fewer feeds than `main` publishes**. Pages builds a feed for every folder under `dashboards/li-stats/` with an `account.json`; the importer takes its authors from `profiles.json`. A folder that is not in `profiles.json` is published and never imported | the `db-sync` log has both counts. Add the author to `profiles.json` (or remove the stray folder), re-dispatch. Does not count as a clean week |
+| *the parity check could not be completed* / *timed out* | it crashed or hung before comparing anything — not evidence of a difference, not evidence of parity either | dispatch `pages-deploy.yml` to re-sync and re-check; if the database does not answer, check that the project is not paused. Does not count as a clean week |
+| *the backup was skipped — … not set* | one or both backup secrets are missing | setup step 2–3 |
+| *the backup FAILED (installing the PostgreSQL 17 client)* | apt.postgresql.org unreachable, or its signing key no longer matches the pinned fingerprint | if PostgreSQL rotated the key, update the fingerprint in `.github/actions/db-backup/action.yml` |
+| *the backup FAILED (pg_dump)* | `db/backup.sh` refused: database unreachable, `pg_dump` older than the server, an empty dump, or dump/source row counts disagree | the `db-backup` log shows the per-table counts and the script's own reason |
+| *the backup FAILED (pushing to the backup repository)* | the repo does not exist, or the deploy key lacks **write** access (that fails exactly at the push) | fix the deploy key; re-dispatch with `backup` ticked |
+
+**The soak ledger.** The backup repo's history is the backup history *and* the
+only durable record that parity held: Slack is quiet on a good week, and the
+run's log, annotations and step summary expire with the run (about 90 days).
+Each backup commit therefore carries the verdict of the `db-sync` job of the
+same run. `git log --oneline` in `speedandfunction/linkedin-stats-backup` reads:
+
+```
+backup: 2026-W40 (week of 2026-09-28) - parity ok 4/4 - 29 tables, 8512 rows
+backup: 2026-W39 (week of 2026-09-21) - parity DIFFERS - 29 tables, 8410 rows
+backup: 2026-W38 (week of 2026-09-14) - parity ok 4/4 - 29 tables, 8307 rows
+```
+
+and the body says it in words — `Sync: ok`, `Parity: ok - 4 of 4 feeds
+byte-identical …`, `Via: linkedin-stats-weekly (schedule)` or `Via: pages-deploy
+(workflow_dispatch)`, the run URL, then the per-table counts. `parity ok N/M`
+means N feeds were compared and `main` publishes M; anything else (`DIFFERS`,
+`INCOMPLETE`, `ERROR`, `TIMEOUT`, `NOT RECORDED`) is not a clean week. A week
+with **no commit** is a week the backup did not run: not clean either. To
+restore, see `db/restore-drill.sh`.
+
+### Exit criteria — when Grafana may be switched to the database
+
+The soak is over when **all** of these hold; until then Grafana stays on the
+JSON feeds on Pages:
+
+1. **Three consecutive ISO weeks, each with a POSITIVE record**: a commit in the
+   backup repo for that week whose subject says `parity ok N/N` (N = every feed
+   `main` publishes). That one commit proves all three at once — the backup only
+   runs after `sync == ok`, the verdict is the parity check's, and the commit
+   exists because the push worked. **The absence of a database line in Slack is
+   not evidence**: an unmerged week (the sync never ran) and a week whose Slack
+   post failed look exactly the same. No commit for a week = not a clean week.
+   *Which run counts:* the week's record may come from either path — the Monday
+   scheduled run when the week auto-merged (`Via: linkedin-stats-weekly`), or
+   the `pages-deploy` dispatch **with `backup` ticked** that followed a
+   hand-merge (`Via: pages-deploy`). A hand-merged week synced *without*
+   `backup` ticked leaves no record: tick it. If a week has several commits
+   (re-dispatches), the **last** one is the week's verdict.
+2. The counter **resets to zero** on: a week whose record says anything other
+   than `parity ok N/N` (*DIFFERS*, *INCOMPLETE*, *ERROR*, *TIMEOUT*, *NOT
+   RECORDED*); a week with no record at all (sync skipped / failed / could not
+   connect, backup failed, week never merged); any change to `db/schema.sql`,
+   `db/import.mjs`, `db/export.mjs`, `db/verify.mjs` or `build-stats-json.mjs` /
+   `build-page-stats.mjs`.
+3. **Both paths into the database have been seen working** within those three
+   weeks: at least one record with `Via: linkedin-stats-weekly (schedule)` and at
+   least one with `Via: pages-deploy (workflow_dispatch)`. If every week
+   auto-merged, make the second one deliberately: dispatch `pages-deploy` with
+   `backup` ticked. That extra commit is a record *for criterion 3 only* — it
+   neither adds a week to criterion 1 nor resets it (unless it is not `parity
+   ok`, which resets like any other).
+4. The row counts in those commits are plausible and non-decreasing, and **one
+   restore drill** (`db/restore-drill.sh`) from the latest commit has succeeded.
+5. `grafana_ro` has been checked to see `dash` only (`node db/test-roles.mjs`).
+
+Switching over is then a Grafana datasource change; the dual-write jobs stay on
+afterwards, so the JSON build keeps acting as the parity reference for as long
+as the scraper still writes JSON.

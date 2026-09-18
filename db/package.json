@@ -5,12 +5,16 @@
   "type": "module",
   "description": "JSON corpus -> Postgres, the merge rules that go with it, and the parity check that proves them.",
   "scripts": {
-    "schema": "echo 'docker exec -i li-pg psql -U postgres -d linkedin -v ON_ERROR_STOP=1 < db/schema.sql'",
+    "schema": "node apply-schema.mjs",
     "import": "node import.mjs",
     "export": "node export.mjs",
     "verify": "node verify.mjs",
+    "ping": "node ping.mjs",
     "test:rules": "node test-merge-rules.mjs",
-    "test:icp": "node fixture-icp.mjs"
+    "test:icp": "node fixture-icp.mjs",
+    "test:roles": "node test-roles.mjs",
+    "backup": "./backup.sh",
+    "restore-drill": "./restore-drill.sh"
   },
   "dependencies": {
     "pg": "^8.13.1"

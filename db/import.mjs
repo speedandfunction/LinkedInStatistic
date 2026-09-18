@@ -23,20 +23,39 @@
 // That is not the same as ignoring a correction — run it over a re-scraped week
 // and the new numbers land.
 //
-//   node db/import.mjs [--dsn <url>] [--reset] [--repo <path>] [--publish] [--quiet]
+//   LI_DSN=<url> node db/import.mjs [--reset] [--repo <path>] [--publish] [--quiet]
+//                                   [--decided-by <label>] [--show-values] [--dsn <url>]
 //
-// --reset empties every li table first. It is the only destructive flag and the
-// writer role cannot do it — TRUNCATE is not granted.
-// --publish promotes this run's pending weeks to `published`. Without it the
-// weeks land as pending and stay invisible to Grafana until a human decides.
+// The DSN comes from the environment (LI_DSN). --dsn still works for a local
+// terminal, but a DSN on argv is readable in `ps` and in a CI log — do not use it
+// anywhere a password is real.
+//
+// WHO RUNS THIS. Any role that holds EXECUTE on the merge functions: the owner,
+// or li_sync — the least-privilege role CI logs in as. Nothing below needs
+// UPDATE, DELETE or TRUNCATE on a table: every such rule is a SECURITY DEFINER
+// function in schema.sql. db/test-roles.mjs runs this file as li_sync, on an
+// empty database and on a populated one, so that stays true.
+//
+// --reset empties every li table first. It is the only destructive flag, it
+// needs TRUNCATE (the owner has it; li_sync and li_writer do not), and it is
+// REFUSED up front with a clear message for a role that lacks it.
+// --publish promotes THIS RUN's pending weeks to `published` through
+// li.publish_run(). Without it the weeks land as pending and stay invisible to
+// Grafana until somebody decides. Dual-write runs it from main, after the merge:
+// what main contains is published by definition.
+// --show-values prints full error text. It may quote people's names and
+// headlines, so it is for a local terminal only; without it an error is reported
+// by its shape (SQLSTATE, table, constraint, function) — see db/safe-log.mjs.
 
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { join, resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { randomUUID } from "node:crypto";
 import pg from "pg";
-import { pgConfig } from "./pg-config.mjs";
+import { pgConfig, resolveDsn } from "./pg-config.mjs";
 import { fold, foldPeople, foldTargets } from "./merge-rules.mjs";
+import { SafeError, safeError } from "./safe-log.mjs";
+import { createHash } from "node:crypto";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 
@@ -51,18 +70,43 @@ function arg(name, def = null) {
 }
 const flag = (name) => process.argv.includes(`--${name}`);
 
-const DSN = arg("dsn", process.env.LI_DSN || "postgresql://postgres:devpw@localhost:55432/linkedin");
+const DSN = resolveDsn(arg("dsn"));
 const REPO = resolve(arg("repo", join(HERE, "..")));
 const QUIET = flag("quiet");
 const PUBLISH = flag("publish");
+const SHOW = flag("show-values");
 const log = (...a) => { if (!QUIET) console.error(...a); };
+// Who decided. In Actions the run id is the useful answer ("which workflow run
+// published this week"); li.publish_run() appends session_user on its own, so a
+// label cannot pass for a login.
+const DECIDED_BY = arg("decided-by", process.env.LI_DECIDED_BY
+  || (process.env.GITHUB_RUN_ID
+    ? `github-actions ${process.env.GITHUB_WORKFLOW || "workflow"} run ${process.env.GITHUB_RUN_ID}`
+    : "import.mjs --publish"));
 
 const LI_STATS = join(REPO, "dashboards", "li-stats");
 const PROFILES = join(REPO, "dashboards", "profiles");
 const PAGE = join(LI_STATS, "page");
 const SKILL = join(REPO, ".claude", "skills", "linkedin-stats");
 
-const readJson = (p) => JSON.parse(readFileSync(p, "utf8"));
+// A parse error is reported WITHOUT Node's message: since Node 20 it quotes a
+// snippet of the file, and these files are people. Profile-cache files are named
+// after the person's slug, so even the file name is withheld there — a short hash
+// of it is enough to find the file locally (`ls | shasum`).
+const safePath = (p) => {
+  const rel = p.startsWith(REPO) ? p.slice(REPO.length + 1) : p;
+  return rel.startsWith(join("dashboards", "profiles"))
+    ? `dashboards/profiles/<file sha1:${createHash("sha1").update(rel.split("/").pop()).digest("hex").slice(0, 8)}>`
+    : rel;
+};
+const readJson = (p) => {
+  const text = readFileSync(p, "utf8");
+  try { return JSON.parse(text); }
+  catch (e) {
+    if (SHOW) throw e;
+    throw new SafeError(`${safePath(p)}: not valid JSON (${text.length} bytes) — a crashed write? Refusing to import around it.`);
+  }
+};
 // A file that is not there is a fact about the corpus. A file that is there and
 // will not parse is a CRASHED WRITE, and importing it as `{}` would silently
 // drop weeks LinkedIn will never hand back. Absent is tolerated; corrupt throws.
@@ -126,8 +170,20 @@ async function callMerge(client, sql, head, rows) {
 
 // ------------------------------------------------------------------ main
 
-const pool = new pg.Pool(pgConfig(DSN, { max: 4 }));
-const client = await pool.connect();
+const pool = new pg.Pool(pgConfig(DSN, { max: 4, connectionTimeoutMillis: 20000 }));
+// An idle pooled client that errors (the server going away) would otherwise be
+// an unhandled 'error' event: a stack trace with the host in it.
+pool.on("error", () => {});
+let client;
+try { client = await pool.connect(); }
+catch (e) {
+  // A database that is down, asleep or misconfigured. Say so by its shape — the
+  // raw message carries the host and the user — and let the caller decide what a
+  // failed sync costs (in CI: a warning, never the week).
+  console.error("IMPORT FAILED — could not connect:", safeError(e, { dsn: DSN, showValues: SHOW }));
+  await pool.end().catch(() => {});
+  process.exit(1);
+}
 const runId = randomUUID();
 const counts = {};
 const bump = (k, n) => { counts[k] = (counts[k] ?? 0) + n; };
@@ -135,17 +191,35 @@ const bump = (k, n) => { counts[k] = (counts[k] ?? 0) + n; };
 try {
   await client.query("begin");
 
+  // One importer at a time. The weekly workflow and the manual pages-deploy path
+  // can both sync the same merge; serialised, the second one is an idempotent
+  // replay instead of a unique-index collision on the publication gate.
+  await client.query(`select pg_advisory_xact_lock(hashtext('li.import'))`);
+
   if (flag("reset")) {
-    log("-- --reset: emptying li");
     const { rows } = await client.query(
       `select tablename from pg_tables where schemaname='li' order by tablename`);
+    // Ask BEFORE trying: a bare "permission denied for table author" names
+    // neither the flag nor the reason.
+    const who = (await client.query(`select current_user as u`)).rows[0].u;
+    const lacking = (await client.query(
+      `select count(*)::int as n from pg_tables
+        where schemaname='li' and not has_table_privilege(format('%I.%I', schemaname, tablename), 'TRUNCATE')`)).rows[0].n;
+    if (lacking > 0) {
+      throw Object.assign(new SafeError(
+        `--reset REFUSED: role "${who}" may not TRUNCATE ${lacking} of ${rows.length} li tables. ` +
+        `--reset is the owner's flag; the CI roles (li_sync, li_writer) are not granted it on purpose. ` +
+        `Nothing was changed.`), { exitCode: 2 });
+    }
+    log("-- --reset: emptying li");
     await client.query(`truncate ${rows.map((r) => `li.${r.tablename}`).join(",")} restart identity cascade`);
     await client.query(`insert into li.dash_config (only_row, as_of) values (true, null)`);
   }
 
   await client.query(
     `insert into li.import_run (run_id, source, note) values ($1,'json-import',$2)`,
-    [runId, `repo=${REPO}`]);
+    [runId, [`repo=${REPO}`, process.env.GITHUB_SHA && `sha=${process.env.GITHUB_SHA}`,
+             process.env.GITHUB_RUN_ID && `gha_run=${process.env.GITHUB_RUN_ID}`].filter(Boolean).join(" ")]);
 
   // ------------------------------------------------------------- authors
   const identity = readJson(join(SKILL, "profiles.json"));
@@ -158,8 +232,11 @@ try {
       posts_cutoff: v.posts_cutoff ?? null,
     }))
     .sort((a, b) => a.author.localeCompare(b.author));
-  bump("author", await insertMany(client, "li.author",
-    ["author", "display_name", "profile_slug", "company_id", "posts_cutoff"], authors));
+  // profiles.json is config, so it is MIRRORED (li.upsert_author), not appended
+  // with DO NOTHING: that left a renamed person or a moved posts_cutoff out of
+  // the table for good, and the honest fix needs an UPDATE no CI role holds.
+  bump("author", Number((await client.query(
+    `select li.upsert_author($1::jsonb) as n`, [JSON.stringify(authors)])).rows[0].n));
 
   // -------------------------------------------------------------- config
   // NOT facts. scoring.json says of itself that editing it "rescores all history
@@ -517,47 +594,59 @@ try {
 
   // --------------------------------------------------------- publication
   // The importer ASKS. li.request_week() hardcodes status='pending' and is the
-  // only door into li.week_publication the writer role has — it cannot insert a
+  // only door into li.week_publication a non-owner role has — it cannot insert a
   // row that already says 'published', which is how the gate stops being a gate.
+  // One round trip for all of them: over a pooler in another region a call per
+  // week was the slowest part of the run. Under --publish the request takes over
+  // a pending row left by ANOTHER run (see p_takeover in schema.sql), because
+  // li.publish_run() promotes this run's rows and nobody else's.
   const pubRows = [...weeksSeen].map((s) => s.split("\t"))
     .sort((a, b) => (a[0] + a[1]).localeCompare(b[0] + b[1]));
-  let requested = 0;
-  for (const [author, week] of pubRows) {
-    const r = await client.query(`select li.request_week($1,$2::date,$3,$4) as n`,
-      [author, week, runId, "imported from the published JSON corpus"]);
-    requested += Number(r.rows[0].n);
-  }
-  bump("week_publication(pending)", requested);
+  const requested = pubRows.length === 0 ? 0 : Number((await client.query(
+    `select coalesce(sum(li.request_week(t.author, t.week, $3, $4, $5)), 0) as n
+       from unnest($1::text[], $2::date[]) as t(author, week)`,
+    [pubRows.map((r) => r[0]), pubRows.map((r) => r[1]), runId,
+     "imported from the published JSON corpus", PUBLISH])).rows[0].n);
+  bump("week_publication.requested", requested);
 
-  // Promoting is a DECISION and belongs to the owner, not to the scraper. The
-  // corpus this importer reads has already been reviewed and shipped to Pages,
-  // so --publish is the operator saying exactly that, in one place.
+  // Promoting is a DECISION. It used to be a direct UPDATE on the gate — which
+  // only the owner could run, and which promoted every pending row in the table,
+  // whoever had filed it. li.publish_run() promotes what THIS run asked for,
+  // supersedes what that replaces, and is the one thing li_sync may do to the gate.
   if (PUBLISH) {
-    const r = await client.query(
-      `update li.week_publication p
-          set status='published', decided_at=now(), decided_by=$1, note=coalesce(p.note,'')
-        where p.status='pending'
-          and not exists (select 1 from li.week_publication q
-                           where q.author=p.author and q.week=p.week and q.status='published')`,
-      [`operator:--publish`]);
-    bump("week_publication(published)", r.rowCount);
+    const r = await client.query(`select li.publish_run($1,$2) as n`, [runId, DECIDED_BY]);
+    bump("week_publication.published", Number(r.rows[0].n));
+
+    // The post-condition, checked inside the transaction: every week this run
+    // read must now be visible. A week that is not would be a silent hole in
+    // dash, so it fails the run (and rolls it back) instead.
+    const hidden = Number((await client.query(
+      `select count(*) as n from unnest($1::text[], $2::date[]) as t(author, week)
+        where not exists (select 1 from li.week_publication p
+                           where p.author = t.author and p.week = t.week and p.status = 'published')`,
+      [pubRows.map((r) => r[0]), pubRows.map((r) => r[1])])).rows[0].n);
+    if (hidden > 0) {
+      throw new SafeError(`--publish left ${hidden} of ${pubRows.length} week(s) unpublished — refusing to commit a corpus dash would show with holes.`);
+    }
   }
 
   await client.query("commit");
 } catch (e) {
   await client.query("rollback").catch(() => {});
-  console.error("IMPORT FAILED:", e.message);
-  if (e.detail) console.error("  detail:", e.detail);
-  process.exitCode = 1;
+  // Shape, not values: a Postgres `detail` is the failing ROW, and this log is
+  // public. --show-values restores the full text for a local terminal.
+  console.error("IMPORT FAILED — rolled back, nothing changed:", safeError(e, { dsn: DSN, showValues: SHOW }));
   client.release();
-  await pool.end();
-  process.exit(1);
+  await pool.end().catch(() => {});
+  process.exit(e.exitCode ?? 1);
 }
 
 log(`run ${runId}`);
-for (const [k, v] of Object.entries(counts)) log(`  ${k.padEnd(26)} ${v} row(s) written`);
+for (const [k, v] of Object.entries(counts)) log(`  ${k.padEnd(28)} ${v} row(s) written`);
 const inserted = Object.values(counts).reduce((a, b) => a + b, 0);
-log(inserted === 0 ? "-- nothing changed (idempotent re-run)" : `-- ${inserted} rows written`);
+// The one line CI parses, always in the same shape and always on stdout — also
+// for 0, where it used to say something else entirely.
+console.log(`-- ${inserted} rows written${inserted === 0 ? " (idempotent re-run: nothing changed)" : ""}`);
 if (!PUBLISH) log("-- weeks are PENDING. Nothing is visible in dash until someone publishes them.");
 
 client.release();

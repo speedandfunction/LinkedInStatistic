@@ -130,11 +130,28 @@ create table li.vip_person (
 comment on table li.vip_person is
   'REPLACED wholesale from vip-people.md on every import, not appended to: removing a bullet from that file has to lower the score it was inflating.';
 
--- The clock, pinned. build-stats-json.mjs consults the wall clock in exactly
--- two places (the month-range tail of the zero-fill, and "which week is
--- `last_week`"). Views cannot take parameters, so the pinned value lives here:
--- NULL means "use now()", a value means "pretend it is this instant". verify.mjs
--- sets it, so the DB export and the JSON build are compared at the same instant.
+-- The clock. build-stats-json.mjs consults the wall clock in exactly two places
+-- (the month-range tail of the zero-fill, and "which week is `last_week`"), and
+-- a parity check has to run both sides at the same instant. Views cannot take
+-- parameters, so the instant reaches them through li.as_of().
+--
+-- THE PIN IS SESSION-LOCAL, and that is the whole point. The first version kept
+-- it in this table and export.mjs did `update li.dash_config set as_of = $1` —
+-- and never reset it. One parity run therefore froze "now" for EVERY reader of
+-- the shared database (Grafana included) until somebody noticed: a global,
+-- silent, persistent side effect of a read-only check.
+--
+-- Now the pin is a custom GUC, `li.as_of`, which export.mjs sets with
+-- set_config(..., is_local => true) inside its own read-only transaction. It is
+-- visible to that transaction only and is gone at COMMIT/ROLLBACK — it cannot
+-- leak to another session even through a connection pooler that hands the same
+-- backend to the next client. Any role may set it; it changes what that role's
+-- own session sees and nothing else.
+--
+-- The row below stays as a manual, owner-only override of last resort and is
+-- NULL in normal operation: NOTHING in db/ writes it any more, no CI role holds
+-- UPDATE on it, and db/test-roles.mjs fails if it is ever found non-NULL.
+-- Precedence: the session GUC, then this row, then now().
 create table li.dash_config (
   only_row boolean primary key default true check (only_row),
   as_of    timestamptz
@@ -151,9 +168,15 @@ insert into li.dash_config (only_row, as_of) values (true, null);
 -- engagement_person — while the parity check, which runs as the owner, stayed
 -- green. They take no arguments and read one config row, so running them as the
 -- owner exposes nothing; search_path is pinned as on every definer function here.
+--
+-- current_setting(..., true) is NULL when the GUC was never set and '' after a
+-- SET LOCAL has been rolled back (the placeholder survives, emptied) — hence
+-- nullif. A value that is not a timestamp raises, in the session that set it.
 create function li.as_of() returns timestamptz
   language sql stable security definer set search_path = li, pg_temp as $$
-    select coalesce((select as_of from li.dash_config), now())
+    select coalesce(nullif(current_setting('li.as_of', true), '')::timestamptz,
+                    (select as_of from li.dash_config),
+                    now())
   $$;
 
 -- The Monday of the ISO week containing li.as_of(), in UTC — the reader's
@@ -1010,6 +1033,33 @@ create function li.stamp(p_rows jsonb, p_patch jsonb) returns jsonb
   $$;
 
 
+-- --------------------------------------------------------------- authors
+
+-- li.author mirrors profiles.json, which is operator CONFIG, not a scraped fact:
+-- it is the REPLACED kind. The importer used to issue a direct
+-- `insert ... on conflict do nothing`, which is the wrong rule twice over — a
+-- renamed person or a moved posts_cutoff never reached the table, and the honest
+-- fix (DO UPDATE) needs the UPDATE privilege no CI role holds. So it lives here.
+-- An author that has left profiles.json is NOT deleted: every fact hangs off it.
+create function li.upsert_author(p_authors jsonb)
+returns integer language plpgsql security definer set search_path = li, pg_temp as $$
+declare n integer;
+begin
+  insert into li.author
+  select * from jsonb_populate_recordset(null::li.author, coalesce(p_authors, '[]'::jsonb))
+  on conflict (author) do update set
+      display_name = excluded.display_name, profile_slug = excluded.profile_slug,
+      company_id   = excluded.company_id,   posts_cutoff = excluded.posts_cutoff
+    where (li.author.display_name, li.author.profile_slug, li.author.company_id, li.author.posts_cutoff)
+       is distinct from
+          (excluded.display_name, excluded.profile_slug, excluded.company_id, excluded.posts_cutoff);
+  get diagnostics n = row_count;
+  return n;
+end $$;
+comment on function li.upsert_author is
+  'MERGE RULE: REPLACE. profiles.json is config and is mirrored, guarded so a replay writes no tuple. Authors are never deleted.';
+
+
 -- ---------------------------------------------------------------- posts
 
 -- Identity is written once (fast/merge.py new_file() refuses to overwrite an
@@ -1618,26 +1668,117 @@ end $$;
 
 -- ------------------------------------------------------- the publication gate
 
--- Publishing a week is a DECISION, not a write, so the writer role cannot make
+-- Publishing a week is a DECISION, not a write, so the scraper role cannot make
 -- one. It may only ASK, through this function, which hardcodes status='pending'.
 -- A plain INSERT is not enough of a fence: a writer with INSERT on the table can
 -- simply insert a row that already says 'published' and walk past the UPDATE
--- privilege the gate was relying on. INSERT is therefore revoked below and this
+-- privilege the gate was relying on. INSERT is therefore not granted and this
 -- is the only door.
-create function li.request_week(p_author text, p_week date, p_run_id uuid, p_note text default null)
+--
+-- p_takeover. A snapshot is REPLACED in place by whichever run imported it last,
+-- so an older run's pending request describes data that is no longer what is
+-- stored. A run that is about to publish passes p_takeover => true: a pending
+-- request left by ANOTHER run is marked superseded and this run files its own,
+-- so that li.publish_run() — which promotes this run's rows and nobody else's —
+-- covers the week. Without it, "import, look, import --publish" would leave the
+-- first run's weeks pending for ever. It is off by default so that a run which
+-- does not publish stays strictly idempotent (no tuple written on a replay).
+-- A PUBLISHED week is never touched here, with or without the flag.
+create function li.request_week(p_author text, p_week date, p_run_id uuid,
+                                p_note text default null, p_takeover boolean default false)
 returns integer language plpgsql security definer set search_path = li, pg_temp as $$
-declare n integer;
+declare n integer := 0; k integer;
 begin
+  if p_takeover then
+    update li.week_publication p
+       set status = 'superseded', decided_at = now(), decided_by = session_user,
+           note = concat_ws(' · ', nullif(p.note,''), 'request taken over by run ' || p_run_id)
+     where p.author = p_author and p.week = p_week
+       and p.status = 'pending' and p.run_id <> p_run_id
+       and not exists (select 1 from li.week_publication q
+                        where q.author = p_author and q.week = p_week and q.status = 'published');
+    get diagnostics k = row_count; n := n + k;
+  end if;
+
   insert into li.week_publication (author, week, run_id, status, decided_by, note)
   select p_author, p_week, p_run_id, 'pending', session_user, p_note
    where not exists (select 1 from li.week_publication p
                       where p.author = p_author and p.week = p_week
                         and p.status in ('pending','published'));
-  get diagnostics n = row_count;
+  get diagnostics k = row_count; n := n + k;
   return n;
 end $$;
 comment on function li.request_week is
-  'The ONLY way the writer role touches li.week_publication. Status is hardcoded to pending: promoting it is an UPDATE, which only the owner may run.';
+  'The ONLY way a non-owner role files a row in li.week_publication. Status is hardcoded to pending; promoting it is li.publish_run(), which li_writer is not granted.';
+
+-- Promote what ONE run asked for. This replaces the importer's direct
+--   update li.week_publication set status='published' where status='pending'
+-- which needed the owner (UPDATE on the gate) and promoted EVERY pending row in
+-- the table, whoever had filed it.
+--
+-- Dual-write runs the importer from main, after the PR has been merged: what
+-- main contains is published by definition, so the sync role is allowed to make
+-- this decision — but only through here, and only for p_run_id:
+--
+--   1. REPUBLISH. If this run rewrote a snapshot row (post / account / comment
+--      week — the replace_* functions stamp run_id on exactly the rows they
+--      change) of a week that is already published under ANOTHER run, the numbers
+--      Grafana shows for that week are no longer the ones that were published.
+--      File a pending row for it, so that steps 2-3 re-issue the publication
+--      under this run. A replay that changes nothing stamps nothing, so this
+--      writes nothing in steady state. (A change confined to a snapshot's
+--      children — demographics, rosters — does not stamp the parent and is not
+--      re-issued; the data still lands, only the audit row stays with the old run.)
+--   2. SUPERSEDE the published row of every week this run holds a pending row
+--      for. It runs BEFORE the promotion because the partial unique index is
+--      checked per statement: one published row per (author, week), at all times.
+--   3. PROMOTE this run's pending rows, and only those. Another run's pending
+--      request is not touched — see p_takeover on li.request_week().
+--
+-- decided_by records the caller's label AND session_user, so a label cannot
+-- impersonate a login.
+create function li.publish_run(p_run_id uuid, p_decided_by text default null)
+returns integer language plpgsql security definer set search_path = li, pg_temp as $$
+declare n integer := 0; k integer;
+        v_by text := concat_ws(' as ', nullif(p_decided_by,''), session_user);
+begin
+  if not exists (select 1 from li.import_run r where r.run_id = p_run_id) then
+    raise exception 'li.publish_run: unknown run' using errcode = '22023';
+  end if;
+
+  insert into li.week_publication (author, week, run_id, status, decided_by, note)
+  select t.author, t.week, p_run_id, 'pending', session_user,
+         'republish: this run rewrote a snapshot of an already published week'
+    from (select author, week from li.post_week    where run_id = p_run_id
+          union
+          select author, week from li.account_week where run_id = p_run_id
+          union
+          select author, week from li.comment_week where run_id = p_run_id) t
+   where exists (select 1 from li.week_publication q
+                  where q.author = t.author and q.week = t.week
+                    and q.status = 'published' and q.run_id <> p_run_id)
+     and not exists (select 1 from li.week_publication q
+                      where q.author = t.author and q.week = t.week
+                        and q.status = 'pending' and q.run_id = p_run_id);
+
+  update li.week_publication pub
+     set status = 'superseded', decided_at = now(), decided_by = v_by,
+         note = concat_ws(' · ', nullif(pub.note,''), 'superseded by run ' || p_run_id)
+   where pub.status = 'published'
+     and exists (select 1 from li.week_publication mine
+                  where mine.author = pub.author and mine.week = pub.week
+                    and mine.run_id = p_run_id and mine.status = 'pending');
+  get diagnostics k = row_count; n := n + k;
+
+  update li.week_publication p
+     set status = 'published', decided_at = now(), decided_by = v_by
+   where p.run_id = p_run_id and p.status = 'pending';
+  get diagnostics k = row_count; n := n + k;
+
+  return n;
+end $$;
+comment on function li.publish_run is
+  'Promotes the pending weeks of ONE run to published, superseding what they replace. Returns rows changed (superseded + published). Granted to li_sync, not to li_writer.';
 
 -- The third rule needs no function: it is a plain INSERT the writer may run.
 --   insert into li.engagement_event (...) values (...) on conflict do nothing;
@@ -1662,20 +1803,36 @@ comment on function li.request_week is
 --   grafana_ro the dashboard. SELECT on dash and nothing else — it cannot see li
 --              at all, so an unpublished week is not merely hidden from it, it is
 --              unreachable.
+--   li_sync    CI, the dual-write sync: `import.mjs --publish` from main after a
+--              merge, then `verify.mjs`. It is NOT the owner and holds no owner
+--              credential. SELECT on li and dash; INSERT on exactly the two
+--              tables the importer appends to directly (li.import_run,
+--              li.engagement_event); EXECUTE on every merge function, on the
+--              config/page documents (set_scoring, set_vip, replace_page,
+--              upsert_author) and on li.publish_run(). No UPDATE, DELETE,
+--              TRUNCATE or DDL anywhere — every rule that needs one is a definer
+--              function above, so the role can replay main and nothing else.
+--   li_backup  CI, the nightly dump. SELECT on every table, view and sequence of
+--              li and dash — what pg_dump needs — and nothing else: no INSERT,
+--              no EXECUTE on any writer function.
 --
--- All three are created WITHOUT passwords. Setting them is the operator's job
+-- All of them are created WITHOUT passwords. Setting them is the operator's job
 -- and belongs nowhere near a repo:
 --
 --   ALTER ROLE li_writer  WITH LOGIN PASSWORD '...';
 --   ALTER ROLE grafana_ro WITH LOGIN PASSWORD '...';
+--   ALTER ROLE li_sync    WITH LOGIN PASSWORD '...';
+--   ALTER ROLE li_backup  WITH LOGIN PASSWORD '...';
 --
--- Until then neither login role can authenticate over the network, which is the
+-- Until then no login role can authenticate over the network, which is the
 -- desired default for a file that is committed.
 
 do $$ begin
   if not exists (select 1 from pg_roles where rolname='li_owner')   then create role li_owner   nologin; end if;
   if not exists (select 1 from pg_roles where rolname='li_writer')  then create role li_writer  login; end if;
   if not exists (select 1 from pg_roles where rolname='grafana_ro') then create role grafana_ro login; end if;
+  if not exists (select 1 from pg_roles where rolname='li_sync')    then create role li_sync    login; end if;
+  if not exists (select 1 from pg_roles where rolname='li_backup')  then create role li_backup  login; end if;
   -- The role applying this file is NOT assumed to be a superuser. On managed
   -- Postgres (Supabase: rolsuper = false, rolcreaterole = true) the creator of a
   -- role gets ADMIN OPTION on it but, since PG16, not the right to SET ROLE to
@@ -1736,12 +1893,46 @@ grant execute on function li.upsert_person(text,uuid,timestamptz,text[],text[],t
 grant execute on function li.set_person_icp(text,text[],boolean[],text[],text[],text[],timestamptz[]) to li_writer;
 grant execute on function li.upsert_scan_target(text,uuid,text[],text[],text[],text[],date[],date[],bigint[]) to li_writer;
 grant execute on function li.upsert_profile(uuid,jsonb)                  to li_writer;
-grant execute on function li.request_week(text,date,uuid,text)           to li_writer;
+grant execute on function li.request_week(text,date,uuid,text,boolean)   to li_writer;
 
 -- Config and the company-page document are NOT the scraper's to rewrite: they
--- are operator inputs (scoring.json, vip-people.md) and a monthly XLS export.
--- li.set_scoring / li.set_vip / li.replace_page stay with the owner, and the
--- importer runs as the owner.
+-- are operator inputs (profiles.json, scoring.json, vip-people.md) and a monthly
+-- XLS export. li.upsert_author / li.set_scoring / li.set_vip / li.replace_page
+-- are not granted to li_writer, and neither is li.publish_run: the scraper asks,
+-- it does not decide.
+
+-- The sync role: replay main into the database and publish what it replayed.
+-- Everything it may change goes through a definer function; the only direct
+-- INSERTs are the two the importer issues itself, both append-only.
+grant usage on schema li   to li_sync;
+grant usage on schema dash to li_sync;
+grant select on all tables in schema li   to li_sync;
+grant select on all tables in schema dash to li_sync;      -- verify.mjs reads dash
+grant insert on li.import_run, li.engagement_event to li_sync;
+
+grant execute on function li.upsert_author(jsonb)                        to li_sync;
+grant execute on function li.upsert_post(text,uuid,jsonb)                to li_sync;
+grant execute on function li.replace_post_week(text,uuid,jsonb)          to li_sync;
+grant execute on function li.replace_account_week(text,uuid,jsonb)       to li_sync;
+grant execute on function li.upsert_comment(text,uuid,jsonb)             to li_sync;
+grant execute on function li.replace_comment_week(text,uuid,jsonb)       to li_sync;
+grant execute on function li.upsert_person(text,uuid,timestamptz,text[],text[],text[],text[],timestamptz[],timestamptz[]) to li_sync;
+grant execute on function li.set_person_icp(text,text[],boolean[],text[],text[],text[],timestamptz[]) to li_sync;
+grant execute on function li.upsert_scan_target(text,uuid,text[],text[],text[],text[],date[],date[],bigint[]) to li_sync;
+grant execute on function li.upsert_profile(uuid,jsonb)                  to li_sync;
+grant execute on function li.set_scoring(uuid,text,text[],text[],numeric[]) to li_sync;
+grant execute on function li.set_vip(uuid,text[])                        to li_sync;
+grant execute on function li.replace_page(uuid,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb) to li_sync;
+grant execute on function li.request_week(text,date,uuid,text,boolean)   to li_sync;
+grant execute on function li.publish_run(uuid,text)                      to li_sync;
+
+-- The backup role: read everything pg_dump reads, change nothing. Sequences are
+-- on the list because pg_dump SELECTs their last_value.
+grant usage on schema li   to li_backup;
+grant usage on schema dash to li_backup;
+grant select on all tables    in schema li   to li_backup;
+grant select on all sequences in schema li   to li_backup;
+grant select on all tables    in schema dash to li_backup;
 
 -- Grafana: the dash schema and nothing else. It cannot see li at all.
 grant usage on schema dash to grafana_ro;
@@ -1756,12 +1947,23 @@ revoke all on schema li from grafana_ro;
 -- a view stores the function by OID. js_round is pure arithmetic; the two clock
 -- helpers are definer (see their definition). db/test-roles.mjs sweeps every
 -- dash view as grafana_ro so this cannot regress silently again.
-grant execute on function li.current_month()             to grafana_ro;
-grant execute on function li.current_week_monday()       to grafana_ro;
-grant execute on function li.js_round(numeric)           to grafana_ro;
-grant execute on function li.js_round(double precision)  to grafana_ro;
+grant execute on function li.current_month()             to grafana_ro, li_sync;
+grant execute on function li.current_week_monday()       to grafana_ro, li_sync;
+grant execute on function li.js_round(numeric)           to grafana_ro, li_sync;
+grant execute on function li.js_round(double precision)  to grafana_ro, li_sync;
 
 -- Views read tables with the owner's rights, so grafana_ro never needs SELECT in
 -- li. Functions are the exception — see the EXECUTE grants above.
+--
+-- Default privileges, so a table added next quarter is covered without anyone
+-- remembering this section. li_sync deliberately gets SELECT only: a new table
+-- the importer must append to directly needs an explicit INSERT grant, and
+-- db/test-roles.mjs — which runs the real importer as li_sync — fails loudly
+-- until somebody decides that on purpose.
 alter default privileges for role li_owner in schema li   grant select, insert on tables to li_writer;
+alter default privileges for role li_owner in schema li   grant select on tables    to li_sync;
+alter default privileges for role li_owner in schema li   grant select on tables    to li_backup;
+alter default privileges for role li_owner in schema li   grant select on sequences to li_backup;
 alter default privileges for role li_owner in schema dash grant select on tables to grafana_ro;
+alter default privileges for role li_owner in schema dash grant select on tables to li_sync;
+alter default privileges for role li_owner in schema dash grant select on tables to li_backup;

@@ -611,6 +611,129 @@ jobs:
             node .github/scripts/update-post-variable.mjs --author "${author}"
           done
 
+  # THE DUAL-WRITE STAGE (WEEKLY-CADENCE.md section 9).
+  # ------------------------------------------------------------------------
+  # JSON in git stays the source of truth. Once the week is ON MAIN, the same
+  # data is imported into Postgres (published), and the database export is
+  # compared byte-for-byte with the JSON build. The PR is still THE quality
+  # gate: an incomplete week sits in an open PR, is not on main, and is
+  # therefore never synced - which is why this gates on main_updated and checks
+  # out main, exactly like `publish`.
+  #
+  # It `needs` only scrape, NOT publish: a failed Pages deploy does not make
+  # main's data any less merged, so the two run side by side.
+  #
+  # A DATABASE PROBLEM MUST NEVER COST A WEEK OR TURN THIS RUN RED:
+  #   - every command that talks to the database runs under a hard cap inside
+  #     db-ci.mjs, which always exits 0 and reports through outputs;
+  #   - the `uses:` steps carry their own timeout-minutes, because a step
+  #     timeout is a FAILURE (covered by continue-on-error below), while the
+  #     job-level timeout-minutes ends the job as CANCELLED, which
+  #     continue-on-error does NOT cover. The caps add up to 5+5+5+5+15+10 = 45
+  #     min, so the 60 min job timeout is a backstop that cannot fire first;
+  #   - job-level continue-on-error is the last line: whatever still fails in
+  #     here, the run's conclusion keeps meaning "did the week land and publish".
+  # And it must never be SILENT: an output that was never written reads as empty,
+  # and notify-weekly.mjs reports empty as "did not run or did not finish".
+  db-sync:
+    needs: scrape
+    if: needs.scrape.outputs.main_updated == 'true'
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: read
+    outputs:
+      sync: ${{ steps.db.outputs.sync }}
+      parity: ${{ steps.db.outputs.parity }}
+      feeds: ${{ steps.db.outputs.feeds }}
+      feeds_expected: ${{ steps.db.outputs.feeds-expected }}
+    steps:
+      - uses: actions/checkout@v7
+        id: checkout
+        continue-on-error: true
+        timeout-minutes: 5
+        with:
+          ref: main
+          # Nothing here pushes to this repo; do not leave a token in .git/config.
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        if: steps.checkout.outcome == 'failure'
+        timeout-minutes: 5
+        with:
+          ref: main
+          persist-credentials: false
+      # ubuntu-latest ships a Node that runs db/ too; a failed setup-node only
+      # loses the version pin, so it must not take the job down with it.
+      - uses: actions/setup-node@v7
+        continue-on-error: true
+        timeout-minutes: 5
+        with:
+          node-version: 22
+      # No owner credential in CI: li_sync is a dedicated least-privilege role.
+      # Secret not created yet -> the action skips with a ::warning::.
+      - uses: ./.github/actions/db-sync
+        id: db
+        with:
+          dsn: ${{ secrets.LI_SYNC_DATABASE_URL }}
+
+  # Weekly cadence only. The dump goes to the PRIVATE repo
+  # speedandfunction/linkedin-stats-backup over SSH - never to a workflow
+  # artifact, because artifacts of a public repository are not private.
+  # Runs after a successful SYNC, whatever parity said: a week where the two
+  # sides disagree is a week whose database state is worth keeping.
+  # Same never-red construction as db-sync (caps: 5+5+5 + 2+5+10 apt + 15 dump +
+  # 2+10+15 push = 74 min < 90).
+  db-backup:
+    needs: [scrape, db-sync]
+    if: needs.db-sync.outputs.sync == 'ok'
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    permissions:
+      contents: read
+    outputs:
+      backup: ${{ steps.backup.outputs.backup }}
+    steps:
+      - uses: actions/checkout@v7
+        id: checkout
+        continue-on-error: true
+        timeout-minutes: 5
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        if: steps.checkout.outcome == 'failure'
+        timeout-minutes: 5
+        with:
+          ref: main
+          persist-credentials: false
+      # ubuntu-latest ships a Node that runs db/ too; a failed setup-node only
+      # loses the version pin, so it must not take the job down with it.
+      - uses: actions/setup-node@v7
+        continue-on-error: true
+        timeout-minutes: 5
+        with:
+          node-version: 22
+      - uses: ./.github/actions/db-backup
+        id: backup
+        with:
+          dsn: ${{ secrets.LI_BACKUP_DATABASE_URL }}
+          deploy-key: ${{ secrets.LI_BACKUP_DEPLOY_KEY }}
+          # This run's parity verdict goes into the backup commit message: the
+          # backup repo's git log is the durable soak ledger (section 9).
+          parity: ${{ needs.db-sync.outputs.parity }}
+          feeds: ${{ needs.db-sync.outputs.feeds }}
+          feeds-expected: ${{ needs.db-sync.outputs.feeds_expected }}
+          week: ${{ needs.scrape.outputs.week }}
+      # The action removes these itself (if: always()); this repeats it at the
+      # job level in case the action never got as far as its own last step.
+      - name: Make sure no dump or key is left on the runner
+        if: always()
+        run: |
+          rm -rf "${RUNNER_TEMP}/li-backup"
+          echo "clean"
+
   # ONE Slack message per run, posted after BOTH jobs have finished. It used to
   # be the last step of `scrape`, which runs before `publish` — so the clean
   # message could only say "merged", and a publish that failed after a good
@@ -624,8 +747,15 @@ jobs:
   # deadline) · waiting for review (PR link, per-author problems, the
   # next-Monday deadline, @operator) · crashed before a PR existed (run link,
   # @operator). Authors are never tagged — they cannot fix a scrape.
+  # On top of any merged-week outcome: one database line when the dual-write sync,
+  # the parity check or the backup did not all succeed (no ping - not urgent);
+  # nothing at all when they did.
   notify:
-    needs: [scrape, publish]
+    # db-sync / db-backup are in `needs` so the ONE message can carry the
+    # database line. They cannot delay a "week NOT published" alarm: when the
+    # week is not merged both are skipped instantly. After a merge the worst
+    # case (a hung database) holds this message back by the caps above.
+    needs: [scrape, publish, db-sync, db-backup]
     # always(), not !cancelled() as in linkedin-session-check.yml. That file
     # avoids always() because a cancelled run may leave a half-written report
     # it would @-tag people from. This job reads no report, only job outputs
@@ -678,6 +808,14 @@ jobs:
           PUBLISH_RESULT: ${{ needs.publish.result }}
           DEPLOYED: ${{ needs.publish.outputs.deployed }}
           PAGE_URL: ${{ needs.publish.outputs.page_url }}
+          # Dual-write stage. Positive markers only: with continue-on-error a
+          # failed job's `result` cannot be trusted to say "failure", so the
+          # notifier never reads needs.db-*.result - an EMPTY output is what
+          # "crashed / cancelled / never ran" looks like, and it is reported.
+          DB_SYNC: ${{ needs.db-sync.outputs.sync }}
+          DB_PARITY: ${{ needs.db-sync.outputs.parity }}
+          DB_BACKUP: ${{ needs.db-backup.outputs.backup }}
+          DB_BACKUP_EXPECTED: "true"
         run: |
           set -uo pipefail
           # Both checkout attempts failed: there is no script to run. Say so

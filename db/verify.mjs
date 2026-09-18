@@ -8,11 +8,28 @@
 // wall clock in two places that change its output. Without pinning, a run
 // straddling midnight UTC would report a difference that is not one.
 //
-//   node db/verify.mjs [--now <iso>] [--dsn <url>] [--keep] [--max 40]
-//                      [--repo <dir>] [--no-page] [--show-values]
+//   LI_DSN=<url> node db/verify.mjs [--now <iso>] [--keep] [--max 40]
+//                      [--repo <dir>] [--no-page] [--show-values] [--dsn <url>]
 //
-// Exit 0 = byte-identical on every section. Exit 1 = a real difference, printed
-// with its exact path.
+// WHICH FEEDS. The union of what the JSON side PUBLISHES (every folder under
+// dashboards/li-stats/ with an account.json — the exact rule build-pages.mjs uses
+// for GitHub Pages) and what the database HOLDS (li.author). It used to be the
+// database's list alone, and that made "ok" vacuous: a feed that is on Pages but
+// never reached the database was simply not in the loop, and the check passed.
+// A feed present on one side only is a DIFF (feed-absent), exit 1. The number of
+// feeds compared is printed ("-- N feed(s) compared, M differ") so the caller
+// can hold it against its own count (db-ci.mjs does).
+//
+// Exit 0 = byte-identical on every section of every feed, and at least one feed.
+// Exit 1 = a real difference, printed with its exact path.
+// Exit 2 = the check COULD NOT RUN (database unreachable, a build script failed,
+//          LI_DSN missing in CI). Deliberately not 1: "the two stores disagree"
+//          and "nobody looked" are different alarms, and an uncaught exception
+//          used to report the second as the first.
+//
+// It writes NOTHING to the database. The clock is pinned inside export.mjs's own
+// read-only transaction (see openDb there), so it runs as li_sync — or any role
+// that can read dash — and leaves no trace for the next reader to trip over.
 //
 // A difference is reported by PATH and SHAPE, not by value: this repo is public,
 // CI logs are world-readable, and the values here are third-party people's names,
@@ -25,11 +42,13 @@
 
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { readFileSync, mkdtempSync, rmSync } from "node:fs";
+import { readFileSync, mkdtempSync, rmSync, readdirSync, existsSync } from "node:fs";
 import { join, resolve, dirname } from "node:path";
 import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
 import { openDb, buildStats, buildPageStats, listAuthors } from "./export.mjs";
+import { resolveDsn } from "./pg-config.mjs";
+import { SafeError, safeError } from "./safe-log.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const REPO = resolve(HERE, "..");
@@ -41,10 +60,20 @@ function arg(name, def = null) {
 }
 const flag = (n) => process.argv.includes(`--${n}`);
 
-const DSN = arg("dsn", process.env.LI_DSN || "postgresql://postgres:devpw@localhost:55432/linkedin");
+const DSN = resolveDsn(arg("dsn"));
 const MAX = Number(arg("max", 40));
 const CORPUS = resolve(arg("repo", REPO));   // where the JSON side reads from
 const SHOW = flag("show-values");
+
+// Anything that escapes below means the comparison did not happen. Report its
+// SHAPE (a pg message carries the host; a build script's stderr can quote the
+// corpus) and leave with 2, never with the 1 that means "differs".
+const cannotRun = (e) => {
+  console.error("PARITY CHECK COULD NOT RUN:", safeError(e, { dsn: DSN, showValues: SHOW }));
+  process.exit(2);
+};
+process.on("uncaughtException", cannotRun);
+process.on("unhandledRejection", cannotRun);
 
 // What a difference looks like when we are NOT allowed to print it: enough to
 // tell two values apart and to recognise the same wrong value twice, and nothing
@@ -121,16 +150,46 @@ function run(script, args, cwd = REPO) {
   const r = spawnSync("node", [join(REPO, ".github", "scripts", script), ...args],
     { cwd, encoding: "utf8" });
   if (r.status !== 0) {
-    throw new Error(`${script} exited ${r.status}: ${(r.stderr || "").trim().split("\n").slice(-3).join(" | ")}`);
+    // The script's stderr can quote the corpus (a JSON parse error does), so it is
+    // shown only on request.
+    throw new SafeError(`${script} exited ${r.status}` + (SHOW
+      ? `: ${(r.stderr || "").trim().split("\n").slice(-3).join(" | ")}`
+      : " (its stderr is withheld — re-run locally with --show-values)"));
   }
   return r;
 }
 
+// An author the JSON side publishes = a folder under dashboards/li-stats/ with an
+// account.json (page/ and posts/ are not authors). Character for character the
+// rule in .github/scripts/build-pages.mjs: if Pages would build a feed for it,
+// the parity check has to look at it.
+function publishedAuthors(corpus) {
+  const root = join(corpus, "dashboards", "li-stats");
+  if (!existsSync(root)) return [];
+  return readdirSync(root, { withFileTypes: true })
+    .filter((d) => d.isDirectory() && !["page", "posts"].includes(d.name))
+    .map((d) => d.name)
+    .filter((name) => existsSync(join(root, name, "account.json")))
+    .sort();
+}
+
+// A feed one side has and the other does not. Author keys are folder names in a
+// public repo, so naming the feed is fine; what is "absent" is said by shape().
+function oneSided(feed, path, side) {
+  const d = [{ path, kind: "feed-absent", json: side === "json" ? "present" : undefined, db: side === "db" ? "present" : undefined }];
+  report.push({ feed, identical: false, diffs: 1, sections: {} });
+  failures.push({ feed: path, d });
+}
+
 const db = await openDb(DSN, now);
 try {
-  const authors = await listAuthors(db);
+  const inJson = publishedAuthors(CORPUS);
+  const inDb = await listAuthors(db);
+  const authors = [...new Set([...inJson, ...inDb])].sort();
 
   for (const author of authors) {
+    if (!inDb.includes(author)) { oneSided(`${author}/stats.json`, author, "json"); continue; }
+    if (!inJson.includes(author)) { oneSided(`${author}/stats.json`, author, "db"); continue; }
     const ref = join(work, `${author}.json`);
     run("build-stats-json.mjs", [
       "--li-stats", join(CORPUS, "dashboards", "li-stats", author),
@@ -179,6 +238,13 @@ for (const r of report) {
     console.log(`        sections: ${Object.entries(r.sections).map(([k, v]) => `${k}=${v}`).join(" ")}`);
   }
 }
+// Nothing compared is not "identical": it is a check that did not look.
+if (!report.length) {
+  throw new SafeError("0 feeds to compare — no author folder with an account.json under dashboards/li-stats/ and no row in li.author");
+}
+// Always printed, in one fixed shape: the caller checks N against its own count
+// of what main publishes, so an "OK" over too few feeds cannot pass for parity.
+console.log(`\n-- ${report.length} feed(s) compared, ${failures.length} differ`);
 if (failures.length) {
   console.error("");
   for (const f of failures) {

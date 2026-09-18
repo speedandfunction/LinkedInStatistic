@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Локальна підміна psql / pg_dump: на хості їх немає, вони живуть у контейнері
+# li-pg. Кладеться ПЕРШОЮ в PATH лише для локальних прогонів:
+#
+#   PATH="$PWD/db/docker-bin:$PATH" LI_BACKUP_DSN=... db/backup.sh /tmp/li.sql
+#
+# У CI цього каталогу в PATH немає — там справжні клієнти з apt.
+#
+# PG*-змінні пробрасуються в контейнер як є, крім хоста: `localhost` хоста для
+# контейнера — це host.docker.internal. Так з'єднання йде через опублікований
+# порт і проходить справжню автентифікацію (усередині контейнера 127.0.0.1 — це
+# `trust`, і пароль ролі не перевірявся б узагалі).
+set -euo pipefail
+tool="$(basename "$0")"
+container="${LI_PG_CONTAINER:-li-pg}"
+args=()
+for v in PGHOST PGPORT PGUSER PGPASSWORD PGDATABASE PGOPTIONS PGCONNECT_TIMEOUT PGAPPNAME PGSSLMODE; do
+  if [[ -n "${!v:-}" ]]; then
+    val="${!v}"
+    if [[ "$v" == PGHOST && ( "$val" == localhost || "$val" == 127.0.0.1 ) ]]; then val="host.docker.internal"; fi
+    args+=(-e "$v=$val")
+  fi
+done
+exec docker exec -i ${args[@]+"${args[@]}"} "$container" "$tool" "$@"
