@@ -35,6 +35,7 @@ import { join, resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { randomUUID } from "node:crypto";
 import pg from "pg";
+import { pgConfig } from "./pg-config.mjs";
 import { fold, foldPeople, foldTargets } from "./merge-rules.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -125,7 +126,7 @@ async function callMerge(client, sql, head, rows) {
 
 // ------------------------------------------------------------------ main
 
-const pool = new pg.Pool({ connectionString: DSN, max: 4 });
+const pool = new pg.Pool(pgConfig(DSN, { max: 4 }));
 const client = await pool.connect();
 const runId = randomUUID();
 const counts = {};

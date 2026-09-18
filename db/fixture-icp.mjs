@@ -25,6 +25,7 @@ import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
 import pg from "pg";
 
+import { pgConfig } from "./pg-config.mjs";
 const HERE = dirname(fileURLToPath(import.meta.url));
 const REPO = resolve(HERE, "..");
 
@@ -120,14 +121,14 @@ console.error(`  icp=true ${icpTrue.length}  icp=false ${icpFalse.length}  vip 2
 
 // ---------------------------------------------------------- the database
 
-const admin = new pg.Client({ connectionString: DSN.replace(/\/[^/]*$/, "/postgres") });
+const admin = new pg.Client(pgConfig(DSN.replace(/\/[^/]*$/, "/postgres")));
 await admin.connect();
 const dbName = DSN.split("/").pop();
 await admin.query(`drop database if exists ${dbName} with (force)`);
 await admin.query(`create database ${dbName}`);
 await admin.end();
 
-const c = new pg.Client({ connectionString: DSN });
+const c = new pg.Client(pgConfig(DSN));
 await c.connect();
 // psql meta-commands are not SQL; everything else in schema.sql is.
 await c.query(readFileSync(join(HERE, "schema.sql"), "utf8")

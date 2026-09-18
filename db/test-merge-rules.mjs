@@ -21,6 +21,7 @@
 
 import { randomUUID } from "node:crypto";
 import pg from "pg";
+import { pgConfig } from "./pg-config.mjs";
 import { foldPeople, foldTargets } from "./merge-rules.mjs";
 
 pg.types.setTypeParser(20, (v) => Number(v));   // int8 -> number, as the other scripts do
@@ -31,7 +32,7 @@ function arg(name, def = null) {
 }
 const DSN = arg("dsn", process.env.LI_DSN || "postgresql://postgres:devpw@localhost:55432/linkedin");
 
-const c = new pg.Client({ connectionString: DSN });
+const c = new pg.Client(pgConfig(DSN));
 await c.connect();
 const fails = [];
 const check = (what, got, want) => {
