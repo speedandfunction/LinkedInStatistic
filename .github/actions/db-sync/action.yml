@@ -1,0 +1,69 @@
+name: db-sync
+description: >-
+  Dual-write stage: import main's JSON corpus into Postgres (published) and run
+  the parity check. Never fails the job; reports through outputs and warnings.
+
+# WHY A COMPOSITE ACTION AND NOT A REUSABLE WORKFLOW
+# ------------------------------------------------------------------------
+# Both linkedin-stats-weekly.yml and pages-deploy.yml run this. A reusable
+# workflow (workflow_call) would share more YAML, but:
+#   - a job that CALLS a reusable workflow cannot carry continue-on-error or
+#     timeout-minutes, which are exactly the two guards property 1 ("a database
+#     problem must never cost a week") wants visible on the job itself;
+#   - a mistake in a called workflow file is a STARTUP failure of the whole
+#     calling run — i.e. an edit to the database side could take the weekly
+#     scrape down with it. A broken composite action only fails the one job
+#     that loads it, and that job is continue-on-error.
+# Secrets are not readable inside a composite action, so the caller passes the
+# DSN as an input. It is still a registered secret: masking is by VALUE for the
+# whole job log, not by how the value travelled. Outputs flow
+# step -> action output -> job output -> needs.<job>.outputs in the notify job.
+# ------------------------------------------------------------------------
+
+inputs:
+  dsn:
+    description: DSN of the least-privilege li_sync role (secrets.LI_SYNC_DATABASE_URL). Empty means skip with a warning.
+    required: false
+    default: ""
+
+outputs:
+  sync:
+    description: "ok | skipped-no-secret | failed:<phase> | timeout:<phase>. failed:connect = the importer never got a connection (most often a paused Supabase project). Empty means the step never finished - unknown, NOT fine."
+    value: ${{ steps.run.outputs.sync }}
+  parity:
+    description: "ok | differs | incomplete | error | timeout. Empty means the parity check never ran. 'incomplete' = no difference reported, but fewer feeds compared than main publishes."
+    value: ${{ steps.run.outputs.parity }}
+  feeds:
+    description: "Number of feeds the parity check compared (a count). Empty if it never reported one."
+    value: ${{ steps.run.outputs.feeds }}
+  feeds-expected:
+    description: "Number of feeds main publishes, counted from the checkout (a count)."
+    value: ${{ steps.run.outputs.feeds_expected }}
+
+runs:
+  using: composite
+  steps:
+    - name: Import main into Postgres (published) and check parity
+      id: run
+      shell: bash
+      env:
+        # The DSN reaches the script through env only - never argv (visible in
+        # the process list), never an expression inside run:.
+        LI_DSN: ${{ inputs.dsn }}
+      run: |
+        # GitHub runs composite bash steps with -e; every exit code below is read by hand.
+        set +e; set -uo pipefail
+        # db-ci.mjs owns everything: the missing-secret skip, npm ci --prefix db
+        # (without the DSN in its env), import --publish, verify, the hard cap on
+        # each of them, and the allowlist filter that keeps third parties' data
+        # out of this public log. It always exits 0; the `|| true` is for the
+        # case where node itself cannot start. Either way an output that was
+        # never written reads as empty, which the Slack message reports as
+        # "did not run or did not finish" - never as fine.
+        if [ ! -f .github/scripts/db-ci.mjs ]; then
+          echo "::warning::database sync did not run - .github/scripts/db-ci.mjs is not in the checkout. The week is NOT affected: JSON in git is still the source of truth."
+          echo "sync=failed:checkout" >> "${GITHUB_OUTPUT}"
+          exit 0
+        fi
+        node .github/scripts/db-ci.mjs sync || echo "::warning::database sync: db-ci.mjs could not be run to completion. The week is NOT affected: JSON in git is still the source of truth."
+        exit 0

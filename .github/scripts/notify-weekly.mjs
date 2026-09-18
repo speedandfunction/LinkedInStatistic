@@ -33,6 +33,15 @@
 // (buildPagesDeployMessage): провал деплою пінгує оператора, успіх закриває
 // петлю одним рядком без пінгу.
 //
+// Рядок бази даних (етап dual-write, databaseLine): JSON у git лишається
+// джерелом правди, а після мерджу ті самі дані синхронізуються в Postgres,
+// звіряються (parity) і бекапляться. Коли всі три пройшли — лише сірий
+// рядок-підтвердження в кінці (на час soak: відсутність рядка нічого не доводить).
+// Інакше — один рядок простими словами: що саме впало / пропущено / знайшло
+// різницю, ЩО З ЦИМ РОБИТИ (найчастіше — розбудити приспаний проєкт Supabase),
+// і що сам тиждень від цього не постраждав. Без пінгу: це не горить.
+// Але й не дрібним сірим шрифтом: три тижні поспіль цей рядок має бути видно.
+//
 // Авторів (Peter, Andy, Maria) НЕ тегаємо ніколи, навіть мапнутих у
 // SLACK_PEOPLE_JSON: скрап вони полагодити не можуть, а пінг, з яким нічого не
 // зробиш, привчає глушити бота. Тегаємо тільки `_operator`.
@@ -69,6 +78,19 @@
 //   NOTIFY_MODE        "pages-deploy" — повідомлення ручного pages-deploy.yml;
 //                      тоді читаються BUILD_RESULT, DEPLOY_RESULT,
 //                      REFRESH_RESULT, PAGE_URL і GITHUB_ACTOR замість полів вище
+//   DB_SYNC            needs.db-sync.outputs.sync — "ok" | "skipped-no-secret" |
+//                      "failed:<phase>" (connect = база не відповіла: найчастіше
+//                      пауза Supabase) | "timeout:<phase>"; порожньо — job не
+//                      дійшов до кінця (це НЕ «добре», а «невідомо»)
+//   DB_PARITY          needs.db-sync.outputs.parity — "ok" | "differs" | "incomplete" |
+//                      "error" | "timeout"; порожньо — не запускалась
+//   DB_BACKUP          needs.db-backup.outputs.backup — "ok" | "skipped-no-secret" |
+//                      "failed:<phase>" | "timeout:<phase>"; порожньо — не запускався
+//   DB_BACKUP_EXPECTED "true", якщо цей прогін мав робити бекап (щотижневий —
+//                      завжди; pages-deploy — лише з галочкою backup)
+//                      Якщо ЖОДНОЇ з чотирьох DB_* змінних немає в env зовсім —
+//                      етапу бази для цього виклику не існує і рядка не буде
+//                      (локальний dry-run). У CI вони визначені завжди.
 //   PROFILES_FILE      profiles.json — імена авторів (за замовчуванням шлях репо)
 //   GITHUB_SERVER_URL, GITHUB_REPOSITORY, GITHUB_RUN_ID — посилання на прогін
 //
@@ -263,6 +285,160 @@ export function publishState(publishResult, deployed) {
   return "not-deployed";
 }
 
+// ------------------------------------------------------------- база даних
+
+// Етап dual-write. Стан кожного кроку приходить з воркфлоу як "<state>[:<phase>]".
+// Порожній рядок — «job не дописав output»: впав раніше, був скасований, не
+// стартував. Це НІКОЛИ не «все добре» — звичний для цього репозиторію тихий нуль
+// виглядає саме так.
+const DB_PHASES = {
+  checkout: "checking out main",
+  "script-missing": "a db/ script is missing on main",
+  deps: "installing the db/ dependencies",
+  connect: "could not connect to the database",
+  import: "the import",
+  client: "installing the PostgreSQL 17 client",
+  dump: "pg_dump",
+  push: "pushing to the backup repository",
+};
+
+// Що робити. Крон ходить рівно раз на 7 днів, а безкоштовний Supabase присипляє
+// проєкт після 7 днів без запитів — тож «база не відповіла в понеділок» майже
+// завжди означає «проєкт на паузі». Без цього речення рядок у Slack називав
+// збій, але не причину й не дію. Тримати в парі з RESUME у db-ci.mjs.
+export const RESUME_ACTION = "Most likely the Supabase project is *paused* (the free tier pauses after 7 idle days) — resume it in the Supabase dashboard, then run `pages-deploy` to re-sync; the import is idempotent";
+const IMPORT_ACTION = "The import connected and then rolled back, so the database is as it was — the hints in the `db-sync` job name the cause (a permission, a constraint); fix it, then run `pages-deploy` to re-sync";
+const INCOMPLETE_ACTION = "Compare the author folders under `dashboards/li-stats/` with `profiles.json`: a folder that is not in `profiles.json` is published to Pages but never imported. The counts are in the `db-sync` job. *This week does not count as verified*";
+const RECHECK_ACTION = "Run `pages-deploy` to re-sync and re-check (the import is idempotent); if the database does not answer, check in the Supabase dashboard that the project is not paused. *This week does not count as verified*";
+
+// Дія для стану sync / parity або null, якщо окремої дії немає (skip, успіх,
+// збій npm — там усе сказано самою фразою).
+function syncAction(raw) {
+  const { state, phase } = splitState(raw);
+  if (state === "timeout" && (phase === "import" || phase === "connect")) return RESUME_ACTION;
+  if (state === "failed" && phase === "connect") return `${RESUME_ACTION}. If the \`db-sync\` job shows \`password authentication failed\` or \`does not exist\` instead of a timeout, the \`LI_SYNC_DATABASE_URL\` secret is wrong`;
+  // failed:import — імпорт ПІДКЛЮЧИВСЯ і впав усередині транзакції (db-ci.mjs
+  // відрізняє це від failed:connect за власним рядком імпортера). Пауза так не
+  // виглядає, тож і радити «розбудіть проєкт» тут було б брехнею.
+  if (state === "failed" && phase === "import") return IMPORT_ACTION;
+  return null;
+}
+
+function parityAction(raw) {
+  const { state } = splitState(raw);
+  if (state === "incomplete") return INCOMPLETE_ACTION;
+  return state === "error" || state === "timeout" ? RECHECK_ACTION : null;
+}
+
+function splitState(raw) {
+  const s = String(raw ?? "").trim();
+  const i = s.indexOf(":");
+  return i > 0 ? { state: s.slice(0, i), phase: s.slice(i + 1) } : { state: s, phase: "" };
+}
+
+const phaseWords = (phase) => (phase
+  ? ` (${Object.prototype.hasOwnProperty.call(DB_PHASES, phase) ? DB_PHASES[phase] : `\`${escape(phase)}\``})`
+  : "");
+
+// Один крок (sync або backup) -> фраза або null, якщо він пройшов.
+function stepProblem(what, raw, missingSecrets) {
+  const { state, phase } = splitState(raw);
+  if (state === "ok") return null;
+  if (state === "skipped-no-secret") return `the ${what} was *skipped* — ${missingSecrets}`;
+  if (state === "failed") return `the ${what} *FAILED*${phaseWords(phase)}`;
+  if (state === "timeout") return `the ${what} *timed out*${phaseWords(phase)} — the database did not answer in time`;
+  if (state === "") return `the ${what} *did not run or did not finish*`;
+  return `the ${what} ended in an unexpected state (\`${escape(state)}\`)`;
+}
+
+function parityProblem(raw) {
+  const { state } = splitState(raw);
+  if (state === "ok") return null;
+  if (state === "differs") return "the parity check found a *DIFFERENCE* between the database and the JSON build";
+  if (state === "incomplete") return "the parity check was *INCOMPLETE* — it found no difference, but it compared fewer feeds than `main` publishes, so a feed that is on Pages was never checked against the database";
+  if (state === "error") return "the parity check *could not be completed* (it failed before it compared anything)";
+  if (state === "timeout") return "the parity check *timed out* — the database did not answer in time";
+  if (state === "") return "the parity check *did not run*";
+  return `the parity check ended in an unexpected state (\`${escape(state)}\`)`;
+}
+
+// db === undefined/null — для цього виклику етапу бази не існує (старі тести,
+// локальний dry-run): нічого не додаємо. Інакше:
+//   { problems: [], ok }        — sync, parity і backup пройшли: лише сірий рядок ok;
+//   { problems: [...], text }   — один рядок для Slack; plain — він же без розмітки
+//                                 (для логу, summary і fallback-тексту пуша).
+// Parity і backup залежать від sync: якщо sync не пройшов, їхній стан не
+// перераховуємо окремо, а кажемо одним реченням, що вони через це не запускались.
+export function databaseLine(db) {
+  if (db == null) return { problems: [], actions: [], text: null, plain: null };
+  const { sync = "", parity = "", backup = "", backupExpected = false } = db;
+  const problems = [];
+
+  const syncProblem = stepProblem("sync", sync, "the `LI_SYNC_DATABASE_URL` secret is not set");
+  const actions = [];
+  if (syncProblem) {
+    problems.push(`${syncProblem}, so the parity check${backupExpected ? " and the backup" : ""} did not run either`);
+    const a = syncAction(sync);
+    if (a) actions.push(a);
+  } else {
+    const p = parityProblem(parity);
+    if (p) problems.push(p);
+    const a = parityAction(parity);
+    if (a) actions.push(a);
+    if (backupExpected) {
+      const b = stepProblem("backup", backup, "`LI_BACKUP_DATABASE_URL` and/or `LI_BACKUP_DEPLOY_KEY` is not set");
+      if (b) problems.push(b);
+    }
+  }
+  if (!problems.length) {
+    // ЛИШЕ на час soak: один сірий рядок-підтвердження. Раніше «все добре»
+    // означало «про базу ані слова» — а так само виглядає і тиждень, де DB_*
+    // до нотифаєра не доїхали. Відсутність рядка — не доказ; це знову той самий
+    // тихий нуль. Рядок сірий (context), бо дії не потребує. Прибрати разом із
+    // soak-ом, коли Grafana перейде на базу.
+    const bits = ["synced", "parity byte-identical", backupExpected ? "backup pushed" : "backup not requested for this run"];
+    return {
+      problems, actions: [], text: null, plain: null,
+      ok: `:white_check_mark: Database (dual-write soak): ${bits.join(" · ")}`,
+      okPlain: `database (dual-write): ${bits.join(", ")}`,
+    };
+  }
+
+  const what = actions.length ? `:point_right: ${actions.join(". ")}.\n` : "";
+  const text = `:large_orange_diamond: *Database (dual-write stage):* ${problems.join("; ")}.\n` + what +
+    "*The week itself is not affected* — the JSON in git is still the source of truth and the dashboards are built from it. " +
+    `Nobody is pinged for this; the details are in the ${backupExpected ? "`db-sync` / `db-backup` jobs" : "`db-sync` job"} of the run.`;
+  const strip = (t) => t.replace(/[*`]/g, "");
+  const plain = `database (dual-write): ${strip(problems.join("; "))} — the week itself is not affected, JSON is still the source of truth` +
+    (actions.length ? `. What to do: ${strip(actions.join(". "))}` : "");
+  return { problems, actions, text, plain };
+}
+
+// Вбудовує рядок бази в готове повідомлення: окремий section одразу під
+// головним (не context — той сірий і дрібний, а рядок має бути видно), хвіст у
+// fallback-тексті пуша і в summary для логу. Коли з базою все добре — головний
+// блок, fallback-текст і вердикт НЕ змінюються; додається лише сірий context у
+// самому кінці (позитивний запис на час soak) і хвіст у summary для логу. Без
+// ::warning:: — built.database лишається порожнім.
+function withDatabase(built, db) {
+  const line = databaseLine(db);
+  if (!line.text && line.ok) {
+    return {
+      ...built,
+      summary: `${built.summary}; ${line.okPlain}`,
+      payload: { ...built.payload, blocks: [...built.payload.blocks, context(line.ok)] },
+    };
+  }
+  if (!line.text) return built;
+  const blocks = [built.payload.blocks[0], section(line.text), ...built.payload.blocks.slice(1)];
+  return {
+    ...built,
+    database: line.plain,
+    summary: `${built.summary}; ${line.plain}`,
+    payload: { ...built.payload, text: `${built.payload.text} — database sync needs a look (the week is fine)`, blocks },
+  };
+}
+
 // ------------------------------------------------------------- збірка
 
 // Чистий білдер: жодного env, мережі чи файлів — усе приходить аргументом.
@@ -270,6 +446,14 @@ export function publishState(publishResult, deployed) {
 // зі секрету, і в публічний лог Actions йому не можна (маска GitHub ловить
 // лише ЦІЛЕ значення секрету, а не шматок мапи).
 export function buildWeeklyMessage(input) {
+  // Синк запускається ЛИШЕ з main після мерджу (needs.scrape.outputs.main_updated
+  // == 'true'). Незмерджений тиждень у базу й не мав потрапити — там про базу
+  // мовчимо, щоб «did not run» не читалось як збій.
+  const built = weeklyCore(input);
+  return input.mainUpdated === "true" ? withDatabase(built, input.db) : built;
+}
+
+function weeklyCore(input) {
   const {
     channel, week, clean, notes, invalidJson, branch, prUrl, mainUpdated,
     scrapeResult, publishResult = "", deployed = "", pageUrl = "",
@@ -452,6 +636,13 @@ export function buildWeeklyMessage(input) {
 // все ще зламано. Ручний деплой рідкісний, тож рядок-закриття коштує майже
 // нічого, а петлю закриває там, де її відкрили.
 export function buildPagesDeployMessage(input) {
+  // Синк у pages-deploy.yml не залежить від деплою (дані на main змерджені
+  // незалежно від того, чи доїхав Pages), тож рядок бази додаємо до всіх трьох
+  // варіантів повідомлення.
+  return withDatabase(pagesCore(input), input.db);
+}
+
+function pagesCore(input) {
   const { channel, buildResult = "", deployResult = "", refreshResult = "", pageUrl = "", operator, runLink, actor = "" } = input;
   const runRef = runLink ? `<${safeUrl(runLink)}|run log>` : "run log";
   const who = actor ? `Triggered by \`${escape(actor)}\`. ` : "";
@@ -518,6 +709,18 @@ async function main(env = process.env) {
   const pagesMode = env.NOTIFY_MODE === "pages-deploy";
   const what = pagesMode ? "the pages-deploy result" : "the weekly result";
 
+  // Етап бази існує для цього виклику, якщо воркфлоу передав хоч одну DB_*
+  // змінну (у CI — завжди всі чотири, навіть порожні: порожньо = «невідомо»).
+  const dbKeys = ["DB_SYNC", "DB_PARITY", "DB_BACKUP", "DB_BACKUP_EXPECTED"];
+  const db = dbKeys.some((k) => env[k] !== undefined)
+    ? {
+      sync: env.DB_SYNC ?? "",
+      parity: env.DB_PARITY ?? "",
+      backup: env.DB_BACKUP ?? "",
+      backupExpected: env.DB_BACKUP_EXPECTED === "true",
+    }
+    : undefined;
+
   const op = operatorId(env.SLACK_PEOPLE_JSON);
   if (op.problem) console.error(`::warning::${op.problem} — ${what} will not ping the operator`);
 
@@ -532,6 +735,7 @@ async function main(env = process.env) {
       operator: op.id,
       runLink: runUrl(env),
       actor: env.GITHUB_ACTOR ?? "",
+      db,
     });
     console.error(`pages-deploy result: ${built.kind}`);
   } else {
@@ -558,10 +762,13 @@ async function main(env = process.env) {
       operator: op.id,
       runLink: runUrl(env),
       now: Date.now(),
+      db,
     });
     console.error(`weekly result for ${escape(env.WEEK || "an unresolved week")}: ${built.kind}`);
   }
   const { summary, payload } = built;
+  // Навіть якщо Slack не відповість, проблема з базою лишається анотацією прогону.
+  if (built.database) console.error(`::warning::${built.database}`);
 
   if (DRY_RUN) {
     // Контракт той самий, що в notify-session-check.mjs: stdout — рівно

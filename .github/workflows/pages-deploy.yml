@@ -2,6 +2,11 @@ name: pages-deploy
 
 on:
   workflow_dispatch:
+    inputs:
+      backup:
+        description: "Also back up the database to the private backup repo (normally weekly only)"
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -72,6 +77,102 @@ jobs:
             node .github/scripts/update-post-variable.mjs --author "$author"
           done
 
+  # THE DUAL-WRITE STAGE - the same db-sync as linkedin-stats-weekly.yml (read the
+  # long comment there; the construction is identical and lives in the shared
+  # composite actions under .github/actions/). This workflow is the path a human
+  # takes after merging the week's PR by hand, so this is where that week
+  # reaches the database. It syncs MAIN - whatever branch the dispatch came
+  # from - because only main is, by definition, published.
+  # No `needs`: main's data is merged whether or not Pages deploys, so the sync
+  # neither waits for the deploy nor depends on it.
+  # Never red, never silent: see db-ci.mjs. Caps 5+5+5+5+15+10 = 45 min < 60.
+  db-sync:
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: read
+    outputs:
+      sync: ${{ steps.db.outputs.sync }}
+      parity: ${{ steps.db.outputs.parity }}
+      feeds: ${{ steps.db.outputs.feeds }}
+      feeds_expected: ${{ steps.db.outputs.feeds-expected }}
+    steps:
+      - uses: actions/checkout@v7
+        id: checkout
+        continue-on-error: true
+        timeout-minutes: 5
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        if: steps.checkout.outcome == 'failure'
+        timeout-minutes: 5
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        continue-on-error: true
+        timeout-minutes: 5
+        with:
+          node-version: 22
+      - uses: ./.github/actions/db-sync
+        id: db
+        with:
+          dsn: ${{ secrets.LI_SYNC_DATABASE_URL }}
+
+  # OFF by default. The backup is a weekly-cadence job: its history is meant to
+  # read one entry per week, a manual deploy is often re-run several times in a
+  # row while something is being fixed, and during dual-write the database can
+  # always be rebuilt from git (db/import.mjs) - so a hand-merged week loses
+  # nothing by waiting for Monday's backup, which is a full dump and includes it.
+  # The `backup` checkbox exists for the one case that argues otherwise: the
+  # operator wants a restore point NOW (before a schema change, after a repair).
+  db-backup:
+    needs: db-sync
+    if: inputs.backup && needs.db-sync.outputs.sync == 'ok'
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    permissions:
+      contents: read
+    outputs:
+      backup: ${{ steps.backup.outputs.backup }}
+    steps:
+      - uses: actions/checkout@v7
+        id: checkout
+        continue-on-error: true
+        timeout-minutes: 5
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        if: steps.checkout.outcome == 'failure'
+        timeout-minutes: 5
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        continue-on-error: true
+        timeout-minutes: 5
+        with:
+          node-version: 22
+      - uses: ./.github/actions/db-backup
+        id: backup
+        with:
+          dsn: ${{ secrets.LI_BACKUP_DATABASE_URL }}
+          deploy-key: ${{ secrets.LI_BACKUP_DEPLOY_KEY }}
+          # This run's parity verdict goes into the backup commit message: the
+          # backup repo's git log is the durable soak ledger (section 9).
+          parity: ${{ needs.db-sync.outputs.parity }}
+          feeds: ${{ needs.db-sync.outputs.feeds }}
+          feeds-expected: ${{ needs.db-sync.outputs.feeds_expected }}
+      - name: Make sure no dump or key is left on the runner
+        if: always()
+        run: |
+          rm -rf "${RUNNER_TEMP}/li-backup"
+          echo "clean"
+
   # Це шлях відновлення, до якого щотижневий бот сам відсилає оператора
   # («merge by hand, then run pages-deploy»), тож його провал не має бути тихим.
   # Одне повідомлення на прогін через той самий notify-weekly.mjs
@@ -82,8 +183,10 @@ jobs:
   #     кнопку, але в каналі останнім словом лишилося б «dashboards were NOT
   #     updated» з @-згадкою; рядок-закриття коштує майже нічого (ручний деплой
   #     рідкісний) і закриває петлю там, де її відкрили.
+#   - до будь-якого з трьох — рядок бази даних (dual-write), якщо sync, parity
+#     чи backup не пройшли; якщо пройшли — нічого. Без пінгу.
   notify:
-    needs: [build, deploy, refresh-post-variable]
+    needs: [build, deploy, refresh-post-variable, db-sync, db-backup]
     # always(): провалений або скасований деплой — саме той випадок, про який
     # треба сказати.
     if: always()
@@ -115,6 +218,11 @@ jobs:
           DEPLOY_RESULT: ${{ needs.deploy.result }}
           REFRESH_RESULT: ${{ needs.refresh-post-variable.result }}
           PAGE_URL: ${{ needs.deploy.outputs.page_url }}
+          # Етап dual-write: лише позитивні маркери з outputs; порожньо = «невідомо».
+          DB_SYNC: ${{ needs.db-sync.outputs.sync }}
+          DB_PARITY: ${{ needs.db-sync.outputs.parity }}
+          DB_BACKUP: ${{ needs.db-backup.outputs.backup }}
+          DB_BACKUP_EXPECTED: ${{ inputs.backup }}
         run: |
           set -uo pipefail
           if [ ! -f .github/scripts/notify-weekly.mjs ]; then
