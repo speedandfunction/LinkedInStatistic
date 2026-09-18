@@ -141,21 +141,31 @@ create table li.dash_config (
 );
 insert into li.dash_config (only_row, as_of) values (true, null);
 
+-- The three clock helpers are SECURITY DEFINER, and that is load-bearing.
+-- A view reads TABLES with its owner's rights, but calls FUNCTIONS with the
+-- rights of whoever selects from it. grafana_ro cannot see schema li at all, and
+-- current_month() -> as_of() -> li.dash_config: as invoker functions the chain
+-- failed for grafana_ro three times over (EXECUTE, then USAGE on li to resolve
+-- the nested name, then SELECT on dash_config), taking down 4 of the 30 dash
+-- views — posts_per_month, comments_per_month, correlation_trend,
+-- engagement_person — while the parity check, which runs as the owner, stayed
+-- green. They take no arguments and read one config row, so running them as the
+-- owner exposes nothing; search_path is pinned as on every definer function here.
 create function li.as_of() returns timestamptz
-  language sql stable as $$
+  language sql stable security definer set search_path = li, pg_temp as $$
     select coalesce((select as_of from li.dash_config), now())
   $$;
 
 -- The Monday of the ISO week containing li.as_of(), in UTC — the reader's
 -- `currentWeekMonday`.
 create function li.current_week_monday() returns date
-  language sql stable as $$
+  language sql stable security definer set search_path = li, pg_temp as $$
     select (date_trunc('week', (li.as_of() at time zone 'UTC')))::date
   $$;
 
 -- The reader's `currentMonthUTC()`, as a first-of-month date.
 create function li.current_month() returns date
-  language sql stable as $$
+  language sql stable security definer set search_path = li, pg_temp as $$
     select (date_trunc('month', (li.as_of() at time zone 'UTC')))::date
   $$;
 
@@ -1738,6 +1748,20 @@ grant usage on schema dash to grafana_ro;
 grant select on all tables in schema dash to grafana_ro;
 revoke all on schema li from grafana_ro;
 
--- Views run with the owner's rights, so grafana_ro reading dash never needs li.
+-- ...plus EXECUTE on exactly the helpers the dash views call. EXECUTE was revoked
+-- from PUBLIC on every li function above (rightly — most are definer writers),
+-- which also took these read-only ones away from the reader. Function calls
+-- inside a view are checked against the CALLER, so without this the views that
+-- use them fail with `permission denied for function`. No USAGE on li is needed:
+-- a view stores the function by OID. js_round is pure arithmetic; the two clock
+-- helpers are definer (see their definition). db/test-roles.mjs sweeps every
+-- dash view as grafana_ro so this cannot regress silently again.
+grant execute on function li.current_month()             to grafana_ro;
+grant execute on function li.current_week_monday()       to grafana_ro;
+grant execute on function li.js_round(numeric)           to grafana_ro;
+grant execute on function li.js_round(double precision)  to grafana_ro;
+
+-- Views read tables with the owner's rights, so grafana_ro never needs SELECT in
+-- li. Functions are the exception — see the EXECUTE grants above.
 alter default privileges for role li_owner in schema li   grant select, insert on tables to li_writer;
 alter default privileges for role li_owner in schema dash grant select on tables to grafana_ro;
