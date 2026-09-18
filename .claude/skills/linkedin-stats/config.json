@@ -2,5 +2,7 @@
   "_note": "Identity of the tracked LinkedIn account. Everything account-specific lives here so the pipeline code stays generic. profile_slug is the path segment of the personal profile ('in/<slug>'), read by the personal phases. company_id is the numeric Page id, read by the company-page phase (fast/page/scrape-page.mjs).",
   "profile_slug": "in/REPLACE-WITH-YOUR-SLUG",
   "company_id": "7948833",
-  "posts_cutoff": "2026-01-01"
+  "posts_cutoff": "2025-11-01",
+  "data_floor": "2025-11-01",
+  "_data_floor_note": "Hard lower bound for everything dated that the pipeline stores: posts, the account owner's outbound comments, and engagement events. Enforced by the WRITER (fast/merge.py), not by discovery, so no flag, empty folder or shallow comment page can bring older data back. History before this date was deleted on purpose on 2026-09-18; every time-axis chart starts here."
 }
