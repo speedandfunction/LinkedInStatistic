@@ -66,6 +66,9 @@ node db/verify.mjs
 # 5. звірити merge-правила з merge.py і прогнати ICP/VIP-фікстуру
 node db/test-merge-rules.mjs
 node db/fixture-icp.mjs
+
+# 6. права ролей ДІЄЮ: grafana_ro читає КОЖНУ dash-в'юху, писарю відмовлено в усьому зайвому
+node db/test-roles.mjs
 ```
 
 DSN береться з `--dsn`, потім з `LI_DSN`, потім дефолт вище.
