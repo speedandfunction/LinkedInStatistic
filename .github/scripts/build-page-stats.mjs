@@ -1,11 +1,17 @@
 #!/usr/bin/env node
 // Flatten the company-page data (monthly.json + geo-monthly.json) into a single
-// page-stats.json that Grafana reads over HTTP via the Infinity datasource —
-// the same "publish one JSON to Pages, dashboard reads the URL" shape Peter's
-// stats.json uses. This decouples data from the dashboard: refresh the data,
-// re-publish, and the dashboard updates on its own (no re-import).
+// page-stats.json, published to GitHub Pages next to the per-author stats.json.
 //
-// Sections (each a flat array Infinity queries with a root_selector):
+// Grafana does NOT read this file any more. The linkedin-page dashboard used to
+// fetch it over HTTP through the Infinity datasource; its panels now query
+// Postgres — one view per section below, dash.feed_page_<section without the
+// leading "page_"> (db/schema.sql). This build stays the ORACLE for those
+// views: db/verify.mjs (FEED PARITY) compares every one of them with the section
+// produced here, every week, and db/verify-panels.mjs replays the old Infinity
+// targets against this output. So the shape below is a contract: change a
+// section here and the view, the parity list and the dashboard move with it.
+//
+// Sections (each a flat array; `order by ord` in the matching view reproduces it):
 //   page_monthly            per-month page metrics
 //   page_geo_monthly        per-month ICP-geography buckets (+ $month filter)
 //   page_geo_aggregate      last-6-months visitor buckets + follower base

@@ -61,9 +61,9 @@ runs:
         # never written reads as empty, which the Slack message reports as
         # "did not run or did not finish" - never as fine.
         if [ ! -f .github/scripts/db-ci.mjs ]; then
-          echo "::warning::database sync did not run - .github/scripts/db-ci.mjs is not in the checkout. The week is NOT affected: JSON in git is still the source of truth."
+          echo "::warning::database sync did not run - .github/scripts/db-ci.mjs is not in the checkout. The collected week is safe in git, but Grafana reads the database: the dashboards stay on the previous sync until this is fixed and pages-deploy is re-run."
           echo "sync=failed:checkout" >> "${GITHUB_OUTPUT}"
           exit 0
         fi
-        node .github/scripts/db-ci.mjs sync || echo "::warning::database sync: db-ci.mjs could not be run to completion. The week is NOT affected: JSON in git is still the source of truth."
+        node .github/scripts/db-ci.mjs sync || echo "::warning::database sync: db-ci.mjs could not be run to completion. The collected week is safe in git, but Grafana reads the database: the dashboards stay on the previous sync until this is fixed and pages-deploy is re-run."
         exit 0

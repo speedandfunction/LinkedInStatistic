@@ -9,10 +9,12 @@
     "import": "node import.mjs",
     "export": "node export.mjs",
     "verify": "node verify.mjs",
+    "verify:panels": "node verify-panels.mjs",
     "ping": "node ping.mjs",
     "test:rules": "node test-merge-rules.mjs",
     "test:icp": "node fixture-icp.mjs",
     "test:roles": "node test-roles.mjs",
+    "test:panels": "node test-verify-panels.mjs",
     "backup": "./backup.sh",
     "restore-drill": "./restore-drill.sh"
   },

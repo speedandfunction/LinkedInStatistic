@@ -50,8 +50,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -95,71 +95,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "scope",
-              "text": "scope",
-              "type": "string"
-            },
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "score",
-              "text": "score",
-              "type": "number"
-            },
-            {
-              "selector": "score_normal",
-              "text": "score_normal",
-              "type": "number"
-            },
-            {
-              "selector": "score_icp",
-              "text": "score_icp",
-              "type": "number"
-            },
-            {
-              "selector": "score_vip",
-              "text": "score_vip",
-              "type": "number"
-            },
-            {
-              "selector": "reactions",
-              "text": "reactions",
-              "type": "number"
-            },
-            {
-              "selector": "comments",
-              "text": "comments",
-              "type": "number"
-            },
-            {
-              "selector": "people",
-              "text": "people",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filterExpression": "scope == \"last_week\"",
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "engagement_score_totals",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select scope, week, score, score_normal, score_icp, score_vip, reactions, comments, people\nfrom dash.feed_engagement_score_totals\nwhere author = 'maria' and scope = 'last_week'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Engagement score (last week)",
@@ -167,8 +111,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -212,71 +156,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "scope",
-              "text": "scope",
-              "type": "string"
-            },
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "score",
-              "text": "score",
-              "type": "number"
-            },
-            {
-              "selector": "score_normal",
-              "text": "score_normal",
-              "type": "number"
-            },
-            {
-              "selector": "score_icp",
-              "text": "score_icp",
-              "type": "number"
-            },
-            {
-              "selector": "score_vip",
-              "text": "score_vip",
-              "type": "number"
-            },
-            {
-              "selector": "reactions",
-              "text": "reactions",
-              "type": "number"
-            },
-            {
-              "selector": "comments",
-              "text": "comments",
-              "type": "number"
-            },
-            {
-              "selector": "people",
-              "text": "people",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filterExpression": "scope == \"last_week\"",
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "engagement_score_totals",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select scope, week, score, score_normal, score_icp, score_vip, reactions, comments, people\nfrom dash.feed_engagement_score_totals\nwhere author = 'maria' and scope = 'last_week'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "…from normal audience",
@@ -284,8 +172,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -329,71 +217,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "scope",
-              "text": "scope",
-              "type": "string"
-            },
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "score",
-              "text": "score",
-              "type": "number"
-            },
-            {
-              "selector": "score_normal",
-              "text": "score_normal",
-              "type": "number"
-            },
-            {
-              "selector": "score_icp",
-              "text": "score_icp",
-              "type": "number"
-            },
-            {
-              "selector": "score_vip",
-              "text": "score_vip",
-              "type": "number"
-            },
-            {
-              "selector": "reactions",
-              "text": "reactions",
-              "type": "number"
-            },
-            {
-              "selector": "comments",
-              "text": "comments",
-              "type": "number"
-            },
-            {
-              "selector": "people",
-              "text": "people",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filterExpression": "scope == \"last_week\"",
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "engagement_score_totals",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select scope, week, score, score_normal, score_icp, score_vip, reactions, comments, people\nfrom dash.feed_engagement_score_totals\nwhere author = 'maria' and scope = 'last_week'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "…from ICP",
@@ -401,8 +233,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -446,71 +278,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "scope",
-              "text": "scope",
-              "type": "string"
-            },
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "score",
-              "text": "score",
-              "type": "number"
-            },
-            {
-              "selector": "score_normal",
-              "text": "score_normal",
-              "type": "number"
-            },
-            {
-              "selector": "score_icp",
-              "text": "score_icp",
-              "type": "number"
-            },
-            {
-              "selector": "score_vip",
-              "text": "score_vip",
-              "type": "number"
-            },
-            {
-              "selector": "reactions",
-              "text": "reactions",
-              "type": "number"
-            },
-            {
-              "selector": "comments",
-              "text": "comments",
-              "type": "number"
-            },
-            {
-              "selector": "people",
-              "text": "people",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filterExpression": "scope == \"last_week\"",
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "engagement_score_totals",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select scope, week, score, score_normal, score_icp, score_vip, reactions, comments, people\nfrom dash.feed_engagement_score_totals\nwhere author = 'maria' and scope = 'last_week'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "…from VIP list (4×)",
@@ -518,8 +294,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -563,111 +339,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "scope",
-              "text": "scope",
-              "type": "string"
-            },
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "score",
-              "text": "score",
-              "type": "number"
-            },
-            {
-              "selector": "score_normal",
-              "text": "score_normal",
-              "type": "number"
-            },
-            {
-              "selector": "score_icp",
-              "text": "score_icp",
-              "type": "number"
-            },
-            {
-              "selector": "score_vip",
-              "text": "score_vip",
-              "type": "number"
-            },
-            {
-              "selector": "reactions",
-              "text": "reactions",
-              "type": "number"
-            },
-            {
-              "selector": "comments",
-              "text": "comments",
-              "type": "number"
-            },
-            {
-              "selector": "people",
-              "text": "people",
-              "type": "number"
-            },
-            {
-              "selector": "reactions_icp",
-              "text": "reactions_icp",
-              "type": "number"
-            },
-            {
-              "selector": "comments_icp",
-              "text": "comments_icp",
-              "type": "number"
-            },
-            {
-              "selector": "people_icp",
-              "text": "people_icp",
-              "type": "number"
-            },
-            {
-              "selector": "reactions_non_icp",
-              "text": "reactions_non_icp",
-              "type": "number"
-            },
-            {
-              "selector": "comments_non_icp",
-              "text": "comments_non_icp",
-              "type": "number"
-            },
-            {
-              "selector": "icp_reaction_pct",
-              "text": "icp_reaction_pct",
-              "type": "number"
-            },
-            {
-              "selector": "icp_comment_pct",
-              "text": "icp_comment_pct",
-              "type": "number"
-            },
-            {
-              "selector": "icp_engagement_pct",
-              "text": "icp_engagement_pct",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filterExpression": "scope == \"all_time\"",
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "engagement_score_totals",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select scope, week, score, score_normal, score_icp, score_vip, reactions, comments, people, reactions_icp, comments_icp, people_icp, reactions_non_icp, comments_non_icp, icp_reaction_pct, icp_comment_pct, icp_engagement_pct\nfrom dash.feed_engagement_score_totals\nwhere author = 'maria' and scope = 'all_time'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Engagement score (all time)",
@@ -675,8 +355,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -720,111 +400,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "scope",
-              "text": "scope",
-              "type": "string"
-            },
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "score",
-              "text": "score",
-              "type": "number"
-            },
-            {
-              "selector": "score_normal",
-              "text": "score_normal",
-              "type": "number"
-            },
-            {
-              "selector": "score_icp",
-              "text": "score_icp",
-              "type": "number"
-            },
-            {
-              "selector": "score_vip",
-              "text": "score_vip",
-              "type": "number"
-            },
-            {
-              "selector": "reactions",
-              "text": "reactions",
-              "type": "number"
-            },
-            {
-              "selector": "comments",
-              "text": "comments",
-              "type": "number"
-            },
-            {
-              "selector": "people",
-              "text": "people",
-              "type": "number"
-            },
-            {
-              "selector": "reactions_icp",
-              "text": "reactions_icp",
-              "type": "number"
-            },
-            {
-              "selector": "comments_icp",
-              "text": "comments_icp",
-              "type": "number"
-            },
-            {
-              "selector": "people_icp",
-              "text": "people_icp",
-              "type": "number"
-            },
-            {
-              "selector": "reactions_non_icp",
-              "text": "reactions_non_icp",
-              "type": "number"
-            },
-            {
-              "selector": "comments_non_icp",
-              "text": "comments_non_icp",
-              "type": "number"
-            },
-            {
-              "selector": "icp_reaction_pct",
-              "text": "icp_reaction_pct",
-              "type": "number"
-            },
-            {
-              "selector": "icp_comment_pct",
-              "text": "icp_comment_pct",
-              "type": "number"
-            },
-            {
-              "selector": "icp_engagement_pct",
-              "text": "icp_engagement_pct",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filterExpression": "scope == \"all_time\"",
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "engagement_score_totals",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select scope, week, score, score_normal, score_icp, score_vip, reactions, comments, people, reactions_icp, comments_icp, people_icp, reactions_non_icp, comments_non_icp, icp_reaction_pct, icp_comment_pct, icp_engagement_pct\nfrom dash.feed_engagement_score_totals\nwhere author = 'maria' and scope = 'all_time'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "…from normal audience",
@@ -832,8 +416,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -877,111 +461,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "scope",
-              "text": "scope",
-              "type": "string"
-            },
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "score",
-              "text": "score",
-              "type": "number"
-            },
-            {
-              "selector": "score_normal",
-              "text": "score_normal",
-              "type": "number"
-            },
-            {
-              "selector": "score_icp",
-              "text": "score_icp",
-              "type": "number"
-            },
-            {
-              "selector": "score_vip",
-              "text": "score_vip",
-              "type": "number"
-            },
-            {
-              "selector": "reactions",
-              "text": "reactions",
-              "type": "number"
-            },
-            {
-              "selector": "comments",
-              "text": "comments",
-              "type": "number"
-            },
-            {
-              "selector": "people",
-              "text": "people",
-              "type": "number"
-            },
-            {
-              "selector": "reactions_icp",
-              "text": "reactions_icp",
-              "type": "number"
-            },
-            {
-              "selector": "comments_icp",
-              "text": "comments_icp",
-              "type": "number"
-            },
-            {
-              "selector": "people_icp",
-              "text": "people_icp",
-              "type": "number"
-            },
-            {
-              "selector": "reactions_non_icp",
-              "text": "reactions_non_icp",
-              "type": "number"
-            },
-            {
-              "selector": "comments_non_icp",
-              "text": "comments_non_icp",
-              "type": "number"
-            },
-            {
-              "selector": "icp_reaction_pct",
-              "text": "icp_reaction_pct",
-              "type": "number"
-            },
-            {
-              "selector": "icp_comment_pct",
-              "text": "icp_comment_pct",
-              "type": "number"
-            },
-            {
-              "selector": "icp_engagement_pct",
-              "text": "icp_engagement_pct",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filterExpression": "scope == \"all_time\"",
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "engagement_score_totals",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select scope, week, score, score_normal, score_icp, score_vip, reactions, comments, people, reactions_icp, comments_icp, people_icp, reactions_non_icp, comments_non_icp, icp_reaction_pct, icp_comment_pct, icp_engagement_pct\nfrom dash.feed_engagement_score_totals\nwhere author = 'maria' and scope = 'all_time'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "…from ICP",
@@ -989,8 +477,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1034,111 +522,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "scope",
-              "text": "scope",
-              "type": "string"
-            },
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "score",
-              "text": "score",
-              "type": "number"
-            },
-            {
-              "selector": "score_normal",
-              "text": "score_normal",
-              "type": "number"
-            },
-            {
-              "selector": "score_icp",
-              "text": "score_icp",
-              "type": "number"
-            },
-            {
-              "selector": "score_vip",
-              "text": "score_vip",
-              "type": "number"
-            },
-            {
-              "selector": "reactions",
-              "text": "reactions",
-              "type": "number"
-            },
-            {
-              "selector": "comments",
-              "text": "comments",
-              "type": "number"
-            },
-            {
-              "selector": "people",
-              "text": "people",
-              "type": "number"
-            },
-            {
-              "selector": "reactions_icp",
-              "text": "reactions_icp",
-              "type": "number"
-            },
-            {
-              "selector": "comments_icp",
-              "text": "comments_icp",
-              "type": "number"
-            },
-            {
-              "selector": "people_icp",
-              "text": "people_icp",
-              "type": "number"
-            },
-            {
-              "selector": "reactions_non_icp",
-              "text": "reactions_non_icp",
-              "type": "number"
-            },
-            {
-              "selector": "comments_non_icp",
-              "text": "comments_non_icp",
-              "type": "number"
-            },
-            {
-              "selector": "icp_reaction_pct",
-              "text": "icp_reaction_pct",
-              "type": "number"
-            },
-            {
-              "selector": "icp_comment_pct",
-              "text": "icp_comment_pct",
-              "type": "number"
-            },
-            {
-              "selector": "icp_engagement_pct",
-              "text": "icp_engagement_pct",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filterExpression": "scope == \"all_time\"",
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "engagement_score_totals",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select scope, week, score, score_normal, score_icp, score_vip, reactions, comments, people, reactions_icp, comments_icp, people_icp, reactions_non_icp, comments_non_icp, icp_reaction_pct, icp_comment_pct, icp_engagement_pct\nfrom dash.feed_engagement_score_totals\nwhere author = 'maria' and scope = 'all_time'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "…from VIP list (4×)",
@@ -1146,8 +538,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1192,111 +584,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "scope",
-              "text": "scope",
-              "type": "string"
-            },
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "score",
-              "text": "score",
-              "type": "number"
-            },
-            {
-              "selector": "score_normal",
-              "text": "score_normal",
-              "type": "number"
-            },
-            {
-              "selector": "score_icp",
-              "text": "score_icp",
-              "type": "number"
-            },
-            {
-              "selector": "score_vip",
-              "text": "score_vip",
-              "type": "number"
-            },
-            {
-              "selector": "reactions",
-              "text": "reactions",
-              "type": "number"
-            },
-            {
-              "selector": "comments",
-              "text": "comments",
-              "type": "number"
-            },
-            {
-              "selector": "people",
-              "text": "people",
-              "type": "number"
-            },
-            {
-              "selector": "reactions_icp",
-              "text": "reactions_icp",
-              "type": "number"
-            },
-            {
-              "selector": "comments_icp",
-              "text": "comments_icp",
-              "type": "number"
-            },
-            {
-              "selector": "people_icp",
-              "text": "people_icp",
-              "type": "number"
-            },
-            {
-              "selector": "reactions_non_icp",
-              "text": "reactions_non_icp",
-              "type": "number"
-            },
-            {
-              "selector": "comments_non_icp",
-              "text": "comments_non_icp",
-              "type": "number"
-            },
-            {
-              "selector": "icp_reaction_pct",
-              "text": "icp_reaction_pct",
-              "type": "number"
-            },
-            {
-              "selector": "icp_comment_pct",
-              "text": "icp_comment_pct",
-              "type": "number"
-            },
-            {
-              "selector": "icp_engagement_pct",
-              "text": "icp_engagement_pct",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filterExpression": "scope == \"all_time\"",
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "engagement_score_totals",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select scope, week, score, score_normal, score_icp, score_vip, reactions, comments, people, reactions_icp, comments_icp, people_icp, reactions_non_icp, comments_non_icp, icp_reaction_pct, icp_comment_pct, icp_engagement_pct\nfrom dash.feed_engagement_score_totals\nwhere author = 'maria' and scope = 'all_time'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "ICP share of reactions (all time)",
@@ -1304,8 +600,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1350,111 +646,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "scope",
-              "text": "scope",
-              "type": "string"
-            },
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "score",
-              "text": "score",
-              "type": "number"
-            },
-            {
-              "selector": "score_normal",
-              "text": "score_normal",
-              "type": "number"
-            },
-            {
-              "selector": "score_icp",
-              "text": "score_icp",
-              "type": "number"
-            },
-            {
-              "selector": "score_vip",
-              "text": "score_vip",
-              "type": "number"
-            },
-            {
-              "selector": "reactions",
-              "text": "reactions",
-              "type": "number"
-            },
-            {
-              "selector": "comments",
-              "text": "comments",
-              "type": "number"
-            },
-            {
-              "selector": "people",
-              "text": "people",
-              "type": "number"
-            },
-            {
-              "selector": "reactions_icp",
-              "text": "reactions_icp",
-              "type": "number"
-            },
-            {
-              "selector": "comments_icp",
-              "text": "comments_icp",
-              "type": "number"
-            },
-            {
-              "selector": "people_icp",
-              "text": "people_icp",
-              "type": "number"
-            },
-            {
-              "selector": "reactions_non_icp",
-              "text": "reactions_non_icp",
-              "type": "number"
-            },
-            {
-              "selector": "comments_non_icp",
-              "text": "comments_non_icp",
-              "type": "number"
-            },
-            {
-              "selector": "icp_reaction_pct",
-              "text": "icp_reaction_pct",
-              "type": "number"
-            },
-            {
-              "selector": "icp_comment_pct",
-              "text": "icp_comment_pct",
-              "type": "number"
-            },
-            {
-              "selector": "icp_engagement_pct",
-              "text": "icp_engagement_pct",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filterExpression": "scope == \"all_time\"",
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "engagement_score_totals",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select scope, week, score, score_normal, score_icp, score_vip, reactions, comments, people, reactions_icp, comments_icp, people_icp, reactions_non_icp, comments_non_icp, icp_reaction_pct, icp_comment_pct, icp_engagement_pct\nfrom dash.feed_engagement_score_totals\nwhere author = 'maria' and scope = 'all_time'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "ICP share of comments (all time)",
@@ -1462,8 +662,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1508,111 +708,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "scope",
-              "text": "scope",
-              "type": "string"
-            },
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "score",
-              "text": "score",
-              "type": "number"
-            },
-            {
-              "selector": "score_normal",
-              "text": "score_normal",
-              "type": "number"
-            },
-            {
-              "selector": "score_icp",
-              "text": "score_icp",
-              "type": "number"
-            },
-            {
-              "selector": "score_vip",
-              "text": "score_vip",
-              "type": "number"
-            },
-            {
-              "selector": "reactions",
-              "text": "reactions",
-              "type": "number"
-            },
-            {
-              "selector": "comments",
-              "text": "comments",
-              "type": "number"
-            },
-            {
-              "selector": "people",
-              "text": "people",
-              "type": "number"
-            },
-            {
-              "selector": "reactions_icp",
-              "text": "reactions_icp",
-              "type": "number"
-            },
-            {
-              "selector": "comments_icp",
-              "text": "comments_icp",
-              "type": "number"
-            },
-            {
-              "selector": "people_icp",
-              "text": "people_icp",
-              "type": "number"
-            },
-            {
-              "selector": "reactions_non_icp",
-              "text": "reactions_non_icp",
-              "type": "number"
-            },
-            {
-              "selector": "comments_non_icp",
-              "text": "comments_non_icp",
-              "type": "number"
-            },
-            {
-              "selector": "icp_reaction_pct",
-              "text": "icp_reaction_pct",
-              "type": "number"
-            },
-            {
-              "selector": "icp_comment_pct",
-              "text": "icp_comment_pct",
-              "type": "number"
-            },
-            {
-              "selector": "icp_engagement_pct",
-              "text": "icp_engagement_pct",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filterExpression": "scope == \"all_time\"",
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "engagement_score_totals",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select scope, week, score, score_normal, score_icp, score_vip, reactions, comments, people, reactions_icp, comments_icp, people_icp, reactions_non_icp, comments_non_icp, icp_reaction_pct, icp_comment_pct, icp_engagement_pct\nfrom dash.feed_engagement_score_totals\nwhere author = 'maria' and scope = 'all_time'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "ICP share of all engagement (all time)",
@@ -1620,8 +724,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1665,111 +769,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "scope",
-              "text": "scope",
-              "type": "string"
-            },
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "score",
-              "text": "score",
-              "type": "number"
-            },
-            {
-              "selector": "score_normal",
-              "text": "score_normal",
-              "type": "number"
-            },
-            {
-              "selector": "score_icp",
-              "text": "score_icp",
-              "type": "number"
-            },
-            {
-              "selector": "score_vip",
-              "text": "score_vip",
-              "type": "number"
-            },
-            {
-              "selector": "reactions",
-              "text": "reactions",
-              "type": "number"
-            },
-            {
-              "selector": "comments",
-              "text": "comments",
-              "type": "number"
-            },
-            {
-              "selector": "people",
-              "text": "people",
-              "type": "number"
-            },
-            {
-              "selector": "reactions_icp",
-              "text": "reactions_icp",
-              "type": "number"
-            },
-            {
-              "selector": "comments_icp",
-              "text": "comments_icp",
-              "type": "number"
-            },
-            {
-              "selector": "people_icp",
-              "text": "people_icp",
-              "type": "number"
-            },
-            {
-              "selector": "reactions_non_icp",
-              "text": "reactions_non_icp",
-              "type": "number"
-            },
-            {
-              "selector": "comments_non_icp",
-              "text": "comments_non_icp",
-              "type": "number"
-            },
-            {
-              "selector": "icp_reaction_pct",
-              "text": "icp_reaction_pct",
-              "type": "number"
-            },
-            {
-              "selector": "icp_comment_pct",
-              "text": "icp_comment_pct",
-              "type": "number"
-            },
-            {
-              "selector": "icp_engagement_pct",
-              "text": "icp_engagement_pct",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filterExpression": "scope == \"all_time\"",
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "engagement_score_totals",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select scope, week, score, score_normal, score_icp, score_vip, reactions, comments, people, reactions_icp, comments_icp, people_icp, reactions_non_icp, comments_non_icp, icp_reaction_pct, icp_comment_pct, icp_engagement_pct\nfrom dash.feed_engagement_score_totals\nwhere author = 'maria' and scope = 'all_time'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "ICP engagers (all time)",
@@ -1777,8 +785,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "description": "Reactions are dated by comparing weekly reactor snapshots, so a target's first scan is a baseline and is excluded here; comments are dated exactly from their URN.",
       "fieldConfig": {
@@ -1852,45 +860,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "score",
-              "text": "score",
-              "type": "number"
-            },
-            {
-              "selector": "reactions",
-              "text": "reactions",
-              "type": "number"
-            },
-            {
-              "selector": "comments",
-              "text": "comments",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "engagement_score_weeks",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select week, score, reactions, comments\nfrom dash.feed_engagement_score_weeks\nwhere author = 'maria'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Engagement score per week",
@@ -1927,8 +905,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2013,70 +991,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "person_key",
-              "text": "person_key",
-              "type": "string"
-            },
-            {
-              "selector": "name",
-              "text": "name",
-              "type": "string"
-            },
-            {
-              "selector": "headline",
-              "text": "headline",
-              "type": "string"
-            },
-            {
-              "selector": "tier",
-              "text": "tier",
-              "type": "string"
-            },
-            {
-              "selector": "reactions",
-              "text": "reactions",
-              "type": "number"
-            },
-            {
-              "selector": "comments",
-              "text": "comments",
-              "type": "number"
-            },
-            {
-              "selector": "score",
-              "text": "score",
-              "type": "number"
-            },
-            {
-              "selector": "score_last_week",
-              "text": "score_last_week",
-              "type": "number"
-            },
-            {
-              "selector": "profile_url",
-              "text": "profile_url",
-              "type": "string"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "engagement_people",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select person_key, name, headline, tier, reactions, comments, score, score_last_week, profile_url\nfrom dash.feed_engagement_people\nwhere author = 'maria'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Top engagers",
@@ -2126,8 +1049,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2357,70 +1280,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "scope",
-              "text": "scope",
-              "type": "string"
-            },
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "reactions",
-              "text": "reactions",
-              "type": "number"
-            },
-            {
-              "selector": "reactions_icp",
-              "text": "reactions_icp",
-              "type": "number"
-            },
-            {
-              "selector": "icp_reaction_pct",
-              "text": "icp_reaction_pct",
-              "type": "number"
-            },
-            {
-              "selector": "comments",
-              "text": "comments",
-              "type": "number"
-            },
-            {
-              "selector": "comments_icp",
-              "text": "comments_icp",
-              "type": "number"
-            },
-            {
-              "selector": "icp_comment_pct",
-              "text": "icp_comment_pct",
-              "type": "number"
-            },
-            {
-              "selector": "icp_engagement_pct",
-              "text": "icp_engagement_pct",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "engagement_score_totals",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select scope, week, reactions, reactions_icp, icp_reaction_pct, comments, comments_icp, icp_comment_pct, icp_engagement_pct\nfrom dash.feed_engagement_score_totals\nwhere author = 'maria'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Reactions & comments — total vs ICP (last week and all time)",
@@ -2463,8 +1331,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2507,35 +1375,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "followers",
-              "text": "followers",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "account_weeks",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select week, followers\nfrom dash.feed_account_weeks\nwhere author = 'maria'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Followers",
@@ -2558,8 +1406,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2602,35 +1450,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "post_impressions_7d",
-              "text": "post_impressions_7d",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "account_weeks",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select week, post_impressions_7d\nfrom dash.feed_account_weeks\nwhere author = 'maria'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Post impressions (7d)",
@@ -2653,8 +1481,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2697,35 +1525,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "profile_viewers_90d",
-              "text": "profile_viewers_90d",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "account_weeks",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select week, profile_viewers_90d\nfrom dash.feed_account_weeks\nwhere author = 'maria'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Profile viewers (90d)",
@@ -2748,8 +1556,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2792,35 +1600,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "search_appearances_previous_week",
-              "text": "search_appearances_previous_week",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "account_weeks",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select week, search_appearances_previous_week\nfrom dash.feed_account_weeks\nwhere author = 'maria'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Search appearances (prev week)",
@@ -2843,8 +1631,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2885,35 +1673,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "followers",
-              "text": "followers",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "account_weeks",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select week, followers\nfrom dash.feed_account_weeks\nwhere author = 'maria'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Followers",
@@ -2947,8 +1715,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2989,35 +1757,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "post_impressions_7d",
-              "text": "post_impressions_7d",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "account_weeks",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select week, post_impressions_7d\nfrom dash.feed_account_weeks\nwhere author = 'maria'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Post impressions (7d)",
@@ -3051,8 +1799,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -3093,35 +1841,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "profile_viewers_90d",
-              "text": "profile_viewers_90d",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "account_weeks",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select week, profile_viewers_90d\nfrom dash.feed_account_weeks\nwhere author = 'maria'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Profile viewers (90d)",
@@ -3155,8 +1883,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -3197,35 +1925,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "search_appearances_previous_week",
-              "text": "search_appearances_previous_week",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "account_weeks",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select week, search_appearances_previous_week\nfrom dash.feed_account_weeks\nwhere author = 'maria'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Search appearances (prev week)",
@@ -3259,8 +1967,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -3304,45 +2012,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "dimension",
-              "text": "dimension",
-              "type": "string"
-            },
-            {
-              "selector": "label",
-              "text": "label",
-              "type": "string"
-            },
-            {
-              "selector": "pct",
-              "text": "pct",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "account_demographics",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select week, dimension, label, pct\nfrom dash.feed_account_demographics\nwhere author = 'maria'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Seniority",
@@ -3418,8 +2096,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -3463,45 +2141,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "dimension",
-              "text": "dimension",
-              "type": "string"
-            },
-            {
-              "selector": "label",
-              "text": "label",
-              "type": "string"
-            },
-            {
-              "selector": "pct",
-              "text": "pct",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "account_demographics",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select week, dimension, label, pct\nfrom dash.feed_account_demographics\nwhere author = 'maria'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Top job titles",
@@ -3583,8 +2231,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -3628,45 +2276,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "dimension",
-              "text": "dimension",
-              "type": "string"
-            },
-            {
-              "selector": "label",
-              "text": "label",
-              "type": "string"
-            },
-            {
-              "selector": "pct",
-              "text": "pct",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "account_demographics",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select week, dimension, label, pct\nfrom dash.feed_account_demographics\nwhere author = 'maria'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Top locations",
@@ -3748,8 +2366,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -3791,40 +2409,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "month",
-              "text": "month",
-              "type": "string"
-            },
-            {
-              "selector": "posts",
-              "text": "Posts",
-              "type": "number"
-            },
-            {
-              "selector": "reposts",
-              "text": "Reposts",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "posts_per_month",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select month, posts as \"Posts\", reposts as \"Reposts\"\nfrom dash.feed_posts_per_month\nwhere author = 'maria'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Posts published per month",
@@ -3846,8 +2439,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -3889,35 +2482,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "month",
-              "text": "month",
-              "type": "string"
-            },
-            {
-              "selector": "comments_posted",
-              "text": "Comments",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "comments_per_month",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select month, comments_posted as \"Comments\"\nfrom dash.feed_comments_per_month\nwhere author = 'maria'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Comments posted per month",
@@ -3938,8 +2511,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -3981,35 +2554,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "month",
-              "text": "month",
-              "type": "string"
-            },
-            {
-              "selector": "reactions_received",
-              "text": "Reactions",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "comments_per_month",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select month, reactions_received as \"Reactions\"\nfrom dash.feed_comments_per_month\nwhere author = 'maria'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Reactions on my comments per month",
@@ -4030,8 +2583,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -4073,35 +2626,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "month",
-              "text": "month",
-              "type": "string"
-            },
-            {
-              "selector": "impressions_received",
-              "text": "Impressions",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "comments_per_month",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select month, impressions_received as \"Impressions\"\nfrom dash.feed_comments_per_month\nwhere author = 'maria'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Impressions on my comments per month",
@@ -4122,8 +2655,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 12,
@@ -4142,50 +2675,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "posts_in_month",
-              "text": "posts_in_month",
-              "type": "number"
-            },
-            {
-              "selector": "impressions",
-              "text": "impressions",
-              "type": "number"
-            },
-            {
-              "selector": "id",
-              "text": "id",
-              "type": "string"
-            },
-            {
-              "selector": "posted_date",
-              "text": "posted_date",
-              "type": "string"
-            },
-            {
-              "selector": "type",
-              "text": "type",
-              "type": "string"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "correlation_points",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select posts_in_month, impressions, id, posted_date, type\nfrom dash.feed_correlation_points\nwhere author = 'maria'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Posts published vs impressions (scatter + linear fit)",
@@ -4193,8 +2691,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 12,
@@ -4213,50 +2711,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "posts_in_month",
-              "text": "posts_in_month",
-              "type": "number"
-            },
-            {
-              "selector": "impressions",
-              "text": "impressions",
-              "type": "number"
-            },
-            {
-              "selector": "id",
-              "text": "id",
-              "type": "string"
-            },
-            {
-              "selector": "posted_date",
-              "text": "posted_date",
-              "type": "string"
-            },
-            {
-              "selector": "type",
-              "text": "type",
-              "type": "string"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "correlation_points",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select posts_in_month, impressions, id, posted_date, type\nfrom dash.feed_correlation_points\nwhere author = 'maria'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Impressions per post over time",
@@ -4278,41 +2741,17 @@
           "value": "2026-06-01"
         },
         "datasource": {
-          "type": "yesoreyeram-infinity-datasource",
-          "uid": "grafanacloud-infinity"
+          "type": "grafana-postgresql-datasource",
+          "uid": "${DS_LINKEDIN_PG}"
         },
+        "definition": "select week\nfrom dash.feed_account_weeks\nwhere author = 'maria'\norder by ord",
         "hide": 2,
         "includeAll": false,
         "label": "Account latest week",
         "multi": false,
         "name": "account_latest_week",
         "options": [],
-        "query": {
-          "columns": [
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            }
-          ],
-          "computed_columns": [],
-          "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
-          },
-          "filters": [],
-          "format": "table",
-          "parser": "backend",
-          "refId": "acct_week_var",
-          "root_selector": "account_weeks",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/maria/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
-        },
+        "query": "select week\nfrom dash.feed_account_weeks\nwhere author = 'maria'\norder by ord",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,

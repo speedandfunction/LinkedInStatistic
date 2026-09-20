@@ -23,43 +23,11 @@
         "type": "query",
         "label": "Month",
         "datasource": {
-          "type": "yesoreyeram-infinity-datasource",
-          "uid": "grafanacloud-infinity"
+          "type": "grafana-postgresql-datasource",
+          "uid": "${DS_LINKEDIN_PG}"
         },
-        "definition": "Infinity — page_geo_monthly[].month",
-        "query": {
-          "refId": "variable",
-          "queryType": "infinity",
-          "infinityQuery": {
-            "refId": "variable",
-            "datasource": {
-              "type": "yesoreyeram-infinity-datasource",
-              "uid": "grafanacloud-infinity"
-            },
-            "type": "json",
-            "source": "url",
-            "format": "table",
-            "parser": "backend",
-            "root_selector": "page_geo_monthly",
-            "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-            "url_options": {
-              "data": "",
-              "method": "GET"
-            },
-            "columns": [
-              {
-                "selector": "month",
-                "text": "month",
-                "type": "string"
-              }
-            ],
-            "filters": []
-          },
-          "meta": {
-            "textField": "month",
-            "valueField": "month"
-          }
-        },
+        "definition": "select month::text as month from dash.feed_page_geo_monthly order by ord",
+        "query": "select month::text as month from dash.feed_page_geo_monthly order by ord",
         "current": {},
         "options": [],
         "refresh": 1,
@@ -94,8 +62,8 @@
       "type": "stat",
       "title": "Engagement score (latest month)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 4,
@@ -128,35 +96,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "engagement_score_totals",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "scope",
-              "text": "scope",
-              "type": "string"
-            },
-            {
-              "selector": "score",
-              "text": "score",
-              "type": "number"
-            }
-          ],
-          "filters": [],
-          "filterExpression": "scope == \"last_week\""
+          "rawQuery": true,
+          "rawSql": "select scope::text as scope, score from dash.feed_page_engagement_score_totals where scope = 'last_week' order by ord",
+          "refId": "A"
         }
       ],
       "description": "The feed’s “last_week” scope is filled from the LATEST MONTH of the page export (the aggregate fallback in build-page-stats.mjs) — the company page publishes no weekly granularity, so this is a month, not a week. The newest month is PARTIAL: monthly.json was generated 2026-08-20, so 2026-08 covers about 20 days against 31 — it is NOT comparable to the full months beside it, and a drop in the last point or bar may be nothing but the missing days. If per-person collection later puts engagement.json in place, this scope becomes a real ISO week; this generator reads whether that file exists and words the title accordingly. Flat weighting only — reaction ×1, comment ×5. The ICP ×2 and VIP ×4 multipliers in scoring.json cannot be applied until per-person engagers are collected, which is why every tier panel here reads “???”. This number says nothing about WHO engaged."
@@ -166,8 +114,8 @@
       "type": "stat",
       "title": "...from normal audience",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 4,
@@ -198,35 +146,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "engagement_score_totals",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "scope",
-              "text": "scope",
-              "type": "string"
-            },
-            {
-              "selector": "score_normal",
-              "text": "score_normal",
-              "type": "string"
-            }
-          ],
-          "filters": [],
-          "filterExpression": "scope == \"last_week\""
+          "rawQuery": true,
+          "rawSql": "select scope::text as scope, score_normal::text as score_normal from dash.feed_page_engagement_score_totals where scope = 'last_week' order by ord",
+          "refId": "A"
         }
       ]
     },
@@ -235,8 +163,8 @@
       "type": "stat",
       "title": "...from ICP",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 4,
@@ -267,35 +195,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "engagement_score_totals",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "scope",
-              "text": "scope",
-              "type": "string"
-            },
-            {
-              "selector": "score_icp",
-              "text": "score_icp",
-              "type": "string"
-            }
-          ],
-          "filters": [],
-          "filterExpression": "scope == \"last_week\""
+          "rawQuery": true,
+          "rawSql": "select scope::text as scope, score_icp::text as score_icp from dash.feed_page_engagement_score_totals where scope = 'last_week' order by ord",
+          "refId": "A"
         }
       ]
     },
@@ -304,8 +212,8 @@
       "type": "stat",
       "title": "...from VIP list (4×)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 4,
@@ -336,35 +244,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "engagement_score_totals",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "scope",
-              "text": "scope",
-              "type": "string"
-            },
-            {
-              "selector": "score_vip",
-              "text": "score_vip",
-              "type": "string"
-            }
-          ],
-          "filters": [],
-          "filterExpression": "scope == \"last_week\""
+          "rawQuery": true,
+          "rawSql": "select scope::text as scope, score_vip::text as score_vip from dash.feed_page_engagement_score_totals where scope = 'last_week' order by ord",
+          "refId": "A"
         }
       ]
     },
@@ -373,8 +261,8 @@
       "type": "stat",
       "title": "Engagement score (last 6 months)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 4,
@@ -407,35 +295,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "engagement_score_totals",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "scope",
-              "text": "scope",
-              "type": "string"
-            },
-            {
-              "selector": "score",
-              "text": "score",
-              "type": "number"
-            }
-          ],
-          "filters": [],
-          "filterExpression": "scope == \"all_time\""
+          "rawQuery": true,
+          "rawSql": "select scope::text as scope, score from dash.feed_page_engagement_score_totals where scope = 'all_time' order by ord",
+          "refId": "A"
         }
       ],
       "description": "NOT a lifetime total. The page export is a rolling 6-month window (scrape-page.mjs --months=6) and monthly.json is OVERWRITTEN whole on every run, so months older than six are retained nowhere in this repo. This figure drops its oldest month on the next collection and can FALL while engagement rises. Flat weighting only — reaction ×1, comment ×5. The ICP ×2 and VIP ×4 multipliers in scoring.json cannot be applied until per-person engagers are collected, which is why every tier panel here reads “???”. This number says nothing about WHO engaged."
@@ -445,8 +313,8 @@
       "type": "stat",
       "title": "...from normal audience",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 4,
@@ -477,35 +345,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "engagement_score_totals",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "scope",
-              "text": "scope",
-              "type": "string"
-            },
-            {
-              "selector": "score_normal",
-              "text": "score_normal",
-              "type": "string"
-            }
-          ],
-          "filters": [],
-          "filterExpression": "scope == \"all_time\""
+          "rawQuery": true,
+          "rawSql": "select scope::text as scope, score_normal::text as score_normal from dash.feed_page_engagement_score_totals where scope = 'all_time' order by ord",
+          "refId": "A"
         }
       ],
       "description": "NOT a lifetime total. The page export is a rolling 6-month window (scrape-page.mjs --months=6) and monthly.json is OVERWRITTEN whole on every run, so months older than six are retained nowhere in this repo. This figure drops its oldest month on the next collection and can FALL while engagement rises."
@@ -515,8 +363,8 @@
       "type": "stat",
       "title": "...from ICP",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 4,
@@ -547,35 +395,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "engagement_score_totals",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "scope",
-              "text": "scope",
-              "type": "string"
-            },
-            {
-              "selector": "score_icp",
-              "text": "score_icp",
-              "type": "string"
-            }
-          ],
-          "filters": [],
-          "filterExpression": "scope == \"all_time\""
+          "rawQuery": true,
+          "rawSql": "select scope::text as scope, score_icp::text as score_icp from dash.feed_page_engagement_score_totals where scope = 'all_time' order by ord",
+          "refId": "A"
         }
       ],
       "description": "NOT a lifetime total. The page export is a rolling 6-month window (scrape-page.mjs --months=6) and monthly.json is OVERWRITTEN whole on every run, so months older than six are retained nowhere in this repo. This figure drops its oldest month on the next collection and can FALL while engagement rises."
@@ -585,8 +413,8 @@
       "type": "stat",
       "title": "...from VIP list (4×)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 4,
@@ -617,35 +445,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "engagement_score_totals",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "scope",
-              "text": "scope",
-              "type": "string"
-            },
-            {
-              "selector": "score_vip",
-              "text": "score_vip",
-              "type": "string"
-            }
-          ],
-          "filters": [],
-          "filterExpression": "scope == \"all_time\""
+          "rawQuery": true,
+          "rawSql": "select scope::text as scope, score_vip::text as score_vip from dash.feed_page_engagement_score_totals where scope = 'all_time' order by ord",
+          "refId": "A"
         }
       ],
       "description": "NOT a lifetime total. The page export is a rolling 6-month window (scrape-page.mjs --months=6) and monthly.json is OVERWRITTEN whole on every run, so months older than six are retained nowhere in this repo. This figure drops its oldest month on the next collection and can FALL while engagement rises."
@@ -655,8 +463,8 @@
       "type": "stat",
       "title": "ICP share of reactions (last 6 months)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 4,
@@ -687,35 +495,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "engagement_score_totals",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "scope",
-              "text": "scope",
-              "type": "string"
-            },
-            {
-              "selector": "icp_reaction_pct",
-              "text": "icp_reaction_pct",
-              "type": "string"
-            }
-          ],
-          "filters": [],
-          "filterExpression": "scope == \"all_time\""
+          "rawQuery": true,
+          "rawSql": "select scope::text as scope, icp_reaction_pct::text as icp_reaction_pct from dash.feed_page_engagement_score_totals where scope = 'all_time' order by ord",
+          "refId": "A"
         }
       ],
       "description": "NOT a lifetime total. The page export is a rolling 6-month window (scrape-page.mjs --months=6) and monthly.json is OVERWRITTEN whole on every run, so months older than six are retained nowhere in this repo. This figure drops its oldest month on the next collection and can FALL while engagement rises."
@@ -725,8 +513,8 @@
       "type": "stat",
       "title": "ICP share of comments (last 6 months)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 4,
@@ -757,35 +545,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "engagement_score_totals",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "scope",
-              "text": "scope",
-              "type": "string"
-            },
-            {
-              "selector": "icp_comment_pct",
-              "text": "icp_comment_pct",
-              "type": "string"
-            }
-          ],
-          "filters": [],
-          "filterExpression": "scope == \"all_time\""
+          "rawQuery": true,
+          "rawSql": "select scope::text as scope, icp_comment_pct::text as icp_comment_pct from dash.feed_page_engagement_score_totals where scope = 'all_time' order by ord",
+          "refId": "A"
         }
       ],
       "description": "NOT a lifetime total. The page export is a rolling 6-month window (scrape-page.mjs --months=6) and monthly.json is OVERWRITTEN whole on every run, so months older than six are retained nowhere in this repo. This figure drops its oldest month on the next collection and can FALL while engagement rises."
@@ -795,8 +563,8 @@
       "type": "stat",
       "title": "ICP share of all engagement (last 6 months)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 4,
@@ -827,35 +595,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "engagement_score_totals",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "scope",
-              "text": "scope",
-              "type": "string"
-            },
-            {
-              "selector": "icp_engagement_pct",
-              "text": "icp_engagement_pct",
-              "type": "string"
-            }
-          ],
-          "filters": [],
-          "filterExpression": "scope == \"all_time\""
+          "rawQuery": true,
+          "rawSql": "select scope::text as scope, icp_engagement_pct::text as icp_engagement_pct from dash.feed_page_engagement_score_totals where scope = 'all_time' order by ord",
+          "refId": "A"
         }
       ],
       "description": "NOT a lifetime total. The page export is a rolling 6-month window (scrape-page.mjs --months=6) and monthly.json is OVERWRITTEN whole on every run, so months older than six are retained nowhere in this repo. This figure drops its oldest month on the next collection and can FALL while engagement rises."
@@ -865,8 +613,8 @@
       "type": "stat",
       "title": "ICP engagers (last 6 months)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 4,
@@ -897,35 +645,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "engagement_score_totals",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "scope",
-              "text": "scope",
-              "type": "string"
-            },
-            {
-              "selector": "people_icp",
-              "text": "people_icp",
-              "type": "string"
-            }
-          ],
-          "filters": [],
-          "filterExpression": "scope == \"all_time\""
+          "rawQuery": true,
+          "rawSql": "select scope::text as scope, people_icp::text as people_icp from dash.feed_page_engagement_score_totals where scope = 'all_time' order by ord",
+          "refId": "A"
         }
       ],
       "description": "NOT a lifetime total. The page export is a rolling 6-month window (scrape-page.mjs --months=6) and monthly.json is OVERWRITTEN whole on every run, so months older than six are retained nowhere in this repo. This figure drops its oldest month on the next collection and can FALL while engagement rises."
@@ -935,8 +663,8 @@
       "type": "timeseries",
       "title": "Engagement score per month",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 8,
@@ -968,34 +696,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "engagement_score_weeks",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "score",
-              "text": "score",
-              "type": "number"
-            }
-          ],
-          "filters": []
+          "rawQuery": true,
+          "rawSql": "select week::text as week, score from dash.feed_page_engagement_score_weeks order by ord",
+          "refId": "A"
         }
       ],
       "transformations": [
@@ -1030,8 +739,8 @@
       "type": "table",
       "title": "Top engagers",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 8,
@@ -1056,49 +765,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "engagement_people",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "name",
-              "text": "name",
-              "type": "string"
-            },
-            {
-              "selector": "tier",
-              "text": "tier",
-              "type": "string"
-            },
-            {
-              "selector": "reactions",
-              "text": "reactions",
-              "type": "number"
-            },
-            {
-              "selector": "comments",
-              "text": "comments",
-              "type": "number"
-            },
-            {
-              "selector": "score",
-              "text": "score",
-              "type": "number"
-            }
-          ],
-          "filters": []
+          "rawQuery": true,
+          "rawSql": "select name::text as name, tier::text as tier, reactions, comments, score from dash.feed_page_engagement_people order by ord",
+          "refId": "A"
         }
       ],
       "transformations": [
@@ -1140,8 +815,8 @@
       "type": "table",
       "title": "Reactions & comments — total vs ICP",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 6,
@@ -1172,54 +847,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "engagement_score_totals",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "scope",
-              "text": "scope",
-              "type": "string"
-            },
-            {
-              "selector": "reactions",
-              "text": "reactions",
-              "type": "number"
-            },
-            {
-              "selector": "reactions_icp",
-              "text": "reactions_icp",
-              "type": "string"
-            },
-            {
-              "selector": "comments",
-              "text": "comments",
-              "type": "number"
-            },
-            {
-              "selector": "comments_icp",
-              "text": "comments_icp",
-              "type": "string"
-            },
-            {
-              "selector": "icp_engagement_pct",
-              "text": "icp_engagement_pct",
-              "type": "string"
-            }
-          ],
-          "filters": []
+          "rawQuery": true,
+          "rawSql": "select scope::text as scope, reactions, reactions_icp::text as reactions_icp, comments, comments_icp::text as comments_icp, icp_engagement_pct::text as icp_engagement_pct from dash.feed_page_engagement_score_totals order by ord",
+          "refId": "A"
         }
       ],
       "transformations": [
@@ -1254,8 +890,8 @@
       "type": "stat",
       "title": "Followers (reconstructed)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 4,
@@ -1288,34 +924,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "page_account_weeks",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "followers",
-              "text": "followers",
-              "type": "number"
-            }
-          ],
-          "filters": []
+          "rawQuery": true,
+          "rawSql": "select week::text as week, followers from dash.feed_page_account_weeks order by ord",
+          "refId": "A"
         }
       ],
       "transformations": [
@@ -1350,8 +967,8 @@
       "type": "stat",
       "title": "Post impressions (monthly)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 4,
@@ -1384,34 +1001,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "page_account_weeks",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "post_impressions",
-              "text": "post_impressions",
-              "type": "number"
-            }
-          ],
-          "filters": []
+          "rawQuery": true,
+          "rawSql": "select week::text as week, post_impressions from dash.feed_page_account_weeks order by ord",
+          "refId": "A"
         }
       ],
       "transformations": [
@@ -1446,8 +1044,8 @@
       "type": "stat",
       "title": "Page visitors (monthly)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 4,
@@ -1480,34 +1078,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "page_account_weeks",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "unique_visitors",
-              "text": "unique_visitors",
-              "type": "number"
-            }
-          ],
-          "filters": []
+          "rawQuery": true,
+          "rawSql": "select week::text as week, unique_visitors from dash.feed_page_account_weeks order by ord",
+          "refId": "A"
         }
       ],
       "transformations": [
@@ -1542,8 +1121,8 @@
       "type": "stat",
       "title": "Search appearances (7-day rolling, last snapshot)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 4,
@@ -1576,34 +1155,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "page_search_weeks",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "searches",
-              "text": "searches",
-              "type": "number"
-            }
-          ],
-          "filters": []
+          "rawQuery": true,
+          "rawSql": "select week::text as week, searches from dash.feed_page_search_weeks order by ord",
+          "refId": "A"
         }
       ],
       "transformations": [
@@ -1638,8 +1198,8 @@
       "type": "timeseries",
       "title": "Followers (reconstructed)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 7,
@@ -1671,34 +1231,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "page_account_weeks",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "followers",
-              "text": "followers",
-              "type": "number"
-            }
-          ],
-          "filters": []
+          "rawQuery": true,
+          "rawSql": "select week::text as week, followers from dash.feed_page_account_weeks order by ord",
+          "refId": "A"
         }
       ],
       "transformations": [
@@ -1733,8 +1274,8 @@
       "type": "timeseries",
       "title": "Post impressions (monthly)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 7,
@@ -1766,34 +1307,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "page_account_weeks",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "post_impressions",
-              "text": "post_impressions",
-              "type": "number"
-            }
-          ],
-          "filters": []
+          "rawQuery": true,
+          "rawSql": "select week::text as week, post_impressions from dash.feed_page_account_weeks order by ord",
+          "refId": "A"
         }
       ],
       "transformations": [
@@ -1828,8 +1350,8 @@
       "type": "timeseries",
       "title": "Page visitors (monthly)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 7,
@@ -1861,34 +1383,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "page_account_weeks",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "unique_visitors",
-              "text": "unique_visitors",
-              "type": "number"
-            }
-          ],
-          "filters": []
+          "rawQuery": true,
+          "rawSql": "select week::text as week, unique_visitors from dash.feed_page_account_weeks order by ord",
+          "refId": "A"
         }
       ],
       "transformations": [
@@ -1923,8 +1426,8 @@
       "type": "timeseries",
       "title": "Search appearances (manual snapshots)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 7,
@@ -1956,34 +1459,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "page_search_weeks",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "searches",
-              "text": "searches",
-              "type": "number"
-            }
-          ],
-          "filters": []
+          "rawQuery": true,
+          "rawSql": "select week::text as week, searches from dash.feed_page_search_weeks order by ord",
+          "refId": "A"
         }
       ],
       "transformations": [
@@ -2018,8 +1502,8 @@
       "type": "barchart",
       "title": "Seniority — follower base (top 8)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 7,
@@ -2051,45 +1535,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "page_demographics",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "audience",
-              "text": "audience",
-              "type": "string"
-            },
-            {
-              "selector": "category",
-              "text": "category",
-              "type": "string"
-            },
-            {
-              "selector": "name",
-              "text": "name",
-              "type": "string"
-            },
-            {
-              "selector": "value",
-              "text": "value",
-              "type": "number"
-            }
-          ],
-          "filters": [],
-          "filterExpression": "(audience == \"followers\") && (category == \"Seniority\")"
+          "rawQuery": true,
+          "rawSql": "select audience::text as audience, category::text as category, name::text as name, value from dash.feed_page_demographics where audience = 'followers' and category = 'Seniority' order by ord",
+          "refId": "A"
         }
       ],
       "transformations": [
@@ -2129,8 +1583,8 @@
       "type": "barchart",
       "title": "Seniority — page views by visitor seniority (12 mo, top 8)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 7,
@@ -2162,45 +1616,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "page_demographics",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "audience",
-              "text": "audience",
-              "type": "string"
-            },
-            {
-              "selector": "category",
-              "text": "category",
-              "type": "string"
-            },
-            {
-              "selector": "name",
-              "text": "name",
-              "type": "string"
-            },
-            {
-              "selector": "value",
-              "text": "value",
-              "type": "number"
-            }
-          ],
-          "filters": [],
-          "filterExpression": "(audience == \"visitors\") && (category == \"Seniority\")"
+          "rawQuery": true,
+          "rawSql": "select audience::text as audience, category::text as category, name::text as name, value from dash.feed_page_demographics where audience = 'visitors' and category = 'Seniority' order by ord",
+          "refId": "A"
         }
       ],
       "transformations": [
@@ -2240,8 +1664,8 @@
       "type": "barchart",
       "title": "Job function — follower base (top 8)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 7,
@@ -2273,45 +1697,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "page_demographics",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "audience",
-              "text": "audience",
-              "type": "string"
-            },
-            {
-              "selector": "category",
-              "text": "category",
-              "type": "string"
-            },
-            {
-              "selector": "name",
-              "text": "name",
-              "type": "string"
-            },
-            {
-              "selector": "value",
-              "text": "value",
-              "type": "number"
-            }
-          ],
-          "filters": [],
-          "filterExpression": "(audience == \"followers\") && (category == \"Job function\")"
+          "rawQuery": true,
+          "rawSql": "select audience::text as audience, category::text as category, name::text as name, value from dash.feed_page_demographics where audience = 'followers' and category = 'Job function' order by ord",
+          "refId": "A"
         }
       ],
       "transformations": [
@@ -2351,8 +1745,8 @@
       "type": "barchart",
       "title": "Job function — page views by visitor job function (12 mo, top 8)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 7,
@@ -2384,45 +1778,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "page_demographics",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "audience",
-              "text": "audience",
-              "type": "string"
-            },
-            {
-              "selector": "category",
-              "text": "category",
-              "type": "string"
-            },
-            {
-              "selector": "name",
-              "text": "name",
-              "type": "string"
-            },
-            {
-              "selector": "value",
-              "text": "value",
-              "type": "number"
-            }
-          ],
-          "filters": [],
-          "filterExpression": "(audience == \"visitors\") && (category == \"Job function\")"
+          "rawQuery": true,
+          "rawSql": "select audience::text as audience, category::text as category, name::text as name, value from dash.feed_page_demographics where audience = 'visitors' and category = 'Job function' order by ord",
+          "refId": "A"
         }
       ],
       "transformations": [
@@ -2462,8 +1826,8 @@
       "type": "barchart",
       "title": "Industry — follower base (top 8)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 7,
@@ -2495,45 +1859,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "page_demographics",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "audience",
-              "text": "audience",
-              "type": "string"
-            },
-            {
-              "selector": "category",
-              "text": "category",
-              "type": "string"
-            },
-            {
-              "selector": "name",
-              "text": "name",
-              "type": "string"
-            },
-            {
-              "selector": "value",
-              "text": "value",
-              "type": "number"
-            }
-          ],
-          "filters": [],
-          "filterExpression": "(audience == \"followers\") && (category == \"Industry\")"
+          "rawQuery": true,
+          "rawSql": "select audience::text as audience, category::text as category, name::text as name, value from dash.feed_page_demographics where audience = 'followers' and category = 'Industry' order by ord",
+          "refId": "A"
         }
       ],
       "transformations": [
@@ -2573,8 +1907,8 @@
       "type": "barchart",
       "title": "Industry — page views by visitor industry (12 mo, top 8)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 7,
@@ -2606,45 +1940,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "page_demographics",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "audience",
-              "text": "audience",
-              "type": "string"
-            },
-            {
-              "selector": "category",
-              "text": "category",
-              "type": "string"
-            },
-            {
-              "selector": "name",
-              "text": "name",
-              "type": "string"
-            },
-            {
-              "selector": "value",
-              "text": "value",
-              "type": "number"
-            }
-          ],
-          "filters": [],
-          "filterExpression": "(audience == \"visitors\") && (category == \"Industry\")"
+          "rawQuery": true,
+          "rawSql": "select audience::text as audience, category::text as category, name::text as name, value from dash.feed_page_demographics where audience = 'visitors' and category = 'Industry' order by ord",
+          "refId": "A"
         }
       ],
       "transformations": [
@@ -2684,8 +1988,8 @@
       "type": "barchart",
       "title": "Company size — follower base (top 8)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 7,
@@ -2717,45 +2021,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "page_demographics",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "audience",
-              "text": "audience",
-              "type": "string"
-            },
-            {
-              "selector": "category",
-              "text": "category",
-              "type": "string"
-            },
-            {
-              "selector": "name",
-              "text": "name",
-              "type": "string"
-            },
-            {
-              "selector": "value",
-              "text": "value",
-              "type": "number"
-            }
-          ],
-          "filters": [],
-          "filterExpression": "(audience == \"followers\") && (category == \"Company size\")"
+          "rawQuery": true,
+          "rawSql": "select audience::text as audience, category::text as category, name::text as name, value from dash.feed_page_demographics where audience = 'followers' and category = 'Company size' order by ord",
+          "refId": "A"
         }
       ],
       "transformations": [
@@ -2795,8 +2069,8 @@
       "type": "barchart",
       "title": "Company size — page views by visitor company size (12 mo, top 8)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 7,
@@ -2828,45 +2102,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "page_demographics",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "audience",
-              "text": "audience",
-              "type": "string"
-            },
-            {
-              "selector": "category",
-              "text": "category",
-              "type": "string"
-            },
-            {
-              "selector": "name",
-              "text": "name",
-              "type": "string"
-            },
-            {
-              "selector": "value",
-              "text": "value",
-              "type": "number"
-            }
-          ],
-          "filters": [],
-          "filterExpression": "(audience == \"visitors\") && (category == \"Company size\")"
+          "rawQuery": true,
+          "rawSql": "select audience::text as audience, category::text as category, name::text as name, value from dash.feed_page_demographics where audience = 'visitors' and category = 'Company size' order by ord",
+          "refId": "A"
         }
       ],
       "transformations": [
@@ -2906,8 +2150,8 @@
       "type": "barchart",
       "title": "Location — follower base (top 8)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 7,
@@ -2939,45 +2183,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "page_demographics",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "audience",
-              "text": "audience",
-              "type": "string"
-            },
-            {
-              "selector": "category",
-              "text": "category",
-              "type": "string"
-            },
-            {
-              "selector": "name",
-              "text": "name",
-              "type": "string"
-            },
-            {
-              "selector": "value",
-              "text": "value",
-              "type": "number"
-            }
-          ],
-          "filters": [],
-          "filterExpression": "(audience == \"followers\") && (category == \"Location\")"
+          "rawQuery": true,
+          "rawSql": "select audience::text as audience, category::text as category, name::text as name, value from dash.feed_page_demographics where audience = 'followers' and category = 'Location' order by ord",
+          "refId": "A"
         }
       ],
       "transformations": [
@@ -3017,8 +2231,8 @@
       "type": "barchart",
       "title": "Location — page views by visitor location (12 mo, top 8)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 7,
@@ -3050,45 +2264,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "page_demographics",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "audience",
-              "text": "audience",
-              "type": "string"
-            },
-            {
-              "selector": "category",
-              "text": "category",
-              "type": "string"
-            },
-            {
-              "selector": "name",
-              "text": "name",
-              "type": "string"
-            },
-            {
-              "selector": "value",
-              "text": "value",
-              "type": "number"
-            }
-          ],
-          "filters": [],
-          "filterExpression": "(audience == \"visitors\") && (category == \"Location\")"
+          "rawQuery": true,
+          "rawSql": "select audience::text as audience, category::text as category, name::text as name, value from dash.feed_page_demographics where audience = 'visitors' and category = 'Location' order by ord",
+          "refId": "A"
         }
       ],
       "transformations": [
@@ -3147,8 +2331,8 @@
       "type": "barchart",
       "title": "Post clicks & reposts per month",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 7,
@@ -3178,39 +2362,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "page_monthly",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "month",
-              "text": "month",
-              "type": "string"
-            },
-            {
-              "selector": "post_clicks",
-              "text": "post_clicks",
-              "type": "number"
-            },
-            {
-              "selector": "post_reposts",
-              "text": "post_reposts",
-              "type": "number"
-            }
-          ],
-          "filters": []
+          "rawQuery": true,
+          "rawSql": "select month::text as month, post_clicks, post_reposts from dash.feed_page_monthly order by ord",
+          "refId": "A"
         }
       ],
       "transformations": [
@@ -3284,8 +2444,8 @@
       "type": "stat",
       "title": "US · ICP share of visitor locations (6 mo)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 6,
@@ -3331,35 +2491,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "page_geo_aggregate",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "audience",
-              "text": "audience",
-              "type": "string"
-            },
-            {
-              "selector": "icp_pct",
-              "text": "icp_pct",
-              "type": "number"
-            }
-          ],
-          "filters": [],
-          "filterExpression": "audience == \"visitors\""
+          "rawQuery": true,
+          "rawSql": "select audience::text as audience, icp_pct from dash.feed_page_geo_aggregate where audience = 'visitors' order by ord",
+          "refId": "A"
         }
       ],
       "description": "Counts from the Visitors export’s Location sheet (only members whose location LinkedIn names), classified into ICP buckets by geo-monthly.py. Read these as COMPOSITION — the sheet is not a count of visitors. Across 2026-03–2026-08 it totals 2201, against 1681 unique visitors and 3890 page views over the same months — it matches neither, so it cannot be read as \"how many people looked at the page\"."
@@ -3369,8 +2509,8 @@
       "type": "stat",
       "title": "US · ICP share — followers (geo-classified subset)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 6,
@@ -3416,35 +2556,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "page_geo_aggregate",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "audience",
-              "text": "audience",
-              "type": "string"
-            },
-            {
-              "selector": "icp_pct",
-              "text": "icp_pct",
-              "type": "number"
-            }
-          ],
-          "filters": [],
-          "filterExpression": "audience == \"followers\""
+          "rawQuery": true,
+          "rawSql": "select audience::text as audience, icp_pct from dash.feed_page_geo_aggregate where audience = 'followers' order by ord",
+          "refId": "A"
         }
       ],
       "description": "Computed over ONLY those followers whose country the export names — NOT over the follower base shown above. Unclassified followers are excluded from both the numerator and the denominator, so this percentage is an upper bound on the share of the real base. As recorded in manual.json, recorded 2026-08-20: 837 of 1362 followers are geo-classified, so 525 are invisible here; the US share of the FULL base is at most 356/1362 = 26.1%."
@@ -3454,8 +2574,8 @@
       "type": "bargauge",
       "title": "Visitor locations by ICP bucket (6 mo)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 6,
@@ -3483,40 +2603,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "page_geo_buckets",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "audience",
-              "text": "audience",
-              "type": "string"
-            },
-            {
-              "selector": "name",
-              "text": "name",
-              "type": "string"
-            },
-            {
-              "selector": "value",
-              "text": "value",
-              "type": "number"
-            }
-          ],
-          "filters": [],
-          "filterExpression": "audience == \"visitors\""
+          "rawQuery": true,
+          "rawSql": "select audience::text as audience, name::text as name, value from dash.feed_page_geo_buckets where audience = 'visitors' order by ord",
+          "refId": "A"
         }
       ],
       "transformations": [
@@ -3538,8 +2633,8 @@
       "type": "bargauge",
       "title": "Followers by ICP bucket (geo-classified subset)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 6,
@@ -3567,40 +2662,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "page_geo_buckets",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "audience",
-              "text": "audience",
-              "type": "string"
-            },
-            {
-              "selector": "name",
-              "text": "name",
-              "type": "string"
-            },
-            {
-              "selector": "value",
-              "text": "value",
-              "type": "number"
-            }
-          ],
-          "filters": [],
-          "filterExpression": "audience == \"followers\""
+          "rawQuery": true,
+          "rawSql": "select audience::text as audience, name::text as name, value from dash.feed_page_geo_buckets where audience = 'followers' order by ord",
+          "refId": "A"
         }
       ],
       "transformations": [
@@ -3622,8 +2692,8 @@
       "type": "barchart",
       "title": "US · ICP share of visitor locations by month",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 8,
@@ -3653,34 +2723,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "page_geo_monthly",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "month",
-              "text": "month",
-              "type": "string"
-            },
-            {
-              "selector": "icp_pct",
-              "text": "icp_pct",
-              "type": "number"
-            }
-          ],
-          "filters": []
+          "rawQuery": true,
+          "rawSql": "select month::text as month, icp_pct from dash.feed_page_geo_monthly order by ord",
+          "refId": "A"
         }
       ],
       "transformations": [
@@ -3703,8 +2754,8 @@
       "type": "barchart",
       "title": "Visitor locations by month",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 8,
@@ -3734,49 +2785,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "page_geo_monthly",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "month",
-              "text": "month",
-              "type": "string"
-            },
-            {
-              "selector": "us",
-              "text": "us",
-              "type": "number"
-            },
-            {
-              "selector": "team",
-              "text": "team",
-              "type": "number"
-            },
-            {
-              "selector": "anti",
-              "text": "anti",
-              "type": "number"
-            },
-            {
-              "selector": "other",
-              "text": "other",
-              "type": "number"
-            }
-          ],
-          "filters": []
+          "rawQuery": true,
+          "rawSql": "select month::text as month, us, team, anti, other from dash.feed_page_geo_monthly order by ord",
+          "refId": "A"
         }
       ],
       "transformations": [
@@ -3799,8 +2816,8 @@
       "type": "barchart",
       "title": "Page views & unique visitors",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 8,
@@ -3830,39 +2847,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "page_monthly",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "month",
-              "text": "month",
-              "type": "string"
-            },
-            {
-              "selector": "page_views",
-              "text": "page_views",
-              "type": "number"
-            },
-            {
-              "selector": "unique_visitors",
-              "text": "unique_visitors",
-              "type": "number"
-            }
-          ],
-          "filters": []
+          "rawQuery": true,
+          "rawSql": "select month::text as month, page_views, unique_visitors from dash.feed_page_monthly order by ord",
+          "refId": "A"
         }
       ],
       "transformations": [
@@ -3885,8 +2878,8 @@
       "type": "barchart",
       "title": "New followers per month",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 8,
@@ -3916,34 +2909,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "page_monthly",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "month",
-              "text": "month",
-              "type": "string"
-            },
-            {
-              "selector": "new_followers",
-              "text": "new_followers",
-              "type": "number"
-            }
-          ],
-          "filters": []
+          "rawQuery": true,
+          "rawSql": "select month::text as month, new_followers from dash.feed_page_monthly order by ord",
+          "refId": "A"
         }
       ],
       "transformations": [
@@ -3979,8 +2953,8 @@
       "type": "stat",
       "title": "US · ICP share of locations ($month)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 5,
@@ -4026,35 +3000,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "page_geo_monthly",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "month",
-              "text": "month",
-              "type": "string"
-            },
-            {
-              "selector": "icp_pct",
-              "text": "icp_pct",
-              "type": "number"
-            }
-          ],
-          "filters": [],
-          "filterExpression": "month == \"${month}\""
+          "rawQuery": true,
+          "rawSql": "select month::text as month, icp_pct from dash.feed_page_geo_monthly where month = ${month:sqlstring} order by ord",
+          "refId": "A"
         }
       ],
       "description": "Counts from the Visitors export’s Location sheet (only members whose location LinkedIn names), classified into ICP buckets by geo-monthly.py. Read these as COMPOSITION — the sheet is not a count of visitors. Across 2026-03–2026-08 it totals 2201, against 1681 unique visitors and 3890 page views over the same months — it matches neither, so it cannot be read as \"how many people looked at the page\". The newest month is PARTIAL: monthly.json was generated 2026-08-20, so 2026-08 covers about 20 days against 31 — it is NOT comparable to the full months beside it, and a drop in the last point or bar may be nothing but the missing days."
@@ -4064,8 +3018,8 @@
       "type": "stat",
       "title": "India / China share of locations ($month)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 5,
@@ -4094,35 +3048,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "page_geo_monthly",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "month",
-              "text": "month",
-              "type": "string"
-            },
-            {
-              "selector": "anti_pct",
-              "text": "anti_pct",
-              "type": "number"
-            }
-          ],
-          "filters": [],
-          "filterExpression": "month == \"${month}\""
+          "rawQuery": true,
+          "rawSql": "select month::text as month, anti_pct from dash.feed_page_geo_monthly where month = ${month:sqlstring} order by ord",
+          "refId": "A"
         }
       ],
       "description": "Counts from the Visitors export’s Location sheet (only members whose location LinkedIn names), classified into ICP buckets by geo-monthly.py. Read these as COMPOSITION — the sheet is not a count of visitors. Across 2026-03–2026-08 it totals 2201, against 1681 unique visitors and 3890 page views over the same months — it matches neither, so it cannot be read as \"how many people looked at the page\". The newest month is PARTIAL: monthly.json was generated 2026-08-20, so 2026-08 covers about 20 days against 31 — it is NOT comparable to the full months beside it, and a drop in the last point or bar may be nothing but the missing days."
@@ -4132,8 +3066,8 @@
       "type": "stat",
       "title": "US · Location-sheet count ($month)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 5,
@@ -4162,35 +3096,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "page_geo_monthly",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "month",
-              "text": "month",
-              "type": "string"
-            },
-            {
-              "selector": "us",
-              "text": "us",
-              "type": "number"
-            }
-          ],
-          "filters": [],
-          "filterExpression": "month == \"${month}\""
+          "rawQuery": true,
+          "rawSql": "select month::text as month, us from dash.feed_page_geo_monthly where month = ${month:sqlstring} order by ord",
+          "refId": "A"
         }
       ],
       "description": "Counts from the Visitors export’s Location sheet (only members whose location LinkedIn names), classified into ICP buckets by geo-monthly.py. Read these as COMPOSITION — the sheet is not a count of visitors. Across 2026-03–2026-08 it totals 2201, against 1681 unique visitors and 3890 page views over the same months — it matches neither, so it cannot be read as \"how many people looked at the page\". The newest month is PARTIAL: monthly.json was generated 2026-08-20, so 2026-08 covers about 20 days against 31 — it is NOT comparable to the full months beside it, and a drop in the last point or bar may be nothing but the missing days."
@@ -4200,8 +3114,8 @@
       "type": "stat",
       "title": "India / China · Location-sheet count ($month)",
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "gridPos": {
         "h": 5,
@@ -4230,35 +3144,15 @@
       },
       "targets": [
         {
-          "refId": "A",
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "type": "json",
-          "source": "url",
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "root_selector": "page_geo_monthly",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/page-stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          },
-          "columns": [
-            {
-              "selector": "month",
-              "text": "month",
-              "type": "string"
-            },
-            {
-              "selector": "anti",
-              "text": "anti",
-              "type": "number"
-            }
-          ],
-          "filters": [],
-          "filterExpression": "month == \"${month}\""
+          "rawQuery": true,
+          "rawSql": "select month::text as month, anti from dash.feed_page_geo_monthly where month = ${month:sqlstring} order by ord",
+          "refId": "A"
         }
       ],
       "description": "Counts from the Visitors export’s Location sheet (only members whose location LinkedIn names), classified into ICP buckets by geo-monthly.py. Read these as COMPOSITION — the sheet is not a count of visitors. Across 2026-03–2026-08 it totals 2201, against 1681 unique visitors and 3890 page views over the same months — it matches neither, so it cannot be read as \"how many people looked at the page\". The newest month is PARTIAL: monthly.json was generated 2026-08-20, so 2026-08 covers about 20 days against 31 — it is NOT comparable to the full months beside it, and a drop in the last point or bar may be nothing but the missing days."
