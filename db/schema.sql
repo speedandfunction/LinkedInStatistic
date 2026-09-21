@@ -502,7 +502,7 @@ create table li.scan_target (
 comment on table li.scan_target is
   'Which posts/comments have ever had their reactor list read. A target absent here has never been scanned, so its reactors are a baseline, not a week of new reactions.';
 comment on column li.scan_target.first_scanned_week is
-  'MERGE RULE: frozen. merge.py sets it only on insert (line 315); the else branch (lines 320-322) overwrites last_scanned_week and reactor_count and nothing else.';
+  'MERGE RULE: frozen. merge.py sets it only on insert; the else branch overwrites last_scanned_week and reactor_count and nothing else. An incomplete read of the overlay never lowers reactor_count and is flagged short_read in engagement.json, which is scraper bookkeeping (it decides what to re-read) and is deliberately not imported: the count in the file is already the corrected one.';
 
 
 -- ===========================================================================

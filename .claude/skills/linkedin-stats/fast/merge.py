@@ -244,7 +244,7 @@ def merge_engagement(p):
                       backfill, text?}
       icp_verdicts[] {key, verdict, reason, model, headline_hash}
       targets[]      {target_id, target_type, target_urn, target_url, week,
-                      reactor_count}
+                      reactor_count, short_read?}
     """
     path = p["path"]
     now_iso = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -371,6 +371,12 @@ def merge_engagement(p):
     for item in incoming_targets:
         tid = item["target_id"]
         entry = targets.get(tid)
+        # An incomplete read of the reactor overlay is NOT evidence that the
+        # post lost reactors: it must never lower a count a complete read put
+        # there (2026-09-21: 14 -> 0 on one of maria's posts). The flag is what
+        # makes selectPostTargets come back for the target — a stored target is
+        # otherwise never revisited — and the first complete read clears it.
+        short = bool(item.get("short_read"))
         if entry is None:
             targets[tid] = {
                 "target_id":          tid,
@@ -381,10 +387,17 @@ def merge_engagement(p):
                 "last_scanned_week":  item["week"],
                 "reactor_count":      item["reactor_count"],
             }
+            if short:
+                targets[tid]["short_read"] = True
             targets_new += 1
         else:
             entry["last_scanned_week"] = item["week"]
-            entry["reactor_count"] = item["reactor_count"]
+            entry["reactor_count"] = (max(item["reactor_count"], entry.get("reactor_count", 0))
+                                      if short else item["reactor_count"])
+            if short:
+                entry["short_read"] = True
+            else:
+                entry.pop("short_read", None)
 
     # Deterministic key order keeps diffs to the rows that actually changed.
     data["people"] = dict(sorted(people.items()))

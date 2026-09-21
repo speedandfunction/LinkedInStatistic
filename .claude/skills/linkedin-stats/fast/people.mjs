@@ -152,15 +152,23 @@ export function selectPostTargets(entries, {
       && ((latest.metrics?.reactions ?? 0) !== (prev.metrics?.reactions ?? 0)
         || (latest.metrics?.comments ?? 0) !== (prev.metrics?.comments ?? 0)));
     const recent = Number.isFinite(postedMs) && (weekMs - postedMs) <= recentDays * DAY_MS;
-    const neverScanned = !recentOnly && !scannedTargets[targetIdForPost(data.urn)];
+    const prevScan = scannedTargets[targetIdForPost(data.urn)];
+    const neverScanned = !recentOnly && !prevScan;
+    // The last run opened this dialog and came back short. A scanned target is
+    // otherwise never revisited once the post stops being recent and its counts
+    // stop moving, so without this the shortfall is permanent — and it is the
+    // reason a short read is allowed to publish the week at all. Ranked with
+    // `changed`: an incomplete target outranks a merely recent one when the cap
+    // bites. Cleared by the first complete read (merge.py).
+    const shortRead = !recentOnly && !!prevScan?.short_read;
     if (recentOnly && !recent) continue;
-    if (!changed && !recent && !neverScanned) continue;
+    if (!changed && !recent && !neverScanned && !shortRead) continue;
     scored.push({
       file,
       data,
-      band: changed ? 0 : recent ? 1 : 2,
+      band: changed || shortRead ? 0 : recent ? 1 : 2,
       postedMs: Number.isFinite(postedMs) ? postedMs : 0,
-      reason: changed ? 'counts-changed' : recent ? 'recent' : 'never-scanned',
+      reason: changed ? 'counts-changed' : shortRead ? 'short-read' : recent ? 'recent' : 'never-scanned',
     });
   }
   scored.sort((a, b) => a.band - b.band || b.postedMs - a.postedMs);

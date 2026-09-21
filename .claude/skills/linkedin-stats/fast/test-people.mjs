@@ -133,6 +133,37 @@ test('selectPostTargets prioritizes changed counts, then recent, then unscanned'
   assert.equal(capped.dropped, 1);
 });
 
+test('selectPostTargets comes back for a target whose reactor list was read short', () => {
+  const week = '2026-08-17';
+  // Old, scanned, and its counts have not moved: invisible to every other
+  // rule, which is exactly why a short read has to carry its own flag. Without
+  // it the unread reactors are lost for good — and that is the premise on
+  // which a short read is allowed to publish the week (scrape-weekly exit 11).
+  const stale = postEntry('stale', 'urn:li:activity:2', '2026-01-02', {
+    '2026-08-10': { metrics: { reactions: 5, comments: 1 } },
+    '2026-08-17': { metrics: { reactions: 5, comments: 1 } },
+  });
+  const recent = postEntry('recent', 'urn:li:activity:3', '2026-08-05');
+
+  const complete = { 'post:urn:li:activity:2': { reactor_count: 14 }, 'post:urn:li:activity:3': {} };
+  assert.deepEqual(P.selectPostTargets([stale, recent], { week, scannedTargets: complete })
+    .selected.map((s) => s.data.id), ['recent'], 'a complete read stays off the list');
+
+  const short = { 'post:urn:li:activity:2': { reactor_count: 14, short_read: true }, 'post:urn:li:activity:3': {} };
+  const got = P.selectPostTargets([stale, recent], { week, scannedTargets: short });
+  // Ahead of `recent`: when the cap bites, an incomplete target is the one
+  // that cannot wait — a recent post stays recent next week, this one does not.
+  assert.deepEqual(got.selected.map((s) => s.data.id), ['stale', 'recent']);
+  assert.equal(got.selected[0].reason, 'short-read');
+  assert.equal(P.selectPostTargets([stale, recent], { week, scannedTargets: short, maxPosts: 1 })
+    .selected[0].data.id, 'stale');
+
+  // recentOnly is the explicit "only fresh posts" backfill mode: it must not
+  // start dragging in old targets just because they carry the flag.
+  assert.deepEqual(P.selectPostTargets([stale, recent], { week, scannedTargets: short, recentOnly: true })
+    .selected.map((s) => s.data.id), ['recent']);
+});
+
 test('selectCommentTargets keeps only recent comments and reports the overflow', () => {
   const nowMs = Date.parse('2026-08-17T00:00:00Z');
   const mk = (urn, iso) => ({ comment_urn: urn, permalink: `https://x/?commentUrn=${urn}`, commented_at: iso });

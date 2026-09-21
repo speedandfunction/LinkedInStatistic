@@ -31,6 +31,9 @@
 //
 // Exit codes:
 //   0  complete
+//   11 advisory: only the people phase came back short; every other phase is
+//      complete, the snapshot is worth publishing, and the unread targets are
+//      flagged `short_read` so the next run comes back for them
 //   10 partial per-post/page failures; outputs valid
 //   20 auth/checkpoint wall
 //   21 profile busy (another Chrome owns the profile)
@@ -2085,7 +2088,17 @@ async function phasePeople(page) {
         }
       }
 
-      const opened = await openPostReactors(page, DIALOG_SEL);
+      // One retry: a dialog that misses the first click is usually a slow
+      // mount or a stray overlay, not drift. On 2026-09-21 a first-click miss
+      // cost one of peter's four post targets and, with it, the whole week's
+      // auto-merge.
+      let opened = await openPostReactors(page, DIALOG_SEL);
+      if (opened !== 'open') {
+        await closeDialog(page, DIALOG_SEL);
+        await sleep(1500);
+        opened = await openPostReactors(page, DIALOG_SEL);
+        if (opened === 'open') vlog(`people: post ${t.data.id} — dialog opened on the retry`);
+      }
       if (opened !== 'open') { dialogFailures++; failed++; vlog(`people: post ${t.data.id} — ${opened}`); continue; }
       const { error, people: reactors, expected } = await scrapeOpenReactorDialog(page, 30, 500, DIALOG_SEL);
       await closeDialog(page, DIALOG_SEL);
@@ -2095,9 +2108,16 @@ async function phasePeople(page) {
       // Private profiles ("LinkedIn Member") render without a link and can
       // never be identified, so a small shortfall is normal; only a real gap
       // counts as a short read.
-      if (expected && reactors.length < expected * 0.9) {
+      // Second shape, and the one that bit on 2026-09-21: the dialog opens,
+      // hands back NOTHING and does not announce a total either (`expected`
+      // is 0 on every one of peter's posts). Silence about a post a previous
+      // week counted reactors on is a short read, not a post that lost them.
+      const known = Number(scannedTargets[People.targetIdForPost(t.data.urn)]?.reactor_count ?? 0);
+      const shortRead = (expected > 0 && reactors.length < expected * 0.9)
+        || (reactors.length === 0 && known > 0);
+      if (shortRead) {
         reactorsShort++;
-        log(`people: post ${t.data.id} — read only ${reactors.length} of ${expected} reactors`);
+        log(`people: post ${t.data.id} — read only ${reactors.length} of ${expected || known} reactors`);
       }
       if (expected) reactorsExpected += expected;
       const isBaseline = !scannedTargets[People.targetIdForPost(t.data.urn)];
@@ -2109,7 +2129,14 @@ async function phasePeople(page) {
       targetRecords.push({
         target_id: People.targetIdForPost(t.data.urn), target_type: 'post',
         target_urn: t.data.urn, target_url: t.data.post_url,
-        week: WEEK, reactor_count: reactors.length,
+        week: WEEK,
+        // An incomplete read must never lower a good count: on 2026-09-21 a
+        // dialog that returned nothing wrote 14 -> 0 over one of maria's
+        // targets, and nothing would have gone back for it, because a stored
+        // target looks scanned. merge.py enforces the same rule; this keeps
+        // the two in step.
+        reactor_count: shortRead ? Math.max(reactors.length, known) : reactors.length,
+        short_read: shortRead,
       });
       const rr = People.rosterUrls(reactors, { expected });
       rosterUnresolved += rr.unresolved;
@@ -2511,7 +2538,7 @@ if (BLOCK_ASSETS) {
 
 // Severity flags — the exit code is resolved from ALL of them at the end so
 // a later, more severe failure can't be masked by an earlier partial one.
-const sev = { auth: false, compat: false, rate: false, fs: false, unknown: false, partial: false };
+const sev = { auth: false, compat: false, rate: false, fs: false, unknown: false, partial: false, advisory: false };
 function resolveExit() {
   if (sev.auth) return 20;
   if (sev.compat) return 30;
@@ -2519,6 +2546,9 @@ function resolveExit() {
   if (sev.fs) return 23;
   if (sev.unknown) return 1;
   if (sev.partial) return 10;
+  // Below every real failure: the week is publishable, and the caller is told
+  // only so the shortfall gets a line in the Monday report.
+  if (sev.advisory) return 11;
   return 0;
 }
 const isDeadline = () => /deadline/.test(breakerTripped ?? '');
@@ -2633,7 +2663,14 @@ try {
       const r = await phasePeople(page);
       contractSections.set('people', r);
       manifestPhase('people', started, r);
-      if (r.PEOPLE_STATUS !== 'OK') sev.partial = true;
+      // PARTIAL here means a reactor list came back short — a flaky overlay,
+      // not a broken week. Demoting the run for it sent 2026-09-21 to manual
+      // review with three perfect account snapshots in it, which is exactly
+      // what the phase header says must not happen. It stays visible as exit
+      // 11, and `short_read` on the target brings the shortfall back next run.
+      // Every other non-OK status (drift, auth, rate, deadline) still demotes.
+      if (r.PEOPLE_STATUS === 'PARTIAL') sev.advisory = true;
+      else if (r.PEOPLE_STATUS !== 'OK') sev.partial = true;
     } catch (e) {
       // Deliberately not fail(): no ERROR= line, no severity escalation
       // beyond partial. A brand-new phase must not be able to demote a run
