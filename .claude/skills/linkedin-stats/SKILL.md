@@ -134,6 +134,24 @@ Regression suite (browser-free): `node .claude/skills/linkedin-stats/fast/test-p
 and `python3 .claude/skills/linkedin-stats/fast/test_short_read.py` (the merge
 side of the same rule).
 
+**Waiting for the reactor list** (`fast/reactor-dialog.mjs`, since 2026-09-21,
+when a list read before it rendered was stored as "nobody reacted"). An open
+dialog is polled up to 15 s for its first entries, then paged; everyone any
+read showed is kept, so a list that re-renders or closes cannot take people
+back. Only the dialog's own "All n" total ends a read as complete; last
+week's stored count only buys patience (5 quiet rounds instead of 2 below it),
+because lists grow. One dialog never runs past 60 s, and the waiting is paid
+only out of spare time before `--deadline-secs` (`People.reactorPatienceMs`):
+with nothing spare the loop reads exactly as it did before, and a dialog open
+when the deadline or the 429 breaker fires stops at once. A read that ended
+without finishing (never rendered, dialog closed, budget, deadline) is flagged
+`short_read` when no total was announced, and one that read nobody on a
+never-scanned target writes no record at all (`People.reactorReadVerdict`).
+`LI_REACTOR_SETTLE_MS` / `LI_REACTOR_DIALOG_BUDGET_MS` override the 15 s / 60 s
+(positive ms; anything else keeps the default; settle is capped at the budget).
+Browser suite, local fixture, invented people, no LinkedIn, ~21 s:
+`node .claude/skills/linkedin-stats/fast/test-reactor-dialog.mjs`.
+
 **Known DOM facts (verified live 2026-08-17)** — LinkedIn's 2026 obfuscation
 reached the post page, so these are the only handles that work:
 - the reactor overlay is a native `<dialog data-testid="dialog">`, NOT

@@ -163,6 +163,143 @@ test('isShortRead trusts the dialog AND our own history, and nothing else', () =
   assert.equal(S(0, NaN, null), false);
 });
 
+test('reactorScrollDecision: only the announced total completes a read; a known count buys patience', () => {
+  const D = (o) => P.reactorScrollDecision(o);
+  const { quiet, quietBelowTarget } = P.REACTOR_PATIENCE;
+
+  // Reached what the dialog announced: done.
+  assert.equal(D({ count: 25, announced: 25, stagnant: 0 }), 'complete');
+  assert.equal(D({ count: 30, announced: 25, stagnant: 0 }), 'complete');
+
+  // What we stored last time is NOT a stop. The list grew since (the very
+  // posts selectPostTargets reopens as counts-changed); stopping at the old
+  // number stored 10 of 30 as a complete read, with no flag.
+  assert.equal(D({ count: 10, known: 7, stagnant: 0 }), 'continue');
+  assert.equal(D({ count: 20, known: 14, stagnant: 0 }), 'continue');
+  assert.equal(D({ count: 14, known: 14, stagnant: quiet - 1 }), 'continue');
+  assert.equal(D({ count: 14, known: 14, stagnant: quiet }), 'stagnant', 'at the known count: the old rule');
+
+  // Well below either number: more quiet rounds before accepting it — a slow
+  // proxy pauses between pages, it does not end the list.
+  for (const o of [{ announced: 25 }, { known: 25 }]) {
+    assert.equal(D({ count: 10, ...o, stagnant: quiet }), 'continue');
+    assert.equal(D({ count: 10, ...o, stagnant: quietBelowTarget - 1 }), 'continue');
+    assert.equal(D({ count: 10, ...o, stagnant: quietBelowTarget }), 'stagnant');
+  }
+  // The announced total wins over a stale known count.
+  assert.equal(D({ count: 10, announced: 10, known: 25, stagnant: 0 }), 'complete');
+
+  // Within 10% (the private-profile slack) or nothing known at all: the old
+  // rule, two quiet rounds, so a normal list costs nothing extra.
+  assert.equal(D({ count: 23, announced: 25, stagnant: quiet - 1 }), 'continue');
+  assert.equal(D({ count: 23, announced: 25, stagnant: quiet }), 'stagnant');
+  assert.equal(D({ count: 7, stagnant: quiet }), 'stagnant');
+
+  // An empty list is waited for by the settle window, not here: past it, it
+  // ends like any other, so a list that empties mid-read cannot hold the
+  // loop until the budget.
+  assert.equal(D({ count: 0, known: 14, stagnant: quietBelowTarget }), 'stagnant');
+  assert.equal(D({ count: 0, stagnant: quiet }), 'stagnant');
+
+  // No spare time before the deadline: no extra patience — the pre-change rule.
+  assert.equal(D({ count: 10, announced: 25, stagnant: quiet, patient: false }), 'stagnant');
+  assert.equal(D({ count: 25, announced: 25, stagnant: 0, patient: false }), 'complete');
+
+  // The cap always wins.
+  assert.equal(D({ count: 500, announced: 900, stagnant: 0, maxPeople: 500 }), 'cap');
+  assert.ok(quietBelowTarget > quiet, 'more patience below the target than above it');
+});
+
+test('reactorReadVerdict: an abandoned read is short, and nobody-read on a new target leaves no record', () => {
+  const V = (got, announced, known, stop, scannedBefore) => P.reactorReadVerdict({ got, announced, known, stop, scannedBefore });
+
+  // A finished read: isShortRead decides, exactly as before.
+  assert.deepEqual(V(14, null, 14, 'stagnant', true), { short: false, record: true });
+  assert.deepEqual(V(1, null, 14, 'stagnant', true), { short: true, record: true });
+  assert.deepEqual(V(7, null, 0, 'stagnant', false), { short: false, record: true });
+
+  // The list never rendered, on a post never scanned before. isShortRead has
+  // no witness (0 announced, 0 known) and calls it complete; storing that
+  // would say "nobody reacted" — false, the dialog opens only from a
+  // reaction count — and credit the whole list to the next week that reads
+  // it. Short, and not recorded: neverScanned brings it back as a baseline.
+  assert.equal(P.isShortRead({ got: 0, announced: null, known: 0 }), false, 'the blind spot');
+  assert.deepEqual(V(0, null, 0, 'never-rendered', false), { short: true, record: false });
+  // Same, with a total announced.
+  assert.deepEqual(V(0, 40, 0, 'never-rendered', false), { short: true, record: false });
+  // A target we HAVE scanned keeps its record and its flag.
+  assert.deepEqual(V(0, null, 14, 'never-rendered', true), { short: true, record: true });
+  assert.deepEqual(V(0, null, 0, 'never-rendered', true), { short: true, record: true });
+
+  // Cut off with no total to compare against: short whatever the number.
+  for (const stop of ['dialog-closed', 'budget', 'deadline', 'breaker']) {
+    assert.deepEqual(V(10, null, 0, stop, false), { short: true, record: true }, stop);
+    assert.deepEqual(V(30, null, 14, stop, true), { short: true, record: true }, stop);
+  }
+  // With a total announced, the total is the witness: 26 of 28 is complete
+  // even if the budget ended the scrolling; 10 of 40 is short either way.
+  assert.deepEqual(V(26, 28, 0, 'budget', false), { short: false, record: true });
+  assert.deepEqual(V(10, 40, 0, 'dialog-closed', false), { short: true, record: true });
+  // Limits set on purpose are judged by the number, as before.
+  assert.deepEqual(V(500, null, 0, 'cap', false), { short: false, record: true });
+  assert.deepEqual(V(300, null, 0, 'rounds', false), { short: false, record: true });
+
+  // Composed with the phase verdict: a total collapse on NEW posts only is
+  // still drift (every read short, nothing seen), and one new post that never
+  // rendered among good reads is an advisory shortfall, not a clean week.
+  assert.equal(P.reactorPhaseStatus({ attempted: 4, scanned: 4, reactorsSeen: 0, reactorsShort: 4 }), 'SELECTOR_DRIFT');
+  assert.equal(P.reactorPhaseStatus({ attempted: 4, scanned: 4, reactorsSeen: 30, reactorsShort: 1 }), 'REACTORS_SHORT');
+});
+
+test('reactorPatienceMs: waiting is paid only from spare time, so it cannot run the author past the deadline', () => {
+  const S = 1000;
+  const W = (o) => P.reactorPatienceMs(o);
+  // No deadline: no limit here (the dialog budget still applies).
+  assert.equal(W({ nowMs: 0, deadlineAtMs: Infinity, targetsLeft: 10, perTargetMs: 45 * S }), Infinity);
+  // Light week — 10 targets with 18 minutes left: the whole dialog budget.
+  assert.ok(W({ nowMs: 420 * S, deadlineAtMs: 1500 * S, targetsLeft: 10, perTargetMs: 45 * S }) >= 60 * S);
+  // 15 minutes left: less, but still the whole settle window and more.
+  assert.equal(W({ nowMs: 600 * S, deadlineAtMs: 1500 * S, targetsLeft: 10, perTargetMs: 45 * S }), 45 * S);
+  // Nothing spare: none at all, and never negative.
+  assert.equal(W({ nowMs: 500 * S, deadlineAtMs: 1500 * S, targetsLeft: 50, perTargetMs: 45 * S }), 0);
+  assert.equal(W({ nowMs: 1600 * S, deadlineAtMs: 1500 * S, targetsLeft: 1, perTargetMs: 0 }), 0);
+  // Junk counts are read as one target at no cost: a number out, never NaN
+  // (NaN would compare false everywhere and switch the limit off).
+  assert.equal(W({ nowMs: 0, deadlineAtMs: 100 * S, targetsLeft: NaN, perTargetMs: NaN }), 100 * S);
+  assert.ok(P.REACTOR_TARGET_COST_MS > 0);
+
+  // The guarantee, walked through: for any week whose pre-change reads fit
+  // before the deadline, spend EVERY millisecond of patience offered and
+  // still finish in time — as long as targets cost no more than the estimate
+  // the caller passes (max of REACTOR_TARGET_COST_MS and the measured
+  // average; here the true cost, the tightest case).
+  let rnd = 7;
+  const rand = () => { rnd = (rnd * 16807) % 2147483647; return rnd / 2147483647; };
+  let unboundedLate = 0;
+  for (let trial = 0; trial < 500; trial++) {
+    const deadline = 1500 * S;
+    const targets = 1 + Math.floor(rand() * 50);
+    // Per target, no patience — and never so much that the old reads alone
+    // would miss the deadline: that week was lost before patience existed.
+    const cost = Math.min(5 + rand() * 55, 1500 / targets) * S;
+    const start = rand() * (deadline - targets * cost);
+    let now = start;
+    for (let k = 0; k < targets; k++) {
+      const done = k;
+      const avg = done > 0 ? (now - start) / done : 0;
+      const p = W({ nowMs: now, deadlineAtMs: deadline, targetsLeft: targets - done, perTargetMs: Math.max(cost, avg) });
+      now += cost + p; // worst case: the whole share is waited out
+    }
+    assert.ok(now <= deadline + 1e-6,
+      `trial ${trial}: ${targets} targets at ${(cost / S).toFixed(1)}s from ${(start / S).toFixed(0)}s ended at ${(now / S).toFixed(1)}s`);
+    // The same week with a fixed 15 s settle wait per dialog and no share:
+    // the unbounded version the review measured.
+    if (start + targets * (cost + 15 * S) > deadline) unboundedLate++;
+  }
+  // …which would have run late on a good part of these same weeks.
+  assert.ok(unboundedLate > 100, `unbounded waiting ran late in only ${unboundedLate} of 500 weeks`);
+});
+
 test('reactorPhaseStatus: only a clean overlay shortfall may publish', () => {
   const base = { attempted: 4, scanned: 4, reactorsSeen: 30, reactorsExpected: 30 };
   const st = (o) => P.reactorPhaseStatus({ ...base, ...o });

@@ -174,6 +174,102 @@ export function isShortRead({ got, announced, known }) {
 }
 
 /**
+ * When to stop paging an open reactor list. Pure, so the patience rules are
+ * under test rather than buried in a browser loop.
+ *
+ * The list lazy-loads, and through a remote browser behind a proxy it can take
+ * seconds to render its first page. Until 2026-09-21 the loop read it the
+ * instant the dialog SHELL appeared and gave up after two rounds with no
+ * growth — about three seconds — so a list that had not rendered yet was
+ * recorded as a read of nobody. The wait for the FIRST entries is the loop's
+ * settle window (reactor-dialog.mjs); once paging, these rules apply:
+ *
+ *   - only the dialog's own total (`announced`) can end a read as 'complete'.
+ *     What a previous read stored (`known`) is NOT a stop: a list that grew
+ *     since — exactly the posts selectPostTargets reopens as counts-changed —
+ *     would be cut at last week's number and stored as complete.
+ *   - below either number (by more than the 10% private-profile slack) the
+ *     list gets more rounds without growth before we accept it: a slow proxy
+ *     pauses between pages, it does not end the list.
+ *   - `patient` false (no spare time left before the run's deadline, see
+ *     reactorPatienceMs) drops that extra patience: two quiet rounds, exactly
+ *     the rule from before the change.
+ *
+ * With neither number known, two quiet rounds end it, exactly as before.
+ */
+export const REACTOR_PATIENCE = { quiet: 2, quietBelowTarget: 5 };
+
+export function reactorScrollDecision({
+  count, announced = 0, known = 0, stagnant = 0, maxPeople = Infinity, patient = true,
+}) {
+  const a = Number(announced) || 0;
+  const floor = a || Number(known) || 0;
+  if (count >= maxPeople) return 'cap';
+  if (a > 0 && count >= a) return 'complete';
+  const below = patient && floor > 0 && count < floor * 0.9;
+  const limit = below ? REACTOR_PATIENCE.quietBelowTarget : REACTOR_PATIENCE.quiet;
+  return stagnant >= limit ? 'stagnant' : 'continue';
+}
+
+/**
+ * How ONE read ended decides as much as how many it read.
+ *
+ * isShortRead judges the number, and without an announced total it cannot
+ * tell a finished list from an abandoned one: a list that never rendered, a
+ * dialog that closed under us, a read the time budget or the deadline cut off
+ * — each looks like "that is everyone". `stop` (scrapeOpenReactorDialog's
+ * reason) says which it was, so those reads are short whatever the number.
+ * When the dialog announced its total, that total is the better witness and
+ * isShortRead alone decides. `rounds` and `cap` are limits set on purpose and
+ * are judged by the number, as before.
+ *
+ * `record` is false for the one read that must leave no trace: NOTHING read,
+ * on a target never scanned before. Recording it would store "we looked and
+ * nobody reacted" — never true, the dialog only opens from a reaction count —
+ * and would turn the next good read into a week of new reactions instead of
+ * the baseline it is. The dialog-failure branch in scrape-weekly draws the
+ * same line. A PARTIAL first read is still recorded (short): isShortRead needs
+ * that stored count to recognise a structural private-profile gap next time.
+ */
+export const REACTOR_CUT_SHORT = ['never-rendered', 'dialog-closed', 'budget', 'deadline', 'breaker'];
+
+export function reactorReadVerdict({ got, announced, known, stop, scannedBefore }) {
+  const n = Number(got) || 0;
+  const cut = REACTOR_CUT_SHORT.includes(stop) && !(Number(announced) > 0);
+  const short = cut || isShortRead({ got, announced, known });
+  return { short, record: !!scannedBefore || !(short && n === 0) };
+}
+
+/**
+ * How long one reactor dialog may keep being PATIENT — waiting for its first
+ * entries, and allowing the extra quiet rounds below a known count — without
+ * that waiting being what runs the author past --deadline-secs.
+ *
+ * Patience is paid only out of spare time. Assume every target still to read
+ * (this one included) costs `perTargetMs` without any patience; what is left
+ * before the deadline after that is spare, and this dialog gets an even share
+ * of it. On a light week that is more than the dialog budget; as the deadline
+ * closes in it shrinks to 0, and at 0 the dialog reads exactly as it did
+ * before patience existed. So if the pre-change reads would have finished in
+ * time, and targets cost no more than `perTargetMs`, these finish in time too
+ * (test-people.mjs walks that through). No deadline at all: no limit here, the
+ * dialog budget still applies.
+ */
+export function reactorPatienceMs({ nowMs, deadlineAtMs, targetsLeft, perTargetMs }) {
+  if (!Number.isFinite(deadlineAtMs)) return Infinity;
+  const left = Math.max(1, Number(targetsLeft) || 0);
+  const spare = deadlineAtMs - nowMs - left * Math.max(0, Number(perTargetMs) || 0);
+  return Math.max(0, spare / left);
+}
+
+// What a target costs without any patience, until the run has measured its
+// own: page load, the on-page comment harvest, opening the dialog and the
+// pre-change loop (two quiet rounds on a short list, up to ~45 s on a long
+// one). Deliberately on the slow side — the caller uses the larger of this and
+// the measured average, so it only ever makes patience smaller.
+export const REACTOR_TARGET_COST_MS = 45000;
+
+/**
  * The verdict of the people phase, as a pure function of its counters — the
  * line between "publish this week" and "a human must look", so it is kept
  * here where a test can reach it.
