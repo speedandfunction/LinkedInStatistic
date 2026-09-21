@@ -256,6 +256,89 @@
         "https://www.linkedin.com/in/mohammad-mahdi-khadem-al-charieh-bb80aa227",
         "https://www.linkedin.com/in/vitaliihoncharenko"
       ]
+    },
+    "2026-09-21": {
+      "snapshot_at": "2026-09-21T03:23:48Z",
+      "metrics": {
+        "impressions": 21375,
+        "members_reached": 16470,
+        "reactions": 23,
+        "comments": 5,
+        "reposts": 1,
+        "saves": 4,
+        "sends": 0,
+        "profile_viewers": 12,
+        "followers_gained": 2,
+        "engagement_rate": 0.14
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 39.5,
+          "Senior": 32.1,
+          "Manager": 4.6,
+          "Director": 4.2,
+          "CXO": 2.6
+        },
+        "job_title": {
+          "Software Engineer": 25.8,
+          "Full Stack Engineer": 3.1,
+          "Frontend Developer": 2.6,
+          "Project Manager": 1.6,
+          "Quality Assurance Engineer": 1.4
+        },
+        "industry": {
+          "Software Development": 36.3,
+          "IT Services and IT Consulting": 28.2,
+          "Technology, Information and Internet": 6.1,
+          "Computer Games": 3.9,
+          "Financial Services": 2
+        },
+        "company_size": {
+          "51-200 employees": 15.3,
+          "10,001+ employees": 13.8,
+          "11-50 employees": 13.7,
+          "1001-5000 employees": 12.4,
+          "201-500 employees": 9.4
+        },
+        "location": {
+          "Belgrade Metropolitan Area": 3.2,
+          "Kyiv Metropolitan Area": 2.7,
+          "Zagreb Metropolitan Area": 1.9,
+          "Warsaw Metropolitan Area": 1.6,
+          "Novi Sad Metropolitan Area": 1.5
+        },
+        "company": {
+          "EPAM Systems": 0,
+          "Microsoft": 0,
+          "SoftServe": 0,
+          "GlobalLogic": 0,
+          "Accenture": 0
+        }
+      },
+      "comments": [
+        {
+          "author_name": "Mohammad-Mahdi Khadem-Al-Charieh",
+          "author_url": "https://www.linkedin.com/in/mohammad-mahdi-khadem-al-charieh-bb80aa227",
+          "author_headline": "M. Sc. Informatics: Games Engineering",
+          "comment_urn": "urn:li:comment:(activity:7402388577843605504,7404938634283491330)",
+          "text": "The biggest challenge of building large projects is figuring out what the customer actually needs, formalizing that in precise language and properly communicating it.\nThat is what the picture is trying to convey.\nAnd that is exactly the opposite of what AI is good at.\n\nAI will make these issues worse, ship more of what people ask for and less of what they actually need.\nI guess you could say AI does at least help you fail faster and find issues in the requirements earlier.",
+          "reactions": 1,
+          "replies_count": 1
+        },
+        {
+          "author_name": "Vitalii Honcharenko",
+          "author_url": "https://www.linkedin.com/in/vitaliihoncharenko",
+          "author_headline": "Software Development Services at Yael Acceptic | AI/LLMs/ML/NLP, Web & Mobile, IoT, E-commerce/learning, Fin/Insur/PropTech, Logistics",
+          "comment_urn": "urn:li:comment:(activity:7402388577843605504,7403441819377766400)",
+          "text": "This is such a clear way to see the shift. AI turns code from a bottleneck into a canvas. The skill is no longer just building, it’s knowing what to build and when to pivot.",
+          "reactions": 1,
+          "replies_count": 2
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/mohammad-mahdi-khadem-al-charieh-bb80aa227",
+        "https://www.linkedin.com/in/vitaliihoncharenko"
+      ]
     }
   }
 }

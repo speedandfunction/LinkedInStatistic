@@ -142,6 +142,53 @@
         }
       },
       "comments": []
+    },
+    "2026-09-21": {
+      "snapshot_at": "2026-09-21T03:28:45Z",
+      "metrics": {
+        "impressions": 316,
+        "members_reached": 127,
+        "reactions": 2,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 0.63
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 33.9,
+          "Senior": 31.5,
+          "Director": 7.1,
+          "CXO": 6.3,
+          "Owner": 6.3
+        },
+        "job_title": {
+          "Software Engineer": 19.7,
+          "Full Stack Engineer": 4.7
+        },
+        "industry": {
+          "IT Services and IT Consulting": 37.8,
+          "Software Development": 37,
+          "Technology, Information and Internet": 7.1
+        },
+        "company_size": {
+          "51-200 employees": 22,
+          "11-50 employees": 14.2,
+          "10,001+ employees": 11,
+          "1001-5000 employees": 9.4,
+          "1-10 employees": 7.1
+        },
+        "location": {
+          "Cologne Bonn Region": 4.7
+        },
+        "company": {
+          "Speed and Function": 15
+        }
+      },
+      "comments": []
     }
   }
 }

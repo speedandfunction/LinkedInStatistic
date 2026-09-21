@@ -829,8 +829,8 @@
       "key": "in/iegor-osaulenko-b073444b",
       "name": "Iegor Osaulenko",
       "profile_url": "https://www.linkedin.com/in/iegor-osaulenko-b073444b",
-      "headline": "Senior Systems Architect & Backend Engineer: Python | .NET | Go | Cloud | Permanent / Freelance / ZZP / Interim Consultant",
-      "headline_seen_at": "2026-09-05T16:22:34Z",
+      "headline": "Staff Backend Engineer & Systems Architect: Python | Go | .NET/C# | JS/TS | Cloud | AI Native",
+      "headline_seen_at": "2026-09-21T03:45:34Z",
       "first_seen_at": "2026-09-05T16:22:34Z",
       "icp": {
         "verdict": null,
@@ -889,8 +889,8 @@
       "key": "in/ovchyn",
       "name": "Peter Ovchynnikov",
       "profile_url": "https://www.linkedin.com/in/ovchyn",
-      "headline": "Building TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function",
-      "headline_seen_at": "2026-09-05T16:22:34Z",
+      "headline": "Co-CEO @ Speed & Function ▪️ Building TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018",
+      "headline_seen_at": "2026-09-21T03:45:34Z",
       "first_seen_at": "2026-09-05T16:22:34Z",
       "icp": {
         "verdict": null,
@@ -2804,7 +2804,7 @@
       "target_urn": "urn:li:activity:7498789820241010688",
       "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7498789820241010688/",
       "first_scanned_week": "2026-08-31",
-      "last_scanned_week": "2026-09-14",
+      "last_scanned_week": "2026-09-21",
       "reactor_count": 10
     },
     "post:urn:li:activity:7500116105856749568": {
@@ -2813,8 +2813,8 @@
       "target_urn": "urn:li:activity:7500116105856749568",
       "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7500116105856749568/",
       "first_scanned_week": "2026-08-31",
-      "last_scanned_week": "2026-09-14",
-      "reactor_count": 14
+      "last_scanned_week": "2026-09-21",
+      "reactor_count": 0
     }
   }
 }

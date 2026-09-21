@@ -189,6 +189,63 @@
         }
       },
       "comments": []
+    },
+    "2026-09-21": {
+      "snapshot_at": "2026-09-21T03:34:30Z",
+      "metrics": {
+        "impressions": 483,
+        "members_reached": 250,
+        "reactions": 4,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 3,
+        "followers_gained": 1,
+        "engagement_rate": 0.83
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 28.8,
+          "Entry": 27.6,
+          "Director": 10.4,
+          "Manager": 8.4,
+          "CXO": 5.6
+        },
+        "job_title": {
+          "Software Engineer": 5.6,
+          "Project Manager": 3.6,
+          "Founder": 2.4,
+          "Chief Executive Officer": 2.4,
+          "Product Manager": 2.4
+        },
+        "industry": {
+          "IT Services and IT Consulting": 25.6,
+          "Software Development": 15.2,
+          "Technology, Information and Internet": 6.4,
+          "Advertising Services": 5.6,
+          "Design Services": 4.8
+        },
+        "company_size": {
+          "51-200 employees": 17.2,
+          "10,001+ employees": 15.6,
+          "11-50 employees": 12.4,
+          "1001-5000 employees": 12,
+          "1-10 employees": 8.8
+        },
+        "location": {
+          "Lviv": 11.6,
+          "Kyiv Metropolitan Area": 4.4,
+          "Greater Stockholm Metropolitan Area": 3.6,
+          "Trondheim Region": 3.2
+        },
+        "company": {
+          "Speed and Function": 4,
+          "SoftServe": 3.2,
+          "Vend": 2.8
+        }
+      },
+      "comments": []
     }
   }
 }
