@@ -346,6 +346,119 @@
         "https://www.linkedin.com/in/ovchyn",
         "https://www.linkedin.com/in/untanglingsystems"
       ]
+    },
+    "2026-09-21": {
+      "snapshot_at": "2026-09-21T03:23:22Z",
+      "metrics": {
+        "impressions": 28445,
+        "members_reached": 20211,
+        "reactions": 19,
+        "comments": 8,
+        "reposts": 0,
+        "saves": 4,
+        "sends": 0,
+        "profile_viewers": 18,
+        "followers_gained": 3,
+        "engagement_rate": 0.09
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 33.6,
+          "Entry": 30.2,
+          "Director": 4.8,
+          "Training": 4.6,
+          "Manager": 3.4
+        },
+        "job_title": {
+          "Software Engineer": 9.1,
+          "Professor": 3.3,
+          "Postdoctoral Researcher": 2.8,
+          "Data Scientist": 2.4,
+          "Founder": 1.6
+        },
+        "industry": {
+          "Software Development": 17.7,
+          "IT Services and IT Consulting": 15.6,
+          "Research Services": 11.7,
+          "Higher Education": 7.5,
+          "Technology, Information and Internet": 6.1
+        },
+        "company_size": {
+          "10,001+ employees": 15.7,
+          "1001-5000 employees": 14,
+          "51-200 employees": 11.8,
+          "11-50 employees": 10.8,
+          "201-500 employees": 7.3
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 6,
+          "Lviv": 2.4,
+          "San Francisco Bay Area": 2.2,
+          "Greater Paris Metropolitan Region": 2.1,
+          "Zürich Metropolitan Area": 1.8
+        },
+        "company": {
+          "EPAM Systems": 0,
+          "SoftServe": 0,
+          "Microsoft": 0,
+          "GlobalLogic": 0,
+          "NDA": 0
+        }
+      },
+      "comments": [
+        {
+          "author_name": "Peter Ovchynnikov",
+          "author_url": "https://www.linkedin.com/in/ovchyn",
+          "author_headline": "Co-CEO @ Speed & Function ▪️ Building TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018",
+          "comment_urn": "urn:li:comment:(activity:7442194260919050240,7442195133925597184)",
+          "text": "On the Biology of a LLM\nhttps://www.youtube.com/watch?v=PwAcQTyZZ7I",
+          "reactions": 1,
+          "replies_count": 0
+        },
+        {
+          "author_name": "Andrii Rozhylo",
+          "author_url": "https://www.linkedin.com/in/arozhylo",
+          "author_headline": "AI Transformation Leader | Business Strategist | Entrepreneur | Delivery Manager | Product Manager | Marketing Expert",
+          "comment_urn": "urn:li:comment:(activity:7442194260919050240,7442857389055332352)",
+          "text": "When you work a lot with models, with time, a certain internal feeling appears, as if you already know in advance what response will come from the system, so you adjust your prompt in a way that steers that response in the direction you need.\n\nHope is what drives us when we launch a new AI process for the first time. But after a few iterations this feeling starts to emerge. \n\nLook deeper within yourself 🧘😇",
+          "reactions": 1,
+          "replies_count": 1
+        },
+        {
+          "author_name": "Kate Chapman",
+          "author_url": "https://www.linkedin.com/in/untanglingsystems",
+          "author_headline": "Chief Technology Officer at Feanix",
+          "comment_urn": "urn:li:comment:(activity:7442194260919050240,7442267219591442433)",
+          "text": "This very point of we can't understand why it does things leads me down the path of does that mean it is conscious? I haven't decided yet.",
+          "reactions": 1,
+          "replies_count": 0
+        },
+        {
+          "author_name": "Gianluigi Fliri",
+          "author_url": "https://www.linkedin.com/in/gianluigi-fliri",
+          "author_headline": "Data and AI Lead at HModa",
+          "comment_urn": "urn:li:comment:(activity:7442194260919050240,7442238230151770115)",
+          "text": "In the eighties researchers hypothized that neural networks could one day produce intelligent behaviour. Back then they only could run tiny perceptrons, but the intuition was there. In recent years it has been proved right. So I believe that, yes, we don't fully understand the magic, but it doesn't come from pure empirism. It is by design.",
+          "reactions": 1,
+          "replies_count": 1
+        },
+        {
+          "author_name": "jerome SUSGIN",
+          "author_url": "https://www.linkedin.com/in/jerome-susgin-b06b3b174",
+          "author_headline": "Building agnostic infrastructure for robotic fleets - current focus on drones | AI Architect @ Airbus | ROS2, Agentic AI, Orchestration, MLOps | Closing the SIL→HIL gap",
+          "comment_urn": "urn:li:comment:(activity:7442194260919050240,7442492363777810432)",
+          "text": "We know what LLM are : a stochastic generator of words (token) given a context (a prompt and the trained weights).",
+          "reactions": 0,
+          "replies_count": 1
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/arozhylo",
+        "https://www.linkedin.com/in/gianluigi-fliri",
+        "https://www.linkedin.com/in/jerome-susgin-b06b3b174",
+        "https://www.linkedin.com/in/ovchyn",
+        "https://www.linkedin.com/in/untanglingsystems"
+      ]
     }
   }
 }

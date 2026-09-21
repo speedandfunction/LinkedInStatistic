@@ -291,6 +291,90 @@
         "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b",
         "https://www.linkedin.com/in/yazvinskaya"
       ]
+    },
+    "2026-09-21": {
+      "snapshot_at": "2026-09-21T03:41:33Z",
+      "metrics": {
+        "impressions": 285,
+        "members_reached": 130,
+        "reactions": 15,
+        "comments": 6,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 4,
+        "followers_gained": 0,
+        "engagement_rate": 7.37
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 35.4,
+          "Entry": 26.2,
+          "Director": 10.8,
+          "CXO": 6.2,
+          "Manager": 4.6
+        },
+        "job_title": {
+          "Software Engineer": 9.2,
+          "Frontend Developer": 6.2
+        },
+        "industry": {
+          "IT Services and IT Consulting": 20,
+          "Software Development": 16.9,
+          "Advertising Services": 10.8,
+          "Technology, Information and Internet": 6.2
+        },
+        "company_size": {
+          "51-200 employees": 23.1,
+          "1001-5000 employees": 15.4,
+          "10,001+ employees": 15.4,
+          "11-50 employees": 10.8,
+          "1-10 employees": 6.9
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 14.6,
+          "Greater Kitchener-Cambridge-Waterloo Metropolitan Area": 6.2,
+          "Lviv": 5.4
+        },
+        "company": {
+          "Speed and Function": 13.1
+        }
+      },
+      "comments": [
+        {
+          "author_name": "Evgenia Usenok",
+          "author_url": "https://www.linkedin.com/in/evgenia-usenok-8b4034b",
+          "author_headline": "Communicator at Reactive Post. Personal Stylist",
+          "comment_urn": "urn:li:comment:(activity:7500116105856749568,7500123446601936896)",
+          "text": "Price tag not always showing the real price. Some talks are priceless. But I know how to awoid cheap talks - to be the wierdest person in the team😁",
+          "reactions": 1,
+          "replies_count": 1
+        },
+        {
+          "author_name": "Mila Yazvinska",
+          "author_url": "https://www.linkedin.com/in/yazvinskaya",
+          "author_headline": "Marketing & Impact Project Manager",
+          "comment_urn": "urn:li:comment:(activity:7500116105856749568,7500174321567469568)",
+          "text": "From the other hand it would be nice if some people could reach quickly their communication limits and be quiet at least till the next day 🙄 just saying",
+          "reactions": 1,
+          "replies_count": 1
+        },
+        {
+          "author_name": "Olga Mykhailova (Michai)",
+          "author_url": "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b",
+          "author_headline": "I design culture that works | Less drama and more movement | Helping C-level leaders turn resistance and difficult dynamics into collaboration and change | Developmental Culture | Nonviolent Communication",
+          "comment_urn": "urn:li:comment:(activity:7500116105856749568,7501289661726752768)",
+          "text": "My facial expression is a vivid visualization of that price haha",
+          "reactions": 1,
+          "replies_count": 1
+        }
+      ],
+      "reactors": [],
+      "commenters": [
+        "https://www.linkedin.com/in/evgenia-usenok-8b4034b",
+        "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b",
+        "https://www.linkedin.com/in/yazvinskaya"
+      ]
     }
   }
 }

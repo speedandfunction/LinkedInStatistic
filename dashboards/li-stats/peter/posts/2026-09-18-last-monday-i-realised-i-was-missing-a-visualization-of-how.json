@@ -1,0 +1,73 @@
+{
+  "urn": "urn:li:activity:7506626831983382528",
+  "id": "7506626831983382528",
+  "type": "post",
+  "posted_at": "2026-09-18T08:15:03Z",
+  "posted_date": "2026-09-18",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7506626831983382528/",
+  "preview": "Last Monday I realised I was missing a visualization of how prompts work in TrueBDD, because when something breaks in a chain of prompts, it is never clear where. Two days later, with the help of AI,",
+  "text": "Last Monday I realised I was missing a visualization of how prompts work in TrueBDD, because when something breaks in a chain of prompts, it is never clear where. \n\nTwo days later, with the help of AI, there was a full web server comparing the previous run to the current one. I would have died writing that by hand in normal life. And I was doing all of that while my regular tasks were still running in parallel.\n \nYou can't drive two cars at once. Before AI, coding was exactly that: you sit behind the wheel, you drive, you are focused. You physically could not do anything else while driving, except listen to music.\n \nNowadays, with Claude, I can run three projects and many tracks at once. I think through the next step, describe it to Claude, launch it, and it works for an hour or two. What do I do in the meantime? I switch to another idea. The possibilities of AI make you steer three cars at once, each going in its own direction, and all three want my guidance, all three keep tugging at me. I can't switch as fast as this AI demands of me. A dozen switches in a day and my brain boils 🤯\n \nIn the good old days, we didn't have the option of working on many tasks at once, so you picked one and spent a week on it, with almost no distraction apart from stand-ups, planning, and code reviews. AI has become one more part of that setup. So these days I find myself running from three to five projects at once and completely burned out.\n \nI have no conclusion here; I honestly don't know how to work with this. I'm curious what a week of five parallel tracks costs you. Have you found a remedy for yourself?",
+  "weeks": {
+    "2026-09-21": {
+      "snapshot_at": "2026-09-21T03:29:45Z",
+      "metrics": {
+        "impressions": 132,
+        "members_reached": 76,
+        "reactions": 5,
+        "comments": 1,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 4.55
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 31.6,
+          "Entry": 27.6
+        },
+        "job_title": {
+          "Software Engineer": 9.2
+        },
+        "industry": {
+          "IT Services and IT Consulting": 32.9,
+          "Software Development": 18.4,
+          "Technology, Information and Internet": 13.2
+        },
+        "company_size": {
+          "51-200 employees": 23.7,
+          "11-50 employees": 14.5,
+          "1001-5000 employees": 14.5
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 7.9
+        },
+        "company": {
+          "Speed and Function": 13.2
+        }
+      },
+      "comments": [
+        {
+          "author_name": "Vladimir Miroshnichenko",
+          "author_url": "https://www.linkedin.com/in/vladimir-miroshnichenko-8445b2208",
+          "author_headline": "Founder & CTO @ gitmir.com & mir.digital | 25+ Years Building Software | I Make AI Systems Smarter Without Making the Models Smarter",
+          "comment_urn": "urn:li:comment:(activity:7506626831983382528,7506732260004601856)",
+          "text": "The remedy I trust most is making each track resumable without holding it in my head. When the picture of a project, what it does, what the last change touched, what is still open, lives outside my memory, switching costs a minute of reading instead of twenty minutes of rebuilding. Most of the burnout comes from the rebuilding.",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "reactors": [
+        "https://www.linkedin.com/in/ACoAAAY6qPkBCmhBwsqaCMoRKxgRv6P_VydjsWA",
+        "https://www.linkedin.com/in/ACoAAAqUgLsBMjjr1evGW9ylnNSkUAGh06eUn5k",
+        "https://www.linkedin.com/in/ACoAABLJc_QB0fdj5wgGp-tp1CZZ8uNSEuHqmbQ",
+        "https://www.linkedin.com/in/ACoAAF13SYMBiBDMCUe9CJwKX1lVynpPOA1jPQA",
+        "https://www.linkedin.com/in/ovchyn"
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/vladimir-miroshnichenko-8445b2208"
+      ]
+    }
+  }
+}

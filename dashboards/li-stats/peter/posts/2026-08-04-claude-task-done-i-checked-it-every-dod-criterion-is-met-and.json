@@ -181,6 +181,63 @@
       "commenters": [
         "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b"
       ]
+    },
+    "2026-09-21": {
+      "snapshot_at": "2026-09-21T03:26:30Z",
+      "metrics": {
+        "impressions": 292,
+        "members_reached": 104,
+        "reactions": 1,
+        "comments": 1,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 0.68
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 36.5,
+          "Entry": 29.8
+        },
+        "job_title": {
+          "Software Engineer": 16.3,
+          "Quality Assurance Engineer": 5.8
+        },
+        "industry": {
+          "IT Services and IT Consulting": 33.7,
+          "Software Development": 30.8,
+          "Technology, Information and Internet": 8.7
+        },
+        "company_size": {
+          "51-200 employees": 26,
+          "10,001+ employees": 13.5,
+          "11-50 employees": 13.5,
+          "201-500 employees": 9.6,
+          "1001-5000 employees": 9.6
+        },
+        "location": {
+          "Lviv": 5.8
+        },
+        "company": {
+          "Speed and Function": 13.5
+        }
+      },
+      "comments": [
+        {
+          "author_name": "Olga Mykhailova (Michai)",
+          "author_url": "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b",
+          "author_headline": "I design culture that works | Less drama and more movement | Helping C-level leaders turn resistance and difficult dynamics into collaboration and change | Developmental Culture | Nonviolent Communication",
+          "comment_urn": "urn:li:comment:(activity:7490361400977039361,7493357461475860480)",
+          "text": "not to mention that there could be personal preferences, simply like/dislike, that is hard to put in an acceptance criteria or definition of done",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b"
+      ]
     }
   }
 }

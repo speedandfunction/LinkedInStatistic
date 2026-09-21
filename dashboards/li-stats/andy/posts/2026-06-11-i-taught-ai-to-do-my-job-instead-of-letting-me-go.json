@@ -154,6 +154,55 @@
         }
       },
       "comments": []
+    },
+    "2026-09-21": {
+      "snapshot_at": "2026-09-21T03:34:28Z",
+      "metrics": {
+        "impressions": 627,
+        "members_reached": 368,
+        "reactions": 6,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 2,
+        "profile_viewers": 2,
+        "followers_gained": 0,
+        "engagement_rate": 0.96
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 36.7,
+          "Entry": 22.7,
+          "Director": 9.2,
+          "Manager": 5.3,
+          "VP": 4.8
+        },
+        "job_title": {},
+        "industry": {
+          "IT Services and IT Consulting": 33.3,
+          "Software Development": 22.7,
+          "Financial Services": 5.8,
+          "Technology, Information and Internet": 5.8,
+          "Business Consulting and Services": 3.9
+        },
+        "company_size": {
+          "51-200 employees": 21.3,
+          "11-50 employees": 15.5,
+          "10,001+ employees": 13.5,
+          "1001-5000 employees": 12.6,
+          "501-1000 employees": 6.3
+        },
+        "location": {
+          "Lviv": 14.5,
+          "Kyiv Metropolitan Area": 9.7,
+          "Greater Boston": 2.9
+        },
+        "company": {
+          "Speed and Function": 7.7,
+          "EPAM Systems": 2.9
+        }
+      },
+      "comments": []
     }
   }
 }

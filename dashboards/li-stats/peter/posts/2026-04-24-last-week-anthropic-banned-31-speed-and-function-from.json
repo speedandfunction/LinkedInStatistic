@@ -316,6 +316,109 @@
         "https://www.linkedin.com/in/arozhylo",
         "https://www.linkedin.com/in/felixjofre"
       ]
+    },
+    "2026-09-21": {
+      "snapshot_at": "2026-09-21T03:24:13Z",
+      "metrics": {
+        "impressions": 1901,
+        "members_reached": 985,
+        "reactions": 32,
+        "comments": 4,
+        "reposts": 6,
+        "saves": 1,
+        "sends": 0,
+        "profile_viewers": 13,
+        "followers_gained": 0,
+        "engagement_rate": 2.21
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 31.8,
+          "Entry": 24.9,
+          "CXO": 6.5,
+          "Manager": 6.2,
+          "Director": 6
+        },
+        "job_title": {
+          "Software Engineer": 13.1,
+          "Founder": 3.6,
+          "Co-Founder": 2.3,
+          "Chief Executive Officer": 2.1,
+          "Frontend Developer": 2
+        },
+        "industry": {
+          "Software Development": 28,
+          "IT Services and IT Consulting": 26.2,
+          "Technology, Information and Internet": 12.2,
+          "Financial Services": 2.2,
+          "Business Consulting and Services": 1.6
+        },
+        "company_size": {
+          "51-200 employees": 16.5,
+          "11-50 employees": 14.2,
+          "10,001+ employees": 12.3,
+          "1-10 employees": 9.1,
+          "201-500 employees": 8.4
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 4.5,
+          "San Francisco Bay Area": 4.1,
+          "Greater Toronto Area, Canada": 3.6,
+          "Lviv": 2.9,
+          "New York City Metropolitan Area": 2.9
+        },
+        "company": {
+          "Speed and Function": 3,
+          "EPAM Systems": 0,
+          "Meta": 0,
+          "Microsoft": 0,
+          "SoftServe": 0
+        }
+      },
+      "comments": [
+        {
+          "author_name": "Félix Jofré",
+          "author_url": "https://www.linkedin.com/in/felixjofre",
+          "author_headline": "Project Manager | Louder Than Ten Certified Digital Project Lead | Business Strategist",
+          "comment_urn": "urn:li:comment:(activity:7453510493186560000,7453693039836897280)",
+          "text": "Thanks for sharing Peter and I’m sorry you’re all going through this, but it’s so valuable you share. I guess the lesson is never give too much power to a single provider, even less when their business model is a bubble built by vc, no matter how unbelievable the value seems like. I hope you’re new structure works out and good on you on not letting these dependencies get anywhere near critical al client delivery.",
+          "reactions": 1,
+          "replies_count": 0
+        },
+        {
+          "author_name": "Andrii Rozhylo",
+          "author_url": "https://www.linkedin.com/in/arozhylo",
+          "author_headline": "AI Transformation Leader | Business Strategist | Entrepreneur | Delivery Manager | Product Manager | Marketing Expert",
+          "comment_urn": "urn:li:comment:(activity:7453510493186560000,7453695611926683648)",
+          "text": "This could be titled like: \"From ambassadors to haters - how to kill your brand in one day\"",
+          "reactions": 4,
+          "replies_count": 0
+        },
+        {
+          "author_name": "Alex Ost",
+          "author_url": "https://www.linkedin.com/in/alex-ost-sf",
+          "author_headline": "Lead Developer at Speed and Function",
+          "comment_urn": "urn:li:comment:(activity:7453510493186560000,7453519343063273472)",
+          "text": "There is never two many backups/copies/plans-B-C, etc.",
+          "reactions": 2,
+          "replies_count": 0
+        },
+        {
+          "author_name": "Anne Cantera",
+          "author_url": "https://www.linkedin.com/in/anne-cantera",
+          "author_headline": "♾️ Director of Conversation / Omnimodal Design @ Stealth | AI Consulting | Agentic AI | Voice & Chat | Model Designer | Multimodal | Adaptive UI | Spec-driven Developer | Founder, Elementyl Intelligence | Teacher",
+          "comment_urn": "urn:li:comment:(activity:7453510493186560000,7453631900885200896)",
+          "text": "Was thinking about this last week. https://www.linkedin.com/posts/anne-cantera_ok-team-this-one-is-going-to-need-input-activity-7450968320884961282-tTzg?utm_source=share&utm_medium=member_android&rcm=ACoAADJQAdwBuIZKHtnP19CSFRTw-IX0k0yq68A",
+          "reactions": 1,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/alex-ost-sf",
+        "https://www.linkedin.com/in/anne-cantera",
+        "https://www.linkedin.com/in/arozhylo",
+        "https://www.linkedin.com/in/felixjofre"
+      ]
     }
   }
 }

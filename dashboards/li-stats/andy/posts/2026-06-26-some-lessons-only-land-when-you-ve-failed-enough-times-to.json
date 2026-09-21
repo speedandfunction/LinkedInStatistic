@@ -238,6 +238,83 @@
         "https://www.linkedin.com/in/arozhylo",
         "https://www.linkedin.com/in/yaroslav-fedyna-a81537271"
       ]
+    },
+    "2026-09-21": {
+      "snapshot_at": "2026-09-21T03:34:01Z",
+      "metrics": {
+        "impressions": 422,
+        "members_reached": 216,
+        "reactions": 8,
+        "comments": 2,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 5,
+        "followers_gained": 1,
+        "engagement_rate": 2.37
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 39.8,
+          "Entry": 25.5,
+          "Director": 6,
+          "Owner": 5.1,
+          "Manager": 5.1
+        },
+        "job_title": {
+          "Software Engineer": 9.7,
+          "Project Manager": 4.2,
+          "Founder": 3.2,
+          "Product Manager": 3.2
+        },
+        "industry": {
+          "IT Services and IT Consulting": 35.2,
+          "Software Development": 19,
+          "Technology, Information and Internet": 6.9,
+          "Business Consulting and Services": 3.2
+        },
+        "company_size": {
+          "51-200 employees": 27.8,
+          "10,001+ employees": 14.4,
+          "1001-5000 employees": 11.1,
+          "11-50 employees": 6.9,
+          "1-10 employees": 6.9
+        },
+        "location": {
+          "Lviv": 19.9,
+          "Kyiv Metropolitan Area": 8.3,
+          "Greater Philadelphia": 4.2,
+          "Kharkiv Metropolitan Area": 3.7
+        },
+        "company": {
+          "Speed and Function": 9.7,
+          "SoftServe": 3.7
+        }
+      },
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/arozhylo",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7476214344721002496,7476261432716873728)",
+          "text": "Andrii Rozhylo\nAuthor\nAI Transformation Leader | Business Strategist | Entrepreneur | Delivery Manager | Product Manager | Marketing Expert\nI voted with the 💡Insightful  emoji, as this reflects how one-on-ones with my manager feel.\n0\n62 impressions\n62",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/yaroslav-fedyna-a81537271",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7476214344721002496,7476225004423176192)",
+          "text": "Yaroslav Fedyna  1st\nYaroslav Fedyna • 1st\nKotlin Developer at Frienton\n🤔\n1 reaction\n1",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/arozhylo",
+        "https://www.linkedin.com/in/yaroslav-fedyna-a81537271"
+      ]
     }
   }
 }

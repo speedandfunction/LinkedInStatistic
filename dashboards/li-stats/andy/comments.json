@@ -30,6 +30,12 @@
           "reactions": 1,
           "replies_count": 0,
           "impressions": 113
+        },
+        "2026-09-21": {
+          "snapshot_at": "2026-09-21T03:33:11Z",
+          "reactions": 1,
+          "replies_count": 0,
+          "impressions": 129
         }
       }
     },
@@ -63,6 +69,12 @@
           "reactions": 1,
           "replies_count": 1,
           "impressions": 38
+        },
+        "2026-09-21": {
+          "snapshot_at": "2026-09-21T03:33:11Z",
+          "reactions": 1,
+          "replies_count": 1,
+          "impressions": 46
         }
       }
     },
@@ -96,6 +108,12 @@
           "reactions": 0,
           "replies_count": 0,
           "impressions": 0
+        },
+        "2026-09-21": {
+          "snapshot_at": "2026-09-21T03:33:11Z",
+          "reactions": 0,
+          "replies_count": 0,
+          "impressions": 0
         }
       }
     },
@@ -126,6 +144,12 @@
         },
         "2026-09-14": {
           "snapshot_at": "2026-09-14T03:43:52Z",
+          "reactions": 0,
+          "replies_count": 0,
+          "impressions": 0
+        },
+        "2026-09-21": {
+          "snapshot_at": "2026-09-21T03:33:11Z",
           "reactions": 0,
           "replies_count": 0,
           "impressions": 0

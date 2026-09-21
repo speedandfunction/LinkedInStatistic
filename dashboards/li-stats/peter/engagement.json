@@ -225,6 +225,21 @@
         "headline_hash": null
       }
     },
+    "in/acoaaf13symbibdmcue9cjwkx1lvynppoa1jpqa": {
+      "key": "in/acoaaf13symbibdmcue9cjwkx1lvynppoa1jpqa",
+      "name": "Daria Malova View Daria Malova’s profile 1st degree connection · 1st Content Manager & Social Media Creator",
+      "profile_url": "https://www.linkedin.com/in/ACoAAF13SYMBiBDMCUe9CJwKX1lVynpPOA1jPQA",
+      "headline": "",
+      "headline_seen_at": "2026-09-21T03:31:03Z",
+      "first_seen_at": "2026-09-21T03:31:03Z",
+      "icp": {
+        "verdict": null,
+        "reason": null,
+        "model": null,
+        "classified_at": null,
+        "headline_hash": null
+      }
+    },
     "in/adistan": {
       "key": "in/adistan",
       "name": "Adi Stan",
@@ -2554,8 +2569,8 @@
       "key": "in/maryna-tochkova-7657375b",
       "name": "Maryna Tochkova",
       "profile_url": "https://www.linkedin.com/in/maryna-tochkova-7657375b",
-      "headline": "IT Consultant & Developer | Frontend-Focused | UX/UI-Minded | Fintech & Insurance Domain Experience | Author of „Von Früchten gesüßt“",
-      "headline_seen_at": "2026-09-05T13:13:42Z",
+      "headline": "IT Consultant & Developer | Moving Toward Product Ownership | PSPO I | Requirements Engineering | UX/UI | Agile Product Development",
+      "headline_seen_at": "2026-09-21T03:31:03Z",
       "first_seen_at": "2026-09-02T07:34:40Z",
       "icp": {
         "verdict": null,
@@ -2899,8 +2914,8 @@
       "key": "in/nickot",
       "name": "Nikolai S.",
       "profile_url": "https://www.linkedin.com/in/nickot",
-      "headline": "AI Engineer & Full-Stack | System Design | End-to-End | Tech Lead | LLM Agents, RAG, MCP, Evals | AI Automation / n8n | Python / FastAPI | React / Next.js | Node.js / Nest.js | LATAM",
-      "headline_seen_at": "2026-09-14T03:41:44Z",
+      "headline": "AI Engineer & Full-Stack | AI Automation | End-to-End | Tech Lead | LLM, Agents, RAG, MCP, Evals | LATAM, US, Europe",
+      "headline_seen_at": "2026-09-21T03:31:03Z",
       "first_seen_at": "2026-09-01T20:59:30Z",
       "icp": {
         "verdict": null,
@@ -3229,8 +3244,8 @@
       "key": "in/ovchyn",
       "name": "Peter Ovchynnikov",
       "profile_url": "https://www.linkedin.com/in/ovchyn",
-      "headline": "Building TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function",
-      "headline_seen_at": "2026-09-01T21:22:20Z",
+      "headline": "Co-CEO @ Speed & Function ▪️ Building TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018",
+      "headline_seen_at": "2026-09-21T03:31:03Z",
       "first_seen_at": "2026-09-01T21:22:20Z",
       "icp": {
         "verdict": null,
@@ -4144,8 +4159,8 @@
       "key": "in/untanglingsystems",
       "name": "Kate Chapman",
       "profile_url": "https://www.linkedin.com/in/untanglingsystems",
-      "headline": "Fractional CTO | Platform, Product & AI strategy | Sociotechnical Systems | Open Source Governance | Helping Humans & Tech Collaborate",
-      "headline_seen_at": "2026-09-01T20:45:49Z",
+      "headline": "Chief Technology Officer at Feanix",
+      "headline_seen_at": "2026-09-21T03:31:03Z",
       "first_seen_at": "2026-09-01T20:45:49Z",
       "icp": {
         "verdict": null,
@@ -4312,6 +4327,21 @@
       "headline": "Agile Coach",
       "headline_seen_at": "2026-09-01T20:59:30Z",
       "first_seen_at": "2026-09-01T20:59:30Z",
+      "icp": {
+        "verdict": null,
+        "reason": null,
+        "model": null,
+        "classified_at": null,
+        "headline_hash": null
+      }
+    },
+    "in/vladimir-miroshnichenko-8445b2208": {
+      "key": "in/vladimir-miroshnichenko-8445b2208",
+      "name": "Vladimir Miroshnichenko",
+      "profile_url": "https://www.linkedin.com/in/vladimir-miroshnichenko-8445b2208",
+      "headline": "Founder & CTO @ gitmir.com & mir.digital | 25+ Years Building Software | I Make AI Systems Smarter Without Making the Models Smarter",
+      "headline_seen_at": "2026-09-21T03:31:03Z",
+      "first_seen_at": "2026-09-21T03:31:03Z",
       "icp": {
         "verdict": null,
         "reason": null,
@@ -5967,6 +5997,19 @@
       "backfill": false,
       "first_seen_at": "2026-09-02T07:34:40Z",
       "text": "Peter Ovchynnikov\nAuthor\nBuilding TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018 ▪️ Co-CEO @ Speed & Function\nOlga Mykhailova (Michai) The Devil Wears Prada\n0\n32 impressions\n32"
+    },
+    "comment:urn:li:comment:(activity:7506626831983382528,7506732260004601856)": {
+      "event_id": "comment:urn:li:comment:(activity:7506626831983382528,7506732260004601856)",
+      "kind": "comment",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7506626831983382528",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7506626831983382528/",
+      "person_key": "in/vladimir-miroshnichenko-8445b2208",
+      "occurred_at": "2026-09-18T15:13:59Z",
+      "attributed_week": "2026-09-14",
+      "backfill": false,
+      "first_seen_at": "2026-09-21T03:31:03Z",
+      "text": "The remedy I trust most is making each track resumable without holding it in my head. When the picture of a project, what it does, what the last change touched, what is still open, lives outside my memory, switching costs a minute of reading instead of twenty minutes of rebuilding. Most of the burnout comes from the rebuilding."
     },
     "react:post:urn:li:activity:7399100453231386624:in/alyona-pugolovok": {
       "event_id": "react:post:urn:li:activity:7399100453231386624:in/alyona-pugolovok",
@@ -11355,6 +11398,66 @@
       "attributed_week": null,
       "backfill": true,
       "first_seen_at": "2026-09-02T07:34:40Z"
+    },
+    "react:post:urn:li:activity:7506626831983382528:in/acoaaaquglsbmjjr1evgw9ylnnskuagh06eun5k": {
+      "event_id": "react:post:urn:li:activity:7506626831983382528:in/acoaaaquglsbmjjr1evgw9ylnnskuagh06eun5k",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7506626831983382528",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7506626831983382528/",
+      "person_key": "in/acoaaaquglsbmjjr1evgw9ylnnskuagh06eun5k",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-09-21T03:31:03Z"
+    },
+    "react:post:urn:li:activity:7506626831983382528:in/acoaaay6qpkbcmhbwsqacmorkxgrv6p_vydjswa": {
+      "event_id": "react:post:urn:li:activity:7506626831983382528:in/acoaaay6qpkbcmhbwsqacmorkxgrv6p_vydjswa",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7506626831983382528",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7506626831983382528/",
+      "person_key": "in/acoaaay6qpkbcmhbwsqacmorkxgrv6p_vydjswa",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-09-21T03:31:03Z"
+    },
+    "react:post:urn:li:activity:7506626831983382528:in/acoaabljc_qb0fdj5wggp-tp1czz8unseuhqmbq": {
+      "event_id": "react:post:urn:li:activity:7506626831983382528:in/acoaabljc_qb0fdj5wggp-tp1czz8unseuhqmbq",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7506626831983382528",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7506626831983382528/",
+      "person_key": "in/acoaabljc_qb0fdj5wggp-tp1czz8unseuhqmbq",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-09-21T03:31:03Z"
+    },
+    "react:post:urn:li:activity:7506626831983382528:in/acoaaf13symbibdmcue9cjwkx1lvynppoa1jpqa": {
+      "event_id": "react:post:urn:li:activity:7506626831983382528:in/acoaaf13symbibdmcue9cjwkx1lvynppoa1jpqa",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7506626831983382528",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7506626831983382528/",
+      "person_key": "in/acoaaf13symbibdmcue9cjwkx1lvynppoa1jpqa",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-09-21T03:31:03Z"
+    },
+    "react:post:urn:li:activity:7506626831983382528:in/ovchyn": {
+      "event_id": "react:post:urn:li:activity:7506626831983382528:in/ovchyn",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7506626831983382528",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7506626831983382528/",
+      "person_key": "in/ovchyn",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-09-21T03:31:03Z"
     }
   },
   "targets": {
@@ -11796,7 +11899,7 @@
       "target_urn": "urn:li:activity:7497738380709998592",
       "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7497738380709998592/",
       "first_scanned_week": "2026-08-31",
-      "last_scanned_week": "2026-09-14",
+      "last_scanned_week": "2026-09-21",
       "reactor_count": 6
     },
     "post:urn:li:activity:7498711668579799041": {
@@ -11805,8 +11908,17 @@
       "target_urn": "urn:li:activity:7498711668579799041",
       "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7498711668579799041/",
       "first_scanned_week": "2026-08-31",
-      "last_scanned_week": "2026-09-14",
+      "last_scanned_week": "2026-09-21",
       "reactor_count": 2
+    },
+    "post:urn:li:activity:7506626831983382528": {
+      "target_id": "post:urn:li:activity:7506626831983382528",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7506626831983382528",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7506626831983382528/",
+      "first_scanned_week": "2026-09-21",
+      "last_scanned_week": "2026-09-21",
+      "reactor_count": 5
     }
   }
 }

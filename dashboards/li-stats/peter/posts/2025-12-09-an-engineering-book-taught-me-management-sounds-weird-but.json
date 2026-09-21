@@ -208,6 +208,73 @@
       "commenters": [
         "https://www.linkedin.com/in/vitaliihoncharenko"
       ]
+    },
+    "2026-09-21": {
+      "snapshot_at": "2026-09-21T03:25:30Z",
+      "metrics": {
+        "impressions": 557,
+        "members_reached": 219,
+        "reactions": 7,
+        "comments": 1,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 1,
+        "followers_gained": 0,
+        "engagement_rate": 1.44
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 32.9,
+          "Entry": 32.4,
+          "Director": 6.4,
+          "Owner": 4.6,
+          "VP": 4.1
+        },
+        "job_title": {
+          "Software Engineer": 20.5,
+          "Founder": 3.7,
+          "Frontend Developer": 2.7,
+          "Project Manager": 2.7,
+          "Full Stack Engineer": 2.7
+        },
+        "industry": {
+          "IT Services and IT Consulting": 35.2,
+          "Software Development": 30.6,
+          "Technology, Information and Internet": 10
+        },
+        "company_size": {
+          "51-200 employees": 24.7,
+          "11-50 employees": 16.4,
+          "10,001+ employees": 10.5,
+          "1001-5000 employees": 8.7,
+          "1-10 employees": 7.3
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 9.6,
+          "Lviv": 6.8,
+          "Wroclaw Metropolitan Area": 3.2,
+          "Prague Metropolitan Area": 3.2,
+          "Amsterdam Area": 2.7
+        },
+        "company": {
+          "Speed and Function": 8.7
+        }
+      },
+      "comments": [
+        {
+          "author_name": "Vitalii Honcharenko",
+          "author_url": "https://www.linkedin.com/in/vitaliihoncharenko",
+          "author_headline": "Software Development Services at Yael Acceptic | AI/LLMs/ML/NLP, Web & Mobile, IoT, E-commerce/learning, Fin/Insur/PropTech, Logistics",
+          "comment_urn": "urn:li:comment:(activity:7404153601205473280,7405221004794429440)",
+          "text": "The moment you connect engineering metrics to business outcomes, you stop “shipping code” and start building a real product.",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/vitaliihoncharenko"
+      ]
     }
   }
 }
