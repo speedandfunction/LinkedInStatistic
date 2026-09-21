@@ -381,6 +381,7 @@ test("a truncated snapshot alone is named, not hidden", () => {
 test("every note code the workflow writes maps to human words", () => {
   const expected = {
     partial: "some posts or reactions not fully read",
+    "reactors-short": "a reaction list was incomplete, it is re-read next run",
     exit1: "scrape failed",
     exit137: "scrape failed",
     drift: "scrape failed",
@@ -394,6 +395,12 @@ test("every note code the workflow writes maps to human words", () => {
     ratelimit: "rate-limited by LinkedIn",
   };
   for (const [code, words] of Object.entries(expected)) assert.equal(describe(code)[1], words, code);
+  // Нотатки одного автора зшиваються в один рядок, тож жодна фраза не сміє
+  // починатися словом, яке суперечитиме сусідній: `reactors-short` разом із
+  // `nodata` давало «collected …; nothing collected».
+  for (const [code, words] of Object.entries(expected)) {
+    assert.ok(!/^collected\b/i.test(words), `${code}: фраза не має починатися з "collected"`);
+  }
   assert.equal(describe("banana")[1], "unexpected problem");
   assert.deepEqual(parseNotes(" peter:partial  maria:exit1 "), [
     { slug: "peter", code: "partial" }, { slug: "maria", code: "exit1" },

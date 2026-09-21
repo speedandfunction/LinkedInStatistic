@@ -94,8 +94,8 @@ computed at build time** by `.github/scripts/build-stats-json.mjs`, never
 stored — so retuning a weight, adding a VIP, or a late ICP verdict rescores
 all history with no re-scrape.
 
-**Contract keys:** `PEOPLE_STATUS` (OK / PARTIAL / SELECTOR_DRIFT / FAILED /
-AUTH / RATE / DEADLINE), `WEEK`, `ATTRIBUTED_WEEK`, `POST_TARGETS`,
+**Contract keys:** `PEOPLE_STATUS` (OK / REACTORS_SHORT / PARTIAL /
+SELECTOR_DRIFT / FAILED / AUTH / RATE / DEADLINE / BREAKER), `WEEK`, `ATTRIBUTED_WEEK`, `POST_TARGETS`,
 `POST_TARGETS_SCANNED`, `COMMENT_TARGETS_SCANNED`, `TARGETS_FAILED`,
 `TARGETS_DROPPED`, `REACTORS_SEEN`, `REACTORS_EXPECTED`, `TARGETS_SHORT_READ`,
 `COMMENT_EVENTS`, `REPLY_EVENTS`, `COMMENTS_UNDATED`, `PEOPLE_NEW`,
@@ -105,11 +105,34 @@ AUTH / RATE / DEADLINE), `WEEK`, `ATTRIBUTED_WEEK`, `POST_TARGETS`,
 line and never escalates the exit code past `partial` (10), so a drifted
 reactor overlay cannot demote a run whose metrics and account data are good,
 nor block the Pages publish. Its health shows up in `PEOPLE_STATUS` and in the
-run manifest. Promote it to a hard canary only once it has proven itself over
-several fires. Flags: `--no-icp` (skip classification), `--icp-max=<n>` (cap
+run manifest. Flags: `--no-icp` (skip classification), `--icp-max=<n>` (cap
 classifications per run, default 200), `--people-recent-days=<n>`.
 
-Regression suite (browser-free): `node .claude/skills/linkedin-stats/fast/test-people.mjs`.
+Until 2026-09-21 it said that and did the opposite: any `PEOPLE_STATUS != OK`
+set `partial` → exit 10 → `clean=0` → manual review. One dialog that missed a
+click and one that rendered empty held a week containing three account
+snapshots, which are the only thing here that cannot be backfilled. Now the
+verdict is `People.reactorPhaseStatus()`, a pure function with its own tests:
+
+- **`REACTORS_SHORT` → exit 11, the week publishes.** Reaction lists came back
+  short and nothing else went wrong. Each short target is flagged `short_read`
+  in `engagement.json`; `selectPostTargets`/`selectCommentTargets` put flagged
+  targets first, at any age, which is the only reason publishing is honest —
+  a stored target is otherwise never revisited once the post stops being recent
+  and its counts stop moving. An incomplete read never lowers `reactor_count`
+  (`merge.py`) and never writes an empty roster (`[]` there means *measured,
+  nobody* and Postgres imports it as such).
+- **`SELECTOR_DRIFT` → exit 30, loud.** Including the shape that has no
+  announced total at all: every opened dialog read nothing and every one was
+  short against what we already knew. Without that test a total collapse of the
+  overlay would publish green forever.
+- **`PARTIAL` → exit 10, review**, unchanged: failed targets, targets dropped
+  over the cap (never attempted — no flag brings those back), rosters `merge.py`
+  could not place.
+
+Regression suite (browser-free): `node .claude/skills/linkedin-stats/fast/test-people.mjs`
+and `python3 .claude/skills/linkedin-stats/fast/test_short_read.py` (the merge
+side of the same rule).
 
 **Known DOM facts (verified live 2026-08-17)** — LinkedIn's 2026 obfuscation
 reached the post page, so these are the only handles that work:

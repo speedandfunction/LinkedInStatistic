@@ -133,6 +133,74 @@ test('selectPostTargets prioritizes changed counts, then recent, then unscanned'
   assert.equal(capped.dropped, 1);
 });
 
+test('isShortRead trusts the dialog AND our own history, and nothing else', () => {
+  const S = (got, announced, known) => P.isShortRead({ got, announced, known });
+  // The dialog announced a total and we read less than 90% of it.
+  assert.equal(S(10, 25, 0), true);
+  assert.equal(S(24, 25, 0), false, '10% slack: private profiles have no link to read');
+  // It announced nothing (every one of peter's posts, 2026-09-21) — then the
+  // only witness is what a previous read stored. This is the half that turns
+  // a 14 -> 0 overwrite into a flagged target instead of silent loss.
+  assert.equal(S(0, 0, 14), true);
+  assert.equal(S(1, 0, 14), true, 'one-of-fourteen is a short read, not a post that lost 13');
+  assert.equal(S(14, 0, 14), false);
+  assert.equal(S(20, 0, 14), false, 'more than we knew about is a better read, not a short one');
+  // A first-ever read has no witness at all and no good count to destroy.
+  assert.equal(S(0, 0, 0), false);
+  // Reactions genuinely withdrawn: the dialog now says 20 and we read all 20.
+  // Complete, even though we stored 25 last week — otherwise the count would
+  // freeze at a number that is no longer true.
+  assert.equal(S(20, 20, 25), false);
+  // Private profiles: 8 of 28 carry no link, so we can never read past 20.
+  // The first time that is a short read; once it repeats, the gap is
+  // structural and flagging it forever would re-read the post every week and
+  // never do better.
+  assert.equal(S(20, 28, 0), true, 'first time: we have nothing to compare with');
+  assert.equal(S(20, 28, 20), false, 'no worse than our best read: the gap is structural');
+  assert.equal(S(19, 28, 20), true, 'worse than our best read: something did fail');
+  // Junk must not be read as a ceiling.
+  assert.equal(S(0, null, undefined), false);
+  assert.equal(S(0, NaN, null), false);
+});
+
+test('reactorPhaseStatus: only a clean overlay shortfall may publish', () => {
+  const base = { attempted: 4, scanned: 4, reactorsSeen: 30, reactorsExpected: 30 };
+  const st = (o) => P.reactorPhaseStatus({ ...base, ...o });
+
+  assert.equal(st({}), 'OK');
+  // The whole point: reaction lists short, everything else complete.
+  assert.equal(st({ reactorsShort: 1, reactorsSeen: 20 }), 'REACTORS_SHORT');
+
+  // Not overlay problems — these still send the week to a human. A dropped
+  // target was never even attempted, and no flag will bring it back.
+  assert.equal(st({ reactorsShort: 1, failed: 1 }), 'PARTIAL');
+  assert.equal(st({ reactorsShort: 1, postsDropped: 1 }), 'PARTIAL');
+  assert.equal(st({ reactorsShort: 1, commentsDropped: 1 }), 'PARTIAL');
+  assert.equal(st({ reactorsShort: 1, rosterMissing: 1 }), 'PARTIAL');
+  assert.equal(st({ failed: 1 }), 'PARTIAL');
+
+  // Drift must never hide inside the advisory branch: nothing self-heals and
+  // every later week fails the same way, so each shape has to be loud.
+  assert.equal(st({ scanned: 0, dialogFailures: 4, reactorsSeen: 0, reactorsExpected: 0, failed: 4 }),
+    'SELECTOR_DRIFT', 'no dialog opened at all');
+  assert.equal(st({ reactorsSeen: 0, reactorsExpected: 30, reactorsShort: 4 }),
+    'SELECTOR_DRIFT', 'dialogs announced totals and handed back nothing');
+  // The 2026-09-21 shape: the overlay announces NO total, so the test above is
+  // blind to it. Every opened dialog read nothing and every one was short.
+  assert.equal(st({ reactorsSeen: 0, reactorsExpected: 0, reactorsShort: 4 }),
+    'SELECTOR_DRIFT', 'nothing read anywhere, and we knew better for every target');
+  // But a week where the posts genuinely have no reactions is not drift: no
+  // target is short, because there was nothing to miss.
+  assert.equal(st({ reactorsSeen: 0, reactorsExpected: 0, reactorsShort: 0 }), 'OK');
+  // Partial coverage is not collapse: something did come back.
+  assert.equal(st({ reactorsSeen: 5, reactorsExpected: 0, reactorsShort: 4 }), 'REACTORS_SHORT');
+
+  // A stop reason outranks everything — it says the run was cut short.
+  assert.equal(st({ stopped: 'deadline', reactorsShort: 1 }), 'DEADLINE');
+  assert.equal(st({ stopped: 'auth' }), 'AUTH');
+  assert.equal(st({ stopped: 'rate' }), 'RATE');
+});
+
 test('selectPostTargets comes back for a target whose reactor list was read short', () => {
   const week = '2026-08-17';
   // Old, scanned, and its counts have not moved: invisible to every other
@@ -158,10 +226,41 @@ test('selectPostTargets comes back for a target whose reactor list was read shor
   assert.equal(P.selectPostTargets([stale, recent], { week, scannedTargets: short, maxPosts: 1 })
     .selected[0].data.id, 'stale');
 
+  // And ahead of `counts-changed` too. Both are band-0 urgent, but a changed
+  // post is still changed next week, while an old flagged one would lose the
+  // date tiebreak to every fresh post and never be re-read at all.
+  const changedNew = postEntry('changed', 'urn:li:activity:9', '2026-08-16', {
+    '2026-08-10': { metrics: { reactions: 5, comments: 1 } },
+    '2026-08-17': { metrics: { reactions: 9, comments: 1 } },
+  });
+  const both = { ...short, 'post:urn:li:activity:9': {} };
+  assert.deepEqual(P.selectPostTargets([changedNew, stale], { week, scannedTargets: both, maxPosts: 1 })
+    .selected.map((s) => s.data.id), ['stale'], 'the flagged target outranks a newer changed one');
+
   // recentOnly is the explicit "only fresh posts" backfill mode: it must not
   // start dragging in old targets just because they carry the flag.
   assert.deepEqual(P.selectPostTargets([stale, recent], { week, scannedTargets: short, recentOnly: true })
     .selected.map((s) => s.data.id), ['recent']);
+});
+
+test('selectCommentTargets reopens a comment whose reactor list was read short, at any age', () => {
+  const nowMs = Date.parse('2026-09-21T00:00:00Z');
+  const mk = (urn, iso) => ({ comment_urn: urn, permalink: `https://x/?commentUrn=${urn}`, commented_at: iso });
+  // Six months old: outside the 30-day window, which is the ONLY thing that
+  // ever brings a comment target back. Unflagged it is gone for good.
+  const old = mk('urn:li:comment:(activity:1,1)', '2026-03-01T10:00:00Z');
+  const fresh = mk('urn:li:comment:(activity:2,2)', '2026-09-18T10:00:00Z');
+  const map = { a: old, b: fresh };
+
+  assert.deepEqual(P.selectCommentTargets(map, { nowMs }).selected.map((s) => s.comment.comment_urn),
+    [fresh.comment_urn], 'without the flag the old comment stays out');
+
+  const flagged = { [P.targetIdForComment(old.comment_urn)]: { reactor_count: 9, short_read: true } };
+  const got = P.selectCommentTargets(map, { nowMs, scannedTargets: flagged });
+  assert.deepEqual(got.selected.map((s) => s.comment.comment_urn), [old.comment_urn, fresh.comment_urn]);
+  // First, so the cap cannot drop the one target that has no other way back.
+  assert.equal(P.selectCommentTargets(map, { nowMs, scannedTargets: flagged, maxComments: 1 })
+    .selected[0].comment.comment_urn, old.comment_urn);
 });
 
 test('selectCommentTargets keeps only recent comments and reports the overflow', () => {

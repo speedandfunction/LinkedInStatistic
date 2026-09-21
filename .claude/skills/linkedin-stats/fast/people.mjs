@@ -135,6 +135,79 @@ export { targetIdForPost, targetIdForComment };
  * to "the last N days" instead of dragging in the whole back catalogue as
  * baselines. Used by the one-off roster backfill.
  */
+/**
+ * Was this read of a reactor overlay incomplete? One rule for both overlays,
+ * posts and comments; the incident of 2026-09-21 needed both of its halves.
+ *
+ *   announced — the dialog's own total ("All 25"). Missing on some posts:
+ *               every one of peter's announced nothing that morning.
+ *   known     — what a previous read stored for this target. A post that had
+ *               14 reactors and now hands back none has not lost them; the
+ *               overlay did not render.
+ *
+ * The 10% slack is for private profiles ("LinkedIn Member"), which render
+ * without a link and can never be named however well the overlay renders.
+ * A first-ever read has neither number to check against, so it is taken at
+ * face value — and it has no good count to destroy either.
+ */
+export function isShortRead({ got, announced, known }) {
+  const n = Number(got) || 0;
+  const a = Number(announced) || 0;
+  const k = Number(known) || 0;
+  if (a > 0) {
+    // The dialog told us its total and we read essentially all of it. A
+    // complete read of what the post has NOW, even if that is fewer than last
+    // week — people do withdraw reactions, and freezing the old number would
+    // be its own kind of wrong.
+    if (n >= a * 0.9) return false;
+    // We read no less than the best this target has ever given us. The gap to
+    // the announced total is structural — private profiles carry no link to
+    // read — so calling it short would re-read the same post every week
+    // forever and never do better.
+    if (k > 0 && n >= k) return false;
+    return true;
+  }
+  // No total announced: the only witness left is our own best previous read.
+  // Coming back with less than that is the overlay failing, not thirteen
+  // people changing their minds on the same morning.
+  return k > 0 && n < k * 0.9;
+}
+
+/**
+ * The verdict of the people phase, as a pure function of its counters — the
+ * line between "publish this week" and "a human must look", so it is kept
+ * here where a test can reach it.
+ *
+ *   SELECTOR_DRIFT  the overlay is not rendering. Every fire must be loud:
+ *                   nothing self-heals and every later week fails the same way.
+ *   REACTORS_SHORT  reaction lists came back short and NOTHING else went
+ *                   wrong. Advisory: each short target is flagged `short_read`
+ *                   and the next run returns to it, so the week is publishable.
+ *   PARTIAL         anything else that is not clean — including targets that
+ *                   were never attempted (dropped over the cap) and rosters
+ *                   merge.py could not place. Not an overlay problem: review.
+ */
+export function reactorPhaseStatus({
+  stopped = null, attempted = 0, scanned = 0, dialogFailures = 0, reactorsSeen = 0,
+  reactorsExpected = 0, reactorsShort = 0, failed = 0, postsDropped = 0,
+  commentsDropped = 0, rosterMissing = 0,
+} = {}) {
+  if (stopped) return String(stopped).toUpperCase();
+  if (attempted > 0 && scanned === 0 && dialogFailures >= attempted) return 'SELECTOR_DRIFT';
+  if (scanned > 0 && reactorsSeen === 0 && reactorsExpected > 0) return 'SELECTOR_DRIFT';
+  // Every overlay we opened handed back nothing, and each one was short
+  // against what we already knew. The test above cannot see this shape: it
+  // needs the dialog to announce a total, and on 2026-09-21 not one of peter's
+  // posts did. Without this line a total collapse of the overlay reads as "a
+  // few lists came back short" and publishes green, forever.
+  if (scanned > 0 && reactorsSeen === 0 && reactorsShort >= scanned) return 'SELECTOR_DRIFT';
+  if (reactorsShort > 0 && failed === 0 && postsDropped === 0
+    && commentsDropped === 0 && rosterMissing === 0) return 'REACTORS_SHORT';
+  if (failed > 0 || postsDropped > 0 || commentsDropped > 0 || reactorsShort > 0
+    || rosterMissing > 0) return 'PARTIAL';
+  return 'OK';
+}
+
 export function selectPostTargets(entries, {
   week, maxPosts = 25, recentDays = 30, scannedTargets = {}, recentOnly = false,
 } = {}) {
@@ -166,9 +239,14 @@ export function selectPostTargets(entries, {
     scored.push({
       file,
       data,
-      band: changed || shortRead ? 0 : recent ? 1 : 2,
+      // A band of its own, ahead of `counts-changed`: a flagged target is an
+      // incomplete read that nothing else will ever come back for, while a
+      // changed or recent post stays changed and recent next week too. Ties
+      // inside band 0 sort by date, so an OLD flagged post would otherwise
+      // lose the cap to a wall of fresh ones.
+      band: shortRead ? 0 : changed ? 1 : recent ? 2 : 3,
       postedMs: Number.isFinite(postedMs) ? postedMs : 0,
-      reason: changed ? 'counts-changed' : shortRead ? 'short-read' : recent ? 'recent' : 'never-scanned',
+      reason: shortRead ? 'short-read' : changed ? 'counts-changed' : recent ? 'recent' : 'never-scanned',
     });
   }
   scored.sort((a, b) => a.band - b.band || b.postedMs - a.postedMs);
@@ -180,12 +258,23 @@ export function selectPostTargets(entries, {
  * enough to still be accruing reactions and replies. Mirrors the 30-day
  * snapshot cut-off the comments phase already uses.
  */
-export function selectCommentTargets(commentsMap, { maxComments = 25, recentDays = 30, nowMs = Date.now() } = {}) {
+export function selectCommentTargets(commentsMap, {
+  maxComments = 25, recentDays = 30, nowMs = Date.now(), scannedTargets = {},
+} = {}) {
   const rows = Object.values(commentsMap ?? {})
     .filter((c) => c.comment_urn && c.permalink)
     .map((c) => ({ comment: c, ms: Date.parse(c.commented_at || '') || 0 }))
-    .filter((r) => r.ms && (nowMs - r.ms) <= recentDays * DAY_MS)
-    .sort((a, b) => b.ms - a.ms);
+    // A comment whose reactor list came back short is worth reopening however
+    // old it is: this window is the ONLY thing that ever brings a comment
+    // target back, so an unflagged short read is lost after 30 days. Sorted
+    // first for the same reason, so the cap cannot quietly drop it.
+    .filter((r) => r.ms && ((nowMs - r.ms) <= recentDays * DAY_MS
+      || !!scannedTargets[targetIdForComment(r.comment.comment_urn)]?.short_read))
+    .sort((a, b) => {
+      const as = scannedTargets[targetIdForComment(a.comment.comment_urn)]?.short_read ? 1 : 0;
+      const bs = scannedTargets[targetIdForComment(b.comment.comment_urn)]?.short_read ? 1 : 0;
+      return bs - as || b.ms - a.ms;
+    });
   return { selected: rows.slice(0, maxComments), dropped: Math.max(0, rows.length - maxComments) };
 }
 
