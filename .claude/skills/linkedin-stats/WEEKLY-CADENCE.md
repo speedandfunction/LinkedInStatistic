@@ -57,7 +57,10 @@ The `scrape` job, step by step (then `publish`, then `notify`):
    succeeded — a red `publish` with `deployed=true` means only the Grafana
    refresh failed. The same `main_updated=true` also starts the **dual-write**
    jobs `db-sync` → `db-backup` (section 9), side by side with `publish`. They
-   are `continue-on-error` and can neither fail the run nor cost the week;
+   are `continue-on-error` and can neither fail the run nor cost the week —
+   but **`db-sync` is what the Grafana dashboards read** (section 10): Pages no
+   longer feeds them, so a week reaches the dashboards only when the sync and
+   its parity check end `ok`;
 9. **always** — success, failure, cancellation or a `scrape` timeout — a
    separate final job, `notify` (`needs: [scrape, publish, db-sync, db-backup]`,
    `if: always()`, `continue-on-error: true`), posts **one** message to
@@ -66,18 +69,23 @@ The `scrape` job, step by step (then `publish`, then `notify`):
 
    | outcome | ping | deadline |
    |---|---|---|
-   | *collected and published* — merged, deployed, `publish` green | no | — |
+   | *collected and published — the dashboards are up to date* — merged, deployed, `publish` green, **and** the database sync + parity check `ok` | no | — |
    | *published, but the Grafana post picker refresh failed* — merged, deployed, `publish` red | no | none — data is live; the next successful publish rebuilds the picker |
-   | *safe on main, dashboards NOT updated* — merged, deploy failed / cancelled / unconfirmed; or `publish` skipped after a merge | operator | **none** — the week is merged; run `pages-deploy` |
+   | *safe on main, but the Grafana dashboards were NOT updated* / *may be WRONG* — merged, but the database sync (or its parity check) did not end `ok`, **whatever happened to Pages** | operator | **none** — the week is merged; fix the database (usually: resume the paused Supabase project), then run `pages-deploy` (section 9) |
+   | *safe on main, NOT published to GitHub Pages* — merged, deploy failed / cancelled / unconfirmed; or `publish` skipped after a merge. The dashboards are fine if the database line says so: only the public JSON feed and the `$post` picker are stale | operator | **none** — the week is merged; run `pages-deploy` |
    | *NOT published, waiting for review* — PR open, not merged (PR link, each author's problem) | operator | **next Monday 00:00 UTC** — merge before it or the week is lost |
    | *crashed before a PR existed* (run link) | operator | **next Monday 00:00 UTC** |
 
    The two "no deadline" rows and the two "Monday" rows are deliberately
-   different: an unmerged week is lost for good at the next run; a merged but
-   unpublished week only means stale dashboards. Authors are never tagged.
-   Any of the three *merged* outcomes can carry one extra **database line**
-   (no ping) when the dual-write sync, parity check or backup did not all
-   succeed — and carries nothing when they did. See section 9.
+   different: an unmerged week is lost for good at the next run; a merged week
+   whose sync or deploy failed only means stale dashboards or a stale Pages
+   feed. Authors are never tagged.
+   Every *merged* outcome carries a **database line**: grey (*Database (Grafana
+   reads it): synced · parity byte-identical · backup pushed*) when all is
+   well; **red, with the operator pinged and the headline changed**, when the
+   sync or the parity check did not end `ok` — the dashboards are then stale or
+   unverified; **orange, no ping**, when only the backup failed — neither the
+   week nor the dashboards are affected. See section 9.
    If the `notify` job cannot check out its script (it retries once), it
    leaves an `::error::` annotation on the run and posts nothing.
 
@@ -137,13 +145,21 @@ step exists to tell you that in one line instead of failing 25 minutes in.
 
 | Name | Kind | Notes |
 |---|---|---|
-| `LI_SYNC_DATABASE_URL` | secret | DSN of the least-privilege `li_sync` role. Unset → the `db-sync` job **skips with a `::warning::`**, Slack says *the sync was skipped*; the week is unaffected. |
+| `LI_SYNC_DATABASE_URL` | secret | DSN of the least-privilege `li_sync` role. Unset → the `db-sync` job **skips with a `::warning::`**; the collected week is unaffected, but **the Grafana dashboards are not updated** (they read this database), so Slack says *the sync was skipped … the Grafana dashboards were NOT updated* and pings the operator — every week, until the secret exists. |
 | `LI_BACKUP_DATABASE_URL` | secret | DSN of the read-only `li_backup` role. Unset → the backup is skipped, with a warning and a Slack line. |
 | `LI_BACKUP_DEPLOY_KEY` | secret | SSH **private** key whose public half is a deploy key **with write access** on the private repo `speedandfunction/linkedin-stats-backup`. Unset → same skip. |
 
-None of the three is an owner credential, and none is required: the JSON path,
-the PR, the Pages deploy and the run's red/green are identical with or without
-them. Setup, reading the Slack line and the exit criteria are in section 9.
+None of the three is an owner credential, and none is required *for the week*:
+the JSON path, the PR, the Pages deploy and the run's red/green are identical
+with or without them. `LI_SYNC_DATABASE_URL` is required *for the dashboards*,
+though: Grafana reads the database, not Pages. Setup and reading the Slack line
+are in section 9; what Grafana reads, in section 10.
+
+### Operator-local — NOT in GitHub at all
+
+| Name | Where | Notes |
+|---|---|---|
+| `GRAFANA_PG_DATASOURCE_UID` | your gitignored `~/LinkedInStatistic/.env` only | uid of the Grafana PostgreSQL datasource (role `grafana_ro`). The checked-in dashboards carry the placeholder `${DS_LINKEDIN_PG}` instead — this repository is public and the real uid must never be committed. `push-dashboard.mjs --file` swaps it in at push time and refuses without it. **Do not create a repo secret or variable for it: no workflow pushes dashboards** (CI only refreshes the `$post` list, which needs no datasource uid). Section 10. |
 
 ### Set by the workflow, not by you
 
@@ -195,7 +211,7 @@ Do not set these expecting the weekly run to read them — it will not:
 
 | Local file | Names present |
 |---|---|
-| `~/LinkedInStatistic/.env` | `GRAFANA_URL`, `GRAFANA_SERVICE_ACCOUNT_TOKEN` |
+| `~/LinkedInStatistic/.env` | `GRAFANA_URL`, `GRAFANA_SERVICE_ACCOUNT_TOKEN`; `GRAFANA_PG_DATASOURCE_UID` (stays local — not copied to GitHub) |
 | `~/LinkedInStatistic/scripts/lifleet/.env` | `BROWSERBASE_API_KEY`, `BROWSERBASE_PROJECT_ID`, `LIFLEET_REGISTRY`, `LIFLEET_REGION` |
 | `~/LinkedInStatistic/scripts/lifleet/authors.json` | the whole file → `LIFLEET_AUTHORS_JSON` |
 
@@ -269,14 +285,32 @@ commit without the matching secret update breaks Monday for everybody.
    `in/<slug>`, `company_id`, `posts_cutoff`), then:
    ```bash
    cd ~/LinkedInStatistic
+   set -a; . ./.env; set +a      # GRAFANA_URL, GRAFANA_SERVICE_ACCOUNT_TOKEN, GRAFANA_PG_DATASOURCE_UID
+   # a. generate: two dashboards per author in profiles.json, from _template/
    node .github/scripts/gen-author-dashboards.mjs
-   set -a; . ./.env; set +a
+   # b. push the new author's two dashboards (placeholder -> real uid at push time)
    node .github/scripts/push-dashboard.mjs --uid linkedin-<slug>       --file dashboards/grafana/linkedin-<slug>.json
    node .github/scripts/push-dashboard.mjs --uid linkedin-<slug>-posts --file dashboards/grafana/linkedin-<slug>-posts.json
+   # c. fill the $post picker - live AND in the checked-in file - for EVERY author
+   for a in $(jq -r 'keys[] | select(startswith("_") | not)' .claude/skills/linkedin-stats/profiles.json); do
+     node .github/scripts/update-post-variable.mjs --author "$a" --snapshot "dashboards/grafana/linkedin-$a-posts.json"
+   done
+   git diff --stat dashboards/grafana/   # expect: the new author's two files, nothing lost elsewhere
    ```
-   Commit `profiles.json` + the generated dashboards. The scrape loop,
-   `build-pages.mjs` and the Grafana refresh all derive the author list from
-   the data — **no workflow edit needed**.
+   **Step c is not optional.** `gen-author-dashboards.mjs` regenerates *every*
+   author's files and **wipes the committed `$post` list in every
+   `linkedin-<author>-posts.json`** (the list is baked per author and must not
+   be inherited from the template). Until `update-post-variable.mjs --snapshot`
+   has been re-run for an author, that author's checked-in file has an empty
+   picker — and pushing it would empty the live one. The live dashboards of
+   authors you did not push are untouched; step c only restores their files.
+   The panels of the new dashboards read `dash.feed_*` with
+   `author = '<slug>'`, so they stay empty until the author's first week has
+   been merged **and synced** (section 10).
+   Commit `profiles.json` + the generated dashboards — check first that no
+   file contains a datasource uid other than `${DS_LINKEDIN_PG}`. The scrape
+   loop, `build-pages.mjs`, the database import and the Grafana refresh all
+   derive the author list from the data — **no workflow edit needed**.
 
 The slug must be **identical** in `profiles.json` and `authors.json`.
 
@@ -374,8 +408,12 @@ Both workflows share the `pages` concurrency group, so a manual
 the operator with the run link; a deploy whose only failure is the Grafana
 `$post` refresh posts a yellow line without a ping; a **successful** run posts
 one closing line without a ping — so the channel's last word after a
-"dashboards were NOT updated" alert is not left standing. Like the weekly,
-a Slack failure there never changes the run's red/green.
+"dashboards were NOT updated" alert is not left standing. Every `pages-deploy`
+run also re-syncs `main` into the database, and the same two classes apply: a
+sync or parity result other than `ok` turns the headline into *…but the Grafana
+dashboards were NOT updated / may be WRONG* and pings the operator even when the
+deploy itself succeeded; a failed backup alone is an orange line, no ping. Like
+the weekly, a Slack failure there never changes the run's red/green.
 
 ---
 
@@ -449,23 +487,36 @@ The newest key must be this week's Monday, for **every** author.
 
 **Publish failures are not week failures.** A red run whose `scrape` job is
 green and whose `publish` job is red means the week IS merged: either the
-deploy failed (Slack says *dashboards NOT updated* — dispatch
+deploy failed (Slack says *NOT published to GitHub Pages* — dispatch
 `pages-deploy.yml`, no deadline) or only the Grafana refresh failed (Slack
 says *post picker refresh failed* — the data is live). Only a red `scrape`
 carries the next-Monday deadline.
 
+**A green run does not prove the dashboards moved.** The database jobs are
+`continue-on-error`, so a Monday whose sync failed is still green. The signal
+is the Slack message: *the Grafana dashboards were NOT updated* / *may be WRONG*
+with a ping (act — section 9), or the grey *Database (Grafana reads it): synced
+· parity byte-identical* line (nothing to do).
+
 **e. Publishing.** `https://speedandfunction.github.io/LinkedInStatistic/<author>/stats.json`
 should carry the new week, and the Grafana `$post` picker on
-`linkedin-<author>-posts` should list the week's new posts.
+`linkedin-<author>-posts` should list the week's new posts. The dashboards
+themselves show the new week once `db-sync` ended `ok` — they read Postgres,
+not that URL (section 10).
 
 ## 9. The dual-write stage (JSON + Postgres, in parallel)
 
-**JSON in git is still the source of truth.** Nothing in sections 1–8 changed.
-What was added: once a week's data is **on `main`**, the same data is imported
-into Postgres, the database's view of it is compared byte-for-byte with the
-JSON build, and the database is backed up. For a few weeks the two run side by
-side; Grafana keeps reading the JSON on Pages until the exit criteria at the end
-of this section are met.
+**JSON in git is still the source of truth for the collected week.** Once a
+week's data is **on `main`**, the same data is imported into Postgres, the
+database's view of it is compared byte-for-byte with the JSON build, and the
+database is backed up.
+
+**Grafana reads this database** — every panel queries a `dash.feed_*` view
+(section 10); no dashboard reads the JSON on Pages any more. So the stage is no
+longer a harmless shadow: the week cannot be lost here, but **a sync that does
+not end `ok` leaves the dashboards on the previous sync**, and a parity check
+that does not end `ok` leaves them unverified. The JSON feed on Pages is still
+built and published — it is the oracle the database is checked against.
 
 The git PR stays **the** quality gate. An incomplete week sits in an open PR, is
 not on `main`, and is therefore never synced. Whatever `main` contains is, by
@@ -475,12 +526,12 @@ definition, published — so the sync publishes what it imports.
 
 | Job | In | Runs when | Does |
 |---|---|---|---|
-| `db-sync` | `linkedin-stats-weekly.yml` | `main_updated == 'true'` (a clean, auto-merged week). Needs only `scrape` — **not** `publish`: a failed Pages deploy does not make `main` any less merged | checkout `main` → `npm ci --prefix db` → `LI_DSN=… node db/import.mjs --publish` → `LI_DSN=… node db/verify.mjs` |
-| `db-sync` | `pages-deploy.yml` | every dispatch, in parallel with `build`. This is how a **hand-merged** week reaches the database | the same; always syncs `main`, whatever ref was dispatched |
+| `db-sync` | `linkedin-stats-weekly.yml` | `main_updated == 'true'` (a clean, auto-merged week). Needs only `scrape` — **not** `publish`: a failed Pages deploy does not make `main` any less merged. The dependency runs the other way: `publish` **waits for `db-sync`** (normally 1–3 min, at worst its 45 min of caps), because its last step, the `$post` picker, is pushed only when `sync == 'ok'` — see §10 | checkout `main` → `npm ci --prefix db` → `LI_DSN=… node db/import.mjs --publish` → `LI_DSN=… node db/verify.mjs` |
+| `db-sync` | `pages-deploy.yml` | every dispatch, in parallel with `build`. This is how a **hand-merged** week reaches the database. `refresh-post-variable` needs it and runs only on `sync == 'ok'` | the same; always syncs `main`, whatever ref was dispatched |
 | `db-backup` | `linkedin-stats-weekly.yml` | after `db-sync` reported `sync == 'ok'` (whatever parity said — a week where the two sides disagree is worth keeping) | PostgreSQL 17 client from apt.postgresql.org (key fingerprint pinned) → `db/backup.sh` → one file, `linkedin.sql`, committed over the previous one and pushed over SSH to the private repo |
 | `db-backup` | `pages-deploy.yml` | **only** if the `backup` box is ticked on the dispatch form (default off) | the same |
-| `notify` | both | always | one Slack message: an orange database line with **what to do** when something is off, a grey one-line confirmation (*synced · parity byte-identical · backup pushed*) when nothing is |
-| `db-keepalive` | `linkedin-session-check.yml` (daily, 07:00 UTC) | every scheduled run; skipped on a dry-run dispatch | `db/ping.mjs` as `li_sync`: one read, nothing written. See *Why the project must be kept awake* below. Never red, no Slack line of its own |
+| `notify` | both | always | one Slack message. Sync or parity not `ok` → the **headline** says the dashboards were NOT updated / may be WRONG, the operator is pinged, and a red database line says **what to do**; only the backup failed → an orange line, no ping; all well → a grey one-line confirmation (*Database (Grafana reads it): synced · parity byte-identical · backup pushed*) |
+| `db-keepalive` | `linkedin-session-check.yml` (daily, 07:00 UTC) | every scheduled run; skipped on a dry-run dispatch | `db/ping.mjs` as `li_sync`: one read, nothing written. See *Why the project must be kept awake* below. Never red, **no Slack line of its own — although it is now the only daily probe of the database the dashboards read** (see below) |
 
 The logic lives once: `.github/actions/db-sync`, `.github/actions/db-backup`
 (composite actions, `push.sh` next to the second) and `.github/scripts/db-ci.mjs`.
@@ -498,6 +549,23 @@ it has been failing (its `::warning::` is on the daily run), or the secret did
 not exist yet, expect the paused-project line on Monday — the fix is the same:
 resume the project, re-run `pages-deploy`.
 
+**A failed keep-alive means the dashboards are down NOW — do not wait for
+Monday.** Grafana reads this same database: a project that does not answer
+`db/ping.mjs` at 07:00 does not answer Grafana either, and every panel shows a
+datasource error (a pause, a changed `li_sync` password and a Supabase incident
+all look alike from here). The `::warning::` of the job says exactly that.
+**Nobody is told, though:** the job is never red and has no `outputs`, and
+`notify-session-check.mjs` does not know it exists — the warning sits on a green
+daily run until Monday's sync fails and pings. Forwarding it (an `outputs: touch`
+on the job, one operator-pinged Slack line when it is neither `ok` nor
+`skipped-no-secret`) is an **open operator decision**: it touches
+`linkedin-session-check.yml` and `notify-session-check.mjs`, which the move to SQL
+left alone. Two fallback `echo` lines in that workflow still say *"Nothing else
+is affected"* for the same reason — read them as "the dashboards may be down".
+Whether one `SELECT` a day counts as "activity" for Supabase's pause timer is
+also unverified from here; a Monday that starts paused despite a green keep-alive
+is the evidence that it does not.
+
 Why the backup is weekly-only by default: its git history is meant to read one
 entry per week, a manual deploy is often re-run several times while something is
 being fixed, and during dual-write the database can always be rebuilt from git
@@ -507,7 +575,9 @@ restore point *now* (before a schema change, after a repair).
 
 ### The three guarantees
 
-1. **A database problem never costs a week and never turns the run red.** Every
+1. **A database problem never costs a week and never turns the run red** (it
+   does cost the *dashboards* their update — that is what the Slack ping is
+   for). Every
    command that talks to the database runs under a hard cap inside `db-ci.mjs`
    (npm 5 min, import 15 min, parity 10 min, dump 15 min), which always exits 0.
    `uses:` steps carry their own `timeout-minutes` — a *step* timeout is a
@@ -539,8 +609,10 @@ restore point *now* (before a schema change, after a repair).
 
 ### Operator setup — three secrets
 
-No owner credential goes into CI. Until these exist, every run says *skipped* in
-Slack and changes nothing else — merging this ahead of the secrets is safe.
+No owner credential goes into CI. Until `LI_SYNC_DATABASE_URL` exists, every
+merged run says *the sync was skipped … the Grafana dashboards were NOT updated*
+and pings the operator — correctly: Grafana reads the database, and nothing is
+filling it. The week itself is unaffected.
 
 1. **Roles.** Apply `db/schema.sql` as the owner (it creates `li_sync` and
    `li_backup`), then give each a password, as the owner:
@@ -565,45 +637,73 @@ gh secret list                        # names only
 ```
 
 Then dispatch `pages-deploy.yml` once with `backup` ticked: it syncs `main`, and
-the Slack message should end with the grey line *Database (dual-write soak):
+the Slack message should end with the grey line *Database (Grafana reads it):
 synced · parity byte-identical · backup pushed*. The backup repo then has its
 first commit, whose subject reads `… - parity ok 4/4 - …`.
 
 ### Reading the database line in Slack
 
 When the sync, the parity check and the backup all succeeded, the message ends
-with one small grey line — *:white_check_mark: Database (dual-write soak): synced
-· parity byte-identical · backup pushed*. It is there for the soak only: "no line"
-used to be the good outcome, and "no line" is also what a run looks like when the
-database outputs never reached the notifier. Absence proves nothing. (The durable
-record is not Slack at all — see *The soak ledger* below.)
+with one small grey line — *:white_check_mark: Database (Grafana reads it): synced
+· parity byte-identical · backup pushed*. It is the only positive record in the
+channel that the dashboards really moved: "no line" is also what a run looks like
+when the database outputs never reached the notifier. Absence proves nothing.
+(The durable record is not Slack at all — see *The ledger* below.)
 
-Otherwise there is exactly one extra block, directly under the headline:
+Otherwise there is exactly one extra block, directly under the headline, and
+which one depends on **what the problem costs**:
 
-> :large_orange_diamond: **Database (dual-write stage):** *…what happened…*.
-> :point_right: *…what to do…* (when there is a specific action)
-> **The week itself is not affected** — the JSON in git is still the source of truth…
+**(a) Sync or parity not `ok` — the dashboards are affected. The operator is
+pinged.** The headline itself changes — *Week … is collected and safe on main,
+but the Grafana dashboards were NOT updated* (sync) or *…may be WRONG* (parity) —
+whatever happened to Pages, and in `pages-deploy` too. Under it:
 
-Nobody is pinged for it; it is not urgent. It is also not small grey print: it
-will sit under the headline every week until it is fixed.
+> :red_circle: **Database (dual-write stage):** *…what happened…*.
+> :point_right: *…what to do…* (always present)
+> :shield: **The collected week is safe in git** — nothing is lost and there is no data-loss deadline. But Grafana reads the database, so the dashboards keep showing the previous sync … until this is fixed and `pages-deploy` has re-run.
+
+When the database **did not answer** (`could not connect`, or a timeout) the last
+sentence is a different one, because "paused" and "still showing last week"
+cannot both be true: *…so while the project is paused or unreachable Grafana
+cannot read it either: every panel shows a datasource error — not last week's
+numbers — until the database answers again; after that the dashboards show the
+previous sync until `pages-deploy` has re-run.*
+
+There is no data-loss deadline, but it does not go away on its own: until
+someone acts, Grafana shows last week, nothing at all (a paused project), or
+numbers nobody has verified. An
+**empty** output (the job crashed, was cancelled, never started) counts as *not
+ok* — unknown is never fine.
+
+**(b) Only the backup failed — neither the week nor the dashboards are
+affected. Nobody is pinged.**
+
+> :large_orange_diamond: **Database (dual-write stage):** *the backup FAILED (…)*.
+> **The week and the dashboards are not affected** — … only this run's backup (the restore point) is missing.
+
+It is not small grey print either: it sits under the headline every week until
+it is fixed. The `::warning::` annotations on the run (from `db-ci.mjs`, the
+two composite actions and `push.sh`) say the same two things in the same words.
 
 | The line says | Meaning | What to do |
 |---|---|---|
-| *the sync was skipped — the `LI_SYNC_DATABASE_URL` secret is not set* | setup not done yet | the three secrets above |
-| *the sync FAILED (could not connect to the database)* | the importer never got a connection (it gives up after 20 s). **Almost always a paused Supabase project** — the free tier pauses after 7 idle days, and the cron is 7 days apart. The `db-sync` log shows the importer's own line: `connection timeout`, `ETIMEDOUT`, `ECONNREFUSED`, or `SQLSTATE XX000 — Tenant or user not found` (the pooler cannot route to a paused/deleted project, or the `<role>.<project-ref>` user name is wrong). `password authentication failed` / `database "<redacted>" does not exist` mean the DSN secret is wrong instead | **resume the project in the Supabase dashboard**, then dispatch `pages-deploy.yml` — it re-syncs `main`, and the import is idempotent. Then check why `db-keepalive` in the daily run did not keep it awake |
-| *the sync timed out (the import)* | no answer within 15 min: the connection opened and then hung. Same first suspect — a project that is pausing or resuming | the same: resume, then dispatch `pages-deploy.yml` |
+| **Class (a) — dashboards stale or unverified, operator pinged** | | |
+| *the sync was skipped — the `LI_SYNC_DATABASE_URL` secret is not set* | setup not done yet; nothing fills the database Grafana reads | the three secrets above, then dispatch `pages-deploy.yml` |
+| *the sync FAILED (could not connect to the database)* | **the dashboards are DOWN, not stale**: Grafana reads the same database, so every panel shows a datasource error until it answers. The importer never got a connection (it gives up after 20 s). **Almost always a paused Supabase project** — the free tier pauses after 7 idle days, and the cron is 7 days apart. The `db-sync` log shows the importer's own line: `connection timeout`, `ETIMEDOUT`, `ECONNREFUSED`, or `SQLSTATE XX000 — Tenant or user not found` (the pooler cannot route to a paused/deleted project, or the `<role>.<project-ref>` user name is wrong). `password authentication failed` / `database "<redacted>" does not exist` mean the DSN secret is wrong instead | **resume the project in the Supabase dashboard**, then dispatch `pages-deploy.yml` — it re-syncs `main`, and the import is idempotent. Then check why `db-keepalive` in the daily run did not keep it awake |
+| *the sync timed out (the import)* | no answer within 15 min: the connection opened and then hung. Same first suspect — a project that is pausing or resuming — and the same consequence: the dashboards are most likely down too | the same: resume, then dispatch `pages-deploy.yml` |
 | *the sync FAILED (the import)* | the importer **connected** and then failed; its transaction rolled back, the database is as it was. Not a pause | open the `db-sync` job: the hints name the cause (`SQLSTATE …`, `permission denied for table …`, a constraint name). For the withheld lines, run the same command locally. Fix, then dispatch `pages-deploy.yml` |
 | *the sync FAILED (installing the db/ dependencies)* | `npm ci --prefix db` failed | usually the registry; re-dispatch |
 | *the sync did not run or did not finish* | the job wrote no output: crashed early, was cancelled, or checkout failed | open the run; re-dispatch `pages-deploy.yml` |
-| *the parity check found a DIFFERENCE* | the import worked, but the database's export is **not** byte-identical to the JSON build. **This is the finding the soak exists for** | the `db-sync` log lists each differing path with type, length and a hash — never the value. Reproduce locally: `LI_DSN=… node db/verify.mjs --show-values`. Fix `db/export.mjs` / the merge rules, re-dispatch. **Resets the soak counter** |
+| *the parity check found a DIFFERENCE* | the import worked, but the database is **not** byte-identical to the JSON build — either the export (`<author>/stats.json`) or a `dash.feed_*` view a panel reads (`<author>/dash.feed`, FEED PARITY). **Grafana may be showing different numbers than the JSON build right now** | the `db-sync` log lists each differing path with type, length and a per-run salted digest — never the value. **Two cases are not a data bug and no code change fixes them:** every line `[feed-absent]` on `<author>/dash.feed` = the schema in the database is **older than `main`** (the PR was merged before the schema was re-applied, §10 *First rollout*) → `apply-schema --force && import --publish` as the owner; `[grant-missing]` under `dash.reader_grants` = `grafana_ro` lost a privilege and the panels answer *permission denied* → re-apply the ROLES section of `db/schema.sql`. Anything else: reproduce locally with `LI_DSN=… node db/verify.mjs --show-values`, fix `db/export.mjs` / the view / the merge rules, re-dispatch `pages-deploy.yml`. Not a clean week in the ledger |
 | *the parity check was INCOMPLETE* | it found no difference, but compared **fewer feeds than `main` publishes**. Pages builds a feed for every folder under `dashboards/li-stats/` with an `account.json`; the importer takes its authors from `profiles.json`. A folder that is not in `profiles.json` is published and never imported | the `db-sync` log has both counts. Add the author to `profiles.json` (or remove the stray folder), re-dispatch. Does not count as a clean week |
 | *the parity check could not be completed* / *timed out* | it crashed or hung before comparing anything — not evidence of a difference, not evidence of parity either | dispatch `pages-deploy.yml` to re-sync and re-check; if the database does not answer, check that the project is not paused. Does not count as a clean week |
+| **Class (b) — backup only, nobody pinged** | | |
 | *the backup was skipped — … not set* | one or both backup secrets are missing | setup step 2–3 |
 | *the backup FAILED (installing the PostgreSQL 17 client)* | apt.postgresql.org unreachable, or its signing key no longer matches the pinned fingerprint | if PostgreSQL rotated the key, update the fingerprint in `.github/actions/db-backup/action.yml` |
 | *the backup FAILED (pg_dump)* | `db/backup.sh` refused: database unreachable, `pg_dump` older than the server, an empty dump, or dump/source row counts disagree | the `db-backup` log shows the per-table counts and the script's own reason |
 | *the backup FAILED (pushing to the backup repository)* | the repo does not exist, or the deploy key lacks **write** access (that fails exactly at the push) | fix the deploy key; re-dispatch with `backup` ticked |
 
-**The soak ledger.** The backup repo's history is the backup history *and* the
+**The ledger.** The backup repo's history is the backup history *and* the
 only durable record that parity held: Slack is quiet on a good week, and the
 run's log, annotations and step summary expire with the run (about 90 days).
 Each backup commit therefore carries the verdict of the `db-sync` job of the
@@ -623,41 +723,273 @@ means N feeds were compared and `main` publishes M; anything else (`DIFFERS`,
 with **no commit** is a week the backup did not run: not clean either. To
 restore, see `db/restore-drill.sh`.
 
-### Exit criteria — when Grafana may be switched to the database
+### The switch has been made — what still guards it
 
-The soak is over when **all** of these hold; until then Grafana stays on the
-JSON feeds on Pages:
+The checked-in dashboards read this database, not the JSON feeds on Pages
+(section 10; the live Grafana follows once the operator has pushed them — *First
+rollout* there). The soak criteria that used to stand here (three consecutive `parity ok N/N`
+weeks, both sync paths seen working, one restore drill, `grafana_ro` sees `dash`
+only) are no longer a gate — they are the **weekly health check of what the
+dashboards read**:
 
-1. **Three consecutive ISO weeks, each with a POSITIVE record**: a commit in the
-   backup repo for that week whose subject says `parity ok N/N` (N = every feed
-   `main` publishes). That one commit proves all three at once — the backup only
-   runs after `sync == ok`, the verdict is the parity check's, and the commit
-   exists because the push worked. **The absence of a database line in Slack is
-   not evidence**: an unmerged week (the sync never ran) and a week whose Slack
-   post failed look exactly the same. No commit for a week = not a clean week.
-   *Which run counts:* the week's record may come from either path — the Monday
-   scheduled run when the week auto-merged (`Via: linkedin-stats-weekly`), or
-   the `pages-deploy` dispatch **with `backup` ticked** that followed a
-   hand-merge (`Via: pages-deploy`). A hand-merged week synced *without*
-   `backup` ticked leaves no record: tick it. If a week has several commits
-   (re-dispatches), the **last** one is the week's verdict.
-2. The counter **resets to zero** on: a week whose record says anything other
-   than `parity ok N/N` (*DIFFERS*, *INCOMPLETE*, *ERROR*, *TIMEOUT*, *NOT
-   RECORDED*); a week with no record at all (sync skipped / failed / could not
-   connect, backup failed, week never merged); any change to `db/schema.sql`,
-   `db/import.mjs`, `db/export.mjs`, `db/verify.mjs` or `build-stats-json.mjs` /
-   `build-page-stats.mjs`.
-3. **Both paths into the database have been seen working** within those three
-   weeks: at least one record with `Via: linkedin-stats-weekly (schedule)` and at
-   least one with `Via: pages-deploy (workflow_dispatch)`. If every week
-   auto-merged, make the second one deliberately: dispatch `pages-deploy` with
-   `backup` ticked. That extra commit is a record *for criterion 3 only* — it
-   neither adds a week to criterion 1 nor resets it (unless it is not `parity
-   ok`, which resets like any other).
-4. The row counts in those commits are plausible and non-decreasing, and **one
-   restore drill** (`db/restore-drill.sh`) from the latest commit has succeeded.
-5. `grafana_ro` has been checked to see `dash` only (`node db/test-roles.mjs`).
+1. **Every week should leave a POSITIVE record**: a commit in the backup repo
+   whose subject says `parity ok N/N` (N = every feed `main` publishes). That one
+   commit proves the sync, the parity check (exports **and** every `dash.feed_*`
+   view) and the push at once. **The absence of a database line in Slack is not
+   evidence.** A week with `DIFFERS`, `INCOMPLETE`, `ERROR`, `TIMEOUT`, `NOT
+   RECORDED`, or with no commit at all, is a week in which the dashboards were
+   stale or unverified for some time — the Slack ping of that run says which.
+2. **Both paths into the database stay exercised**: `Via: linkedin-stats-weekly
+   (schedule)` for auto-merged weeks, `Via: pages-deploy (workflow_dispatch)`
+   (with `backup` ticked) after a hand-merge. A hand-merged week synced *without*
+   `backup` ticked reaches the dashboards but leaves no record: tick it.
+3. **Any change to `db/schema.sql`, `db/import.mjs`, `db/export.mjs`,
+   `db/verify.mjs`, `build-stats-json.mjs` / `build-page-stats.mjs` or a
+   dashboard** is now a change to what viewers see. Before it: `node db/verify.mjs`
+   and `node db/verify-panels.mjs --baseline caf2834` on a local database; rolling
+   a schema change out to the live database empties the dashboards for about a
+   minute — the order is in `db/README.md` («Зміна схеми, коли ЖИВІ дашборди вже
+   читають `dash`»).
+4. The row counts in the ledger are plausible and non-decreasing, and a restore
+   drill (`db/restore-drill.sh`) is repeated now and then. A database restored
+   from a dump has **no grants** (`--no-privileges`): re-apply the `roles`
+   section of `db/schema.sql` before pointing Grafana at it (`db/README.md`).
+5. `grafana_ro` sees `dash` only (`node db/test-roles.mjs`).
 
-Switching over is then a Grafana datasource change; the dual-write jobs stay on
-afterwards, so the JSON build keeps acting as the parity reference for as long
-as the scraper still writes JSON.
+The dual-write jobs stay on, so the JSON build keeps acting as the parity
+reference for as long as the scraper still writes JSON. Going back to the JSON
+feeds is possible at any time — section 10, *Rollback*.
+
+---
+
+## 10. Grafana reads Postgres
+
+Every panel and every query variable of our seven dashboards
+(`linkedin-<author>`, `linkedin-<author>-posts` per author, `linkedin-page`) is a
+`rawSql` against Grafana's **PostgreSQL datasource**, role `grafana_ro`, and reads
+**only** the `dash.feed_*` views — one view per section of the old JSON feed, same
+columns, same order (`db/README.md`, «Що читає Grafana»). Nothing reads
+`https://speedandfunction.github.io/LinkedInStatistic/…` through the Infinity
+datasource any more. Out of scope and unchanged: `linkedin-stats.json`,
+`linkedin-stats-posts.json` and `_archive/` (upstream leftovers).
+
+What still comes from where:
+
+| Thing on the dashboard | Source | Updated by |
+|---|---|---|
+| every panel, `$month`, the hidden `account_latest_week` | Postgres, `dash.feed_*` | `db-sync` (weekly run after an auto-merge; every `pages-deploy`) |
+| the `$post` picker (a Custom list baked into the dashboard) | the post files on `main` | `update-post-variable.mjs`, in `publish` / `refresh-post-variable`, after a successful Pages deploy **and only when `db-sync` reported `sync == 'ok'`** |
+| the public JSON feed on Pages | `build-pages.mjs` from `main` | `publish` / `pages-deploy`. No dashboard reads it; it is the parity oracle's public copy |
+
+### What a failed or skipped sync means now
+
+Before, a database problem was invisible to viewers. Now:
+
+- **Sync not `ok`, and the database ANSWERED** (the import rolled back, npm
+  failed, the secret is missing, no output at all): the dashboards **stay on the
+  previous sync** — last week's numbers, this week's posts missing from every
+  panel. Slack: *…the Grafana dashboards were NOT updated*, operator pinged.
+- **Sync not `ok` because the database did NOT answer** (`could not connect`, a
+  timeout — most often a **paused Supabase project**): the dashboards are **down**,
+  not stale. Grafana reads the same database, so every panel shows a datasource
+  error until the project answers again; only then do they show the previous
+  sync. Same headline in Slack, and the database line says so. **Resume the
+  project, then dispatch `pages-deploy.yml`** (the import is idempotent). A wrong
+  `LI_SYNC_DATABASE_URL` shows as `password authentication failed` / `does not
+  exist` in the `db-sync` job instead of a timeout — that one leaves the
+  dashboards up.
+- **The `$post` picker is held back with the sync.** `update-post-variable.mjs`
+  makes the newest post that has metrics the **default** of `$post`, and a new
+  post gets its first week in the very merge being published — in most weeks the
+  default moves. Pushed without the sync, every viewer would **open** the three
+  `-posts` dashboards on a post the database does not have: twelve panels of *No
+  data*, until somebody repaired the database. So both workflows push the picker
+  only when `sync == 'ok'` (the weekly `publish` job waits for `db-sync` for that
+  one step); otherwise it keeps last week's list and default, and Slack says
+  *The `$post` picker was deliberately not refreshed*. The `pages-deploy` re-run
+  that fixes the sync refreshes it. Parity is not a condition: once the import
+  went through, the post is in the database.
+- **Sync `ok`, parity not `ok`**: the database *was* updated, but it is not
+  proven to match the JSON build — a `DIFFERENCE` means some panel may show a
+  different number than the feed did. Slack: *…may be WRONG*, operator pinged;
+  the differing paths are in the `db-sync` job (hashed, never the values).
+- **Only the backup failed**: nothing a viewer can see. Orange line, no ping.
+- **The week was not merged** (open PR): nothing is synced, by design — the
+  dashboards stay on the last merged week, exactly as the JSON feed did.
+- **Pages deploy failed, sync `ok`**: the dashboards are current; only the public
+  JSON feed and the `$post` picker are stale. Run `pages-deploy`.
+- **`grafana_ro` lost a privilege** (a regression of the ROLES section, a manual
+  `REVOKE`): every panel answers *permission denied* while the data is perfect.
+  The weekly parity check asks the catalog about that role as `li_sync` and
+  reports it as a difference (`[grant-missing]`, class (a)). What **nothing**
+  checks: the datasource inside Grafana (its password, its uid) and whether the
+  live dashboards are the files in this repository — look at them after a push.
+
+A green run does **not** prove the sync worked (the database jobs are
+`continue-on-error`). The Slack message does.
+
+### The datasource uid: `${DS_LINKEDIN_PG}` and `GRAFANA_PG_DATASOURCE_UID`
+
+This repository is public, so the dashboards in `dashboards/grafana/` never carry
+the uid of the Postgres datasource. Every `datasource` is
+`{ "type": "grafana-postgresql-datasource", "uid": "${DS_LINKEDIN_PG}" }` — a
+literal placeholder, not a Grafana variable.
+
+- `push-dashboard.mjs --file` replaces the placeholder with
+  `$GRAFANA_PG_DATASOURCE_UID` just before the POST, and **refuses** (exit 2,
+  nothing sent — also with `--dry-run`) when the file has the placeholder and the
+  variable is unset or is not a plain uid. Its messages never echo the uid.
+- `push-dashboard.mjs --dump` does the reverse — and **refuses too** (exit 2,
+  nothing written) when the live dashboard reads Postgres and the variable is
+  unset: without the uid in hand only the `{ type, uid }` form is recognisable,
+  and a type-less `{ uid }`, a legacy `"datasource": "<uid>"` or a uid quoted in
+  a link would be written as they are. With the variable set it also refuses a
+  `datasource` that is still untyped after the swap (the variable may hold
+  another datasource's uid). Set the variable for both directions.
+- `GRAFANA_PG_DATASOURCE_UID` is **operator-local**: it lives in your gitignored
+  `.env` (placeholder in `.env.example`). It is **not** a repo secret or variable
+  — no workflow pushes dashboards. CI only runs `update-post-variable.mjs`, which
+  patches `$post` on the live dashboard and never touches a datasource.
+- Find the value in Grafana: *Connections → Data sources →* the PostgreSQL one;
+  the uid is the last segment of that page's URL. The datasource must log in as
+  `grafana_ro` (TLS, Session-pooler host — `db/README.md`).
+- Before committing anything under `dashboards/grafana/`:
+  `grep -o '"uid": *"[^"]*"' dashboards/grafana/linkedin-*.json | sort | uniq -c`
+  — the only datasource uid may be `${DS_LINKEDIN_PG}` (the others are the
+  dashboards' own uids and `-- Grafana --`).
+
+### Pushing dashboards
+
+```bash
+cd ~/LinkedInStatistic
+set -a; . ./.env; set +a     # GRAFANA_URL, GRAFANA_SERVICE_ACCOUNT_TOKEN, GRAFANA_PG_DATASOURCE_UID
+# 1. prove the SQL first (local database, or LI_DSN=<grafana_ro dsn> against the live one)
+node db/verify-panels.mjs --baseline caf2834
+# 2. see what would change, then push
+node .github/scripts/push-dashboard.mjs --uid linkedin-page --file dashboards/grafana/linkedin-page.json --dry-run
+node .github/scripts/push-dashboard.mjs --uid linkedin-page --file dashboards/grafana/linkedin-page.json
+for a in $(jq -r 'keys[] | select(startswith("_") | not)' .claude/skills/linkedin-stats/profiles.json); do
+  node .github/scripts/push-dashboard.mjs --uid "linkedin-$a"       --file "dashboards/grafana/linkedin-$a.json"
+  node .github/scripts/push-dashboard.mjs --uid "linkedin-$a-posts" --file "dashboards/grafana/linkedin-$a-posts.json"
+  # the checked-in $post list is only as fresh as its last --snapshot: refresh it right after the push
+  node .github/scripts/update-post-variable.mjs --author "$a" --snapshot "dashboards/grafana/linkedin-$a-posts.json"
+done
+```
+
+Never edit these dashboards in the Grafana UI: the next push overwrites the
+whole dashboard. Author dashboards are generated — edit
+`dashboards/grafana/_template/author*.json` (the slug is the token `__AUTHOR__`
+inside each `rawSql`) and re-run `gen-author-dashboards.mjs`; the page dashboard
+is generated by `build-page-dashboard.mjs`. **Regenerating wipes the committed
+`$post` lists** — re-run `update-post-variable.mjs --snapshot` for every author
+before committing (§5, step c). Inside a `rawSql`, variables appear only as
+`${post:sqlstring}` / `${month:sqlstring}`.
+
+**First rollout** (once, when this change goes live). **Order relative to the
+MERGE matters — steps 1–3 come BEFORE the PR is merged, from a checkout of its
+branch:**
+
+1. take a backup (`pages-deploy` with `backup` ticked);
+2. the live database does not have the `dash.feed_*` views yet — re-apply the
+   schema and re-import as the owner, in one line
+   (`node db/apply-schema.mjs --force && node db/import.mjs --publish`;
+   `db/README.md`, «Зміна схеми…»). Nobody is affected while the live dashboards
+   still read Pages, and the old `verify.mjs` / `import.mjs` on `main` keep working
+   against the new schema: the change only ADDS views;
+3. `node db/verify.mjs`, then `LI_DSN=<grafana_ro dsn> node db/verify-panels.mjs`
+   (add `--baseline caf2834` once this change is on `main`);
+4. **merge the PR**, and the same day — not "after Monday 00:00 UTC" —
+5. make sure the PostgreSQL datasource exists in Grafana and put its uid in your
+   `.env`; push the seven dashboards and refresh `$post` as above.
+
+**If the PR was merged first:** the next `db-sync` (Monday, or any
+`pages-deploy`) runs the new `verify.mjs` against the old schema and pings
+*…the Grafana dashboards may be WRONG* — a parity DIFFERENCE with `[feed-absent]`
+on every `<author>/dash.feed`. Nothing is wrong with the data and no code change
+fixes it: do step 2, then dispatch `pages-deploy`.
+
+**Between the merge and step 5** (and after a *Rollback*) the Slack texts are
+ahead of reality: they assume the live dashboards read the database. While they
+still read Pages, read the message the other way round — a failed Pages deploy
+with a green database line DOES leave the dashboards stale, and a database
+problem does NOT touch them.
+
+### Rollback
+
+Two ways back, both leave the data alone:
+
+- **One dashboard, quickly:** Grafana keeps a version history per dashboard —
+  *Dashboard settings → Versions → Restore* the last version before the push.
+  Every scripted push and every `$post` refresh is a version with a message.
+- **Back to the JSON feed, from git:** the last commit whose dashboards still
+  read Pages through Infinity is `caf2834`. Those files contain no placeholder,
+  so no datasource uid is needed:
+  ```bash
+  git show caf2834:dashboards/grafana/linkedin-page.json > /tmp/linkedin-page.json
+  node .github/scripts/push-dashboard.mjs --uid linkedin-page --file /tmp/linkedin-page.json
+  # same for linkedin-<author>.json / linkedin-<author>-posts.json, then
+  # update-post-variable.mjs --author <slug> (the old files carry an old $post list)
+  ```
+  The JSON feed on Pages is still built and deployed every week, so the old
+  dashboards work immediately. The database jobs can stay on — but while the
+  dashboards are rolled back to Infinity, Slack keeps saying *"Grafana reads the
+  database"*: read it the other way round (see *First rollout*), or roll the
+  notifier back as well.
+
+### The live clock: what a viewer sees around midnight UTC
+
+The old JSON feed was **frozen at publish time**: "last week" and the month
+range were computed once, during Monday's build, and did not move until the next
+publish. The views compute both from `now()` on every query. Two things
+therefore roll over **by themselves, at 00:00 UTC** — before Monday's run has
+collected anything:
+
+- **On the 1st of a month, 00:00 UTC** — *Posts published per month* and the
+  three *…comments per month* panels on every author dashboard grow a new
+  right-most month with **zeros** (0 posts, 0 impressions, 0 comments). With the JSON feed that bar appeared
+  only at the first publish of the month. It fills in at the first Monday sync
+  that carries a post or comment of that month.
+- **On Monday, 00:00 UTC** — the boundary of "a week that is already over"
+  moves forward by one week. *Last week* is the newest week **present in the
+  data** that lies before that boundary, so:
+  - **normally nothing changes** between midnight and the sync (roughly
+    00:00–03:00 UTC, longer if the PR needs a hand-merge). Reactions are always
+    attributed to the week *before* the run, so the newest week in the database
+    is already "over": the four *Engagement score (last week)* tiles and the
+    `score_last_week` column of *Top engagers* keep showing the same week as on
+    Sunday. When the sync lands, they jump to
+    the week just collected — as they used to at publish time;
+  - **the exception**: an outbound comment written on a Monday morning *before
+    that day's scrape read it* is attributed to the week that had just begun.
+    A week later, at 00:00 UTC, that week becomes "over", and until the sync
+    lands the *Engagement score (last week)* tiles and `score_last_week` show
+    **that week with only those few comments** — a near-zero score where Sunday
+    showed a full week. *Engagement score per week* is unaffected (it already
+    had that small bar). The sync replaces it with the
+    full week.
+  - if the sync **fails**, or the week is **not merged**, this in-between state
+    stays until someone acts: the dashboards do not go blank, they keep the last
+    synced data under this week's clock.
+- The company page dashboard does not move with the clock: its "last week" is the
+  latest **month** of the export, and `$month` lists exactly the months in the
+  database.
+
+Parity between the views and the JSON build was proven at the *same* instant on
+both sides, on five different clocks — the difference above is not between the
+database and the feed, it is between "computed now" and "computed on Monday".
+For the same reason **no check can see it**: `verify.mjs` and `verify-panels.mjs`
+pin both sides to one instant.
+
+How often, measured on the corpus: the `2026-08-31` scrape carries 4 such
+comments (of 812 events, two authors), the `2026-09-14` scrape none. So on
+`2026-09-07 00:00 UTC` the *last week* tiles of two authors dropped to a week of
+1–3 events (one score 47 → 5) until that Monday's sync landed, and on the coming
+Monday nothing flips. Panels involved on each author dashboard: stat 22–25, *Top
+engagers* (27, sorted by *Last week*, `limit 15` — the top 15 reshuffles) and
+table 36; the month bars are 13, 19, 15, 16.
+
+**This is a product decision that has NOT been taken** — the move to SQL did not
+touch the clock semantics. Keep it (the dashboard honestly shows "the last week
+that is over", complete or not), or bound "last week" by the newest *published*
+scrape week as well, mirrored in the reader so that parity holds — the exact
+change is spelled out in `db/README.md`, «Живий годинник у Grafana».

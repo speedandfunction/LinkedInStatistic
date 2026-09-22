@@ -37,8 +37,8 @@
   "panels": [
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -122,46 +122,15 @@
       },
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "id",
-              "text": "id",
-              "type": "string"
-            },
-            {
-              "selector": "posted_date",
-              "text": "posted_date",
-              "type": "string"
-            },
-            {
-              "selector": "text",
-              "text": "text",
-              "type": "string"
-            },
-            {
-              "selector": "post_url",
-              "text": "post_url",
-              "type": "string"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filterExpression": "id == \"${post}\"",
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "posts",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select id, post_url, posted_date, text\nfrom dash.feed_posts\nwhere author = 'peter' and id = ${post:sqlstring}\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Selected post",
@@ -169,8 +138,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -230,41 +199,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "id",
-              "text": "id",
-              "type": "string"
-            },
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "impressions",
-              "text": "impressions",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filterExpression": "id == \"${post}\"",
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "post_weeks",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select id, impressions, week\nfrom dash.feed_post_weeks\nwhere author = 'peter' and id = ${post:sqlstring}\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Impressions",
@@ -304,8 +247,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -365,61 +308,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "id",
-              "text": "id",
-              "type": "string"
-            },
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "reactions",
-              "text": "reactions",
-              "type": "number"
-            },
-            {
-              "selector": "comments",
-              "text": "comments",
-              "type": "number"
-            },
-            {
-              "selector": "reposts",
-              "text": "reposts",
-              "type": "number"
-            },
-            {
-              "selector": "saves",
-              "text": "saves",
-              "type": "number"
-            },
-            {
-              "selector": "sends",
-              "text": "sends",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filterExpression": "id == \"${post}\"",
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "post_weeks",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select comments, id, reactions, reposts, saves, sends, week\nfrom dash.feed_post_weeks\nwhere author = 'peter' and id = ${post:sqlstring}\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Engagement actions",
@@ -463,8 +360,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -524,41 +421,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "id",
-              "text": "id",
-              "type": "string"
-            },
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "engagement_rate",
-              "text": "engagement_rate",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filterExpression": "id == \"${post}\"",
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "post_weeks",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select engagement_rate, id, week\nfrom dash.feed_post_weeks\nwhere author = 'peter' and id = ${post:sqlstring}\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Engagement rate",
@@ -598,8 +469,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -659,46 +530,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "id",
-              "text": "id",
-              "type": "string"
-            },
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "profile_viewers",
-              "text": "profile_viewers",
-              "type": "number"
-            },
-            {
-              "selector": "followers_gained",
-              "text": "followers_gained",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filterExpression": "id == \"${post}\"",
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "post_weeks",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select followers_gained, id, profile_viewers, week\nfrom dash.feed_post_weeks\nwhere author = 'peter' and id = ${post:sqlstring}\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Profile viewers & followers gained",
@@ -739,8 +579,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -787,81 +627,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "week",
-              "text": "Week",
-              "type": "string"
-            },
-            {
-              "selector": "id",
-              "text": "id",
-              "type": "string"
-            },
-            {
-              "selector": "impressions",
-              "text": "Impr.",
-              "type": "number"
-            },
-            {
-              "selector": "reactions",
-              "text": "React.",
-              "type": "number"
-            },
-            {
-              "selector": "comments",
-              "text": "Comm.",
-              "type": "number"
-            },
-            {
-              "selector": "reposts",
-              "text": "Reposts",
-              "type": "number"
-            },
-            {
-              "selector": "saves",
-              "text": "Saves",
-              "type": "number"
-            },
-            {
-              "selector": "sends",
-              "text": "Sends",
-              "type": "number"
-            },
-            {
-              "selector": "profile_viewers",
-              "text": "Profile views",
-              "type": "number"
-            },
-            {
-              "selector": "followers_gained",
-              "text": "Fol. gained",
-              "type": "number"
-            },
-            {
-              "selector": "engagement_rate",
-              "text": "Eng. %",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filterExpression": "id == \"${post}\"",
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "post_weeks",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select comments as \"Comm.\", engagement_rate as \"Eng. %\", followers_gained as \"Fol. gained\", impressions as \"Impr.\", profile_viewers as \"Profile views\", reactions as \"React.\", reposts as \"Reposts\", saves as \"Saves\", sends as \"Sends\", week as \"Week\", id\nfrom dash.feed_post_weeks\nwhere author = 'peter' and id = ${post:sqlstring}\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Weekly metrics",
@@ -898,8 +672,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -943,51 +717,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "id",
-              "text": "id",
-              "type": "string"
-            },
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "dimension",
-              "text": "dimension",
-              "type": "string"
-            },
-            {
-              "selector": "label",
-              "text": "label",
-              "type": "string"
-            },
-            {
-              "selector": "pct",
-              "text": "pct",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filterExpression": "(id == \"${post}\") && (dimension == \"seniority\")",
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "post_demographics",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select dimension, id, label, pct, week\nfrom dash.feed_post_demographics\nwhere author = 'peter' and id = ${post:sqlstring} and dimension = 'seniority'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Seniority",
@@ -1063,8 +801,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1108,51 +846,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "id",
-              "text": "id",
-              "type": "string"
-            },
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "dimension",
-              "text": "dimension",
-              "type": "string"
-            },
-            {
-              "selector": "label",
-              "text": "label",
-              "type": "string"
-            },
-            {
-              "selector": "pct",
-              "text": "pct",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filterExpression": "(id == \"${post}\") && (dimension == \"job_title\")",
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "post_demographics",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select dimension, id, label, pct, week\nfrom dash.feed_post_demographics\nwhere author = 'peter' and id = ${post:sqlstring} and dimension = 'job_title'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Top job titles",
@@ -1234,8 +936,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1279,51 +981,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "id",
-              "text": "id",
-              "type": "string"
-            },
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "dimension",
-              "text": "dimension",
-              "type": "string"
-            },
-            {
-              "selector": "label",
-              "text": "label",
-              "type": "string"
-            },
-            {
-              "selector": "pct",
-              "text": "pct",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filterExpression": "(id == \"${post}\") && (dimension == \"industry\")",
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "post_demographics",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select dimension, id, label, pct, week\nfrom dash.feed_post_demographics\nwhere author = 'peter' and id = ${post:sqlstring} and dimension = 'industry'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Top industries",
@@ -1405,8 +1071,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1450,51 +1116,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "id",
-              "text": "id",
-              "type": "string"
-            },
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "dimension",
-              "text": "dimension",
-              "type": "string"
-            },
-            {
-              "selector": "label",
-              "text": "label",
-              "type": "string"
-            },
-            {
-              "selector": "pct",
-              "text": "pct",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filterExpression": "(id == \"${post}\") && (dimension == \"company_size\")",
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "post_demographics",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select dimension, id, label, pct, week\nfrom dash.feed_post_demographics\nwhere author = 'peter' and id = ${post:sqlstring} and dimension = 'company_size'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Company size",
@@ -1570,8 +1200,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1615,51 +1245,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "id",
-              "text": "id",
-              "type": "string"
-            },
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "dimension",
-              "text": "dimension",
-              "type": "string"
-            },
-            {
-              "selector": "label",
-              "text": "label",
-              "type": "string"
-            },
-            {
-              "selector": "pct",
-              "text": "pct",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filterExpression": "(id == \"${post}\") && (dimension == \"location\")",
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "post_demographics",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select dimension, id, label, pct, week\nfrom dash.feed_post_demographics\nwhere author = 'peter' and id = ${post:sqlstring} and dimension = 'location'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Top locations",
@@ -1741,8 +1335,8 @@
     },
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource",
-        "uid": "grafanacloud-infinity"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1786,51 +1380,15 @@
       "pluginVersion": "",
       "targets": [
         {
-          "columns": [
-            {
-              "selector": "id",
-              "text": "id",
-              "type": "string"
-            },
-            {
-              "selector": "week",
-              "text": "week",
-              "type": "string"
-            },
-            {
-              "selector": "dimension",
-              "text": "dimension",
-              "type": "string"
-            },
-            {
-              "selector": "label",
-              "text": "label",
-              "type": "string"
-            },
-            {
-              "selector": "pct",
-              "text": "pct",
-              "type": "number"
-            }
-          ],
-          "computed_columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource",
-            "uid": "grafanacloud-infinity"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
           },
-          "filterExpression": "(id == \"${post}\") && (dimension == \"company\")",
-          "filters": [],
+          "editorMode": "code",
           "format": "table",
-          "parser": "backend",
-          "refId": "A",
-          "root_selector": "post_demographics",
-          "source": "url",
-          "type": "json",
-          "url": "https://speedandfunction.github.io/LinkedInStatistic/peter/stats.json",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "rawQuery": true,
+          "rawSql": "select dimension, id, label, pct, week\nfrom dash.feed_post_demographics\nwhere author = 'peter' and id = ${post:sqlstring} and dimension = 'company'\norder by ord",
+          "refId": "A"
         }
       ],
       "title": "Top companies",

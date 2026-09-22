@@ -89,7 +89,9 @@ test("a missing secret is a skip with a ::warning::, never a failure", () => {
   const r = run(sandbox(), ["sync"], { LI_DSN: "" });
   assert.equal(r.code, 0);
   assert.deepEqual(r.outputs, { sync: "skipped-no-secret" });
-  assert.match(r.log, /::warning::database sync SKIPPED — the LI_SYNC_DATABASE_URL secret is not set\. The week is NOT affected/);
+  // Grafana reads the database, so a sync that did not happen is no longer "the
+  // week is NOT affected, full stop": the week is safe, the dashboards are stale.
+  assert.match(r.log, /::warning::database sync SKIPPED — the LI_SYNC_DATABASE_URL secret is not set\. The collected week is safe in git, but Grafana reads the database: the dashboards stay on the previous sync/);
 });
 
 test("a clean sync reports sync=ok parity=ok, shows counts, and masks the DSN's password and host", () => {
@@ -119,6 +121,9 @@ test("a failed import is sync=failed:import with a ::warning::, exit 0, no parit
   assert.match(r.log, /violates unique constraint "person_pkey"/, "the constraint NAME is a safe hint");
   assert.match(r.log, /3 line\(s\) withheld from this public log/);
   assert.doesNotMatch(r.log, /paused/, "an import that connected and rolled back is not a paused project");
+  // The database ANSWERED and refused: the dashboards are up, on the previous sync.
+  assert.match(r.log, /::warning::database sync FAILED[^\n]*the dashboards stay on the previous sync until this is fixed/);
+  assert.doesNotMatch(r.log, /datasource error/);
   assertNoLeak(r.log);
 });
 
@@ -142,7 +147,9 @@ test("a paused / unreachable database is sync=failed:connect: the importer's own
     assert.ok(r.log.includes(`IMPORT FAILED — could not connect: ${tail}`), `shown, not withheld: ${tail}`);
     assert.doesNotMatch(r.log, /withheld from this public log/, tail);
     assert.match(r.log, seen, tail);
-    assert.match(r.log, /::warning::database sync FAILED — the import could not connect to the database\..*Most likely the Supabase project is paused \(the free tier pauses after 7 idle days\): resume it in the Supabase dashboard, then run pages-deploy to re-sync - the import is idempotent\. The week is NOT affected/, tail);
+    assert.match(r.log, /::warning::database sync FAILED — the import could not connect to the database\..*Most likely the Supabase project is paused \(the free tier pauses after 7 idle days\): resume it in the Supabase dashboard, then run pages-deploy to re-sync - the import is idempotent\. The collected week is safe in git, but Grafana reads this same database: while it is paused or unreachable every panel shows a datasource error - not last week's numbers - until it answers again/, tail);
+    // "paused" and "the dashboards keep showing last week" cannot both be true.
+    assert.doesNotMatch(r.log, /::warning::database sync FAILED[^\n]*the dashboards stay on the previous sync until this is fixed/, tail);
     assertNoLeak(r.log);
   }
 });
@@ -239,7 +246,10 @@ test("touch: skip without the secret, ok when the database answers, failed:conne
   assert.equal(down.code, 0);
   assert.deepEqual(down.outputs, { touch: "failed:connect" });
   assert.match(down.log, /PING FAILED: connection timeout/);
-  assert.match(down.log, /::warning::database keep-alive FAILED — the database did not answer\..*Most likely the Supabase project is paused/);
+  assert.match(down.log, /::warning::database keep-alive FAILED — the database did not answer\..*Most likely the Supabase project is paused.*Grafana reads this database: while it does not answer, the dashboards are down RIGHT NOW/);
+  // Since the panels read the database, "nothing else is affected" is false.
+  for (const r of [skipped, down]) assert.doesNotMatch(r.log, /Nothing else is affected/);
+  assert.match(skipped.log, /The database was NOT probed today/);
   assertNoLeak(down.log);
 
   const hung = run(sandbox({ pingJs: "setInterval(() => {}, 1000);" }), ["touch"], { LI_DSN: DSN, DB_CI_TOUCH_CAP_SECS: "1" });
@@ -272,6 +282,8 @@ test("a parity difference is parity=differs with the paths and hashes shown, exi
   assert.equal(r.code, 0);
   assert.deepEqual(r.outputs, { sync: "ok", parity: "differs", feeds: "", feeds_expected: "3" });
   assert.match(r.log, /::warning::database PARITY DIFFERENCE/);
+  // The two differences no code change fixes are named where the operator reads first.
+  assert.match(r.log, /::warning::database PARITY DIFFERENCE[^\n]*\[feed-absent\] on a dash\.feed_\* view, the schema in the database is older than main[^\n]*\[grant-missing\] means the role Grafana logs in as/);
   assert.match(r.log, /peter\.engagement_people\[3\]\.score {2}\[value\]/);
   assert.match(r.log, /json: number len=2 sha1=0a1b2c3d/);
   assert.match(r.log, /2 line\(s\) withheld/, "a path keyed by a URL and a raw value are withheld");
@@ -398,6 +410,31 @@ test("filterLog shows only allowlisted lines and counts the rest", () => {
   assert.equal(f.withheld, 1);
   assert.deepEqual(filterLog("verify", `  peter.posts[0].title  [value]\n      json: string len=40 sha1=deadbeef\n      json: ${PERSON}`).withheld, 1);
   assert.equal(filterLog("nonsense", "anything").withheld, 1, "an unknown kind shows nothing");
+});
+
+test("filterLog shows the FEED PARITY lines an operator needs — and still nothing that carries a value", () => {
+  // A key-order difference: the path line used to be withheld ({} was not a path
+  // character) while its two digest lines were shown.
+  const keys = filterLog("verify", "  andy.feed_posts[0]{keys}  [key-order-or-set]\n      json: string len=61 sha1=0a1b2c3d\n      db:   string len=68 sha1=4e5f6a7b\n  andy.feed_posts[columns]  [key-order-or-set]\n  page.feed_page_monthly[lead]  [key-order-or-set]");
+  assert.deepEqual([keys.shown.length, keys.withheld], [5, 0]);
+  // grafana_ro lost a privilege: verify.mjs reports it as a difference.
+  const grants = filterLog("verify", "--- dash.reader_grants ---\n  schema.dash[usage]  [grant-missing]\n  dash.feed_posts[select]  [grant-missing]\n  li.js_round_double_precision[execute]  [grant-missing]\n  role.grafana_ro  [grant-missing]\n      json: absent\n      db:   absent");
+  assert.deepEqual([grants.shown.length, grants.withheld], [7, 0]);
+  assert.deepEqual(filterLog("verify", "        sections: views=22 compared=46 rows=6005 reader_grants=27").withheld, 0);
+  // Both "did not look" refusals.
+  assert.equal(filterLog("verify", "PARITY CHECK COULD NOT RUN: 0 feed views to compare — no feed reached the FEED PARITY block").withheld, 0);
+  assert.equal(filterLog("verify", "PARITY CHECK COULD NOT RUN: 0 feeds to compare — no author folder with an account.json under dashboards/li-stats/ and no row in li.author").withheld, 0);
+  // safe-log's tail for a 22P02: the value is gone, the reason stays.
+  assert.equal(filterLog("verify", "PARITY CHECK COULD NOT RUN: SQLSTATE 22P02 · (pg_strtoint32_safe) — invalid input syntax for type integer: <value withheld>").withheld, 0);
+  // …and none of it opens the door to a value.
+  for (const line of [
+    `  andy.feed_posts[0]{${PERSON}}  [value]`,
+    `  ${PROFILE}  [grant-missing]`,
+    `PARITY CHECK COULD NOT RUN: 0 feed views to compare — ${PERSON}: see ${PROFILE}`,
+    `PARITY CHECK COULD NOT RUN: SQLSTATE 22P02 — invalid input syntax for type integer: "${PERSON}"`,
+    `PARITY CHECK COULD NOT RUN: SQLSTATE 22P02 — invalid input syntax: ${PERSON}: <value withheld>`,
+    "PARITY CHECK COULD NOT RUN: SQLSTATE 22P02 — invalid input syntax for type integer: 12345",
+  ]) assert.equal(filterLog("verify", line).withheld, 1, line);
 });
 
 test("classifyParity separates a finding from a broken check, and an earned OK from a vacuous one", () => {

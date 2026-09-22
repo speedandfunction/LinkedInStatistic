@@ -25,6 +25,9 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: 22
+      # Назва кроку історична: жоден дашборд Grafana ці файли більше не читає
+      # (панелі ходять у Postgres, dash.feed_*). JSON-фід і далі збирається та
+      # публікується - та сама збірка є оракулом, з яким db/verify.mjs звіряє базу.
       - name: Emit per-author stats.json for Grafana
         run: |
           mkdir -p pages-dist
@@ -49,10 +52,24 @@ jobs:
       - id: deployment
         uses: actions/deploy-pages@v5
 
-  # Same coupling as the weekly publish job: once the republished stats.json
-  # is live, sync the $post Custom-variable list on the per-post dashboard.
+  # Same coupling as the weekly publish job: after the deploy, sync the $post
+  # Custom-variable list on each author's posts dashboard (built from the post
+  # files on main). The panels themselves read Postgres (dash.feed_*), which the
+  # db-sync job below fills - not the stats.json republished above.
+  #
+  # ORDER MATTERS: the picker is pushed only AFTER a successful database sync.
+  # update-post-variable.mjs makes the newest post that has metrics the DEFAULT of
+  # $post, and a new post gets its first week in the very merge being published.
+  # Pushed before (or without) the sync, the default lands on a post the database
+  # does not have yet, and every panel of the three -posts dashboards OPENS as
+  # "No data" - for seconds when the two jobs merely race, for days when the sync
+  # failed. So: needs db-sync, and runs only on sync == 'ok'. Parity is NOT a
+  # condition: once the import went through, the post is in the database.
+  # The `if` spells out its status check because db-sync is continue-on-error
+  # (its result cannot be trusted to say "failure"): the positive marker decides.
   refresh-post-variable:
-    needs: deploy
+    needs: [deploy, db-sync]
+    if: ${{ !cancelled() && needs.deploy.result == 'success' && needs.db-sync.outputs.sync == 'ok' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -84,7 +101,8 @@ jobs:
   # reaches the database. It syncs MAIN - whatever branch the dispatch came
   # from - because only main is, by definition, published.
   # No `needs`: main's data is merged whether or not Pages deploys, so the sync
-  # neither waits for the deploy nor depends on it.
+  # neither waits for the deploy nor depends on it. (The $post picker above waits
+  # for THIS job, not the other way round.)
   # Never red, never silent: see db-ci.mjs. Caps 5+5+5+5+15+10 = 45 min < 60.
   db-sync:
     continue-on-error: true
@@ -183,8 +201,12 @@ jobs:
   #     кнопку, але в каналі останнім словом лишилося б «dashboards were NOT
   #     updated» з @-згадкою; рядок-закриття коштує майже нічого (ручний деплой
   #     рідкісний) і закриває петлю там, де її відкрили.
-#   - до будь-якого з трьох — рядок бази даних (dual-write), якщо sync, parity
-#     чи backup не пройшли; якщо пройшли — нічого. Без пінгу.
+  #   - поверх будь-якого з трьох — база даних, яку ЧИТАЄ Grafana:
+  #       (а) sync або parity не "ok" -> змінюється сам заголовок («the Grafana
+  #           dashboards were NOT updated» / «may be WRONG») і пінгується
+  #           @operator, з дією; рефреш $post у цьому разі свідомо притримано;
+  #       (б) не вдався лише backup   -> один помаранчевий рядок, без пінгу;
+  #       усе ok                      -> один сірий рядок-підтвердження.
   notify:
     needs: [build, deploy, refresh-post-variable, db-sync, db-backup]
     # always(): провалений або скасований деплой — саме той випадок, про який

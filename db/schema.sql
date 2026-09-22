@@ -93,7 +93,22 @@ comment on index li.week_publication_one_published is
   'At most one published row per (author, week). A second publish is rejected by the database, not by application code.';
 
 -- The gate, as a relation. Every dash view joins this and nothing else.
-create view dash.published_week as
+--
+-- SECURITY BARRIER. This view and the ten dash views that read a gated li table
+-- directly (post, post_week, post_demographic, account_week, account_demographic,
+-- comment, comment_week, person, engagement_event, scan_target) are created
+-- `with (security_barrier)`. Without it the planner is free to push a caller's
+-- predicate BELOW the join with the gate, so it runs on rows of weeks that are
+-- not published: `where 1/(impressions - N) > 0` answers "division by zero" for a
+-- hidden row, and a cheap function with RAISE NOTICE (anybody can create one in
+-- pg_temp) prints every hidden name. An ordinary SELECT never returned those
+-- rows; the side channel did. It matters since the Grafana panels became SQL:
+-- whoever may query the datasource may send ANY SQL as grafana_ro, not only the
+-- rawSql committed here. Every other dash view (the derived ones, all dash.feed_*)
+-- reads the gated tables only THROUGH these eleven, so the barrier covers them
+-- too. db/test-roles.mjs rejects a week and runs the probe against every one of
+-- them, with a barrier-less control view proving the probe can see a leak.
+create view dash.published_week with (security_barrier) as
   select author, week, run_id, decided_at
     from li.week_publication
    where status = 'published';
@@ -611,7 +626,7 @@ create table li.page_search_week (
 -- A post is visible once one of its weekly snapshots is published. A post with
 -- no snapshots at all (37 of Peter's 126) is corpus, not measurement, and is
 -- always visible.
-create view dash.post as
+create view dash.post with (security_barrier) as
   select p.author,
          p.post_id                         as id,
          to_char(p.posted_date,'YYYY-MM-DD') as posted_date,
@@ -628,7 +643,7 @@ create view dash.post as
                    join dash.published_week pw on pw.author = w.author and pw.week = w.week
                   where w.author = p.author and w.post_id = p.post_id);
 
-create view dash.post_week as
+create view dash.post_week with (security_barrier) as
   select w.author,
          w.post_id                       as id,
          to_char(w.week,'YYYY-MM-DD')    as week,
@@ -648,7 +663,7 @@ create view dash.post_week as
     join dash.published_week pub on pub.author = w.author and pub.week = w.week
     join li.post p on p.author = w.author and p.post_id = w.post_id;
 
-create view dash.post_demographic as
+create view dash.post_demographic with (security_barrier) as
   select d.author,
          d.post_id                    as id,
          to_char(d.week,'YYYY-MM-DD') as week,
@@ -661,7 +676,7 @@ create view dash.post_demographic as
     join li.post_week w on w.author=d.author and w.post_id=d.post_id and w.week=d.week
     join li.post p on p.author = d.author and p.post_id = d.post_id;
 
-create view dash.account_week as
+create view dash.account_week with (security_barrier) as
   select a.author,
          to_char(a.week,'YYYY-MM-DD') as week,
          a.week                       as week_date,
@@ -674,7 +689,7 @@ create view dash.account_week as
     from li.account_week a
     join dash.published_week pub on pub.author = a.author and pub.week = a.week;
 
-create view dash.account_demographic as
+create view dash.account_demographic with (security_barrier) as
   select d.author,
          to_char(d.week,'YYYY-MM-DD') as week,
          d.dimension, d.label, d.pct,
@@ -685,7 +700,7 @@ create view dash.account_demographic as
 
 -- Outbound comments: visible once one of their snapshots is published, or
 -- immediately if none has been taken (they still count in comments_per_month).
-create view dash.comment as
+create view dash.comment with (security_barrier) as
   select c.author, c.comment_urn, c.ord,
          to_char(c.commented_at at time zone 'UTC','YYYY-MM') as month,
          c.commented_at
@@ -696,7 +711,7 @@ create view dash.comment as
                    join dash.published_week pw on pw.author=w.author and pw.week=w.week
                   where w.author=c.author and w.comment_urn=c.comment_urn);
 
-create view dash.comment_week as
+create view dash.comment_week with (security_barrier) as
   select w.author, w.comment_urn,
          to_char(w.week,'YYYY-MM-DD') as week,
          w.week as week_date,
@@ -705,13 +720,13 @@ create view dash.comment_week as
     join dash.published_week pub on pub.author=w.author and pub.week=w.week
     join dash.comment c on c.author=w.author and c.comment_urn=w.comment_urn;
 
-create view dash.person as
+create view dash.person with (security_barrier) as
   select p.author, p.person_key, p.name, p.profile_url, p.headline,
          p.icp_verdict, p.first_seen_at
     from li.person p
     join dash.published_week pub on pub.author=p.author and pub.week=p.gate_week;
 
-create view dash.engagement_event as
+create view dash.engagement_event with (security_barrier) as
   select e.author, e.event_id, e.kind, e.target_type, e.target_urn, e.target_url,
          e.person_key, e.occurred_at,
          e.attributed_week,
@@ -720,7 +735,7 @@ create view dash.engagement_event as
     from li.engagement_event e
     join dash.published_week pub on pub.author=e.author and pub.week=e.gate_week;
 
-create view dash.scan_target as
+create view dash.scan_target with (security_barrier) as
   select t.author, t.target_id, t.target_type, t.target_urn, t.target_url,
          to_char(t.first_scanned_week,'YYYY-MM-DD') as first_scanned_week,
          to_char(t.last_scanned_week,'YYYY-MM-DD')  as last_scanned_week,
@@ -987,6 +1002,336 @@ create view dash.page_manual as
 
 create view dash.page_meta as
   select source, generated_at from li.page_meta;
+
+
+-- ===========================================================================
+-- dash.feed_* — the feed views: what a Grafana panel actually SELECTs
+-- ===========================================================================
+--
+-- The dash views above are building blocks: db/export.mjs still SORTS them in
+-- JavaScript, derives half of engagement_score_totals in JavaScript and assembles
+-- every company-page section in JavaScript. A Grafana panel has no JavaScript, so
+-- a panel pointed at those views would show something other than the JSON feed
+-- it replaces. These views close that gap: each one IS one section of the feed.
+--
+-- THE CONTRACT (the dashboards, gen-author-dashboards.mjs and db/verify-panels.mjs
+-- are built against it — change it and they all move):
+--
+--   * one view per JSON section that a panel or a dashboard variable reads;
+--       <author>/stats.json  section `post_weeks`   -> dash.feed_post_weeks
+--       page-stats.json      section `page_monthly` -> dash.feed_page_monthly
+--       page-stats.json      section `engagement_score_totals`
+--                                                   -> dash.feed_page_engagement_score_totals
+--     i.e. `feed_<section>` for an author section, and `feed_page_<section with a
+--     leading "page_" removed>` for a company-page section;
+--   * columns: `author text` (author sections only), `ord integer`, then EXACTLY
+--     the keys of that section's row objects — same names, same order;
+--   * `ord` is the 0-based position of the row in the JSON array, so
+--     `select ... order by ord` reproduces the array and a WHERE keeps feed order;
+--   * JSON string -> text (weeks and months stay TEXT here, '2026-09-14' — this is
+--     the feed's shape, not a fact table; the `date` rule at the top of this file
+--     is about li), JSON number -> bigint / numeric equal to it, JSON boolean ->
+--     boolean. No section has a nested value today.
+--
+-- Nothing here reads a table the dash views do not already read, and nothing
+-- consults the clock or the gate on its own: published weeks, li.current_month()
+-- and li.current_week_monday() all arrive through the views underneath. The one
+-- helper called directly is li.js_round(), which grafana_ro and li_sync already
+-- hold EXECUTE on; ownership and SELECT are handed out by the ROLES section at
+-- the bottom, which sweeps every view in dash.
+--
+-- ORDER. Wherever export.mjs sorts strings in JavaScript (`byStr`, i.e. by UTF-16
+-- code unit), the view sorts with COLLATE "C" — byte order, which is the same
+-- order for everything below U+10000 and does NOT depend on the database's
+-- locale. Without it a database created with en_US.UTF-8 (Supabase) ignores the
+-- punctuation in `2025-11-11-a-b.json` on the first pass and files the posts in
+-- an order no reader has ever seen.
+--
+-- TIES. source_file, ord and (dim_ord, label_ord) are NOT NULL but not UNIQUE in
+-- li — the primary keys sit on other columns. Today no two rows share a sort key,
+-- but an importer bug that wrote two would make row_number() — and with it `ord`,
+-- and the weekly parity check — flip between runs. So every ORDER BY below ends
+-- with the row's primary key: with no ties it changes nothing, with ties the
+-- order is at least the same every time.
+--
+-- PROOF. db/verify.mjs compares every one of these views with the section the
+-- build scripts produce from the JSON on disk, at the same pinned instant, every
+-- week — see its FEED PARITY block. A view added here without a line in that
+-- block's list fails the check, and so does a list entry without a view.
+
+-- ------------------------------------------------- <author>/stats.json
+
+create view dash.feed_posts as
+  select p.author,
+         (row_number() over (partition by p.author
+                             order by p.source_file collate "C", p.id collate "C") - 1)::integer as ord,
+         p.id, p.posted_date, p.posted_month, p.type, p.preview, p.text, p.post_url
+    from dash.post p;
+
+create view dash.feed_post_weeks as
+  select w.author,
+         (row_number() over (partition by w.author
+                             order by w.source_file collate "C", w.ord,
+                                      w.id collate "C", w.week_date) - 1)::integer as ord,
+         w.id, w.week,
+         w.impressions, w.members_reached, w.reactions, w.comments, w.reposts,
+         w.saves, w.sends, w.profile_viewers, w.followers_gained, w.engagement_rate
+    from dash.post_week w;
+
+create view dash.feed_post_demographics as
+  select d.author,
+         (row_number() over (partition by d.author
+                             order by d.source_file collate "C", d.week_ord,
+                                      d.dim_ord, d.label_ord,
+                                      d.id collate "C", d.week collate "C",
+                                      d.dimension collate "C", d.label collate "C") - 1)::integer as ord,
+         d.id, d.week, d.dimension, d.label, d.pct
+    from dash.post_demographic d;
+
+-- a.ord is the week's position in account.json, gaps and all once a week is held
+-- back by the gate; the feed's ord is the position among the PUBLISHED ones.
+create view dash.feed_account_weeks as
+  select a.author,
+         (row_number() over (partition by a.author order by a.ord, a.week_date) - 1)::integer as ord,
+         a.week, a.followers, a.post_impressions_7d, a.profile_viewers_90d,
+         a.search_appearances_previous_week, a.followers_delta_pct_7d
+    from dash.account_week a;
+
+create view dash.feed_account_demographics as
+  select d.author,
+         (row_number() over (partition by d.author
+                             order by d.week_ord, d.dim_ord, d.label_ord,
+                                      d.week collate "C", d.dimension collate "C",
+                                      d.label collate "C") - 1)::integer as ord,
+         d.week, d.dimension, d.label, d.pct
+    from dash.account_demographic d;
+
+create view dash.feed_posts_per_month as
+  select m.author,
+         (row_number() over (partition by m.author order by m.month collate "C") - 1)::integer as ord,
+         m.month, m.posts, m.reposts, m.total_impressions, m.avg_impressions_per_post
+    from dash.posts_per_month m;
+
+create view dash.feed_comments_per_month as
+  select m.author,
+         (row_number() over (partition by m.author order by m.month collate "C") - 1)::integer as ord,
+         m.month, m.comments_posted, m.reactions_received, m.impressions_received
+    from dash.comments_per_month m;
+
+create view dash.feed_correlation_points as
+  select c.author,
+         (row_number() over (partition by c.author
+                             order by c.source_file collate "C", c.id collate "C") - 1)::integer as ord,
+         c.id, c.posted_date, c.posted_month, c.type, c.posts_in_month, c.impressions
+    from dash.correlation_point c;
+
+-- posts_in_month is a count that dash.correlation_trend carries as float8 for
+-- the regression; the feed hands it back as the whole number it is.
+create view dash.feed_correlation_trend as
+  select t.author,
+         (row_number() over (partition by t.author order by t.endpoint) - 1)::integer as ord,
+         t.posts_in_month::bigint as posts_in_month, t.impressions
+    from dash.correlation_trend t;
+
+create view dash.feed_engagement_score_weeks as
+  select w.author,
+         (row_number() over (partition by w.author order by w.week_date) - 1)::integer as ord,
+         w.week, w.score, w.score_normal, w.score_icp, w.score_vip, w.reactions, w.comments
+    from dash.engagement_score_week w;
+
+-- ALWAYS two rows per author, last_week then all_time — also for an author with
+-- no engagement at all, where the reader emits EMPTY_TOTALS so that a stat tile
+-- says 0 and not "No data". Hence li.author on the left, not dash.engagement_total.
+--
+-- The `*_non_icp` counts and the three ICP shares are the part export.mjs still
+-- computes in JavaScript: pct = (n, d) => d > 0 ? Math.round(1000 * n / d) / 10 : 0.
+-- The rounding is done in float8, as the reader does it (n and d are counts, so
+-- the double is the same double); only the final, exact "/ 10" is numeric, so a
+-- share reads 33.3 and not 33.299999999999997.
+create view dash.feed_engagement_score_totals as
+  with scopes(scope, ord) as (values ('last_week', 0), ('all_time', 1)),
+  t as (
+    select a.author, sc.ord, sc.scope,
+           coalesce(e.week, '')         as week,
+           coalesce(e.score, 0)         as score,
+           coalesce(e.score_normal, 0)  as score_normal,
+           coalesce(e.score_icp, 0)     as score_icp,
+           coalesce(e.score_vip, 0)     as score_vip,
+           coalesce(e.reactions, 0)     as reactions,
+           coalesce(e.comments, 0)      as comments,
+           coalesce(e.people, 0)        as people,
+           coalesce(e.reactions_icp, 0) as reactions_icp,
+           coalesce(e.comments_icp, 0)  as comments_icp,
+           coalesce(e.people_icp, 0)    as people_icp
+      from li.author a
+     cross join scopes sc
+      left join dash.engagement_total e on e.author = a.author and e.scope = sc.scope)
+  select author, ord, scope, week, score, score_normal, score_icp, score_vip,
+         reactions, comments, people, reactions_icp, comments_icp, people_icp,
+         reactions - reactions_icp as reactions_non_icp,
+         comments  - comments_icp  as comments_non_icp,
+         case when reactions > 0
+              then round(li.js_round((1000 * reactions_icp)::double precision / reactions)::numeric / 10, 1)
+              else 0 end           as icp_reaction_pct,
+         case when comments > 0
+              then round(li.js_round((1000 * comments_icp)::double precision / comments)::numeric / 10, 1)
+              else 0 end           as icp_comment_pct,
+         case when reactions + comments > 0
+              then round(li.js_round((1000 * (reactions_icp + comments_icp))::double precision
+                                     / (reactions + comments))::numeric / 10, 1)
+              else 0 end           as icp_engagement_pct
+    from t;
+
+-- Highest score first; ties in the order each person's FIRST event appears in an
+-- event_id-sorted list, which is the order engagement.json is written in and so
+-- the insertion order the reader's stable sort keeps. "First" and "sorted" are
+-- both byte order here, computed in this view: dash.engagement_person's own
+-- first_event_id is a min() under the database's default collation, and under a
+-- linguistic one it can name a different event than the reader saw first.
+create view dash.feed_engagement_people as
+  select p.author,
+         (row_number() over (partition by p.author
+                             order by p.score desc, f.first_event_id collate "C") - 1)::integer as ord,
+         p.person_key, p.name, p.headline, p.profile_url, p.tier, p.is_icp,
+         p.reactions, p.comments, p.score, p.score_last_week
+    from dash.engagement_person p
+    join (select e.author, e.person_key, min(e.event_id collate "C") as first_event_id
+            from dash.engagement_event e
+           group by e.author, e.person_key) f
+      on f.author = p.author and f.person_key = p.person_key;
+
+-- ----------------------------------------------------- page-stats.json
+-- Every section below is assembled in JavaScript by export.mjs (buildPageStats),
+-- mirroring build-page-stats.mjs. No author, no gate — see the page views above.
+
+create view dash.feed_page_monthly as
+  select (row_number() over (order by m.ord) - 1)::integer as ord,
+         m.month, m.page_views, m.unique_visitors, m.new_followers, m.post_impressions,
+         m.post_reactions, m.post_comments, m.post_reposts, m.post_clicks
+    from dash.page_month m;
+
+create view dash.feed_page_geo_monthly as
+  select (row_number() over (order by g.ord) - 1)::integer as ord,
+         g.month, g.us, g.team, g.anti, g.other, g.icp_pct, g.anti_pct, g.total
+    from dash.page_geo_month g;
+
+-- Row 0: the visitors, summed over the monthly buckets (`|| 0` = a NULL counts
+-- as nothing), with the shares rounded as above. Row 1: the follower base, which
+-- nobody can compute — it is typed into manual.json and read back verbatim. No
+-- li.page_manual row, no follower row: a gap on the panel, never an invented 0.
+create view dash.feed_page_geo_aggregate as
+  with v as (
+    select coalesce(sum(us), 0)   as us,   coalesce(sum(team), 0)  as team,
+           coalesce(sum(anti), 0) as anti, coalesce(sum(other), 0) as other
+      from dash.page_geo_month),
+  vt as (select v.*, v.us + v.team + v.anti + v.other as total from v)
+  select 0 as ord, 'visitors'::text as audience, 'last_6_months'::text as scope,
+         vt.us, vt.team, vt.anti, vt.other,
+         case when vt.total <> 0
+              then round(li.js_round((1000 * vt.us)::double precision / vt.total)::numeric / 10, 1)
+              else 0 end as icp_pct,
+         case when vt.total <> 0
+              then round(li.js_round((1000 * vt.anti)::double precision / vt.total)::numeric / 10, 1)
+              else 0 end as anti_pct
+    from vt
+  union all
+  select 1, 'followers', 'current_base',
+         coalesce((m.geography #>> '{followers,buckets,US}')::numeric, 0),
+         coalesce((m.geography #>> '{followers,buckets,TEAM}')::numeric, 0),
+         coalesce((m.geography #>> '{followers,buckets,ANTI}')::numeric, 0),
+         coalesce((m.geography #>> '{followers,buckets,OTHER}')::numeric, 0),
+         coalesce((m.geography #>> '{followers,icp_pct}')::numeric, 0),
+         coalesce((m.geography #>> '{followers,anti_pct}')::numeric, 0)
+    from dash.page_manual m;
+
+-- The same eight numbers in long form, for a bar gauge (rows, not columns). The
+-- labels are the reader's BUCKET_LABEL, character for character.
+create view dash.feed_page_geo_buckets as
+  select (row_number() over (order by a.ord, b.pos) - 1)::integer as ord,
+         a.audience, b.name, b.value
+    from dash.feed_page_geo_aggregate a
+   cross join lateral (values (0, 'US · ICP'::text,                a.us),
+                              (1, 'Ukraine · team'::text,          a.team),
+                              (2, 'India / China · off-ICP'::text, a.anti),
+                              (3, 'Other · off-target'::text,      a.other)) as b(pos, name, value);
+
+create view dash.feed_page_demographics as
+  select (row_number() over (order by case d.audience when 'visitors' then 0 else 1 end,
+                                      d.cat_ord, d.row_ord) - 1)::integer as ord,
+         d.audience, d.category, d.name, d.value
+    from dash.page_demographic d;
+
+-- The company page's per-person engagement has never been collected, so the
+-- reader publishes the AGGREGATE fallback: score = reactions * 1 + comments * 5
+-- (its own fixed weights, not li.scoring_weight), and every field that needs a
+-- person is the literal string '???' — a TEXT column here, on purpose: rendering
+-- '???' is honest where a 0 would read as a fact. "last_week" is the latest
+-- MONTH of the export. Both rows exist even with no month at all.
+create view dash.feed_page_engagement_score_totals as
+  with latest as (
+    select month, coalesce(post_reactions, 0) as reactions, coalesce(post_comments, 0) as comments
+      from dash.page_month order by ord desc limit 1),
+  r(ord, scope, week, reactions, comments) as (
+    select 0, 'last_week'::text,
+           coalesce((select month from latest), ''),
+           coalesce((select reactions from latest), 0)::numeric,
+           coalesce((select comments  from latest), 0)::numeric
+    union all
+    select 1, 'all_time'::text, ''::text,
+           coalesce((select sum(post_reactions) from dash.page_month), 0),
+           coalesce((select sum(post_comments)  from dash.page_month), 0))
+  select ord, scope, week,
+         reactions * 1 + comments * 5 as score,
+         '???'::text as score_normal, '???'::text as score_icp, '???'::text as score_vip,
+         reactions, comments,
+         '???'::text as people,
+         '???'::text as reactions_icp, '???'::text as comments_icp, '???'::text as people_icp,
+         reactions as reactions_non_icp, comments as comments_non_icp,
+         '???'::text as icp_reaction_pct, '???'::text as icp_comment_pct,
+         '???'::text as icp_engagement_pct
+    from r;
+
+-- One point per MONTH, dated to its first day. Four keys only: the fallback has
+-- no tier split to offer.
+create view dash.feed_page_engagement_score_weeks as
+  select (row_number() over (order by m.ord) - 1)::integer as ord,
+         m.month || '-01' as week,
+         coalesce(m.post_reactions, 0) * 1 + coalesce(m.post_comments, 0) * 5 as score,
+         coalesce(m.post_reactions, 0) as reactions,
+         coalesce(m.post_comments, 0)  as comments
+    from dash.page_month m;
+
+-- Always empty today (see above) — but a panel still names its columns, and a
+-- query against a missing column is an error where an empty table is just empty.
+-- The columns are the author feed's, which is what the reader's per-person path
+-- (lib/engagement.mjs) would emit the day the page's people are collected.
+create view dash.feed_page_engagement_people as
+  select p.ord, p.person_key, p.name, p.headline, p.profile_url, p.tier, p.is_icp,
+         p.reactions, p.comments, p.score, p.score_last_week
+    from dash.feed_engagement_people p
+   where false;
+
+-- The follower curve, rebuilt BACKWARDS from the hand-entered current base: a
+-- month's figure is the base minus the new followers of every LATER month.
+-- Approximate (it ignores unfollows) but made of real numbers. Without a
+-- li.page_manual row there is no base and therefore no curve — the reader exits
+-- 23 rather than publish one that runs from a negative number up to zero.
+create view dash.feed_page_account_weeks as
+  select (row_number() over (order by m.ord) - 1)::integer as ord,
+         m.month || '-01' as week,
+         pm.total_followers
+           - coalesce(sum(coalesce(m.new_followers, 0))
+                        over (order by m.ord desc
+                              rows between unbounded preceding and 1 preceding), 0) as followers,
+         coalesce(m.post_impressions, 0) as post_impressions,
+         coalesce(m.unique_visitors, 0)  as unique_visitors
+    from dash.page_month m
+   cross join dash.page_manual pm;
+
+create view dash.feed_page_search_weeks as
+  select (row_number() over (order by s.week_date) - 1)::integer as ord,
+         s.week, s.searches
+    from dash.page_search_week s;
 
 
 -- ===========================================================================
@@ -1807,8 +2152,11 @@ comment on function li.publish_run is
 --              functions. No UPDATE, no DELETE, no TRUNCATE, and no way into
 --              li.week_publication except li.request_week().
 --   grafana_ro the dashboard. SELECT on dash and nothing else — it cannot see li
---              at all, so an unpublished week is not merely hidden from it, it is
---              unreachable.
+--              at all. An unpublished week is kept from it by the dash views, not
+--              by the grants: the views run with li_owner's rights and DO read
+--              those rows, which is why the eleven views that touch a gated table
+--              are security_barrier views (see dash.published_week). Three
+--              role-level settings below cap what a hand-written query can do.
 --   li_sync    CI, the dual-write sync: `import.mjs --publish` from main after a
 --              merge, then `verify.mjs`. It is NOT the owner and holds no owner
 --              credential. SELECT on li and dash; INSERT on exactly the two
@@ -1944,6 +2292,27 @@ grant select on all tables    in schema dash to li_backup;
 grant usage on schema dash to grafana_ro;
 grant select on all tables in schema dash to grafana_ro;
 revoke all on schema li from grafana_ro;
+
+-- Guard rails for a role whose SQL can be written by any Grafana user with query
+-- rights (Explore, /api/ds/query), not only by the committed panels:
+--   * statement_timeout — a runaway query cannot sit on the database the weekly
+--     sync writes to. The heaviest panel query takes well under a second.
+--   * default_transaction_read_only — belt and braces; the role holds no write
+--     privilege anyway.
+--   * standard_conforming_strings = on — the panels interpolate variables with
+--     Grafana's ${var:sqlstring}, which doubles single quotes and does NOT touch
+--     backslashes. That is a complete escape only while backslash is an ordinary
+--     character inside '...'. `on` is the default since 9.1; pinning it on the
+--     role means a changed database default cannot silently reopen the hole.
+-- A session can still override the first two for itself — they stop accidents
+-- and lazy abuse, the grants and the barrier views are what stops the rest. No
+-- CONNECTION LIMIT on purpose: Grafana opens a pool per datasource and a limit
+-- below its size would turn a busy dashboard into "too many connections".
+-- ALTER ROLE ... SET needs ADMIN OPTION on the role — the role applying this file
+-- has it, having created the role above (or being a superuser).
+alter role grafana_ro set statement_timeout = '15s';
+alter role grafana_ro set default_transaction_read_only = on;
+alter role grafana_ro set standard_conforming_strings = on;
 
 -- ...plus EXECUTE on exactly the helpers the dash views call. EXECUTE was revoked
 -- from PUBLIC on every li function above (rightly — most are definer writers),

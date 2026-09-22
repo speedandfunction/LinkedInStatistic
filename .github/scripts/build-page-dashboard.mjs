@@ -33,17 +33,141 @@ import fs from 'node:fs';
 const args = Object.fromEntries(process.argv.slice(2).map((a, i, arr) =>
   a.startsWith('--') ? [a.slice(2), arr[i + 1]] : [null, null]).filter(([k]) => k));
 const OUT = args.out || 'dashboards/grafana/linkedin-page.json';
-const STATS_URL = args.url || 'https://speedandfunction.github.io/LinkedInStatistic/page-stats.json';
 
-const DS = { type: 'yesoreyeram-infinity-datasource', uid: 'grafanacloud-infinity' };
+// Every panel reads Postgres. The uid is a PLACEHOLDER on purpose: this repo is
+// public, so the real datasource uid never lands in a committed file —
+// push-dashboard.mjs substitutes it (env GRAFANA_PG_DATASOURCE_UID) just before
+// POSTing, and its --dump puts the placeholder back.
+const DS = { type: 'grafana-postgresql-datasource', uid: '${DS_LINKEDIN_PG}' };
 
-function urlTarget(root, columns, filterExpression) {
-  const t = {
-    refId: 'A', datasource: DS, type: 'json', source: 'url', format: 'table', parser: 'backend',
-    root_selector: root, url: STATS_URL, url_options: { data: '', method: 'GET' }, columns, filters: [],
+// ---- feed views ------------------------------------------------------------
+// One view per section of the company-page feed (db/schema.sql, schema dash):
+// section "page_monthly" -> dash.feed_page_monthly, "engagement_people" ->
+// dash.feed_page_engagement_people. Columns are `ord` (0-based position of the
+// row in the section's array) followed by exactly the keys of the section's row
+// objects, so "order by ord" IS the feed order. A section missing from this
+// list has no view: asking for it fails HERE, not as a broken panel in Grafana.
+const PAGE_FEEDS = new Set([
+  'engagement_score_totals', 'engagement_score_weeks', 'engagement_people',
+  'page_account_weeks', 'page_search_weeks', 'page_demographics', 'page_monthly',
+  'page_geo_aggregate', 'page_geo_buckets', 'page_geo_monthly',
+]);
+const feedView = (root) => {
+  if (!PAGE_FEEDS.has(root)) throw new Error(`no feed view for section "${root}" — add dash.feed_page_${String(root).replace(/^page_/, '')} to db/schema.sql and list the section in PAGE_FEEDS`);
+  return `dash.feed_page_${root.replace(/^page_/, '')}`;
+};
+
+// SQL spelling of an identifier / a string literal. Identifiers are quoted only
+// when Postgres needs it (anything but a lower-case simple name, or a word that
+// cannot be a bare column name: PostgreSQL 16, Appendix C, "reserved" and
+// "reserved (can be function or type)"), so the common case reads like
+// hand-written SQL.
+const PG_RESERVED = new Set(('all analyse analyze and any array as asc asymmetric both case cast check collate column '
+  + 'constraint create current_catalog current_date current_role current_time current_timestamp current_user default '
+  + 'deferrable desc distinct do else end except false fetch for foreign from grant group having in initially intersect '
+  + 'into lateral leading limit localtime localtimestamp not null offset on only or order placing primary references '
+  + 'returning select session_user some symmetric system_user table then to trailing true union unique user using '
+  + 'variadic when where window with '
+  + 'authorization binary collation concurrently cross current_schema freeze full ilike inner is isnull join left like '
+  + 'natural notnull outer overlaps right similar tablesample verbose').split(' '));
+const sqlIdent = (s) => (/^[a-z_][a-z0-9_]*$/.test(s) && !PG_RESERVED.has(s) ? s : `"${s.replace(/"/g, '""')}"`);
+const sqlLiteral = (s) => `'${s.replace(/'/g, "''")}'`;
+
+// ---- filter expression -> WHERE --------------------------------------------
+// The whole grammar this board has ever used, and the ONLY one accepted:
+//   expr := term ( "&&" term )*
+//   term := "(" expr ")"  |  field == "literal"  |  field == "${variable}"
+// Anything else — ||, !=, a number, a single-quoted string, an escape, a
+// variable glued into a longer literal — is REFUSED rather than guessed at: a
+// wrong guess here is a panel that silently shows other rows. Since && is the
+// only operator, parentheses carry no meaning and the result is a flat list of
+// conjuncts, in source order.
+const FILTER_VARS = new Set(['post', 'month']);
+const usedVars = new Set();
+function parseFilter(expr) {
+  const refuse = (why) => { throw new Error(`filterExpression outside the supported grammar (${why}): ${expr}`); };
+  const tokens = [];
+  const re = /\s*(?:(\()|(\))|(&&)|(==)|([A-Za-z_][A-Za-z0-9_]*)|"([^"\\]*)")/y;
+  const src = expr.trimEnd();
+  while (re.lastIndex < src.length) {
+    const at = re.lastIndex;
+    const m = re.exec(src);
+    if (!m) refuse(`unexpected input at offset ${at}`);
+    if (m[1]) tokens.push({ t: '(' });
+    else if (m[2]) tokens.push({ t: ')' });
+    else if (m[3]) tokens.push({ t: '&&' });
+    else if (m[4]) tokens.push({ t: '==' });
+    else if (m[5]) tokens.push({ t: 'field', v: m[5] });
+    else tokens.push({ t: 'string', v: m[6] });
+  }
+  let i = 0;
+  const take = (t) => (tokens[i] && tokens[i].t === t ? tokens[i++] : refuse(`expected ${t} at token ${i + 1}`));
+  const term = () => {
+    if (tokens[i] && tokens[i].t === '(') { i++; const inner = conj(); take(')'); return inner; }
+    const field = take('field').v; take('==');
+    const value = take('string').v;
+    const asVar = /^\$\{([A-Za-z_][A-Za-z0-9_]*)\}$/.exec(value);
+    if (asVar) {
+      if (!FILTER_VARS.has(asVar[1])) refuse(`unknown dashboard variable \${${asVar[1]}}`);
+      return [{ field, variable: asVar[1] }];
+    }
+    if (value.includes('$')) refuse('a variable must be the whole literal');
+    return [{ field, literal: value }];
   };
-  if (filterExpression) t.filterExpression = filterExpression;
-  return t;
+  const conj = () => { let list = term(); while (tokens[i] && tokens[i].t === '&&') { i++; list = list.concat(term()); } return list; };
+  const list = conj();
+  if (i !== tokens.length) refuse(`unexpected ${tokens[i].t} at token ${i + 1}`);
+  return list;
+}
+
+// Byte order of the output name (`text`) — the order the Infinity backend
+// handed Grafana. Stable, and a plain code-unit compare, NOT localeCompare:
+// "Posts" sorts before "month" there, exactly as it did live.
+function inInfinityOrder(columns) {
+  return [...columns].sort((a, b) => (a.text < b.text ? -1 : a.text > b.text ? 1 : 0));
+}
+
+// ---- THE translation: (section, columns, filter) -> one SQL string ---------
+// Returns the frame the panel has always been fed: one output column per entry
+// of `columns`, named by its `text` and read from feed column `selector`, in
+// the order Infinity returned them (see below); rows matching the filter, in
+// feed order.
+//   * 'string' columns are cast ::text even where the feed column already is
+//     text (a no-op there). The tier stats read a field that is "???" today and
+//     a real number once per-person collection lands; the cast keeps "no
+//     dashboard change needed to light it up" (see tierStat) true whichever
+//     type the view gives that column.
+//   * a filter names a FRAME field (a column's `text`), exactly as it always
+//     did, so a field that is not among the columns is refused, not invented.
+//   * variables go in as ${name:sqlstring} — Grafana's own escaping, expanding
+//     to a quoted, quote-escaped literal. Never a raw ${name} inside SQL.
+//   * no $__timeFilter and no time macro: see the hidden time picker below.
+//   * the output columns come in NAME order, not in the order of `columns`.
+//     That is what the Infinity backend parser actually returned — measured
+//     live through Grafana on 2026-09-22: on 148 of 148 panels whose frame
+//     order could differ, it was a plain byte-order sort of the column names.
+//     Several panels read fields by position (plotly, bar-chart colours, table
+//     columns, multi-value stats), so keeping that order is what keeps the
+//     rendered dashboard identical, not a cosmetic choice.
+function feedSql(root, columns, filterExpression) {
+  const select = inInfinityOrder(columns).map((c) => {
+    if (!/^[A-Za-z_][A-Za-z0-9_]*$/.test(c.selector)) throw new Error(`selector "${c.selector}" is not a plain feed column (section ${root})`);
+    const from = sqlIdent(c.selector); const as = sqlIdent(c.text);
+    if (c.type === 'string') return `${from}::text as ${as}`;
+    if (c.type === 'number') return from === as ? from : `${from} as ${as}`;
+    throw new Error(`column type "${c.type}" has no SQL translation (section ${root}, column ${c.text})`);
+  });
+  const where = (filterExpression ? parseFilter(filterExpression) : []).map((f) => {
+    const c = columns.find((x) => x.text === f.field);
+    if (!c) throw new Error(`filter field "${f.field}" is not among the target's columns (section ${root}): ${filterExpression}`);
+    if (c.type !== 'string') throw new Error(`filter field "${f.field}" is compared with a string but is read as ${c.type} (section ${root}): ${filterExpression}`);
+    if (f.variable) usedVars.add(f.variable);
+    return `${sqlIdent(c.selector)} = ${f.variable ? `\${${f.variable}:sqlstring}` : sqlLiteral(f.literal)}`;
+  });
+  return `select ${select.join(', ')} from ${feedView(root)}${where.length ? ` where ${where.join(' and ')}` : ''} order by ord`;
+}
+function sqlTarget(root, columns, filterExpression) {
+  return { datasource: DS, editorMode: 'code', format: 'table', rawQuery: true, rawSql: feedSql(root, columns, filterExpression), refId: 'A' };
 }
 const col = (selector, type) => ({ selector, text: selector, type });
 const monthCols = (keys) => [col('month', 'string'), ...keys.map((k) => col(k, 'number'))];
@@ -78,7 +202,7 @@ function scoreStat(title, gridPos, scope, field, color) {
     id: nid(), type: 'stat', title, datasource: DS, gridPos,
     fieldConfig: { defaults: { unit: 'short', decimals: 0, color: { mode: 'fixed', fixedColor: color } }, overrides: [] },
     options: { reduceOptions: { values: false, calcs: ['lastNotNull'], fields: `/^${field}$/` }, textMode: 'value', colorMode: 'value', graphMode: 'none' },
-    targets: [urlTarget('engagement_score_totals', [col('scope', 'string'), col(field, 'number')], `scope == "${scope}"`)],
+    targets: [sqlTarget('engagement_score_totals', [col('scope', 'string'), col(field, 'number')], `scope == "${scope}"`)],
   };
 }
 // ---- tier stat: reads a real engagement_score_totals field as a STRING, so the
@@ -96,7 +220,7 @@ function tierStat(title, gridPos, scope, field, color) {
     id: nid(), type: 'stat', title, datasource: DS, gridPos,
     fieldConfig: { defaults: { color: { mode: 'fixed', fixedColor: color } }, overrides: [] },
     options: { reduceOptions: { values: false, calcs: ['lastNotNull'], fields: `/^${field}$/` }, textMode: 'value', colorMode: 'value', graphMode: 'none' },
-    targets: [urlTarget('engagement_score_totals', [col('scope', 'string'), col(field, 'string')], `scope == "${scope}"`)],
+    targets: [sqlTarget('engagement_score_totals', [col('scope', 'string'), col(field, 'string')], `scope == "${scope}"`)],
   };
 }
 // ---- Top engagers: real table (empty until the people-phase runs). noValue is
@@ -108,7 +232,7 @@ function peopleTable(title, gridPos) {
     id: nid(), type: 'table', title, datasource: DS, gridPos,
     fieldConfig: { defaults: { noValue: '???' }, overrides: [] },
     options: { showHeader: true, sortBy: [{ displayName: 'score', desc: true }] },
-    targets: [urlTarget('engagement_people', [col('name', 'string'), col('tier', 'string'), col('reactions', 'number'), col('comments', 'number'), col('score', 'number')])],
+    targets: [sqlTarget('engagement_people', [col('name', 'string'), col('tier', 'string'), col('reactions', 'number'), col('comments', 'number'), col('score', 'number')])],
     transformations: [
       { id: 'sortBy', options: { sort: [{ desc: true, field: 'score' }] } },
       { id: 'limit', options: { limitField: 15 } },
@@ -128,7 +252,7 @@ function tsPanel(title, gridPos, root, fields) {
     id: nid(), type: 'timeseries', title, datasource: DS, gridPos,
     fieldConfig: { defaults: { custom: { drawStyle: 'line', lineInterpolation: 'smooth', fillOpacity: 10, lineWidth: 2, spanNulls: true } }, overrides: [] },
     options: { legend: { showLegend: true, placement: 'bottom', calcs: [] }, tooltip: { mode: 'multi' } },
-    targets: [urlTarget(root, [col('week', 'string'), ...fields.map((f) => col(f, 'number'))])],
+    targets: [sqlTarget(root, [col('week', 'string'), ...fields.map((f) => col(f, 'number'))])],
     transformations: [
       { id: 'convertFieldType', options: { conversions: [{ targetField: 'week', destinationType: 'time', dateFormat: 'YYYY-MM-DD' }] } },
       { id: 'sortBy', options: { sort: [{ desc: false, field: 'week' }] } },
@@ -142,7 +266,7 @@ function sparkStat(title, gridPos, root, field, color) {
     id: nid(), type: 'stat', title, datasource: DS, gridPos,
     fieldConfig: { defaults: { unit: 'short', decimals: 0, color: { mode: 'fixed', fixedColor: color } }, overrides: [] },
     options: { reduceOptions: { values: false, calcs: ['lastNotNull'], fields: `/^${field}$/` }, textMode: 'value', colorMode: 'value', graphMode: 'area' },
-    targets: [urlTarget(root, [col('week', 'string'), col(field, 'number')])],
+    targets: [sqlTarget(root, [col('week', 'string'), col(field, 'number')])],
     transformations: [
       { id: 'convertFieldType', options: { conversions: [{ targetField: 'week', destinationType: 'time', dateFormat: 'YYYY-MM-DD' }] } },
       { id: 'sortBy', options: { sort: [{ desc: false, field: 'week' }] } },
@@ -154,7 +278,7 @@ function demoBar(title, gridPos, audience, category) {
     id: nid(), type: 'barchart', title, datasource: DS, gridPos,
     fieldConfig: { defaults: { unit: 'short', color: { mode: 'continuous-BlPu' }, custom: { lineWidth: 1, fillOpacity: 80 } }, overrides: [] },
     options: { orientation: 'horizontal', showValue: 'auto', stacking: 'none', legend: { showLegend: false }, xField: 'name' },
-    targets: [urlTarget('page_demographics', demoCols, `(audience == "${audience}") && (category == "${category}")`)],
+    targets: [sqlTarget('page_demographics', demoCols, `(audience == "${audience}") && (category == "${category}")`)],
     transformations: [
       { id: 'organize', options: { excludeByName: { audience: true, category: true }, indexByName: {}, renameByName: {} } },
       { id: 'sortBy', options: { sort: [{ desc: true, field: 'value' }] } },
@@ -179,7 +303,7 @@ function reactVsIcpTable(title, gridPos, scopeLabels) {
       overrides: [],
     },
     options: { showHeader: true },
-    targets: [urlTarget('engagement_score_totals', [
+    targets: [sqlTarget('engagement_score_totals', [
       col('scope', 'string'), col('reactions', 'number'), col('reactions_icp', 'string'),
       col('comments', 'number'), col('comments_icp', 'string'), col('icp_engagement_pct', 'string'),
     ])],
@@ -194,7 +318,7 @@ function monthlyBar(title, gridPos, keys, root = 'page_monthly', unit = 'short',
     id: nid(), type: 'barchart', title, datasource: DS, gridPos,
     fieldConfig: { defaults: { unit, custom: { lineWidth: 1, fillOpacity: 80 } }, overrides: [] },
     options: { orientation: 'auto', showValue: 'auto', stacking, legend: { showLegend: keys.length > 1, placement: 'bottom' }, xField: 'month' },
-    targets: [urlTarget(root, monthCols(keys))],
+    targets: [sqlTarget(root, monthCols(keys))],
     transformations: [{ id: 'sortBy', options: { sort: [{ desc: false, field: 'month' }] } }],
   };
 }
@@ -203,7 +327,7 @@ function icpStat(title, gridPos, audience) {
     id: nid(), type: 'stat', title, datasource: DS, gridPos,
     fieldConfig: { defaults: { unit: 'percent', decimals: 1, thresholds: { mode: 'absolute', steps: [{ color: 'red', value: null }, { color: 'orange', value: 30 }, { color: 'green', value: 50 }] } }, overrides: [] },
     options: { reduceOptions: { values: false, calcs: ['lastNotNull'], fields: '/^icp_pct$/' }, textMode: 'value', colorMode: 'value', graphMode: 'none' },
-    targets: [urlTarget('page_geo_aggregate', aggCols('icp_pct'), `audience == "${audience}"`)],
+    targets: [sqlTarget('page_geo_aggregate', aggCols('icp_pct'), `audience == "${audience}"`)],
   };
 }
 function bucketGauge(title, gridPos, audience) {
@@ -211,7 +335,7 @@ function bucketGauge(title, gridPos, audience) {
     id: nid(), type: 'bargauge', title, datasource: DS, gridPos,
     fieldConfig: { defaults: { color: { mode: 'continuous-BlPu' } }, overrides: [] },
     options: { orientation: 'horizontal', displayMode: 'gradient', reduceOptions: { values: true, calcs: [], fields: '/^value$/' }, showUnfilled: true },
-    targets: [urlTarget('page_geo_buckets', bucketCols, `audience == "${audience}"`)],
+    targets: [sqlTarget('page_geo_buckets', bucketCols, `audience == "${audience}"`)],
     transformations: [{ id: 'organize', options: { excludeByName: { audience: true }, indexByName: {}, renameByName: {} } }],
   };
 }
@@ -222,7 +346,7 @@ function monthStat(title, gridPos, field, unit, colored = false) {
     id: nid(), type: 'stat', title, datasource: DS, gridPos,
     fieldConfig: { defaults, overrides: [] },
     options: { reduceOptions: { values: false, calcs: ['lastNotNull'], fields: `/^${field}$/` }, textMode: 'value', colorMode: colored ? 'value' : 'none', graphMode: 'none' },
-    targets: [urlTarget('page_geo_monthly', [col('month', 'string'), col(field, 'number')], 'month == "${month}"')],
+    targets: [sqlTarget('page_geo_monthly', [col('month', 'string'), col(field, 'number')], 'month == "${month}"')],
   };
 }
 
@@ -431,40 +555,45 @@ const panels = [
 // $month picker. It used to be a 'custom' variable whose options were baked
 // from the local geo-monthly.json AT GENERATION TIME — so once the data moved
 // on and nobody re-ran this script, the picker quietly kept offering the old
-// months. It is now an Infinity QUERY variable reading the SAME published feed
-// the panels read, so the month list tracks the data by itself.
-// Shape per grafana-infinity-datasource: the variable's `query` is
-// { refId, queryType: 'infinity', infinityQuery: <a normal Infinity target>,
-// meta: { textField, valueField } } (src/types/variables.types.ts,
-// src/app/variablesQuery/index.ts). Sorted alphabetically DESCENDING so the
-// newest month is first — which is also what Grafana falls back to when the
-// stored selection is no longer among the returned options.
+// months. It is a QUERY variable reading the SAME feed view the month panels
+// read, so the month list tracks the data by itself — and its SQL comes out of
+// the same feedSql() as every target, so the two cannot drift apart.
+// Shape per Grafana's PostgreSQL datasource: `query` (and `definition`, which is
+// only what the variables list shows) is the SQL string itself; a one-column
+// result serves as both the option's text and its value. The view's order is
+// kept (order by ord) and Grafana re-sorts on top of it: alphabetically
+// DESCENDING, so the newest month is first — which is also what Grafana falls
+// back to when the stored selection is no longer among the returned options.
+const monthSql = feedSql('page_geo_monthly', [col('month', 'string')]);
 const monthVar = {
   name: 'month', type: 'query', label: 'Month', datasource: DS,
-  definition: 'Infinity — page_geo_monthly[].month',
-  query: {
-    refId: 'variable', queryType: 'infinity',
-    infinityQuery: { ...urlTarget('page_geo_monthly', [col('month', 'string')]), refId: 'variable' },
-    meta: { textField: 'month', valueField: 'month' },
-  },
+  definition: monthSql,
+  query: monthSql,
   current: {}, options: [], refresh: 1, sort: 2, regex: '', hide: 0,
   includeAll: false, multi: false, skipUrlSync: false,
 };
 
-// The time picker is HIDDEN, not merely unused. Every target here is an
-// Infinity URL read of the whole published feed: no panel carries $__timeFilter
-// or any time-based filterExpression, and an Infinity URL source does not apply
-// the dashboard range. A visible picker would therefore answer "Last 30 days"
-// with the identical six-month board — a control that responds to input with
-// unchanged data, which is exactly the kind of lie the rest of this file exists
-// to remove. Each panel states its own window in its title and description
-// instead. Give this board a working picker only by making the targets
-// time-aware first.
+// A ${name:sqlstring} that no variable on this board defines would reach
+// Postgres uninterpolated — a syntax error in every panel that carries it.
+const templating = { list: [monthVar] };
+for (const v of usedVars) {
+  if (!templating.list.some((t) => t.name === v)) throw new Error(`a filter uses \${${v}} but this dashboard declares no such variable`);
+}
+
+// The time picker is HIDDEN, not merely unused. Every target here is a plain
+// SQL read of a whole feed view: no rawSql carries $__timeFilter or any other
+// time macro, so nothing applies the dashboard range. A visible picker would
+// therefore answer "Last 30 days" with the identical six-month board — a
+// control that responds to input with unchanged data, which is exactly the
+// kind of lie the rest of this file exists to remove. Each panel states its own
+// window in its title and description instead. Give this board a working picker
+// only by making the targets time-aware first.
 const dashboard = {
   uid: 'linkedin-page', title: 'LinkedIn Stats — Company Page', tags: ['linkedin', 'company-page'],
   timezone: '', schemaVersion: 42, version: 1, refresh: '', time: { from: 'now-1y', to: 'now' },
   timepicker: { hidden: true },
-  templating: { list: [monthVar] }, annotations: { list: [] }, panels,
+  templating, annotations: { list: [] }, panels,
 };
 fs.writeFileSync(OUT, JSON.stringify(dashboard, null, 2) + '\n');
-console.error(`wrote ${OUT} — ${panels.length} panels, url=${STATS_URL}`);
+const targetCount = panels.reduce((n, p) => n + (p.targets ? p.targets.length : 0), 0);
+console.error(`wrote ${OUT} — ${panels.length} panels, ${targetCount} SQL targets, datasource=${DS.type}`);

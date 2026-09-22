@@ -113,6 +113,10 @@ console.log(`-- A. privileges, in place  (grafana_ro: ${mode("grafana_ro")}, li_
 async function partA(db = null) {
   await as("grafana_ro", db, async (c) => {
     await sweepViews(c, "grafana_ro");
+    // Роль входить із default_transaction_read_only=on, і тоді DDL відбивається
+    // кодом 25006 ще ДО перевірки прав. Сесія вимикає це сама (нападник теж), а
+    // відмови нижче мусять триматися на грантах, а не на цьому налаштуванні.
+    await c.query("set default_transaction_read_only = off");
     await denied(c, "grafana_ro select li.person", "select 1 from li.person limit 1");
     await denied(c, "grafana_ro insert li.author", "insert into li.author(author, name) values ('x', 'x')");
     await denied(c, "grafana_ro create table in dash", "create table dash.nope(i int)");
@@ -239,6 +243,104 @@ async function clockChecks(db = null, role = "li_sync") {
 
 await partA();
 await clockChecks();
+
+// ------------------------------------------------ ворота і побічний канал
+const GATED_VIEWS = ["published_week", "post", "post_week", "post_demographic", "account_week",
+  "account_demographic", "comment", "comment_week", "person", "engagement_event", "scan_target"];
+
+async function leakChecks(db) {
+  // Один опублікований тиждень одного автора стає rejected — і за ним мають
+  // сховатися рядки щонайменше у зрізах постів.
+  const hidden = await asOwner(db, async (c) => {
+    const w = (await c.query(`select p.author, p.week::text as week
+                                from li.week_publication p
+                               where p.status = 'published'
+                                 and exists (select 1 from li.post_week w where w.author = p.author and w.week = p.week)
+                               order by p.week desc, p.author limit 1`)).rows[0];
+    if (!w) return null;
+    await c.query("update li.week_publication set status = 'rejected' where status = 'published' and author = $1 and week = $2::date", [w.author, w.week]);
+    // Контрольна в'юха: той самий join із воротами, але без бар'єра.
+    await c.query(`create view dash.zz_leak_control as
+                     select w.author from li.post_week w
+                       join li.week_publication p on p.author = w.author and p.week = w.week and p.status = 'published'`);
+    await c.query("alter view dash.zz_leak_control owner to li_owner");
+    await c.query("grant select on dash.zz_leak_control to grafana_ro");
+    const n = (await c.query("select count(*)::int as n from li.post_week where author = $1 and week = $2::date", [w.author, w.week])).rows[0].n;
+    return { ...w, rows: n };
+  });
+  if (!hidden || !hidden.rows) { bad("leak probe: no published week with post snapshots to reject — nothing was tested"); return; }
+
+  // Каталог: жодна з одинадцяти не втратила опцію (дешево, і каже ЯКА саме).
+  await asOwner(db, async (c) => {
+    const rows = (await c.query(`select c.relname from pg_class c join pg_namespace n on n.oid = c.relnamespace
+                                  where n.nspname = 'dash' and c.relkind = 'v' and c.relname = any($1)
+                                    and coalesce(c.reloptions::text, '') like '%security_barrier=true%'`, [GATED_VIEWS])).rows.map((r) => r.relname);
+    const missing = GATED_VIEWS.filter((v) => !rows.includes(v));
+    check(missing.length === 0, `all ${GATED_VIEWS.length} dash views that read a gated table are security_barrier views`, missing.join(", "));
+  });
+
+  await as("grafana_ro", db, async (c) => {
+    let notices = 0;
+    c.on("notice", () => { notices++; });
+    const gone = (await c.query("select count(*)::int as n from dash.post_week where author = $1 and week = $2", [hidden.author, hidden.week])).rows[0].n;
+    check(gone === 0, `rejected week: grafana_ro sees 0 of its ${hidden.rows} post snapshot(s) with a plain SELECT`);
+    // default_transaction_read_only=on (налаштування ролі) забороняє CREATE
+    // FUNCTION — але сесія знімає його сама, тож і нападник зніме.
+    await c.query("set default_transaction_read_only = off");
+    try {
+      await c.query(`create function pg_temp.leak(anyelement) returns boolean language plpgsql cost 0.0000001
+                     as $f$ begin raise notice 'seen'; return true; end $f$`);
+    } catch (e) {
+      // Хтось забрав TEMP у ролі — тоді цієї проби не збудувати; лишається ділення.
+      if (e.code !== "42501") throw e;
+      let leaked = 0;
+      for (const v of ["post_week", "account_week"]) {
+        try { await c.query(`select count(*) from dash.${v} where 1 / (case when author = $1 and week = $2 then 0 else 1 end) > 0`, [hidden.author, hidden.week]); }
+        catch (e2) { if (e2.code === "22012") leaked++; else throw e2; }
+      }
+      check(leaked === 0, "rejected week: a division-by-zero predicate is not evaluated on hidden rows (pg_temp unavailable, fallback probe)");
+      return;
+    }
+    const probe = async (view) => {
+      notices = 0;
+      const visible = (await c.query(`select count(*)::int as n from dash.${view} where pg_temp.leak(author)`)).rows[0].n;
+      return { visible, evaluated: notices };
+    };
+    const control = await probe("zz_leak_control");
+    check(control.evaluated > control.visible,
+      `leak probe is sensitive: on a barrier-less control view the predicate ran on ${control.evaluated - control.visible} hidden row(s)`);
+    const leaks = [];
+    for (const v of GATED_VIEWS) {
+      const r = await probe(v);
+      if (r.evaluated !== r.visible) leaks.push(`${v} (+${r.evaluated - r.visible})`);
+    }
+    check(leaks.length === 0, `rejected week: a leaky predicate sees only visible rows in all ${GATED_VIEWS.length} gated dash views`, leaks.join(", "));
+    // Те саме без pg_temp: помилка як оракул.
+    let divLeaks = 0;
+    for (const v of ["post_week", "account_week"]) {
+      try { await c.query(`select count(*) from dash.${v} where 1 / (case when author = $1 and week = $2 then 0 else 1 end) > 0`, [hidden.author, hidden.week]); }
+      catch (e) { if (e.code === "22012") divLeaks++; else throw e; }
+    }
+    check(divLeaks === 0, "rejected week: a division-by-zero predicate is not evaluated on hidden rows");
+  });
+
+  // Запобіжники рівня ролі — лише при справжньому вході: SET ROLE їх не вмикає.
+  if (DSN_OF.grafana_ro) {
+    await as("grafana_ro", db, async (c) => {
+      const get = async (k) => (await c.query(`show ${k}`)).rows[0][k];
+      const got = { statement_timeout: await get("statement_timeout"), default_transaction_read_only: await get("default_transaction_read_only"),
+        standard_conforming_strings: await get("standard_conforming_strings") };
+      check(got.statement_timeout === "15s" && got.default_transaction_read_only === "on" && got.standard_conforming_strings === "on",
+        "grafana_ro logs in with statement_timeout=15s, default_transaction_read_only=on, standard_conforming_strings=on", JSON.stringify(got));
+    });
+  } else {
+    await asOwner(db, async (c) => {
+      const cfg = (await c.query("select coalesce(rolconfig, '{}') as cfg from pg_roles where rolname = 'grafana_ro'")).rows[0].cfg;
+      const want = ["statement_timeout=15s", "default_transaction_read_only=on", "standard_conforming_strings=on"];
+      check(want.every((w) => cfg.includes(w)), "grafana_ro carries statement_timeout=15s, default_transaction_read_only=on, standard_conforming_strings=on (pg_roles.rolconfig)", JSON.stringify(cfg));
+    });
+  }
+}
 
 // ======================================================= B. тимчасова база
 if (!argv.includes("--no-scratch")) {
@@ -372,6 +474,16 @@ if (!argv.includes("--no-scratch")) {
     // 7. ті самі відмови — на базі, де li_sync щойно справді писав
     await partA(SCRATCH);
     await clockChecks(SCRATCH);
+
+    // 8. ворота публікації проти ПОБІЧНОГО каналу. Звичайний SELECT відхиленого
+    // тижня не повертає й без цього; питання в тому, чи предикат читача
+    // обчислюється на схованих рядках. Проба — дешева функція з RAISE NOTICE у
+    // pg_temp (її може створити будь-хто): без security_barrier планувальник
+    // проштовхує її під join із воротами, і NOTICE-ів стає більше, ніж видимих
+    // рядків. Контроль чутливості — така сама в'юха БЕЗ бар'єра: на ній проба
+    // МУСИТЬ побачити зайве, інакше «0 витоків» нічого не доводить.
+    // Останнім кроком: він знімає тиждень з публікації у scratch-базі.
+    await leakChecks(SCRATCH);
   } finally {
     rmSync(work, { recursive: true, force: true });
     if (argv.includes("--keep")) console.log(`-- kept ${SCRATCH}`);

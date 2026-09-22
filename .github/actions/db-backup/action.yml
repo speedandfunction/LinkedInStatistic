@@ -73,7 +73,7 @@ runs:
       run: |
         # GitHub runs composite bash steps with -e; every exit code below is read by hand.
         set +e; set -uo pipefail
-        unaffected="The week is NOT affected: JSON in git is still the source of truth."
+        unaffected="The week and the dashboards are NOT affected: the week is safe in git, and a backup changes nothing in the database Grafana reads."
         # A missing secret is a SKIP with a warning, never a failure: this ships
         # before the operator has created the secrets. Names are not secrets.
         missing=""
@@ -119,7 +119,7 @@ runs:
       run: |
         # GitHub runs composite bash steps with -e; every exit code below is read by hand.
         set +e; set -uo pipefail
-        unaffected="The week is NOT affected: JSON in git is still the source of truth."
+        unaffected="The week and the dashboards are NOT affected: the week is safe in git, and a backup changes nothing in the database Grafana reads."
         bin=/usr/lib/postgresql/17/bin
         give_up() { echo "::warning::database backup FAILED - $1 ${unaffected}"; echo "backup=$2" >> "${GITHUB_OUTPUT}"; exit 0; }
 
@@ -183,7 +183,7 @@ runs:
         # under GitHub's 100 MB limit, and writes the commit message (ISO week,
         # this run's parity verdict, row counts) next to it. It always exits 0 and writes ok=1 or backup=<why>.
         node .github/scripts/db-ci.mjs dump "${RUNNER_TEMP}/li-backup/${BACKUP_FILE}" \
-          || echo "::warning::database backup: db-ci.mjs could not be run to completion. The week is NOT affected: JSON in git is still the source of truth."
+          || echo "::warning::database backup: db-ci.mjs could not be run to completion. The week and the dashboards are NOT affected: the week is safe in git, and a backup changes nothing in the database Grafana reads."
         exit 0
 
     - name: Push the dump to the private backup repository (SSH deploy key)
@@ -198,7 +198,7 @@ runs:
         # GitHub runs composite bash steps with -e; every exit code below is read by hand.
         set +e; set -uo pipefail
         bash .github/actions/db-backup/push.sh "git@github.com:${BACKUP_REPO}.git" "${RUNNER_TEMP}/li-backup/${BACKUP_FILE}" "${BACKUP_FILE}" \
-          || echo "::warning::database backup: push.sh could not be run to completion. The week is NOT affected: JSON in git is still the source of truth."
+          || echo "::warning::database backup: push.sh could not be run to completion. The week and the dashboards are NOT affected: the week is safe in git, and a backup changes nothing in the database Grafana reads."
         exit 0
 
     # always(): also after a failed or cancelled step above. The runner is

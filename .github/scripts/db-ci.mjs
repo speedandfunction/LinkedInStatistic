@@ -8,11 +8,13 @@
 //
 // Three rules shape everything in this file.
 //
-// 1. THIS SCRIPT ALWAYS EXITS 0. JSON in git is the source of truth; the
-//    database is a shadow being soaked. A database that is down, asleep, hung or
-//    misconfigured must not cost the week or turn the run red. What went wrong is
-//    reported through $GITHUB_OUTPUT (the Slack message reads it) and a
-//    ::warning:: annotation — never through the exit code.
+// 1. THIS SCRIPT ALWAYS EXITS 0. JSON in git is the source of truth for the
+//    collected week. A database that is down, asleep, hung or misconfigured must
+//    not cost the week or turn the run red. It is NOT harmless any more, though:
+//    Grafana reads the database (dash.feed_*), so a failed sync leaves the
+//    dashboards on the previous sync. That is why what went wrong is reported
+//    through $GITHUB_OUTPUT (the Slack message reads it and pings the operator)
+//    and a ::warning:: annotation — never through the exit code.
 //
 // 2. NOTHING THE db/ SCRIPTS PRINT REACHES THE LOG UNFILTERED. This repository
 //    is public, so its Actions logs are world-readable, and the data is third
@@ -59,9 +61,12 @@ const MAX_DUMP_BYTES = 95 * 1024 * 1024;
 // ------------------------------------------------------------- the log filter
 
 const IDENT = String.raw`[A-Za-z_][\w$]*(?:\.[A-Za-z_][\w$]*)?`;
-// A parity path is identifiers, dots and [n] only. A path that contains anything
-// else (a URL-keyed or name-keyed object) is withheld, by design.
-const PATH = String.raw`[\w$.\[\]-]+`;
+// A parity path is identifiers, dots, [n] and verify.mjs's own fixed suffixes —
+// `{keys}`, `[columns]`, `[lead]`, `[select]` — only. A path that contains anything
+// else (a URL-keyed or name-keyed object) is withheld, by design. The braces are
+// here because without them the path line of every key-order difference was
+// withheld while its two `json:` / `db:` lines were shown: digests with no address.
+const PATH = String.raw`[\w$.\[\]{}-]+`;
 
 // The tail db/safe-log.mjs produces for an error — the SHAPE of a failure, by
 // construction without values. Accepted here only in its three fixed forms, and
@@ -75,7 +80,10 @@ const SAFE_TAIL = String.raw`(?:` +
   // pg's own client-side wording:  connection timeout — could not reach …
   String.raw`|(?:connection timeout|connection terminated(?: unexpectedly)?|query read timeout|server does not support SSL|SSL handshake error) — could not reach the database \(details withheld\)` +
   // a server error:  SQLSTATE 28P01 · table li.x · (auth_failed) — password authentication failed for user "<redacted>"
-  String.raw`|SQLSTATE [0-9A-Z]{5}(?: · [\w .()]{1,80}){0,7} — (?:[A-Za-z_.,' -]|"<redacted>"|"<value withheld>"|<redacted>|<addr>|<value withheld>){1,200}` +
+  // …optionally closed by safe-log's `: <value withheld>` — what is left of
+  // `invalid input syntax for type integer: "…"`. The colon is accepted in that
+  // one fixed position only, never inside the free text.
+  String.raw`|SQLSTATE [0-9A-Z]{5}(?: · [\w .()]{1,80}){0,7} — (?:[A-Za-z_.,' -]|"<redacted>"|"<value withheld>"|<redacted>|<addr>|<value withheld>){1,200}(?:: <value withheld>)?` +
   String.raw`)`;
 
 const ALLOW = {
@@ -96,9 +104,11 @@ const ALLOW = {
     new RegExp(String.raw`^(?:OK|DIFF)\s+[\w./-]+\s+(?:byte-identical|\d+ difference\(s\))$`),
     /^\s+sections:(?: [\w.-]+=\d+)*$/,
     new RegExp(String.raw`^--- [\w./-]+ ---$`),
-    new RegExp(String.raw`^\s+${PATH}\s+\[(?:type|length|value|key-order-or-set|feed-absent)\]$`),
+    new RegExp(String.raw`^\s+${PATH}\s+\[(?:type|length|value|key-order-or-set|feed-absent|grant-missing)\]$`),
     /^-- \d+ feed\(s\) compared, \d+ differ$/,
-    /^PARITY CHECK COULD NOT RUN: 0 feeds to compare — [\w ./-]+$/,
+    // Both of verify.mjs's "a check that did not look" refusals: no feed at all,
+    // and no dash.feed_* view reached the FEED PARITY block.
+    /^PARITY CHECK COULD NOT RUN: 0 feed(?:s| views) to compare — [\w ./-]+$/,
     /^\s+(?:json|db):\s+(?:absent|\w+ len=\d+ sha1=[0-9a-f]{8})$/,
     /^\(values redacted — run with --show-values locally to see them\)$/,
     /^all feeds byte-identical between the JSON build and the database export\.$/,
@@ -391,9 +401,28 @@ function report(kind, label, res, capSecs) {
 
 // The import had just worked, so a pause is less likely here than a blip - but
 // the action is the same, and an unverified week does not count for the soak.
+// Two differences that are NOT a data bug and that no code change fixes. Keep in
+// step with DIFFERS_ACTION in notify-weekly.mjs.
+const SCHEMA_HINT = "If every line is [feed-absent] on a dash.feed_* view, the schema in the database is older than main: re-apply it (apply-schema --force, then import --publish - db/README.md), do not look for a data bug. [grant-missing] means the role Grafana logs in as (grafana_ro) lost a privilege: the panels answer 'permission denied' - re-apply the ROLES section of db/schema.sql.";
 const RECHECK = "Run pages-deploy to re-sync and re-check (the import is idempotent); if the database does not answer, check in the Supabase dashboard that the project is not paused. This week does NOT count as verified.";
 const hintTail = (f) => (f.hints.length ? ` Hints: ${f.hints.join(" | ")}.` : "");
-const UNAFFECTED = "The week is NOT affected: JSON in git is still the source of truth.";
+// What a problem costs. Grafana reads the database, so the three kinds of step
+// are no longer the same story - and the old one-size sentence ("The week is NOT
+// affected: JSON in git is still the source of truth") had become a half-truth
+// for two of them. Keep in step with DASHBOARDS in notify-weekly.mjs.
+//   sync    - the week is safe, the dashboards are NOT current;
+//   parity  - the week is safe and the database was updated, but it is not
+//             confirmed to match the JSON build;
+//   backup  - neither the week nor the dashboards are touched.
+const DASHBOARDS_STALE = "The collected week is safe in git, but Grafana reads the database: the dashboards stay on the previous sync until this is fixed and pages-deploy is re-run.";
+// The database did not ANSWER (never connected, or hung until the cap). That is
+// not "stale": Grafana reads this same database, so while it is paused or
+// unreachable the panels have nothing to read at all. Saying "the dashboards
+// keep showing last week" right next to "the project is paused" was a
+// contradiction. Keep in step with DASHBOARDS.down in notify-weekly.mjs.
+const DASHBOARDS_DOWN = "The collected week is safe in git, but Grafana reads this same database: while it is paused or unreachable every panel shows a datasource error - not last week's numbers - until it answers again; after that the dashboards stay on the previous sync until pages-deploy has re-run.";
+const DASHBOARDS_UNVERIFIED = "The collected week is safe in git, but Grafana reads the database, and this sync is not confirmed to match the JSON build: the dashboards may show different numbers until this is fixed and pages-deploy is re-run.";
+const UNAFFECTED = "The week and the dashboards are NOT affected: the week is safe in git, and a backup changes nothing in the database Grafana reads.";
 // The cron runs exactly 7 days apart and the Supabase free tier pauses a project
 // after 7 idle days, so "paused" is the FIRST thing to check on any Monday the
 // database did not answer. Keep in step with RESUME_ACTION in notify-weekly.mjs.
@@ -401,15 +430,16 @@ const RESUME = "Most likely the Supabase project is paused (the free tier pauses
 
 // `npm ci --prefix db`. npm gets NO database credential: it executes third-party
 // code, and --ignore-scripts keeps even that to a minimum. Returns null on
-// success, otherwise the state to report.
-async function installDeps(what) {
+// success, otherwise the state to report. `cost` is what the failure means for
+// the caller's step (see DASHBOARDS_STALE / UNAFFECTED above).
+async function installDeps(what, cost) {
   const bare = { ...process.env };
   delete bare.LI_DSN;
   delete bare.LI_BACKUP_DSN;
   const deps = await runCapped("npm", ["ci", "--prefix", "db", "--no-audit", "--no-fund", "--ignore-scripts"], { capSecs: CAPS.deps, env: bare });
   if (deps.code === 0) { console.log("db/ dependencies installed"); return null; }
   report("deps", "npm ci --prefix db", deps, CAPS.deps);
-  warn(`database ${what} FAILED — could not install the db/ dependencies. ${UNAFFECTED}`);
+  warn(`database ${what} FAILED — could not install the db/ dependencies. ${cost}`);
   return deps.timedOut ? "timeout:deps" : "failed:deps";
 }
 
@@ -418,7 +448,7 @@ async function installDeps(what) {
 async function sync() {
   const dsn = process.env.LI_DSN ?? "";
   if (!dsn.trim()) {
-    warn(`database sync SKIPPED — the LI_SYNC_DATABASE_URL secret is not set. ${UNAFFECTED}`);
+    warn(`database sync SKIPPED — the LI_SYNC_DATABASE_URL secret is not set. ${DASHBOARDS_STALE}`);
     setOutput("sync", "skipped-no-secret");
     summary(["### Database sync", "Skipped: the `LI_SYNC_DATABASE_URL` secret is not set."]);
     return;
@@ -427,13 +457,13 @@ async function sync() {
 
   for (const f of ["db/import.mjs", "db/verify.mjs", "db/package.json"]) {
     if (!existsSync(f)) {
-      warn(`database sync FAILED — ${f} is missing from main. ${UNAFFECTED}`);
+      warn(`database sync FAILED — ${f} is missing from main. ${DASHBOARDS_STALE}`);
       setOutput("sync", "failed:script-missing");
       return;
     }
   }
 
-  const depsState = await installDeps("sync");
+  const depsState = await installDeps("sync", DASHBOARDS_STALE);
   if (depsState) { setOutput("sync", depsState); return; }
 
   const imp = await runCapped(process.execPath, ["db/import.mjs", "--publish"], { capSecs: CAPS.import });
@@ -445,7 +475,10 @@ async function sync() {
     // began. A hang killed at the cap is the same story told more slowly.
     const state = importState(imp);
     const action = state === "failed:import" ? "" : ` ${RESUME}`;
-    warn(`database sync FAILED — the import ${state === "failed:connect" ? "could not connect to the database" : how}.${hintTail(impLog)}${action} ${UNAFFECTED}`);
+    // failed:import = the database answered and refused: the dashboards are up,
+    // on the previous sync. Anything else = it did not answer: they are down.
+    const cost = state === "failed:import" ? DASHBOARDS_STALE : DASHBOARDS_DOWN;
+    warn(`database sync FAILED — the import ${state === "failed:connect" ? "could not connect to the database" : how}.${hintTail(impLog)}${action} ${cost}`);
     setOutput("sync", state);
     summary(["### Database sync", `Import **failed** (${state}; ${how}). Parity check not run.`, ...(action ? ["", RESUME] : [])]);
     return;
@@ -463,12 +496,12 @@ async function sync() {
   setOutput("feeds", compared ?? "");
   setOutput("feeds_expected", expected);
   if (parity === "incomplete") {
-    warn(`database parity check INCOMPLETE — it reported no difference but compared ${compared ?? "an unknown number of"} feed(s), and main publishes ${expected}. A feed that is on Pages but not in the database (or a check that did not report its count) is NOT parity. This week does NOT count as verified. ${UNAFFECTED}`);
+    warn(`database parity check INCOMPLETE — it reported no difference but compared ${compared ?? "an unknown number of"} feed(s), and main publishes ${expected}. A feed that is on Pages but not in the database (or a check that did not report its count) is NOT parity. This week does NOT count as verified. ${DASHBOARDS_UNVERIFIED}`);
   } else if (parity === "differs") {
-    warn(`database PARITY DIFFERENCE — the database export is not byte-identical to the JSON build; the differing paths are in this job's log (values are hashed). ${UNAFFECTED}`);
+    warn(`database PARITY DIFFERENCE — the database export is not byte-identical to the JSON build; the differing paths are in this job's log (values are hashed). ${SCHEMA_HINT} ${DASHBOARDS_UNVERIFIED}`);
   } else if (parity !== "ok") {
     const how = ver.timedOut ? `timed out after ${CAPS.verify}s` : `exited ${ver.code ?? "without starting"} without a parity report`;
-    warn(`database parity check COULD NOT RUN — it ${how}.${hintTail(verLog)} ${RECHECK} ${UNAFFECTED}`);
+    warn(`database parity check COULD NOT RUN — it ${how}.${hintTail(verLog)} ${RECHECK} ${DASHBOARDS_UNVERIFIED}`);
   } else {
     console.log(`::notice::database sync and parity check OK — ${compared} feed(s) compared (main publishes ${expected}), every one byte-identical between the database export and the JSON build`);
   }
@@ -479,30 +512,37 @@ async function sync() {
 
 // The daily keep-alive (linkedin-session-check.yml): one tiny read so the
 // Supabase free tier never counts 7 idle days between two Monday syncs. Same
-// rules as everything else here - exit 0, filtered output, a hard cap - and no
-// Slack line of its own: if it fails for a week, Monday's message says
-// "could not connect ... most likely paused", which is the actionable one.
+// rules as everything else here - exit 0, filtered output, a hard cap.
+//
+// Since the Grafana panels read this database, it is also the ONLY daily probe
+// of what the dashboards read: "did not answer" means the dashboards are down
+// NOW, not "Monday's sync might fail". The warning below says so. It still has
+// no Slack line of its own - the daily workflow does not forward the `touch`
+// output (see WEEKLY-CADENCE.md section 9, an open operator decision).
+const KEEPALIVE_RESUME = "Most likely the Supabase project is paused (the free tier pauses after 7 idle days): resume it in the Supabase dashboard.";
+const KEEPALIVE_DOWN = "Grafana reads this database: while it does not answer, the dashboards are down RIGHT NOW (every panel shows a datasource error) - do not wait for Monday.";
+const KEEPALIVE_NOT_PROBED = "The database was NOT probed today, so this says nothing about whether the dashboards can reach it; the collected data is not affected.";
 async function touch() {
   const dsn = process.env.LI_DSN ?? "";
   if (!dsn.trim()) {
-    warn("database keep-alive SKIPPED — the LI_SYNC_DATABASE_URL secret is not set. Nothing else is affected.");
+    warn(`database keep-alive SKIPPED — the LI_SYNC_DATABASE_URL secret is not set. ${KEEPALIVE_NOT_PROBED}`);
     setOutput("touch", "skipped-no-secret");
     return;
   }
   maskDsn(dsn);
   for (const f of ["db/ping.mjs", "db/package.json"]) {
     if (!existsSync(f)) {
-      warn(`database keep-alive FAILED — ${f} is missing from the checkout. Nothing else is affected.`);
+      warn(`database keep-alive FAILED — ${f} is missing from the checkout. ${KEEPALIVE_NOT_PROBED}`);
       setOutput("touch", "failed:script-missing");
       return;
     }
   }
-  const depsState = await installDeps("keep-alive");
+  const depsState = await installDeps("keep-alive", KEEPALIVE_NOT_PROBED);
   if (depsState) { setOutput("touch", depsState); return; }
   const res = await runCapped(process.execPath, ["db/ping.mjs"], { capSecs: CAPS.touch });
   const log = report("touch", "keep-alive (db/ping.mjs)", res, CAPS.touch);
   if (res.code === 0) { setOutput("touch", "ok"); return; }
-  warn(`database keep-alive FAILED — the database did not answer.${hintTail(log)} ${RESUME} Nothing else is affected: this job only keeps the project awake for Monday's sync.`);
+  warn(`database keep-alive FAILED — the database did not answer.${hintTail(log)} ${KEEPALIVE_RESUME} ${KEEPALIVE_DOWN}`);
   setOutput("touch", res.timedOut ? "timeout:connect" : "failed:connect");
 }
 
@@ -517,7 +557,7 @@ async function dump(out) {
   if (!existsSync("db/backup.sh")) return fail("failed:script-missing", "db/backup.sh is missing from main.");
 
   // db/backup.sh goes through db/pg-env.mjs, which needs the db/ packages.
-  const depsState = await installDeps("backup");
+  const depsState = await installDeps("backup", UNAFFECTED);
   if (depsState) { setOutput("backup", depsState); return; }
 
   const version = await runCapped("pg_dump", ["--version"], { capSecs: 30, env: { PATH: process.env.PATH } });
@@ -566,7 +606,9 @@ if (IS_MAIN) {
     else warn(`db-ci.mjs: unknown mode '${String(mode).replace(/[^\w-]/g, "")}'`);
   } catch (e) {
     // Only the error's class: a message can quote data or the DSN.
-    warn(`db-ci.mjs crashed (${e?.code ?? e?.name ?? "error"}) — the database step did not finish. ${UNAFFECTED}`);
+    // What an unfinished step costs depends on which step it was.
+    const cost = mode === "sync" ? DASHBOARDS_STALE : mode === "dump" ? UNAFFECTED : "Nothing else is affected.";
+    warn(`db-ci.mjs crashed (${e?.code ?? e?.name ?? "error"}) — the database step did not finish. ${cost}`);
   }
   // Rule 1. Set explicitly so a stray process.exitCode elsewhere cannot leak out.
   process.exit(0);

@@ -17,7 +17,7 @@ remote="${1:-}"; dump="${2:-}"; name="${3:-linkedin.sql}"
 out="${GITHUB_OUTPUT:-/dev/stdout}"
 work="$(dirname "${dump:-/nonexistent/x}")"
 key="${work}/deploy_key"
-UNAFFECTED="The week is NOT affected: JSON in git is still the source of truth."
+UNAFFECTED="The week and the dashboards are NOT affected: the week is safe in git, and a backup changes nothing in the database Grafana reads."
 
 finish() { echo "backup=$1" >> "${out}"; exit 0; }
 fail() { echo "::warning::database backup FAILED - $1 ${UNAFFECTED}"; finish "${2:-failed:push}"; }

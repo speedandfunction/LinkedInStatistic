@@ -22,7 +22,13 @@ Nothing about a specific account is hardcoded. Identity lives in
 - `posts_cutoff` — how far back discovery reaches on a first, empty run.
 
 Environment (see `.env.example`): `GRAFANA_URL` and
-`GRAFANA_SERVICE_ACCOUNT_TOKEN` are required by the dashboard push scripts,
+`GRAFANA_SERVICE_ACCOUNT_TOKEN` are required by the dashboard push scripts;
+`GRAFANA_PG_DATASOURCE_UID` — the uid of the Grafana PostgreSQL datasource — is
+required by `push-dashboard.mjs --file` as well, because the dashboards read
+Postgres (`dash.feed_*`) and the checked-in JSON carries only the placeholder
+`${DS_LINKEDIN_PG}` (public repo: the real uid is never committed; without the
+variable the push refuses). It is operator-local — no workflow pushes
+dashboards, so it is not a repo secret. See WEEKLY-CADENCE.md §10.
 `SLACK_CHANNEL_ID` is optional (unset = no Slack bookends), and
 `LI_CHROME_PROFILE_DIR` overrides the macOS default Chrome profile path.
 
@@ -92,7 +98,10 @@ person once from their name + headline via a batched, tool-free pinned-haiku
 Weights live in `.claude/skills/linkedin-stats/scoring.json`. **Scores are
 computed at build time** by `.github/scripts/build-stats-json.mjs`, never
 stored — so retuning a weight, adding a VIP, or a late ICP verdict rescores
-all history with no re-scrape.
+all history with no re-scrape. (The Grafana dashboards no longer read that
+build's JSON: they query Postgres, `dash.feed_*`, where the same scores are
+derived in SQL and checked against this build every week — WEEKLY-CADENCE.md
+§9–10.)
 
 **Contract keys:** `PEOPLE_STATUS` (OK / REACTORS_SHORT / PARTIAL /
 SELECTOR_DRIFT / FAILED / AUTH / RATE / DEADLINE / BREAKER), `WEEK`, `ATTRIBUTED_WEEK`, `POST_TARGETS`,
