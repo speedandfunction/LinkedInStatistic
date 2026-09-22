@@ -102,7 +102,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select scope, week, score, score_normal, score_icp, score_vip, reactions, comments, people\nfrom dash.feed_engagement_score_totals\nwhere author = '__AUTHOR__' and scope = 'last_week'\norder by ord",
+          "rawSql": "select comments, people, reactions, scope, score, score_icp, score_normal, score_vip, week\nfrom dash.feed_engagement_score_totals\nwhere author = '__AUTHOR__' and scope = 'last_week'\norder by ord",
           "refId": "A"
         }
       ],
@@ -163,7 +163,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select scope, week, score, score_normal, score_icp, score_vip, reactions, comments, people\nfrom dash.feed_engagement_score_totals\nwhere author = '__AUTHOR__' and scope = 'last_week'\norder by ord",
+          "rawSql": "select comments, people, reactions, scope, score, score_icp, score_normal, score_vip, week\nfrom dash.feed_engagement_score_totals\nwhere author = '__AUTHOR__' and scope = 'last_week'\norder by ord",
           "refId": "A"
         }
       ],
@@ -224,7 +224,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select scope, week, score, score_normal, score_icp, score_vip, reactions, comments, people\nfrom dash.feed_engagement_score_totals\nwhere author = '__AUTHOR__' and scope = 'last_week'\norder by ord",
+          "rawSql": "select comments, people, reactions, scope, score, score_icp, score_normal, score_vip, week\nfrom dash.feed_engagement_score_totals\nwhere author = '__AUTHOR__' and scope = 'last_week'\norder by ord",
           "refId": "A"
         }
       ],
@@ -285,7 +285,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select scope, week, score, score_normal, score_icp, score_vip, reactions, comments, people\nfrom dash.feed_engagement_score_totals\nwhere author = '__AUTHOR__' and scope = 'last_week'\norder by ord",
+          "rawSql": "select comments, people, reactions, scope, score, score_icp, score_normal, score_vip, week\nfrom dash.feed_engagement_score_totals\nwhere author = '__AUTHOR__' and scope = 'last_week'\norder by ord",
           "refId": "A"
         }
       ],
@@ -346,7 +346,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select scope, week, score, score_normal, score_icp, score_vip, reactions, comments, people, reactions_icp, comments_icp, people_icp, reactions_non_icp, comments_non_icp, icp_reaction_pct, icp_comment_pct, icp_engagement_pct\nfrom dash.feed_engagement_score_totals\nwhere author = '__AUTHOR__' and scope = 'all_time'\norder by ord",
+          "rawSql": "select comments, comments_icp, comments_non_icp, icp_comment_pct, icp_engagement_pct, icp_reaction_pct, people, people_icp, reactions, reactions_icp, reactions_non_icp, scope, score, score_icp, score_normal, score_vip, week\nfrom dash.feed_engagement_score_totals\nwhere author = '__AUTHOR__' and scope = 'all_time'\norder by ord",
           "refId": "A"
         }
       ],
@@ -407,7 +407,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select scope, week, score, score_normal, score_icp, score_vip, reactions, comments, people, reactions_icp, comments_icp, people_icp, reactions_non_icp, comments_non_icp, icp_reaction_pct, icp_comment_pct, icp_engagement_pct\nfrom dash.feed_engagement_score_totals\nwhere author = '__AUTHOR__' and scope = 'all_time'\norder by ord",
+          "rawSql": "select comments, comments_icp, comments_non_icp, icp_comment_pct, icp_engagement_pct, icp_reaction_pct, people, people_icp, reactions, reactions_icp, reactions_non_icp, scope, score, score_icp, score_normal, score_vip, week\nfrom dash.feed_engagement_score_totals\nwhere author = '__AUTHOR__' and scope = 'all_time'\norder by ord",
           "refId": "A"
         }
       ],
@@ -468,7 +468,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select scope, week, score, score_normal, score_icp, score_vip, reactions, comments, people, reactions_icp, comments_icp, people_icp, reactions_non_icp, comments_non_icp, icp_reaction_pct, icp_comment_pct, icp_engagement_pct\nfrom dash.feed_engagement_score_totals\nwhere author = '__AUTHOR__' and scope = 'all_time'\norder by ord",
+          "rawSql": "select comments, comments_icp, comments_non_icp, icp_comment_pct, icp_engagement_pct, icp_reaction_pct, people, people_icp, reactions, reactions_icp, reactions_non_icp, scope, score, score_icp, score_normal, score_vip, week\nfrom dash.feed_engagement_score_totals\nwhere author = '__AUTHOR__' and scope = 'all_time'\norder by ord",
           "refId": "A"
         }
       ],
@@ -529,7 +529,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select scope, week, score, score_normal, score_icp, score_vip, reactions, comments, people, reactions_icp, comments_icp, people_icp, reactions_non_icp, comments_non_icp, icp_reaction_pct, icp_comment_pct, icp_engagement_pct\nfrom dash.feed_engagement_score_totals\nwhere author = '__AUTHOR__' and scope = 'all_time'\norder by ord",
+          "rawSql": "select comments, comments_icp, comments_non_icp, icp_comment_pct, icp_engagement_pct, icp_reaction_pct, people, people_icp, reactions, reactions_icp, reactions_non_icp, scope, score, score_icp, score_normal, score_vip, week\nfrom dash.feed_engagement_score_totals\nwhere author = '__AUTHOR__' and scope = 'all_time'\norder by ord",
           "refId": "A"
         }
       ],
@@ -591,7 +591,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select scope, week, score, score_normal, score_icp, score_vip, reactions, comments, people, reactions_icp, comments_icp, people_icp, reactions_non_icp, comments_non_icp, icp_reaction_pct, icp_comment_pct, icp_engagement_pct\nfrom dash.feed_engagement_score_totals\nwhere author = '__AUTHOR__' and scope = 'all_time'\norder by ord",
+          "rawSql": "select comments, comments_icp, comments_non_icp, icp_comment_pct, icp_engagement_pct, icp_reaction_pct, people, people_icp, reactions, reactions_icp, reactions_non_icp, scope, score, score_icp, score_normal, score_vip, week\nfrom dash.feed_engagement_score_totals\nwhere author = '__AUTHOR__' and scope = 'all_time'\norder by ord",
           "refId": "A"
         }
       ],
@@ -653,7 +653,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select scope, week, score, score_normal, score_icp, score_vip, reactions, comments, people, reactions_icp, comments_icp, people_icp, reactions_non_icp, comments_non_icp, icp_reaction_pct, icp_comment_pct, icp_engagement_pct\nfrom dash.feed_engagement_score_totals\nwhere author = '__AUTHOR__' and scope = 'all_time'\norder by ord",
+          "rawSql": "select comments, comments_icp, comments_non_icp, icp_comment_pct, icp_engagement_pct, icp_reaction_pct, people, people_icp, reactions, reactions_icp, reactions_non_icp, scope, score, score_icp, score_normal, score_vip, week\nfrom dash.feed_engagement_score_totals\nwhere author = '__AUTHOR__' and scope = 'all_time'\norder by ord",
           "refId": "A"
         }
       ],
@@ -715,7 +715,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select scope, week, score, score_normal, score_icp, score_vip, reactions, comments, people, reactions_icp, comments_icp, people_icp, reactions_non_icp, comments_non_icp, icp_reaction_pct, icp_comment_pct, icp_engagement_pct\nfrom dash.feed_engagement_score_totals\nwhere author = '__AUTHOR__' and scope = 'all_time'\norder by ord",
+          "rawSql": "select comments, comments_icp, comments_non_icp, icp_comment_pct, icp_engagement_pct, icp_reaction_pct, people, people_icp, reactions, reactions_icp, reactions_non_icp, scope, score, score_icp, score_normal, score_vip, week\nfrom dash.feed_engagement_score_totals\nwhere author = '__AUTHOR__' and scope = 'all_time'\norder by ord",
           "refId": "A"
         }
       ],
@@ -776,7 +776,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select scope, week, score, score_normal, score_icp, score_vip, reactions, comments, people, reactions_icp, comments_icp, people_icp, reactions_non_icp, comments_non_icp, icp_reaction_pct, icp_comment_pct, icp_engagement_pct\nfrom dash.feed_engagement_score_totals\nwhere author = '__AUTHOR__' and scope = 'all_time'\norder by ord",
+          "rawSql": "select comments, comments_icp, comments_non_icp, icp_comment_pct, icp_engagement_pct, icp_reaction_pct, people, people_icp, reactions, reactions_icp, reactions_non_icp, scope, score, score_icp, score_normal, score_vip, week\nfrom dash.feed_engagement_score_totals\nwhere author = '__AUTHOR__' and scope = 'all_time'\norder by ord",
           "refId": "A"
         }
       ],
@@ -867,7 +867,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select week, score, reactions, comments\nfrom dash.feed_engagement_score_weeks\nwhere author = '__AUTHOR__'\norder by ord",
+          "rawSql": "select comments, reactions, score, week\nfrom dash.feed_engagement_score_weeks\nwhere author = '__AUTHOR__'\norder by ord",
           "refId": "A"
         }
       ],
@@ -998,7 +998,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select person_key, name, headline, tier, reactions, comments, score, score_last_week, profile_url\nfrom dash.feed_engagement_people\nwhere author = '__AUTHOR__'\norder by ord",
+          "rawSql": "select comments, headline, name, person_key, profile_url, reactions, score, score_last_week, tier\nfrom dash.feed_engagement_people\nwhere author = '__AUTHOR__'\norder by ord",
           "refId": "A"
         }
       ],
@@ -1287,7 +1287,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select scope, week, reactions, reactions_icp, icp_reaction_pct, comments, comments_icp, icp_comment_pct, icp_engagement_pct\nfrom dash.feed_engagement_score_totals\nwhere author = '__AUTHOR__'\norder by ord",
+          "rawSql": "select comments, comments_icp, icp_comment_pct, icp_engagement_pct, icp_reaction_pct, reactions, reactions_icp, scope, week\nfrom dash.feed_engagement_score_totals\nwhere author = '__AUTHOR__'\norder by ord",
           "refId": "A"
         }
       ],
@@ -1382,7 +1382,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select week, followers\nfrom dash.feed_account_weeks\nwhere author = '__AUTHOR__'\norder by ord",
+          "rawSql": "select followers, week\nfrom dash.feed_account_weeks\nwhere author = '__AUTHOR__'\norder by ord",
           "refId": "A"
         }
       ],
@@ -1457,7 +1457,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select week, post_impressions_7d\nfrom dash.feed_account_weeks\nwhere author = '__AUTHOR__'\norder by ord",
+          "rawSql": "select post_impressions_7d, week\nfrom dash.feed_account_weeks\nwhere author = '__AUTHOR__'\norder by ord",
           "refId": "A"
         }
       ],
@@ -1532,7 +1532,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select week, profile_viewers_90d\nfrom dash.feed_account_weeks\nwhere author = '__AUTHOR__'\norder by ord",
+          "rawSql": "select profile_viewers_90d, week\nfrom dash.feed_account_weeks\nwhere author = '__AUTHOR__'\norder by ord",
           "refId": "A"
         }
       ],
@@ -1607,7 +1607,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select week, search_appearances_previous_week\nfrom dash.feed_account_weeks\nwhere author = '__AUTHOR__'\norder by ord",
+          "rawSql": "select search_appearances_previous_week, week\nfrom dash.feed_account_weeks\nwhere author = '__AUTHOR__'\norder by ord",
           "refId": "A"
         }
       ],
@@ -1680,7 +1680,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select week, followers\nfrom dash.feed_account_weeks\nwhere author = '__AUTHOR__'\norder by ord",
+          "rawSql": "select followers, week\nfrom dash.feed_account_weeks\nwhere author = '__AUTHOR__'\norder by ord",
           "refId": "A"
         }
       ],
@@ -1764,7 +1764,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select week, post_impressions_7d\nfrom dash.feed_account_weeks\nwhere author = '__AUTHOR__'\norder by ord",
+          "rawSql": "select post_impressions_7d, week\nfrom dash.feed_account_weeks\nwhere author = '__AUTHOR__'\norder by ord",
           "refId": "A"
         }
       ],
@@ -1848,7 +1848,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select week, profile_viewers_90d\nfrom dash.feed_account_weeks\nwhere author = '__AUTHOR__'\norder by ord",
+          "rawSql": "select profile_viewers_90d, week\nfrom dash.feed_account_weeks\nwhere author = '__AUTHOR__'\norder by ord",
           "refId": "A"
         }
       ],
@@ -1932,7 +1932,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select week, search_appearances_previous_week\nfrom dash.feed_account_weeks\nwhere author = '__AUTHOR__'\norder by ord",
+          "rawSql": "select search_appearances_previous_week, week\nfrom dash.feed_account_weeks\nwhere author = '__AUTHOR__'\norder by ord",
           "refId": "A"
         }
       ],
@@ -2019,7 +2019,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select week, dimension, label, pct\nfrom dash.feed_account_demographics\nwhere author = '__AUTHOR__'\norder by ord",
+          "rawSql": "select dimension, label, pct, week\nfrom dash.feed_account_demographics\nwhere author = '__AUTHOR__'\norder by ord",
           "refId": "A"
         }
       ],
@@ -2148,7 +2148,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select week, dimension, label, pct\nfrom dash.feed_account_demographics\nwhere author = '__AUTHOR__'\norder by ord",
+          "rawSql": "select dimension, label, pct, week\nfrom dash.feed_account_demographics\nwhere author = '__AUTHOR__'\norder by ord",
           "refId": "A"
         }
       ],
@@ -2283,7 +2283,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select week, dimension, label, pct\nfrom dash.feed_account_demographics\nwhere author = '__AUTHOR__'\norder by ord",
+          "rawSql": "select dimension, label, pct, week\nfrom dash.feed_account_demographics\nwhere author = '__AUTHOR__'\norder by ord",
           "refId": "A"
         }
       ],
@@ -2416,7 +2416,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select month, posts as \"Posts\", reposts as \"Reposts\"\nfrom dash.feed_posts_per_month\nwhere author = '__AUTHOR__'\norder by ord",
+          "rawSql": "select posts as \"Posts\", reposts as \"Reposts\", month\nfrom dash.feed_posts_per_month\nwhere author = '__AUTHOR__'\norder by ord",
           "refId": "A"
         }
       ],
@@ -2489,7 +2489,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select month, comments_posted as \"Comments\"\nfrom dash.feed_comments_per_month\nwhere author = '__AUTHOR__'\norder by ord",
+          "rawSql": "select comments_posted as \"Comments\", month\nfrom dash.feed_comments_per_month\nwhere author = '__AUTHOR__'\norder by ord",
           "refId": "A"
         }
       ],
@@ -2561,7 +2561,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select month, reactions_received as \"Reactions\"\nfrom dash.feed_comments_per_month\nwhere author = '__AUTHOR__'\norder by ord",
+          "rawSql": "select reactions_received as \"Reactions\", month\nfrom dash.feed_comments_per_month\nwhere author = '__AUTHOR__'\norder by ord",
           "refId": "A"
         }
       ],
@@ -2633,7 +2633,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select month, impressions_received as \"Impressions\"\nfrom dash.feed_comments_per_month\nwhere author = '__AUTHOR__'\norder by ord",
+          "rawSql": "select impressions_received as \"Impressions\", month\nfrom dash.feed_comments_per_month\nwhere author = '__AUTHOR__'\norder by ord",
           "refId": "A"
         }
       ],
@@ -2682,7 +2682,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select posts_in_month, impressions, id, posted_date, type\nfrom dash.feed_correlation_points\nwhere author = '__AUTHOR__'\norder by ord",
+          "rawSql": "select id, impressions, posted_date, posts_in_month, type\nfrom dash.feed_correlation_points\nwhere author = '__AUTHOR__'\norder by ord",
           "refId": "A"
         }
       ],
@@ -2718,7 +2718,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select posts_in_month, impressions, id, posted_date, type\nfrom dash.feed_correlation_points\nwhere author = '__AUTHOR__'\norder by ord",
+          "rawSql": "select id, impressions, posted_date, posts_in_month, type\nfrom dash.feed_correlation_points\nwhere author = '__AUTHOR__'\norder by ord",
           "refId": "A"
         }
       ],

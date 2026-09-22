@@ -80,10 +80,10 @@ const COLS = [
   { selector: "c", text: "", type: "string" },
   { selector: "zz", text: "Z", type: "number" },
 ];
-check("columns: selector -> text, in the order given; a missing key and a null are null",
+check("columns: selector -> text, in NAME order (byte order, as the Infinity backend returns them); a missing key and a null are null",
   applyColumns([{ a: 0.41, b: "x", c: null }, { a: 0, b: "", c: "y", zz: 7 }], COLS),
-  { columns: [{ name: "B", type: "string" }, { name: "Eng. %", type: "number" }, { name: "c", type: "string" }, { name: "Z", type: "number" }],
-    rows: [["x", 0.41, null, null], ["", 0, "y", 7]], coerced: [] });
+  { columns: [{ name: "B", type: "string" }, { name: "Eng. %", type: "number" }, { name: "Z", type: "number" }, { name: "c", type: "string" }],
+    rows: [["x", 0.41, null, null], ["", 0, 7, "y"]], coerced: [] });
 check("columns: a number read as string is String(v), a numeric string read as number is Number(v) — and both are reported",
   applyColumns([{ a: "12.5", b: 3 }], COLS.slice(0, 2)),
   { columns: [{ name: "B", type: "string" }, { name: "Eng. %", type: "number" }], rows: [["3", 12.5]], coerced: ["B", "Eng. %"] });
@@ -169,9 +169,13 @@ const infinity = (root_selector, columns, filterExpression) => ({
 const sqlTarget = (rawSql) => ({ datasource: PG_DS, editorMode: "code", format: "table", rawQuery: true, rawSql, refId: "A" });
 const col = (selector, text, type) => ({ selector, text, type });
 
+// The GOOD translations list their columns in NAME order (byte order), because
+// that is the frame the Infinity backend really returned — see applyColumns.
+// A SQL target in the declared order is a column-order problem now, and the
+// test below says so explicitly.
 const SQL = {
-  people: `select name as "Name", tier as "Tier", score as "Score" from dash.feed_engagement_people where author = 'fake' order by ord`,
-  weeks: `select week as "Week", impressions as "Impressions", engagement_rate as "Eng. %" from dash.feed_post_weeks where author = 'fake' and id = \${post:sqlstring} order by ord`,
+  people: `select name as "Name", score as "Score", tier as "Tier" from dash.feed_engagement_people where author = 'fake' order by ord`,
+  weeks: `select engagement_rate as "Eng. %", impressions as "Impressions", week as "Week" from dash.feed_post_weeks where author = 'fake' and id = \${post:sqlstring} order by ord`,
   acct: `select week from dash.feed_account_weeks where author = 'fake' order by ord`,
 };
 // A function, not a constant: structuredClone() keeps shared references shared,
@@ -203,12 +207,12 @@ const NEW = () => structuredClone({
     { id: 3, title: "Post weeks", datasource: PG_DS, ...panelRest(), targets: [sqlTarget(SQL.weeks)] },
   ],
 });
-const weeksCols = [["Week", "string"], ["Impressions", "number"], ["Eng. %", "number"]];
+const weeksCols = [["Eng. %", "number"], ["Impressions", "number"], ["Week", "string"]];
 const weeksSql = (v) => SQL.weeks.replace("${post:sqlstring}", sqlstring(v));
 const ANSWERS = () => new Map([
-  [SQL.people, F([["Name", "string"], ["Tier", "string"], ["Score", "number"]], [["Zed Sentinel", "icp", 9], ["Amy O'Brien", "normal", 4]])],
-  [weeksSql("p1"), F(weeksCols, [["2026-01-05", 10, 0.41], ["2026-01-12", 25, 1.5]])],
-  [weeksSql("p2"), F(weeksCols, [["2026-01-05", 7, null]])],
+  [SQL.people, F([["Name", "string"], ["Score", "number"], ["Tier", "string"]], [["Zed Sentinel", 9, "icp"], ["Amy O'Brien", 4, "normal"]])],
+  [weeksSql("p1"), F(weeksCols, [[0.41, 10, "2026-01-05"], [1.5, 25, "2026-01-12"]])],
+  [weeksSql("p2"), F(weeksCols, [[null, 7, "2026-01-05"]])],
   [weeksSql(PROBE), F(weeksCols, [])],
   [SQL.acct, F([["week", "string"]], [["2026-01-05"], ["2026-01-12"]])],
 ]);
@@ -239,22 +243,24 @@ const first = (r) => { const { kind, panelId, refId, varIndex, column, row } = r
   check("e2e: …and that is a pass", verdict([r]).ok, true);
 }
 {
-  const answers = ANSWERS(); answers.get(weeksSql("p1")).rows[0][2] = 0.42;
+  const answers = ANSWERS(); answers.get(weeksSql("p1")).rows[0][0] = 0.42;
   const r = await runFake({ answers });
   check("e2e: a WRONG VALUE is detected, located by variable index / column / row",
     [r.kinds, first(r)], [["value"], { kind: "value", panelId: 3, refId: "A", varIndex: "post#0", column: "Eng. %", row: 0 }]);
   check("e2e: …and fails the run", verdict([r]).ok, false);
 }
 {
-  const answers = ANSWERS(); answers.get(weeksSql("p2")).rows[0][2] = 0;
+  const answers = ANSWERS(); answers.get(weeksSql("p2")).rows[0][0] = 0;
   const r = await runFake({ answers });
   check("e2e: a 0 where the feed has null is detected", first(r), { kind: "value", panelId: 3, refId: "A", varIndex: "post#1", column: "Eng. %", row: 0 });
 }
 {
   const answers = ANSWERS();
-  answers.set(SQL.people, F([["Tier", "string"], ["Name", "string"], ["Score", "number"]], [["icp", "Zed Sentinel", 9], ["normal", "Amy O'Brien", 4]]));
+  // The declared order (Name, Tier, Score) is exactly what the first cut of
+  // this port emitted, and what live Grafana showed to differ on 148 panels.
+  answers.set(SQL.people, F([["Name", "string"], ["Tier", "string"], ["Score", "number"]], [["Zed Sentinel", "icp", 9], ["Amy O'Brien", "normal", 4]]));
   const r = await runFake({ answers });
-  check("e2e: a WRONG COLUMN ORDER is detected", [r.kinds, first(r).panelId, first(r).column], [["column-order"], 2, "Name"]);
+  check("e2e: a WRONG COLUMN ORDER is detected — including the declared order the Infinity backend never returned", [r.kinds, first(r).panelId, first(r).column], [["column-order"], 2, "Score"]);
 }
 {
   const answers = ANSWERS(); answers.get(weeksSql("p1")).rows.pop();
@@ -267,7 +273,7 @@ const first = (r) => { const { kind, panelId, refId, varIndex, column, row } = r
   check("e2e: a SWAPPED ROW ORDER is detected, and named as an ordering problem", [r.kinds, first(r).row], [["row-order"], 0]);
 }
 {
-  const answers = ANSWERS(); answers.get(weeksSql(PROBE)).rows.push(["2026-01-05", 10, 0.41]);
+  const answers = ANSWERS(); answers.get(weeksSql(PROBE)).rows.push([0.41, 10, "2026-01-05"]);
   const r = await runFake({ answers });
   check("e2e: a filter that lets an unknown id through is detected by the probe", [r.kinds, first(r).varIndex], [["row-count"], "post#probe"]);
 }
@@ -279,7 +285,7 @@ const first = (r) => { const { kind, panelId, refId, varIndex, column, row } = r
 }
 {
   const answers = ANSWERS();
-  answers.set(SQL.people, F([["Name", "string"], ["Tier", "string"], ["Score", "string"]], [["Zed Sentinel", "icp", "9"], ["Amy O'Brien", "normal", "4"]]));
+  answers.set(SQL.people, F([["Name", "string"], ["Score", "string"], ["Tier", "string"]], [["Zed Sentinel", "9", "icp"], ["Amy O'Brien", "4", "normal"]]));
   const r = await runFake({ answers });
   check("e2e: a number delivered as text is detected", [r.kinds, first(r).column], [["column-type"], "Score"]);
 }

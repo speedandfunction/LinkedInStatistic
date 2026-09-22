@@ -129,7 +129,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select id, posted_date, text, post_url\nfrom dash.feed_posts\nwhere author = '__AUTHOR__' and id = ${post:sqlstring}\norder by ord",
+          "rawSql": "select id, post_url, posted_date, text\nfrom dash.feed_posts\nwhere author = '__AUTHOR__' and id = ${post:sqlstring}\norder by ord",
           "refId": "A"
         }
       ],
@@ -206,7 +206,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select id, week, impressions\nfrom dash.feed_post_weeks\nwhere author = '__AUTHOR__' and id = ${post:sqlstring}\norder by ord",
+          "rawSql": "select id, impressions, week\nfrom dash.feed_post_weeks\nwhere author = '__AUTHOR__' and id = ${post:sqlstring}\norder by ord",
           "refId": "A"
         }
       ],
@@ -315,7 +315,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select id, week, reactions, comments, reposts, saves, sends\nfrom dash.feed_post_weeks\nwhere author = '__AUTHOR__' and id = ${post:sqlstring}\norder by ord",
+          "rawSql": "select comments, id, reactions, reposts, saves, sends, week\nfrom dash.feed_post_weeks\nwhere author = '__AUTHOR__' and id = ${post:sqlstring}\norder by ord",
           "refId": "A"
         }
       ],
@@ -428,7 +428,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select id, week, engagement_rate\nfrom dash.feed_post_weeks\nwhere author = '__AUTHOR__' and id = ${post:sqlstring}\norder by ord",
+          "rawSql": "select engagement_rate, id, week\nfrom dash.feed_post_weeks\nwhere author = '__AUTHOR__' and id = ${post:sqlstring}\norder by ord",
           "refId": "A"
         }
       ],
@@ -537,7 +537,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select id, week, profile_viewers, followers_gained\nfrom dash.feed_post_weeks\nwhere author = '__AUTHOR__' and id = ${post:sqlstring}\norder by ord",
+          "rawSql": "select followers_gained, id, profile_viewers, week\nfrom dash.feed_post_weeks\nwhere author = '__AUTHOR__' and id = ${post:sqlstring}\norder by ord",
           "refId": "A"
         }
       ],
@@ -634,7 +634,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select week as \"Week\", id, impressions as \"Impr.\", reactions as \"React.\", comments as \"Comm.\", reposts as \"Reposts\", saves as \"Saves\", sends as \"Sends\", profile_viewers as \"Profile views\", followers_gained as \"Fol. gained\", engagement_rate as \"Eng. %\"\nfrom dash.feed_post_weeks\nwhere author = '__AUTHOR__' and id = ${post:sqlstring}\norder by ord",
+          "rawSql": "select comments as \"Comm.\", engagement_rate as \"Eng. %\", followers_gained as \"Fol. gained\", impressions as \"Impr.\", profile_viewers as \"Profile views\", reactions as \"React.\", reposts as \"Reposts\", saves as \"Saves\", sends as \"Sends\", week as \"Week\", id\nfrom dash.feed_post_weeks\nwhere author = '__AUTHOR__' and id = ${post:sqlstring}\norder by ord",
           "refId": "A"
         }
       ],
@@ -724,7 +724,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select id, week, dimension, label, pct\nfrom dash.feed_post_demographics\nwhere author = '__AUTHOR__' and id = ${post:sqlstring} and dimension = 'seniority'\norder by ord",
+          "rawSql": "select dimension, id, label, pct, week\nfrom dash.feed_post_demographics\nwhere author = '__AUTHOR__' and id = ${post:sqlstring} and dimension = 'seniority'\norder by ord",
           "refId": "A"
         }
       ],
@@ -853,7 +853,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select id, week, dimension, label, pct\nfrom dash.feed_post_demographics\nwhere author = '__AUTHOR__' and id = ${post:sqlstring} and dimension = 'job_title'\norder by ord",
+          "rawSql": "select dimension, id, label, pct, week\nfrom dash.feed_post_demographics\nwhere author = '__AUTHOR__' and id = ${post:sqlstring} and dimension = 'job_title'\norder by ord",
           "refId": "A"
         }
       ],
@@ -988,7 +988,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select id, week, dimension, label, pct\nfrom dash.feed_post_demographics\nwhere author = '__AUTHOR__' and id = ${post:sqlstring} and dimension = 'industry'\norder by ord",
+          "rawSql": "select dimension, id, label, pct, week\nfrom dash.feed_post_demographics\nwhere author = '__AUTHOR__' and id = ${post:sqlstring} and dimension = 'industry'\norder by ord",
           "refId": "A"
         }
       ],
@@ -1123,7 +1123,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select id, week, dimension, label, pct\nfrom dash.feed_post_demographics\nwhere author = '__AUTHOR__' and id = ${post:sqlstring} and dimension = 'company_size'\norder by ord",
+          "rawSql": "select dimension, id, label, pct, week\nfrom dash.feed_post_demographics\nwhere author = '__AUTHOR__' and id = ${post:sqlstring} and dimension = 'company_size'\norder by ord",
           "refId": "A"
         }
       ],
@@ -1252,7 +1252,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select id, week, dimension, label, pct\nfrom dash.feed_post_demographics\nwhere author = '__AUTHOR__' and id = ${post:sqlstring} and dimension = 'location'\norder by ord",
+          "rawSql": "select dimension, id, label, pct, week\nfrom dash.feed_post_demographics\nwhere author = '__AUTHOR__' and id = ${post:sqlstring} and dimension = 'location'\norder by ord",
           "refId": "A"
         }
       ],
@@ -1387,7 +1387,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select id, week, dimension, label, pct\nfrom dash.feed_post_demographics\nwhere author = '__AUTHOR__' and id = ${post:sqlstring} and dimension = 'company'\norder by ord",
+          "rawSql": "select dimension, id, label, pct, week\nfrom dash.feed_post_demographics\nwhere author = '__AUTHOR__' and id = ${post:sqlstring} and dimension = 'company'\norder by ord",
           "refId": "A"
         }
       ],

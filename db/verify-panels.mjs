@@ -176,7 +176,14 @@ export function applyColumns(rows, columns) {
     if (!PLAIN_KEY.test(c?.selector ?? "")) throw new NotEmulated(`column selector is not a plain key: ${JSON.stringify(c?.selector)}`);
     if (c.type !== "string" && c.type !== "number") throw new NotEmulated(`column type "${c.type}" is not emulated`);
     return { selector: c.selector, name: c.text || c.selector, type: c.type };
-  });
+  // The Infinity BACKEND parser does not keep the order of `columns`: it hands
+  // Grafana the fields sorted by name, byte order. This emulation used to keep
+  // the declared order, and so passed 1022 comparisons against SQL written in
+  // the declared order — while live, through Grafana, 148 panels differed in
+  // field order (2026-09-22; 148 of 148 were a plain sort). Panels that read
+  // fields by position (plotly, bar colours, table columns, multi-value stats)
+  // render differently for that alone, so the order is part of the frame.
+  }).sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
   const coerced = new Set();
   const cell = (v, col) => {
     if (v === null || v === undefined) return null;

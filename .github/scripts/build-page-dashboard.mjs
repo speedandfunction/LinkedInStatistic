@@ -120,10 +120,18 @@ function parseFilter(expr) {
   return list;
 }
 
+// Byte order of the output name (`text`) — the order the Infinity backend
+// handed Grafana. Stable, and a plain code-unit compare, NOT localeCompare:
+// "Posts" sorts before "month" there, exactly as it did live.
+function inInfinityOrder(columns) {
+  return [...columns].sort((a, b) => (a.text < b.text ? -1 : a.text > b.text ? 1 : 0));
+}
+
 // ---- THE translation: (section, columns, filter) -> one SQL string ---------
 // Returns the frame the panel has always been fed: one output column per entry
-// of `columns`, in that order, named by its `text` and read from feed column
-// `selector`; rows matching the filter, in feed order.
+// of `columns`, named by its `text` and read from feed column `selector`, in
+// the order Infinity returned them (see below); rows matching the filter, in
+// feed order.
 //   * 'string' columns are cast ::text even where the feed column already is
 //     text (a no-op there). The tier stats read a field that is "???" today and
 //     a real number once per-person collection lands; the cast keeps "no
@@ -134,8 +142,15 @@ function parseFilter(expr) {
 //   * variables go in as ${name:sqlstring} — Grafana's own escaping, expanding
 //     to a quoted, quote-escaped literal. Never a raw ${name} inside SQL.
 //   * no $__timeFilter and no time macro: see the hidden time picker below.
+//   * the output columns come in NAME order, not in the order of `columns`.
+//     That is what the Infinity backend parser actually returned — measured
+//     live through Grafana on 2026-09-22: on 148 of 148 panels whose frame
+//     order could differ, it was a plain byte-order sort of the column names.
+//     Several panels read fields by position (plotly, bar-chart colours, table
+//     columns, multi-value stats), so keeping that order is what keeps the
+//     rendered dashboard identical, not a cosmetic choice.
 function feedSql(root, columns, filterExpression) {
-  const select = columns.map((c) => {
+  const select = inInfinityOrder(columns).map((c) => {
     if (!/^[A-Za-z_][A-Za-z0-9_]*$/.test(c.selector)) throw new Error(`selector "${c.selector}" is not a plain feed column (section ${root})`);
     const from = sqlIdent(c.selector); const as = sqlIdent(c.text);
     if (c.type === 'string') return `${from}::text as ${as}`;

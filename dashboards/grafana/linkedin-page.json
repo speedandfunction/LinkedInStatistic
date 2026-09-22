@@ -502,7 +502,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select scope::text as scope, icp_reaction_pct::text as icp_reaction_pct from dash.feed_page_engagement_score_totals where scope = 'all_time' order by ord",
+          "rawSql": "select icp_reaction_pct::text as icp_reaction_pct, scope::text as scope from dash.feed_page_engagement_score_totals where scope = 'all_time' order by ord",
           "refId": "A"
         }
       ],
@@ -552,7 +552,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select scope::text as scope, icp_comment_pct::text as icp_comment_pct from dash.feed_page_engagement_score_totals where scope = 'all_time' order by ord",
+          "rawSql": "select icp_comment_pct::text as icp_comment_pct, scope::text as scope from dash.feed_page_engagement_score_totals where scope = 'all_time' order by ord",
           "refId": "A"
         }
       ],
@@ -602,7 +602,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select scope::text as scope, icp_engagement_pct::text as icp_engagement_pct from dash.feed_page_engagement_score_totals where scope = 'all_time' order by ord",
+          "rawSql": "select icp_engagement_pct::text as icp_engagement_pct, scope::text as scope from dash.feed_page_engagement_score_totals where scope = 'all_time' order by ord",
           "refId": "A"
         }
       ],
@@ -652,7 +652,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select scope::text as scope, people_icp::text as people_icp from dash.feed_page_engagement_score_totals where scope = 'all_time' order by ord",
+          "rawSql": "select people_icp::text as people_icp, scope::text as scope from dash.feed_page_engagement_score_totals where scope = 'all_time' order by ord",
           "refId": "A"
         }
       ],
@@ -703,7 +703,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select week::text as week, score from dash.feed_page_engagement_score_weeks order by ord",
+          "rawSql": "select score, week::text as week from dash.feed_page_engagement_score_weeks order by ord",
           "refId": "A"
         }
       ],
@@ -772,7 +772,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select name::text as name, tier::text as tier, reactions, comments, score from dash.feed_page_engagement_people order by ord",
+          "rawSql": "select comments, name::text as name, reactions, score, tier::text as tier from dash.feed_page_engagement_people order by ord",
           "refId": "A"
         }
       ],
@@ -854,7 +854,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select scope::text as scope, reactions, reactions_icp::text as reactions_icp, comments, comments_icp::text as comments_icp, icp_engagement_pct::text as icp_engagement_pct from dash.feed_page_engagement_score_totals order by ord",
+          "rawSql": "select comments, comments_icp::text as comments_icp, icp_engagement_pct::text as icp_engagement_pct, reactions, reactions_icp::text as reactions_icp, scope::text as scope from dash.feed_page_engagement_score_totals order by ord",
           "refId": "A"
         }
       ],
@@ -931,7 +931,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select week::text as week, followers from dash.feed_page_account_weeks order by ord",
+          "rawSql": "select followers, week::text as week from dash.feed_page_account_weeks order by ord",
           "refId": "A"
         }
       ],
@@ -1008,7 +1008,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select week::text as week, post_impressions from dash.feed_page_account_weeks order by ord",
+          "rawSql": "select post_impressions, week::text as week from dash.feed_page_account_weeks order by ord",
           "refId": "A"
         }
       ],
@@ -1085,7 +1085,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select week::text as week, unique_visitors from dash.feed_page_account_weeks order by ord",
+          "rawSql": "select unique_visitors, week::text as week from dash.feed_page_account_weeks order by ord",
           "refId": "A"
         }
       ],
@@ -1162,7 +1162,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select week::text as week, searches from dash.feed_page_search_weeks order by ord",
+          "rawSql": "select searches, week::text as week from dash.feed_page_search_weeks order by ord",
           "refId": "A"
         }
       ],
@@ -1238,7 +1238,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select week::text as week, followers from dash.feed_page_account_weeks order by ord",
+          "rawSql": "select followers, week::text as week from dash.feed_page_account_weeks order by ord",
           "refId": "A"
         }
       ],
@@ -1314,7 +1314,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select week::text as week, post_impressions from dash.feed_page_account_weeks order by ord",
+          "rawSql": "select post_impressions, week::text as week from dash.feed_page_account_weeks order by ord",
           "refId": "A"
         }
       ],
@@ -1390,7 +1390,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select week::text as week, unique_visitors from dash.feed_page_account_weeks order by ord",
+          "rawSql": "select unique_visitors, week::text as week from dash.feed_page_account_weeks order by ord",
           "refId": "A"
         }
       ],
@@ -1466,7 +1466,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select week::text as week, searches from dash.feed_page_search_weeks order by ord",
+          "rawSql": "select searches, week::text as week from dash.feed_page_search_weeks order by ord",
           "refId": "A"
         }
       ],
@@ -2730,7 +2730,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select month::text as month, icp_pct from dash.feed_page_geo_monthly order by ord",
+          "rawSql": "select icp_pct, month::text as month from dash.feed_page_geo_monthly order by ord",
           "refId": "A"
         }
       ],
@@ -2792,7 +2792,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select month::text as month, us, team, anti, other from dash.feed_page_geo_monthly order by ord",
+          "rawSql": "select anti, month::text as month, other, team, us from dash.feed_page_geo_monthly order by ord",
           "refId": "A"
         }
       ],
@@ -3007,7 +3007,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select month::text as month, icp_pct from dash.feed_page_geo_monthly where month = ${month:sqlstring} order by ord",
+          "rawSql": "select icp_pct, month::text as month from dash.feed_page_geo_monthly where month = ${month:sqlstring} order by ord",
           "refId": "A"
         }
       ],
@@ -3055,7 +3055,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select month::text as month, anti_pct from dash.feed_page_geo_monthly where month = ${month:sqlstring} order by ord",
+          "rawSql": "select anti_pct, month::text as month from dash.feed_page_geo_monthly where month = ${month:sqlstring} order by ord",
           "refId": "A"
         }
       ],
@@ -3151,7 +3151,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select month::text as month, anti from dash.feed_page_geo_monthly where month = ${month:sqlstring} order by ord",
+          "rawSql": "select anti, month::text as month from dash.feed_page_geo_monthly where month = ${month:sqlstring} order by ord",
           "refId": "A"
         }
       ],
