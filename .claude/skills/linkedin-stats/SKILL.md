@@ -23,6 +23,9 @@ Nothing about a specific account is hardcoded. Identity lives in
 
 Environment (see `.env.example`): `GRAFANA_URL` and
 `GRAFANA_SERVICE_ACCOUNT_TOKEN` are required by the dashboard push scripts;
+`GRAFANA_FOLDER_UID` is the folder a NEW dashboard is created in (ours all live
+in one; unset means General, with a warning, and never a failed onboarding — an
+existing dashboard keeps its folder unless `push-dashboard.mjs --move`);
 `GRAFANA_PG_DATASOURCE_UID` — the uid of the Grafana PostgreSQL datasource — is
 required by `push-dashboard.mjs --file` as well, because the dashboards read
 Postgres (`dash.feed_*`) and the checked-in JSON carries only the placeholder

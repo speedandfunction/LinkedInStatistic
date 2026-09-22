@@ -20,7 +20,7 @@ import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { PG_DS_PLACEHOLDER, PG_DS_TYPE, placeholderToUid, readsPostgres, uidToPlaceholder } from "../push-dashboard.mjs";
+import { PG_DS_PLACEHOLDER, PG_DS_TYPE, placeholderToUid, readsPostgres, resolveFolder, uidToPlaceholder } from "../push-dashboard.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const SCRIPT = resolve(HERE, "..", "push-dashboard.mjs");
@@ -401,4 +401,75 @@ test("CLI: --dump WITHOUT the variable refuses (exit 2) and leaves the target fi
       }
     } finally { await g.close(); }
   }
+});
+
+// --------------------------------------------------------------- folders
+// Де опиняється дашборд. Наявний лишається там, де він є (щотижневий рефреш
+// $post тримає ту саму обіцянку), новий — у налаштованій папці, бо інакше
+// дашборд нового автора з'являвся б у General, поки решта лежить разом.
+
+test("folder: a NEW dashboard goes to the configured folder, an existing one keeps its own", () => {
+  // `moved` is about an existing dashboard changing folder — a brand-new one
+  // is created there, which is not a move and is not worth a line in the log.
+  assert.deepEqual(resolveFolder({ wanted: "fold-1", liveFolderUid: undefined, isNew: true }), { folderUid: "fold-1", moved: false });
+  assert.deepEqual(resolveFolder({ wanted: "fold-1", liveFolderUid: "other", isNew: false }), { folderUid: "other" });
+  assert.deepEqual(resolveFolder({ wanted: "fold-1", liveFolderUid: undefined, isNew: false }), { folderUid: undefined });
+});
+
+test("folder: --move is the explicit way to move an existing dashboard, and needs a folder", () => {
+  assert.deepEqual(resolveFolder({ wanted: "fold-1", liveFolderUid: "other", isNew: false, move: true }), { folderUid: "fold-1", moved: true });
+  // Уже там — не «переїзд», і в лозі про це не пишемо.
+  assert.deepEqual(resolveFolder({ wanted: "fold-1", liveFolderUid: "fold-1", isNew: false, move: true }), { folderUid: "fold-1", moved: false });
+  assert.throws(() => resolveFolder({ wanted: "", liveFolderUid: "other", isNew: false, move: true }), /--move needs a folder/);
+  assert.throws(() => resolveFolder({ wanted: undefined, liveFolderUid: "other", isNew: false, move: true }), /--move needs a folder/);
+});
+
+test("folder: a missing variable is a warning for a new dashboard, never a failed onboarding", () => {
+  assert.deepEqual(resolveFolder({ wanted: undefined, liveFolderUid: undefined, isNew: true }), { folderUid: undefined, warn: true });
+  assert.deepEqual(resolveFolder({ wanted: "", liveFolderUid: undefined, isNew: true }), { folderUid: undefined, warn: true });
+});
+
+test("folder: a value that is not a uid is refused, not spliced into the request", () => {
+  for (const bad of ["fold 1", "fold\n1", "https://x.grafana.net/dashboards/f/abc123/", "f/abc123", "'fold'", "fold\t"]) {
+    assert.throws(() => resolveFolder({ wanted: bad, isNew: true }), /is not a uid/, bad);
+  }
+});
+
+test("CLI: a new dashboard is created in GRAFANA_FOLDER_UID; --folder wins over the variable", async () => {
+  for (const [args, env, want] of [
+    [[], { GRAFANA_FOLDER_UID: "fold-env" }, "fold-env"],
+    [["--folder", "fold-flag"], { GRAFANA_FOLDER_UID: "fold-env" }, "fold-flag"],
+  ]) {
+    const g = await stubGrafana();               // немає живого дашборда -> 404 -> новий
+    try {
+      const file = tmpFile(text(fixture()));
+      const r = await run(["--uid", "linkedin-test", "--file", file, ...args], { GRAFANA_URL: g.url, GRAFANA_PG_DATASOURCE_UID: FAKE_UID, ...env });
+      assert.equal(r.code, 0, r.log);
+      const post = g.requests.find((q) => q.method === "POST");
+      assert.equal(JSON.parse(post.body).folderUid, want);
+    } finally { await g.close(); }
+  }
+});
+
+test("CLI: an existing dashboard is NOT moved by the variable alone, and IS moved by --move", async () => {
+  for (const [args, want] of [[[], "folder-1"], [["--move"], "fold-env"]]) {
+    const g = await stubGrafana({ live: fixture(FAKE_UID) });   // stub reports folderUid "folder-1"
+    try {
+      const file = tmpFile(text(fixture()));
+      const r = await run(["--uid", "linkedin-test", "--file", file, ...args], { GRAFANA_URL: g.url, GRAFANA_PG_DATASOURCE_UID: FAKE_UID, GRAFANA_FOLDER_UID: "fold-env" });
+      assert.equal(r.code, 0, r.log);
+      assert.equal(JSON.parse(g.requests.find((q) => q.method === "POST").body).folderUid, want);
+    } finally { await g.close(); }
+  }
+});
+
+test("CLI: a malformed folder refuses before anything is sent", async () => {
+  const g = await stubGrafana({ live: fixture(FAKE_UID) });
+  try {
+    const file = tmpFile(text(fixture()));
+    const r = await run(["--uid", "linkedin-test", "--file", file, "--move", "--folder", "not a uid"], { GRAFANA_URL: g.url, GRAFANA_PG_DATASOURCE_UID: FAKE_UID });
+    assert.equal(r.code, 2, r.log);
+    assert.match(r.log, /is not a uid/);
+    assert.equal(g.requests.filter((q) => q.method === "POST").length, 0, "nothing may be pushed");
+  } finally { await g.close(); }
 });

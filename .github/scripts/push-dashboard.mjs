@@ -8,8 +8,12 @@
 //   node .github/scripts/push-dashboard.mjs --uid linkedin-stats --dump dashboards/grafana/linkedin-stats.json
 //   node .github/scripts/push-dashboard.mjs --uid linkedin-stats --file dashboards/grafana/linkedin-stats.json
 //   ... --file <path> --dry-run     # print what would change, push nothing
+//   ... --file <path> --move        # also move an EXISTING dashboard into the folder
 //
-// Requires GRAFANA_SERVICE_ACCOUNT_TOKEN and GRAFANA_URL.
+// Requires GRAFANA_SERVICE_ACCOUNT_TOKEN and GRAFANA_URL. GRAFANA_FOLDER_UID
+// (or --folder <uid>) is the folder a NEW dashboard is created in — ours all
+// live in one; an existing dashboard keeps its own folder unless --move says
+// otherwise.
 //
 // The repository is public, so the checked-in dashboards never carry the uid
 // of the Postgres datasource: they carry the placeholder ${DS_LINKEDIN_PG}.
@@ -33,6 +37,30 @@ const PG_UID_RE = /^[A-Za-z0-9_-]+$/;
 
 // Error messages below never quote the uid: they end up in CI logs, and CI
 // logs of a public repository are public too.
+
+// WHERE a dashboard lands. An EXISTING dashboard keeps the folder it is in —
+// moving someone's dashboard because a variable happened to be set would be a
+// surprise, and the weekly $post refresh keeps the folder for the same reason.
+// A NEW one (a new author) has no folder of its own, and without this it
+// appears in General while every other board of ours sits in one folder; that
+// is the gap this closes. `--folder <uid>` overrides the variable, and
+// `--move` is the explicit "yes, move the existing one too".
+export const FOLDER_UID_RE = /^[A-Za-z0-9_-]+$/;
+export function resolveFolder({ wanted, liveFolderUid, isNew, move }) {
+  if (wanted !== undefined && wanted !== null && wanted !== "") {
+    if (!FOLDER_UID_RE.test(wanted)) {
+      throw new Error(`the folder uid is not a uid (expected ${FOLDER_UID_RE}, check for stray whitespace or a pasted URL) — nothing pushed`);
+    }
+    if (isNew || move) return { folderUid: wanted, moved: !isNew && liveFolderUid !== wanted };
+  } else if (move) {
+    throw new Error("--move needs a folder: set GRAFANA_FOLDER_UID or pass --folder <uid> — nothing pushed");
+  } else if (isNew) {
+    // Not fatal: onboarding an author must not stop because a local variable
+    // is missing. It says where the dashboard went and how to change that.
+    return { folderUid: undefined, warn: true };
+  }
+  return { folderUid: liveFolderUid || undefined };
+}
 
 // File text -> the text to push. A file without the placeholder (the Infinity
 // leftovers) comes back untouched and needs no variable at all.
@@ -187,13 +215,30 @@ async function main() {
   console.error(`live: ${live.dashboard?.panels?.length ?? 0} panels (version ${live.dashboard?.version})`);
   console.error(`file: ${snapshot.panels?.length ?? 0} panels`);
 
+  let folder;
+  try {
+    folder = resolveFolder({
+      wanted: arg("folder") ?? process.env.GRAFANA_FOLDER_UID,
+      liveFolderUid: live.meta?.folderUid,
+      isNew: !live.dashboard,
+      move: has("move"),
+    });
+  } catch (e) {
+    console.error(e.message);
+    process.exit(2);
+  }
+  if (folder.warn) {
+    console.error("GRAFANA_FOLDER_UID is not set — the new dashboard lands in General; set it (or pass --folder <uid>) to file it with the others");
+  }
+  if (folder.moved) console.error(`--move: the dashboard changes folder`);
+
   if (has("dry-run")) { console.error("dry run — nothing pushed"); process.exit(0); }
 
   const out = await api("/api/dashboards/db", {
     method: "POST",
     body: JSON.stringify({
       dashboard,
-      folderUid: live.meta?.folderUid || undefined,
+      folderUid: folder.folderUid,
       message: arg("message") || `auto: push ${file}`,
       overwrite: true,
     }),
