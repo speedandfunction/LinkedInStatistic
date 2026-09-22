@@ -386,6 +386,15 @@ fails on purpose when any author is incomplete, so a failure email is the
 detector. You do not have to read logs to know something is wrong — but you
 do have to read them to know *what*.
 
+**The one exception, since 2026-09-21: `reactors-short` (exit 11).** Every
+phase that decides the week is complete and only a reaction list came back
+short, so the run stays green and publishes. It is not silent — the Monday
+message carries a line per affected author — and it is not a shrug either:
+each short target is flagged `short_read` in `engagement.json`, which is what
+makes the next run reopen it. An incomplete read also never lowers a stored
+`reactor_count`. A week is worth far more than a handful of reactor names: the
+account snapshot in it cannot be backfilled, the names can.
+
 This is the property that matters most here. `::error::` annotations decorate
 a log without changing a step's exit status, so it is entirely possible to
 build a pipeline that logs a dead session in red text and still reports
@@ -408,7 +417,8 @@ the summary and the PR body:
 | `<a>:drift` | exit 30 — LinkedIn's DOM changed | update the selectors; **every** later week fails until you do |
 | `<a>:ratelimit` | exit 22 — LinkedIn throttled the account | back off, re-dispatch later in the day |
 | `<a>:fs` | exit 23 — the snapshot write itself failed | check the `merge.py` traceback |
-| `<a>:partial` | exit 10 — the soft deadline fired mid-run | usually re-dispatchable as-is |
+| `<a>:partial` | exit 10 — the soft deadline fired mid-run, a target failed, or targets were dropped over the cap | usually re-dispatchable as-is |
+| `<a>:reactors-short` | exit 11 — **not a failure.** Only reaction lists came back short; the week publishes and the flagged targets are reopened next run | nothing to do. If it repeats on the same post every week, read `TARGETS_SHORT_READ` in the log |
 | `<a>:hardcap` | killed at 2100 s | raise `LI_SESSION_TIMEOUT`, check for a hung session |
 | `<a>:nodata` | exited 0 but wrote nothing | a soft-block: the session renders empty pages |
 | `<a>:noweek` | exited 0, wrote files, but no `weeks[<monday>]` key | the account phase produced nothing for this week |

@@ -16,7 +16,7 @@
 //   events  [{E1, reaction, u1, 2026-01-05, backfill}, {E1, comment, u2, 2030-01-07}]
 //           -> reaction, u1, 2026-01-05, backfill=true          (merge.py:271-273)
 //   targets [{T1, week 2026-01-05, count 3}, {T1, week 2030-01-07, count 99}]
-//           -> first_scanned_week 2026-01-05, last 2030-01-07, count 99 (merge.py:311-322)
+//           -> first_scanned_week 2026-01-05, last 2030-01-07, count 99 (merge.py, targets loop)
 
 // Last-wins. For rows that came out of a JSON object, where the key is unique
 // anyway and the order is the file's own.
@@ -39,8 +39,11 @@ export function foldPeople(rows) {
   return [...seen.values()];
 }
 
-// merge.py:311-322. The first sighting sets first_scanned_week; later ones move
-// last_scanned_week and reactor_count and leave the first week alone.
+// merge.py's targets loop. The first sighting sets first_scanned_week; later
+// ones move last_scanned_week and reactor_count and leave the first week alone.
+// The short_read rule there (an incomplete read never lowers the count) applies
+// to the FILE, before import: these rows already carry the corrected number,
+// and they are unique per target_id anyway, so folding stays last-wins.
 export function foldTargets(rows) {
   const seen = new Map();
   for (const r of rows) {

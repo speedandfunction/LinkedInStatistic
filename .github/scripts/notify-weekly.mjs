@@ -125,6 +125,13 @@ const LABELS = {
   // дочитатись (або спрацював м'який дедлайн). Формулювання не обіцяє більше,
   // ніж знає.
   partial: [":warning:", "some posts or reactions not fully read"],
+  // exit 11 — тиждень ПОВНИЙ: не дочиталися лише списки тих, хто реагував, і
+  // саме ці пости наступний прогін відкриє знову (`short_read` на цілі). Тому
+  // це не :warning: і не привід тримати тиждень у ревʼю — просто сказано вголос.
+  // Фраза НЕ починається з «collected»: authorRows зшиває нотатки одного
+  // автора крапкою з комою, і поруч із червоним `nodata` («nothing collected»)
+  // вийшло б «collected …; nothing collected».
+  "reactors-short": [":white_check_mark:", "a reaction list was incomplete, it is re-read next run"],
   auth: [":red_circle:", "logged out of LinkedIn"],
   ratelimit: [":red_circle:", "rate-limited by LinkedIn"],
   hardcap: [":red_circle:", "timed out"],

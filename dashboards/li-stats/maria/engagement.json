@@ -2814,7 +2814,8 @@
       "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7500116105856749568/",
       "first_scanned_week": "2026-08-31",
       "last_scanned_week": "2026-09-21",
-      "reactor_count": 0
+      "reactor_count": 14,
+      "short_read": true
     }
   }
 }

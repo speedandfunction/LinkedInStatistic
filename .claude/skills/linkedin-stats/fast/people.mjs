@@ -135,6 +135,175 @@ export { targetIdForPost, targetIdForComment };
  * to "the last N days" instead of dragging in the whole back catalogue as
  * baselines. Used by the one-off roster backfill.
  */
+/**
+ * Was this read of a reactor overlay incomplete? One rule for both overlays,
+ * posts and comments; the incident of 2026-09-21 needed both of its halves.
+ *
+ *   announced — the dialog's own total ("All 25"). Missing on some posts:
+ *               every one of peter's announced nothing that morning.
+ *   known     — what a previous read stored for this target. A post that had
+ *               14 reactors and now hands back none has not lost them; the
+ *               overlay did not render.
+ *
+ * The 10% slack is for private profiles ("LinkedIn Member"), which render
+ * without a link and can never be named however well the overlay renders.
+ * A first-ever read has neither number to check against, so it is taken at
+ * face value — and it has no good count to destroy either.
+ */
+export function isShortRead({ got, announced, known }) {
+  const n = Number(got) || 0;
+  const a = Number(announced) || 0;
+  const k = Number(known) || 0;
+  if (a > 0) {
+    // The dialog told us its total and we read essentially all of it. A
+    // complete read of what the post has NOW, even if that is fewer than last
+    // week — people do withdraw reactions, and freezing the old number would
+    // be its own kind of wrong.
+    if (n >= a * 0.9) return false;
+    // We read no less than the best this target has ever given us. The gap to
+    // the announced total is structural — private profiles carry no link to
+    // read — so calling it short would re-read the same post every week
+    // forever and never do better.
+    if (k > 0 && n >= k) return false;
+    return true;
+  }
+  // No total announced: the only witness left is our own best previous read.
+  // Coming back with less than that is the overlay failing, not thirteen
+  // people changing their minds on the same morning.
+  return k > 0 && n < k * 0.9;
+}
+
+/**
+ * When to stop paging an open reactor list. Pure, so the patience rules are
+ * under test rather than buried in a browser loop.
+ *
+ * The list lazy-loads, and through a remote browser behind a proxy it can take
+ * seconds to render its first page. Until 2026-09-21 the loop read it the
+ * instant the dialog SHELL appeared and gave up after two rounds with no
+ * growth — about three seconds — so a list that had not rendered yet was
+ * recorded as a read of nobody. The wait for the FIRST entries is the loop's
+ * settle window (reactor-dialog.mjs); once paging, these rules apply:
+ *
+ *   - only the dialog's own total (`announced`) can end a read as 'complete'.
+ *     What a previous read stored (`known`) is NOT a stop: a list that grew
+ *     since — exactly the posts selectPostTargets reopens as counts-changed —
+ *     would be cut at last week's number and stored as complete.
+ *   - below either number (by more than the 10% private-profile slack) the
+ *     list gets more rounds without growth before we accept it: a slow proxy
+ *     pauses between pages, it does not end the list.
+ *   - `patient` false (no spare time left before the run's deadline, see
+ *     reactorPatienceMs) drops that extra patience: two quiet rounds, exactly
+ *     the rule from before the change.
+ *
+ * With neither number known, two quiet rounds end it, exactly as before.
+ */
+export const REACTOR_PATIENCE = { quiet: 2, quietBelowTarget: 5 };
+
+export function reactorScrollDecision({
+  count, announced = 0, known = 0, stagnant = 0, maxPeople = Infinity, patient = true,
+}) {
+  const a = Number(announced) || 0;
+  const floor = a || Number(known) || 0;
+  if (count >= maxPeople) return 'cap';
+  if (a > 0 && count >= a) return 'complete';
+  const below = patient && floor > 0 && count < floor * 0.9;
+  const limit = below ? REACTOR_PATIENCE.quietBelowTarget : REACTOR_PATIENCE.quiet;
+  return stagnant >= limit ? 'stagnant' : 'continue';
+}
+
+/**
+ * How ONE read ended decides as much as how many it read.
+ *
+ * isShortRead judges the number, and without an announced total it cannot
+ * tell a finished list from an abandoned one: a list that never rendered, a
+ * dialog that closed under us, a read the time budget or the deadline cut off
+ * — each looks like "that is everyone". `stop` (scrapeOpenReactorDialog's
+ * reason) says which it was, so those reads are short whatever the number.
+ * When the dialog announced its total, that total is the better witness and
+ * isShortRead alone decides. `rounds` and `cap` are limits set on purpose and
+ * are judged by the number, as before.
+ *
+ * `record` is false for the one read that must leave no trace: NOTHING read,
+ * on a target never scanned before. Recording it would store "we looked and
+ * nobody reacted" — never true, the dialog only opens from a reaction count —
+ * and would turn the next good read into a week of new reactions instead of
+ * the baseline it is. The dialog-failure branch in scrape-weekly draws the
+ * same line. A PARTIAL first read is still recorded (short): isShortRead needs
+ * that stored count to recognise a structural private-profile gap next time.
+ */
+export const REACTOR_CUT_SHORT = ['never-rendered', 'dialog-closed', 'budget', 'deadline', 'breaker'];
+
+export function reactorReadVerdict({ got, announced, known, stop, scannedBefore }) {
+  const n = Number(got) || 0;
+  const cut = REACTOR_CUT_SHORT.includes(stop) && !(Number(announced) > 0);
+  const short = cut || isShortRead({ got, announced, known });
+  return { short, record: !!scannedBefore || !(short && n === 0) };
+}
+
+/**
+ * How long one reactor dialog may keep being PATIENT — waiting for its first
+ * entries, and allowing the extra quiet rounds below a known count — without
+ * that waiting being what runs the author past --deadline-secs.
+ *
+ * Patience is paid only out of spare time. Assume every target still to read
+ * (this one included) costs `perTargetMs` without any patience; what is left
+ * before the deadline after that is spare, and this dialog gets an even share
+ * of it. On a light week that is more than the dialog budget; as the deadline
+ * closes in it shrinks to 0, and at 0 the dialog reads exactly as it did
+ * before patience existed. So if the pre-change reads would have finished in
+ * time, and targets cost no more than `perTargetMs`, these finish in time too
+ * (test-people.mjs walks that through). No deadline at all: no limit here, the
+ * dialog budget still applies.
+ */
+export function reactorPatienceMs({ nowMs, deadlineAtMs, targetsLeft, perTargetMs }) {
+  if (!Number.isFinite(deadlineAtMs)) return Infinity;
+  const left = Math.max(1, Number(targetsLeft) || 0);
+  const spare = deadlineAtMs - nowMs - left * Math.max(0, Number(perTargetMs) || 0);
+  return Math.max(0, spare / left);
+}
+
+// What a target costs without any patience, until the run has measured its
+// own: page load, the on-page comment harvest, opening the dialog and the
+// pre-change loop (two quiet rounds on a short list, up to ~45 s on a long
+// one). Deliberately on the slow side — the caller uses the larger of this and
+// the measured average, so it only ever makes patience smaller.
+export const REACTOR_TARGET_COST_MS = 45000;
+
+/**
+ * The verdict of the people phase, as a pure function of its counters — the
+ * line between "publish this week" and "a human must look", so it is kept
+ * here where a test can reach it.
+ *
+ *   SELECTOR_DRIFT  the overlay is not rendering. Every fire must be loud:
+ *                   nothing self-heals and every later week fails the same way.
+ *   REACTORS_SHORT  reaction lists came back short and NOTHING else went
+ *                   wrong. Advisory: each short target is flagged `short_read`
+ *                   and the next run returns to it, so the week is publishable.
+ *   PARTIAL         anything else that is not clean — including targets that
+ *                   were never attempted (dropped over the cap) and rosters
+ *                   merge.py could not place. Not an overlay problem: review.
+ */
+export function reactorPhaseStatus({
+  stopped = null, attempted = 0, scanned = 0, dialogFailures = 0, reactorsSeen = 0,
+  reactorsExpected = 0, reactorsShort = 0, failed = 0, postsDropped = 0,
+  commentsDropped = 0, rosterMissing = 0,
+} = {}) {
+  if (stopped) return String(stopped).toUpperCase();
+  if (attempted > 0 && scanned === 0 && dialogFailures >= attempted) return 'SELECTOR_DRIFT';
+  if (scanned > 0 && reactorsSeen === 0 && reactorsExpected > 0) return 'SELECTOR_DRIFT';
+  // Every overlay we opened handed back nothing, and each one was short
+  // against what we already knew. The test above cannot see this shape: it
+  // needs the dialog to announce a total, and on 2026-09-21 not one of peter's
+  // posts did. Without this line a total collapse of the overlay reads as "a
+  // few lists came back short" and publishes green, forever.
+  if (scanned > 0 && reactorsSeen === 0 && reactorsShort >= scanned) return 'SELECTOR_DRIFT';
+  if (reactorsShort > 0 && failed === 0 && postsDropped === 0
+    && commentsDropped === 0 && rosterMissing === 0) return 'REACTORS_SHORT';
+  if (failed > 0 || postsDropped > 0 || commentsDropped > 0 || reactorsShort > 0
+    || rosterMissing > 0) return 'PARTIAL';
+  return 'OK';
+}
+
 export function selectPostTargets(entries, {
   week, maxPosts = 25, recentDays = 30, scannedTargets = {}, recentOnly = false,
 } = {}) {
@@ -152,15 +321,28 @@ export function selectPostTargets(entries, {
       && ((latest.metrics?.reactions ?? 0) !== (prev.metrics?.reactions ?? 0)
         || (latest.metrics?.comments ?? 0) !== (prev.metrics?.comments ?? 0)));
     const recent = Number.isFinite(postedMs) && (weekMs - postedMs) <= recentDays * DAY_MS;
-    const neverScanned = !recentOnly && !scannedTargets[targetIdForPost(data.urn)];
+    const prevScan = scannedTargets[targetIdForPost(data.urn)];
+    const neverScanned = !recentOnly && !prevScan;
+    // The last run opened this dialog and came back short. A scanned target is
+    // otherwise never revisited once the post stops being recent and its counts
+    // stop moving, so without this the shortfall is permanent — and it is the
+    // reason a short read is allowed to publish the week at all. Ranked with
+    // `changed`: an incomplete target outranks a merely recent one when the cap
+    // bites. Cleared by the first complete read (merge.py).
+    const shortRead = !recentOnly && !!prevScan?.short_read;
     if (recentOnly && !recent) continue;
-    if (!changed && !recent && !neverScanned) continue;
+    if (!changed && !recent && !neverScanned && !shortRead) continue;
     scored.push({
       file,
       data,
-      band: changed ? 0 : recent ? 1 : 2,
+      // A band of its own, ahead of `counts-changed`: a flagged target is an
+      // incomplete read that nothing else will ever come back for, while a
+      // changed or recent post stays changed and recent next week too. Ties
+      // inside band 0 sort by date, so an OLD flagged post would otherwise
+      // lose the cap to a wall of fresh ones.
+      band: shortRead ? 0 : changed ? 1 : recent ? 2 : 3,
       postedMs: Number.isFinite(postedMs) ? postedMs : 0,
-      reason: changed ? 'counts-changed' : recent ? 'recent' : 'never-scanned',
+      reason: shortRead ? 'short-read' : changed ? 'counts-changed' : recent ? 'recent' : 'never-scanned',
     });
   }
   scored.sort((a, b) => a.band - b.band || b.postedMs - a.postedMs);
@@ -172,12 +354,23 @@ export function selectPostTargets(entries, {
  * enough to still be accruing reactions and replies. Mirrors the 30-day
  * snapshot cut-off the comments phase already uses.
  */
-export function selectCommentTargets(commentsMap, { maxComments = 25, recentDays = 30, nowMs = Date.now() } = {}) {
+export function selectCommentTargets(commentsMap, {
+  maxComments = 25, recentDays = 30, nowMs = Date.now(), scannedTargets = {},
+} = {}) {
   const rows = Object.values(commentsMap ?? {})
     .filter((c) => c.comment_urn && c.permalink)
     .map((c) => ({ comment: c, ms: Date.parse(c.commented_at || '') || 0 }))
-    .filter((r) => r.ms && (nowMs - r.ms) <= recentDays * DAY_MS)
-    .sort((a, b) => b.ms - a.ms);
+    // A comment whose reactor list came back short is worth reopening however
+    // old it is: this window is the ONLY thing that ever brings a comment
+    // target back, so an unflagged short read is lost after 30 days. Sorted
+    // first for the same reason, so the cap cannot quietly drop it.
+    .filter((r) => r.ms && ((nowMs - r.ms) <= recentDays * DAY_MS
+      || !!scannedTargets[targetIdForComment(r.comment.comment_urn)]?.short_read))
+    .sort((a, b) => {
+      const as = scannedTargets[targetIdForComment(a.comment.comment_urn)]?.short_read ? 1 : 0;
+      const bs = scannedTargets[targetIdForComment(b.comment.comment_urn)]?.short_read ? 1 : 0;
+      return bs - as || b.ms - a.ms;
+    });
   return { selected: rows.slice(0, maxComments), dropped: Math.max(0, rows.length - maxComments) };
 }
 
