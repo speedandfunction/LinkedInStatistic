@@ -160,6 +160,7 @@ are in section 9; what Grafana reads, in section 10.
 | Name | Where | Notes |
 |---|---|---|
 | `GRAFANA_PG_DATASOURCE_UID` | your gitignored `~/LinkedInStatistic/.env` only | uid of the Grafana PostgreSQL datasource (role `grafana_ro`). The checked-in dashboards carry the placeholder `${DS_LINKEDIN_PG}` instead — this repository is public and the real uid must never be committed. `push-dashboard.mjs --file` swaps it in at push time and refuses without it. **Do not create a repo secret or variable for it: no workflow pushes dashboards** (CI only refreshes the `$post` list, which needs no datasource uid). Section 10. |
+| `GRAFANA_FOLDER_UID` | your gitignored `~/LinkedInStatistic/.env` only | uid of the Grafana folder our dashboards live in (**LinkedIn Statistic**, the last path segment of `/dashboards/f/<uid>/`). `push-dashboard.mjs` creates a NEW dashboard there — without it a new author's board appears in General, which is a warning, never a failure. An EXISTING dashboard keeps its own folder unless you pass `--move`, because the weekly `$post` refresh makes the same promise. Not a secret, but kept out of the repo like every other uid. |
 
 ### Set by the workflow, not by you
 
@@ -285,7 +286,7 @@ commit without the matching secret update breaks Monday for everybody.
    `in/<slug>`, `company_id`, `posts_cutoff`), then:
    ```bash
    cd ~/LinkedInStatistic
-   set -a; . ./.env; set +a      # GRAFANA_URL, GRAFANA_SERVICE_ACCOUNT_TOKEN, GRAFANA_PG_DATASOURCE_UID
+   set -a; . ./.env; set +a      # GRAFANA_URL, GRAFANA_SERVICE_ACCOUNT_TOKEN, GRAFANA_PG_DATASOURCE_UID, GRAFANA_FOLDER_UID
    # a. generate: two dashboards per author in profiles.json, from _template/
    node .github/scripts/gen-author-dashboards.mjs
    # b. push the new author's two dashboards (placeholder -> real uid at push time)
