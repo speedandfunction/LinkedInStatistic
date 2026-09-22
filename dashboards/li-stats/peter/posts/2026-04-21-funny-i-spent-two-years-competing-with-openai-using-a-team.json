@@ -169,6 +169,60 @@
         }
       },
       "comments": []
+    },
+    "2026-09-21": {
+      "snapshot_at": "2026-09-21T03:27:58Z",
+      "metrics": {
+        "impressions": 553,
+        "members_reached": 219,
+        "reactions": 4,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 2,
+        "followers_gained": 1,
+        "engagement_rate": 0.72
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 28.8,
+          "Entry": 25.6,
+          "CXO": 8.7,
+          "Director": 6.8,
+          "Owner": 5
+        },
+        "job_title": {
+          "Software Engineer": 10,
+          "Co-Founder": 3.7,
+          "Founder": 3.7,
+          "Chief Executive Officer": 3.7,
+          "Full Stack Engineer": 3.2
+        },
+        "industry": {
+          "IT Services and IT Consulting": 28.3,
+          "Software Development": 28.3,
+          "Technology, Information and Internet": 11.4
+        },
+        "company_size": {
+          "51-200 employees": 18.3,
+          "11-50 employees": 15.5,
+          "1-10 employees": 11.9,
+          "201-500 employees": 8.7,
+          "10,001+ employees": 6.4
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 6.4,
+          "San Francisco Bay Area": 6.4,
+          "Lviv": 4.6,
+          "London Area, United Kingdom": 3.2,
+          "Copenhagen Metropolitan Area": 2.7
+        },
+        "company": {
+          "Speed and Function": 10
+        }
+      },
+      "comments": []
     }
   }
 }

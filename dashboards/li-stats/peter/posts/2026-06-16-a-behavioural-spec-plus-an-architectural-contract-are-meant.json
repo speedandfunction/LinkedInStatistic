@@ -144,6 +144,51 @@
         }
       },
       "comments": []
+    },
+    "2026-09-21": {
+      "snapshot_at": "2026-09-21T03:28:31Z",
+      "metrics": {
+        "impressions": 256,
+        "members_reached": 105,
+        "reactions": 2,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 2,
+        "followers_gained": 0,
+        "engagement_rate": 0.78
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 38.1,
+          "Entry": 25.7,
+          "CXO": 6.7
+        },
+        "job_title": {
+          "Software Engineer": 13.3
+        },
+        "industry": {
+          "Software Development": 38.1,
+          "IT Services and IT Consulting": 31.4,
+          "Technology, Information and Internet": 5.7
+        },
+        "company_size": {
+          "51-200 employees": 27.6,
+          "1001-5000 employees": 12.4,
+          "11-50 employees": 11.4,
+          "201-500 employees": 7.6,
+          "10,001+ employees": 6.7
+        },
+        "location": {
+          "Zagreb Metropolitan Area": 6.7,
+          "Kyiv Metropolitan Area": 5.7
+        },
+        "company": {
+          "Speed and Function": 12.4
+        }
+      },
+      "comments": []
     }
   }
 }

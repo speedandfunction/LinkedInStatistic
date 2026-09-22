@@ -31,6 +31,9 @@
 //
 // Exit codes:
 //   0  complete
+//   11 advisory: only the people phase came back short; every other phase is
+//      complete, the snapshot is worth publishing, and the unread targets are
+//      flagged `short_read` so the next run comes back for them
 //   10 partial per-post/page failures; outputs valid
 //   20 auth/checkpoint wall
 //   21 profile busy (another Chrome owns the profile)
@@ -44,6 +47,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright-core';
 import * as People from './people.mjs';
+import { DIALOG_SEL, closeDialog, scrapeOpenReactorDialog } from './reactor-dialog.mjs';
 import { classifyPeople, headlineHash, loadIcpText, needsClassification } from './classify-icp.mjs';
 import { openProfileStore, profileKey } from '../../pipeline-shared/profile-store.mjs';
 import { openBrowserbaseSession } from './browserbase-backend.mjs';
@@ -1624,10 +1628,16 @@ async function phaseCommentsOut(page) {
 // bodies loaded from .claude/agents/*.js, and hand-escaping regexes into a
 // template literal is a bug farm.
 
-// The reactor overlay is a NATIVE <dialog data-testid="dialog">, not an
-// artdeco modal and not [role="dialog"] — verified on the live post page
-// 2026-08-17. Keep the legacy selectors as fallbacks.
-const DIALOG_SEL = 'dialog[open], [data-testid="dialog"], [role="dialog"], [aria-modal="true"], .artdeco-modal';
+// What the post itself says about its reactions, from the newest weekly
+// snapshot the metrics phase wrote. Used only to tell "nobody reacted" from
+// "the control is missing".
+function latestReactions(post) {
+  const weeks = post?.weeks ?? {};
+  const keys = Object.keys(weeks).sort();
+  if (!keys.length) return null;
+  const m = weeks[keys[keys.length - 1]]?.metrics ?? {};
+  return typeof m.reactions === 'number' ? m.reactions : null;
+}
 
 // Open the post's reaction list.
 //
@@ -1687,109 +1697,6 @@ async function openPostReactors(page, dialogSel) {
     }
     return 'no-dialog';
   }, dialogSel);
-}
-
-// Read every reactor out of the open dialog, scrolling it until it stops
-// growing. Entries are NOT list items with separate name/headline nodes any
-// more: each person is a single anchor whose innerText is
-// "Name • 1st Headline", so the label is returned raw and split in node by
-// people.mjs/parseReactorLabel (pure, and therefore testable).
-// Read the entries currently rendered in the dialog, plus the expected total
-// from the "All <n>" tab — so a short read is visible instead of silent.
-async function readReactorDialog(page, dialogSel) {
-  return page.evaluate((sel) => {
-    const dialog = document.querySelector(sel);
-    if (!dialog) return { error: 'no-dialog', people: [], expected: null };
-    const out = new Map();
-    for (const a of dialog.querySelectorAll('a[href*="/in/"], a[href*="/company/"]')) {
-      let url = a.getAttribute('href') || '';
-      try {
-        const u = new URL(url, 'https://www.linkedin.com');
-        url = u.origin + u.pathname.replace(/\/+$/, '');
-      } catch { continue; }
-      if (!url || /\/(in|company)$/.test(url)) continue;
-      const label = (a.innerText || '').replace(/\s+/g, ' ').trim();
-      if (!label) continue;
-      if (!out.has(url)) out.set(url, { url, label });
-    }
-    // The "All" tab carries the true total, which is what makes a short read
-    // visible instead of silent. Its aria-label used to read "<n> All
-    // reactions"; since 2026-08 the tab renders as text "All <n>" (the dialog
-    // heads "Reactions All 2 2"). Try both, aria first.
-    let expected = null;
-    for (const b of dialog.querySelectorAll('button, [role="button"], [role="tab"]')) {
-      const m = (b.getAttribute('aria-label') || '').match(/^(\d[\d,]*)\s+All reactions?$/i);
-      if (m) { expected = parseInt(m[1].replace(/,/g, ''), 10); break; }
-    }
-    if (expected === null) {
-      for (const b of dialog.querySelectorAll('button, [role="button"], [role="tab"]')) {
-        const t = (b.innerText || '').replace(/\s+/g, ' ').trim();
-        const m = t.match(/^All\s+(\d[\d,]*)$/i) || t.match(/^(\d[\d,]*)\s+All$/i);
-        if (m) { expected = parseInt(m[1].replace(/,/g, ''), 10); break; }
-      }
-    }
-    return { error: null, people: [...out.values()], expected };
-  }, dialogSel);
-}
-
-/**
- * Page through the reactor list.
- *
- * The list lazy-loads ~10 entries at a time and, measured on the live dialog
- * 2026-08-17, responds very differently depending on how you ask:
- *   programmatic scrollTop  10 -> 19
- *   real mouse wheel        10 -> 58
- *   End key                    -> 68 of 70
- * So the scrolling is driven from node with real input events, not from inside
- * page.evaluate. Stops on the expected total, on the cap, or after two
- * consecutive rounds that add nobody.
- */
-async function scrapeOpenReactorDialog(page, maxScrolls, maxPeople, dialogSel) {
-  const box = await page.locator(dialogSel).first().boundingBox().catch(() => null);
-  if (box) await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2).catch(() => {});
-
-  let last = await readReactorDialog(page, dialogSel);
-  if (last.error) return { error: last.error, people: [], expected: null };
-  let stagnant = 0;
-
-  for (let i = 0; i < maxScrolls; i++) {
-    if (last.expected && last.people.length >= last.expected) break;
-    if (last.people.length >= maxPeople) break;
-    const before = last.people.length;
-    if (box) {
-      for (let w = 0; w < 3; w++) { await page.mouse.wheel(0, 900).catch(() => {}); await sleep(250); }
-    }
-    await page.keyboard.press('End').catch(() => {});
-    await sleep(700);
-    last = await readReactorDialog(page, dialogSel);
-    if (last.error) break;
-    stagnant = last.people.length > before ? 0 : stagnant + 1;
-    if (stagnant >= 2) break;
-  }
-
-  return {
-    error: null,
-    expected: last.expected,
-    people: last.people.slice(0, maxPeople)
-      .map(({ url, label }) => ({ url, ...People.parseReactorLabel(label) })),
-  };
-}
-
-// A native <dialog> closes on Escape; the close button is the fallback.
-async function closeDialog(page, dialogSel) {
-  await page.keyboard.press('Escape').catch(() => {});
-  await sleep(400);
-  const stillOpen = await page.evaluate((sel) => !!document.querySelector(sel), dialogSel).catch(() => false);
-  if (!stillOpen) return;
-  await page.evaluate((sel) => {
-    const dlg = document.querySelector(sel);
-    const btn = dlg && Array.from(dlg.querySelectorAll('button')).find((b) => {
-      const al = (b.getAttribute('aria-label') || '').toLowerCase();
-      return /dismiss|close/.test(al);
-    });
-    if (btn) btn.click();
-  }, dialogSel).catch(() => {});
-  await sleep(400);
 }
 
 // Locate ONE comment's DOM node by its URN, under either markup. Injected into
@@ -2054,8 +1961,40 @@ async function phasePeople(page) {
   let dialogFailures = 0;
   let stopped = null;
 
+  // Selected up front (it only reads comments.json, which this phase writes
+  // only after both loops) so the patience budget below knows every target
+  // still to come, not just the posts.
+  let outbound = {};
+  try { outbound = readJson(COMMENTS_FILE).comments ?? {}; } catch { /* optional */ }
+  const commentSel = People.selectCommentTargets(outbound, {
+    maxComments: PEOPLE_MAX_COMMENTS, recentDays: PEOPLE_RECENT_DAYS, scannedTargets,
+  });
+
+  // Waiting for slow reactor lists is paid only out of spare time before the
+  // run's deadline (People.reactorPatienceMs): each dialog gets an even share
+  // of what is left after every remaining target's cost — the larger of
+  // REACTOR_TARGET_COST_MS and what targets have averaged so far — and none
+  // once there is nothing spare. So the waiting cannot be what runs an author
+  // past --deadline-secs. A dialog still open when the deadline or the 429
+  // breaker fires stops at once (shouldStop) and is flagged short.
+  const deadlineAt = DEADLINE_SECS > 0 ? t0 + DEADLINE_SECS * 1000 : Infinity;
+  const targetsPlanned = postTargets.length + commentSel.selected.length;
+  const readsT0 = Date.now();
+  let targetsStarted = 0;
+  const patienceNow = () => {
+    const done = targetsStarted - 1; // the current target is still running
+    const avg = done > 0 ? (Date.now() - readsT0) / done : 0;
+    return People.reactorPatienceMs({
+      nowMs: Date.now(), deadlineAtMs: deadlineAt,
+      targetsLeft: targetsPlanned - done,
+      perTargetMs: Math.max(People.REACTOR_TARGET_COST_MS, avg),
+    });
+  };
+  const haltReason = () => (breakerTripped ? (isDeadlineStop() ? 'deadline' : 'breaker') : null);
+
   for (const t of postTargets) {
     if (breakerTripped) { stopped = isDeadlineStop() ? 'deadline' : 'breaker'; break; }
+    targetsStarted++;
     try {
       await pacedGotoRetry(page, t.data.post_url, null);
       await page.waitForSelector(POST_PAGE_MARKER, { timeout: 10000 })
@@ -2085,35 +2024,109 @@ async function phasePeople(page) {
         }
       }
 
-      const opened = await openPostReactors(page, DIALOG_SEL);
-      if (opened !== 'open') { dialogFailures++; failed++; vlog(`people: post ${t.data.id} — ${opened}`); continue; }
-      const { error, people: reactors, expected } = await scrapeOpenReactorDialog(page, 30, 500, DIALOG_SEL);
+      const tid = People.targetIdForPost(t.data.urn);
+      const prevScan = scannedTargets[tid];
+      const known = Number(prevScan?.reactor_count ?? 0);
+
+      // One retry, and only for a dialog that was found and did not mount:
+      // that is the slow-mount shape a second click fixes. `no-button` means
+      // the control is not on the page at all, and 1.5s does not conjure one —
+      // retrying it just re-runs the expensive whole-DOM fallback scan against
+      // a deadline the people phase already runs last against.
+      let opened = await openPostReactors(page, DIALOG_SEL);
+      if (opened === 'no-dialog') {
+        await closeDialog(page, DIALOG_SEL);
+        await sleep(800);
+        opened = await openPostReactors(page, DIALOG_SEL);
+        if (opened === 'open') vlog(`people: post ${t.data.id} — dialog opened on the retry`);
+      }
+      // A post nobody has reacted to carries no reaction control: reading
+      // "zero" off it is a complete answer, not a failure. The comment path
+      // has always drawn this line; the post path counted it as a broken
+      // target, and every fresh post is a target for its first 30 days.
+      if (opened === 'no-button' && known === 0 && latestReactions(t.data) === 0) {
+        scanned++;
+        vlog(`people: post ${t.data.id} — no reaction control and no reactions to read`);
+        continue;
+      }
+      if (opened !== 'open') {
+        // The overlay did not open. Recording the attempt is what brings the
+        // target back: a stored target is never revisited once its post stops
+        // being recent and its counts stop moving. A target never scanned
+        // before is deliberately NOT recorded — `neverScanned` already returns
+        // to it, and marking it scanned would make the next read look like a
+        // week of new reactions instead of the baseline it is.
+        dialogFailures++; failed++;
+        vlog(`people: post ${t.data.id} — ${opened}`);
+        if (prevScan) {
+          targetRecords.push({
+            target_id: tid, target_type: 'post',
+            target_urn: t.data.urn, target_url: t.data.post_url,
+            week: WEEK, reactor_count: known, short_read: true,
+          });
+        }
+        continue;
+      }
+      const { error, people: reactors, expected, stop, waitedMs } = await scrapeOpenReactorDialog(
+        page, 30, 500, DIALOG_SEL, { knownCount: known, patienceMs: patienceNow(), shouldStop: haltReason });
       await closeDialog(page, DIALOG_SEL);
-      if (error) { dialogFailures++; failed++; continue; }
+      if (error) {
+        dialogFailures++; failed++;
+        if (prevScan) {
+          targetRecords.push({
+            target_id: tid, target_type: 'post',
+            target_urn: t.data.urn, target_url: t.data.post_url,
+            week: WEEK, reactor_count: known, short_read: true,
+          });
+        }
+        continue;
+      }
       // A short read is data loss, so surface it instead of quietly storing
       // the first page of reactors.
       // Private profiles ("LinkedIn Member") render without a link and can
       // never be identified, so a small shortfall is normal; only a real gap
-      // counts as a short read.
-      if (expected && reactors.length < expected * 0.9) {
+      // counts as a short read. A read the loop had to abandon (never
+      // rendered, dialog closed, out of time) is short whatever the number,
+      // and one that read NOBODY on a never-scanned target is not recorded at
+      // all — see People.reactorReadVerdict.
+      const { short: shortRead, record } = People.reactorReadVerdict({
+        got: reactors.length, announced: expected, known, stop, scannedBefore: !!prevScan,
+      });
+      if (shortRead) {
         reactorsShort++;
-        log(`people: post ${t.data.id} — read only ${reactors.length} of ${expected} reactors`);
+        log(`people: post ${t.data.id} — read only ${reactors.length} of ${expected || known} reactors`
+          + ` (stopped: ${stop}, after ${(waitedMs / 1000).toFixed(1)}s)`);
       }
       if (expected) reactorsExpected += expected;
-      const isBaseline = !scannedTargets[People.targetIdForPost(t.data.urn)];
+      const isBaseline = !prevScan;
       const r = People.buildPostReactionEvents({
         post: t.data, reactors, attributedWeek, isBaseline,
       });
       peopleAll.push(...r.people);
       eventsAll.push(...r.events);
-      targetRecords.push({
-        target_id: People.targetIdForPost(t.data.urn), target_type: 'post',
-        target_urn: t.data.urn, target_url: t.data.post_url,
-        week: WEEK, reactor_count: reactors.length,
-      });
+      // Not recorded: `neverScanned` brings it back as the baseline it is.
+      if (record) {
+        targetRecords.push({
+          target_id: tid, target_type: 'post',
+          target_urn: t.data.urn, target_url: t.data.post_url,
+          week: WEEK,
+          // An incomplete read must never lower a good count: on 2026-09-21 a
+          // dialog that returned nothing wrote 14 -> 0 over one of maria's
+          // targets, and nothing would have gone back for it, because a stored
+          // target looks scanned. merge.py enforces the same rule; this keeps
+          // the two in step.
+          reactor_count: shortRead ? Math.max(reactors.length, known) : reactors.length,
+          short_read: shortRead,
+        });
+      }
       const rr = People.rosterUrls(reactors, { expected });
       rosterUnresolved += rr.unresolved;
-      rosterRow(rosterPosts, t.file).reactors = rr.urls;
+      // An incomplete read is NOT a measurement. `[]` here would be stored as
+      // "we looked and nobody reacted" — the roster's own contract, and what
+      // Postgres imports it as — and the union merge would keep that false
+      // negative for this week forever, because the complete read lands in the
+      // NEXT week's entry. `null` (unset) says "not measured", which is true.
+      if (!shortRead) rosterRow(rosterPosts, t.file).reactors = rr.urls;
       reactorsSeen += reactors.length;
       scanned++;
       vlog(`people: post ${t.data.id} (${t.reason}) — ${reactors.length} reactors${isBaseline ? ' [baseline]' : ''}`);
@@ -2134,14 +2147,10 @@ async function phasePeople(page) {
   let repliesUnmeasured = 0;
   let commentsDropped = 0;
   if (!stopped) {
-    let outbound = {};
-    try { outbound = readJson(COMMENTS_FILE).comments ?? {}; } catch { /* optional */ }
-    const sel = People.selectCommentTargets(outbound, {
-      maxComments: PEOPLE_MAX_COMMENTS, recentDays: PEOPLE_RECENT_DAYS,
-    });
-    commentsDropped = sel.dropped;
-    for (const { comment } of sel.selected) {
+    commentsDropped = commentSel.dropped;
+    for (const { comment } of commentSel.selected) {
       if (breakerTripped) { stopped = isDeadlineStop() ? 'deadline' : 'breaker'; break; }
+      targetsStarted++;
       try {
         await pacedGotoRetry(page, comment.permalink, null);
         await page.waitForSelector('article.comments-comment-entity', { timeout: 10000 }).catch(() => {});
@@ -2171,35 +2180,75 @@ async function phasePeople(page) {
           }
         }
 
+        // Same overlay, same failure modes, same rules as the post path above
+        // — a comment target can lose a count to an incomplete read exactly
+        // like a post can, and selectCommentTargets only ever looks 30 days
+        // back, so an unflagged one is gone for good after a month.
+        const ctid = People.targetIdForComment(comment.comment_urn);
+        const cPrev = scannedTargets[ctid];
+        const cKnown = Number(cPrev?.reactor_count ?? 0);
         const opened = await openCommentReactors(page, comment.comment_urn, DIALOG_SEL);
         if (opened === 'open') {
-          const { error, people: reactors, expected } = await scrapeOpenReactorDialog(page, 12, 300, DIALOG_SEL);
+          const { error, people: reactors, expected, stop, waitedMs } = await scrapeOpenReactorDialog(
+            page, 12, 300, DIALOG_SEL, { knownCount: cKnown, patienceMs: patienceNow(), shouldStop: haltReason });
           await closeDialog(page, DIALOG_SEL);
-          if (!error && expected) {
-            reactorsExpected += expected;
-            if (reactors.length < expected * 0.9) reactorsShort++;
-          }
+          if (!error && expected) reactorsExpected += expected;
           if (!error) {
-            const tid = People.targetIdForComment(comment.comment_urn);
-            const isBaseline = !scannedTargets[tid];
+            const { short: cShort, record } = People.reactorReadVerdict({
+              got: reactors.length, announced: expected, known: cKnown, stop, scannedBefore: !!cPrev,
+            });
+            if (cShort) {
+              reactorsShort++;
+              log(`people: comment ${comment.comment_urn} — read only ${reactors.length} of ${expected || cKnown} reactors`
+                + ` (stopped: ${stop}, after ${(waitedMs / 1000).toFixed(1)}s)`);
+            }
+            const isBaseline = !cPrev;
             const r = People.buildCommentReactionEvents({
               comment, reactors, attributedWeek, isBaseline,
             });
             peopleAll.push(...r.people);
             eventsAll.push(...r.events);
-            targetRecords.push({
-              target_id: tid, target_type: 'comment',
-              target_urn: comment.comment_urn, target_url: comment.permalink,
-              week: WEEK, reactor_count: reactors.length,
-            });
+            if (record) {
+              targetRecords.push({
+                target_id: ctid, target_type: 'comment',
+                target_urn: comment.comment_urn, target_url: comment.permalink,
+                week: WEEK,
+                reactor_count: cShort ? Math.max(reactors.length, cKnown) : reactors.length,
+                short_read: cShort,
+              });
+            }
             const rr = People.rosterUrls(reactors, { expected });
             rosterUnresolved += rr.unresolved;
-            rosterRow(rosterComments, comment.comment_urn).reactors = rr.urls;
+            if (!cShort) rosterRow(rosterComments, comment.comment_urn).reactors = rr.urls;
             reactorsSeen += reactors.length;
-          } else { dialogFailures++; }
+          } else {
+            dialogFailures++;
+            if (cPrev) {
+              targetRecords.push({
+                target_id: ctid, target_type: 'comment',
+                target_urn: comment.comment_urn, target_url: comment.permalink,
+                week: WEEK, reactor_count: cKnown, short_read: true,
+              });
+            }
+          }
         } else if (opened !== 'no-button') {
-          // no-button is normal: a comment with zero reactions has no count.
           dialogFailures++;
+          if (cPrev) {
+            targetRecords.push({
+              target_id: ctid, target_type: 'comment',
+              target_urn: comment.comment_urn, target_url: comment.permalink,
+              week: WEEK, reactor_count: cKnown, short_read: true,
+            });
+          }
+        } else if (cKnown > 0) {
+          // no-button is normal for a comment nobody reacted to — but not for
+          // one that HAD reactors: then the control is missing, not absent.
+          reactorsShort++;
+          targetRecords.push({
+            target_id: ctid, target_type: 'comment',
+            target_urn: comment.comment_urn, target_url: comment.permalink,
+            week: WEEK, reactor_count: cKnown, short_read: true,
+          });
         }
         commentTargetsScanned++;
       } catch (err) {
@@ -2305,14 +2354,13 @@ async function phasePeople(page) {
 
   const rosterMissing = Number(rosterVal('MISSING'));
   const attempted = postTargets.length;
-  let status = 'OK';
-  if (stopped) status = stopped.toUpperCase();
-  // The dialog TOLD us how many reactors there were and we read none: that is
-  // drift, not a quiet week, so it escalates without waiting for a session.
-  else if (attempted > 0 && scanned === 0 && dialogFailures >= attempted) status = 'SELECTOR_DRIFT';
-  else if (scanned > 0 && reactorsSeen === 0 && reactorsExpected > 0) status = 'SELECTOR_DRIFT';
-  else if (failed > 0 || postsDropped > 0 || commentsDropped > 0 || reactorsShort > 0
-    || rosterMissing > 0) status = 'PARTIAL';
+  // The publish-or-review verdict lives in people.mjs as a pure function, so
+  // the line between "a few reaction lists came back short" and "the overlay
+  // is gone" can be tested without a browser.
+  const status = People.reactorPhaseStatus({
+    stopped, attempted, scanned, dialogFailures, reactorsSeen, reactorsExpected,
+    reactorsShort, failed, postsDropped, commentsDropped, rosterMissing,
+  });
 
   return {
     PEOPLE_STATUS: status,
@@ -2511,7 +2559,7 @@ if (BLOCK_ASSETS) {
 
 // Severity flags — the exit code is resolved from ALL of them at the end so
 // a later, more severe failure can't be masked by an earlier partial one.
-const sev = { auth: false, compat: false, rate: false, fs: false, unknown: false, partial: false };
+const sev = { auth: false, compat: false, rate: false, fs: false, unknown: false, partial: false, advisory: false };
 function resolveExit() {
   if (sev.auth) return 20;
   if (sev.compat) return 30;
@@ -2519,6 +2567,9 @@ function resolveExit() {
   if (sev.fs) return 23;
   if (sev.unknown) return 1;
   if (sev.partial) return 10;
+  // Below every real failure: the week is publishable, and the caller is told
+  // only so the shortfall gets a line in the Monday report.
+  if (sev.advisory) return 11;
   return 0;
 }
 const isDeadline = () => /deadline/.test(breakerTripped ?? '');
@@ -2633,7 +2684,15 @@ try {
       const r = await phasePeople(page);
       contractSections.set('people', r);
       manifestPhase('people', started, r);
-      if (r.PEOPLE_STATUS !== 'OK') sev.partial = true;
+      // REACTORS_SHORT is the one status that does not demote the run: only
+      // reaction lists came back short, every other phase is complete, and
+      // each short target is flagged so the next run returns to it. Demoting
+      // for it sent 2026-09-21 to manual review holding three perfect account
+      // snapshots — the one thing here that can never be backfilled — which
+      // is exactly what the phase header says must not happen. Everything
+      // else, PARTIAL included, still goes to review as before.
+      if (r.PEOPLE_STATUS === 'REACTORS_SHORT') sev.advisory = true;
+      else if (r.PEOPLE_STATUS !== 'OK') sev.partial = true;
     } catch (e) {
       // Deliberately not fail(): no ERROR= line, no severity escalation
       // beyond partial. A brand-new phase must not be able to demote a run

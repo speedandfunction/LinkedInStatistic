@@ -226,6 +226,79 @@
       "commenters": [
         "https://www.linkedin.com/in/vitaly-gapontsev"
       ]
+    },
+    "2026-09-21": {
+      "snapshot_at": "2026-09-21T03:25:48Z",
+      "metrics": {
+        "impressions": 6738,
+        "members_reached": 4971,
+        "reactions": 5,
+        "comments": 1,
+        "reposts": 0,
+        "saves": 2,
+        "sends": 0,
+        "profile_viewers": 8,
+        "followers_gained": 0,
+        "engagement_rate": 0.09
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 34.2,
+          "Entry": 26.7,
+          "Director": 7.5,
+          "Manager": 5.7,
+          "CXO": 4.3
+        },
+        "job_title": {
+          "Software Engineer": 15.3,
+          "Product Manager": 2.1,
+          "Project Manager": 2,
+          "Founder": 2,
+          "Chief Technology Officer": 1.5
+        },
+        "industry": {
+          "IT Services and IT Consulting": 31.7,
+          "Software Development": 28.2,
+          "Technology, Information and Internet": 6.3,
+          "Financial Services": 3.7,
+          "Computer Games": 1.6
+        },
+        "company_size": {
+          "10,001+ employees": 14.9,
+          "51-200 employees": 14.2,
+          "1001-5000 employees": 12,
+          "11-50 employees": 10.8,
+          "201-500 employees": 8.4
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 4.6,
+          "Sofia Metropolitan Area": 2.1,
+          "Lviv": 1.8,
+          "Berlin Metropolitan Area": 1.6,
+          "London Area, United Kingdom": 1.6
+        },
+        "company": {
+          "EPAM Systems": 0,
+          "Speed and Function": 0,
+          "SoftServe": 0,
+          "IBM": 0,
+          "SAP": 0
+        }
+      },
+      "comments": [
+        {
+          "author_name": "Vitaly Gapontsev",
+          "author_url": "https://www.linkedin.com/in/vitaly-gapontsev",
+          "author_headline": "Front-End / Fullstack (React + Node.js)",
+          "comment_urn": "urn:li:comment:(activity:7444715876454641664,7444797550865469440)",
+          "text": "",
+          "reactions": 1,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/vitaly-gapontsev"
+      ]
     }
   }
 }

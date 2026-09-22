@@ -285,6 +285,15 @@ jobs:
             case "${rc}" in
               0)
                 echo "${author}: clean (exit 0)" ;;
+              11)
+                # Advisory: every phase that decides the week is complete, only
+                # a reactor overlay came back short. It does NOT demote the run
+                # — a week with three perfect account snapshots must publish,
+                # and those snapshots cannot be backfilled, while the unread
+                # reactors are flagged `short_read` and re-read next run. The
+                # note is here so the Monday report still says it out loud.
+                echo "::notice::${author}: reaction lists incomplete (exit 11) — the week is fine and publishes; the affected posts are re-read next run"
+                notes="${notes} ${author}:reactors-short" ;;
               10)
                 # Partial: snapshots are still written and worth keeping, but
                 # the run is not "boring green" so it must not auto-merge.
@@ -325,10 +334,13 @@ jobs:
             # green Monday with a permanently missing week. run-weekly.sh has
             # always scoped a "did the scrape write anything" check to
             # dashboards/li-stats/<author>/; this restores it.
-            # Only checked for the codes that CLAIM success (0/10) — a failed
-            # author is already demoted and does not need a second note.
+            # Only checked for the codes that CLAIM success (0/10/11) — a
+            # failed author is already demoted and does not need a second note.
+            # 11 belongs here MOST of all: it is the one success code that
+            # still auto-merges, so an empty week hiding behind it would be
+            # published unseen.
             case "${rc}" in
-              0|10)
+              0|10|11)
                 if [ -z "$(git status --porcelain -- "dashboards/li-stats/${author}")" ]; then
                   echo "::error::${author}: exit ${rc} but NOTHING was written to dashboards/li-stats/${author} — treating as a failed week"
                   clean=0; notes="${notes} ${author}:nodata"
