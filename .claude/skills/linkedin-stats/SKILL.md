@@ -21,6 +21,9 @@ Nothing about a specific account is hardcoded. Identity lives in
 - `company_id` — numeric LinkedIn Page id (page phase).
 - `posts_cutoff` — how far back discovery reaches on a first, empty run.
 
+Running the weekly scrape on our own server instead of GitHub Actions (for the
+sysadmin, with `ops/weekly.sh`): `SERVER-HANDOVER.md`.
+
 Moving the operator side to another machine (what to copy, what to re-issue,
 and a read-only checklist to prove it works): `MOVING-MACHINES.md`.
 
