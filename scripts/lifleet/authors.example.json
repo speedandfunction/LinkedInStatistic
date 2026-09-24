@@ -1,0 +1,14 @@
+{
+  "authors": {
+    "peter": {
+      "name": "Peter Example",
+      "context_id": "00000000-0000-0000-0000-000000000000",
+      "country": "UA",
+      "region": "eu-central-1",
+      "status": "ok",
+      "identity": "peter@example.invalid",
+      "last_ok": "2026-09-22T07:12:00Z",
+      "last_check": "2026-09-22T07:12:00Z"
+    }
+  }
+}

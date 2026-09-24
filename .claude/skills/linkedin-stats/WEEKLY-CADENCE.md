@@ -608,6 +608,8 @@ restore point *now* (before a schema change, after a repair).
    under `$RUNNER_TEMP/li-backup` (mode 0700) between dump and push and is removed
    by an `if: always()` step, as is the deploy key.
 
+Setting the operator side up on a NEW machine: `MOVING-MACHINES.md` next to this file.
+
 ### Operator setup — three secrets
 
 No owner credential goes into CI. Until `LI_SYNC_DATABASE_URL` exists, every

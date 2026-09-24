@@ -21,6 +21,9 @@ Nothing about a specific account is hardcoded. Identity lives in
 - `company_id` — numeric LinkedIn Page id (page phase).
 - `posts_cutoff` — how far back discovery reaches on a first, empty run.
 
+Moving the operator side to another machine (what to copy, what to re-issue,
+and a read-only checklist to prove it works): `MOVING-MACHINES.md`.
+
 Environment (see `.env.example`): `GRAFANA_URL` and
 `GRAFANA_SERVICE_ACCOUNT_TOKEN` are required by the dashboard push scripts;
 `GRAFANA_FOLDER_UID` is the folder a NEW dashboard is created in (ours all live
