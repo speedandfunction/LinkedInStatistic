@@ -5,6 +5,20 @@ Source of truth: **"S&F ICP — Enterprise Department (2026)", v1.4, 23 Sep 2026
 that can be judged from what LinkedIn actually shows us about a person, and it
 is read verbatim by `fast/classify-icp.mjs` as the rubric.
 
+**This replaces the geography-only rubric that stood here until 2026-09-28**
+(added in PR #14), which answered one question — "is this person in the US?" —
+and made every non-US person, including a perfect CTO, ICP = false. The ED sheet
+prices geography at 4 of 100 points, so geography can no longer be the whole
+answer; it is kept below as a hard exclusion for the two markets the sheet and
+the old rubric both call off-target, and as a signal otherwise. Nothing is lost:
+no verdict had ever been computed under the old rubric (the classifier's
+`claude -p` call has been failing all along), and a rubric change invalidates
+cached verdicts by design.
+
+The four geography buckets stay exactly as they were for the dashboard's own geo
+section and for `fast/page/geo_classify.py` — US / TEAM (Ukraine, our own team) /
+ANTI (India, China) / OTHER. This file only stops them from BEING the ICP tier.
+
 ## What you are judging, and with what
 
 You see one person: a name, one headline line, and sometimes scraped profile
@@ -60,6 +74,15 @@ platform"). Otherwise FALSE.
   dating, payday lending, weapons, crypto trading and token projects.
 - **A headline that is empty, a slogan, a list of hashtags, or only a company
   name** — there is nothing to judge. FALSE, not a guess.
+- **A location that is plainly off-market:** India or China (the sheet and the
+  geo classifier both call these explicitly off-target), or Ukraine, which is
+  our own team and network rather than a customer signal. Location beats title
+  for these two cases only.
+
+Geography otherwise: S&F sells to the **US** market, so a US location supports a
+TRUE and a non-US one weakens it — but it does not decide. A missing location
+does not make a matching persona FALSE. (LinkedIn convention: a US metro carries
+no country suffix — "Greater Boston" is the US, "Berlin, Germany" is not.)
 
 ## Supporting evidence, never the decider
 
