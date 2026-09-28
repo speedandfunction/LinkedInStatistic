@@ -433,6 +433,13 @@ async function main() {
   }
 
   const pending = candidates.length;
+  // Judgeable people first. 110 of our 431 have no headline at all — LinkedIn
+  // shows nothing but a name — and the rubric's own answer for those is FALSE,
+  // so a call spent on one is a call wasted. Key order put them at the front
+  // (their slugs are the opaque `acoaaa…` form), which meant a capped run could
+  // spend its whole budget learning nothing. Longer headline first: that is
+  // where a verdict is both possible and reliable.
+  candidates.sort((a, b) => (b.headline || '').trim().length - (a.headline || '').trim().length);
   if (Number.isFinite(LIMIT)) candidates = candidates.slice(0, LIMIT);
   log(`${pending} people need classification; classifying ${candidates.length}`);
   if (!candidates.length) {
