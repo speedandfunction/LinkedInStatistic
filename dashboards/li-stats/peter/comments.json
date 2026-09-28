@@ -18,6 +18,12 @@
           "reactions": 1,
           "replies_count": 0,
           "impressions": 56
+        },
+        "2026-09-28": {
+          "snapshot_at": "2026-09-28T03:42:48Z",
+          "reactions": 1,
+          "replies_count": 0,
+          "impressions": 60
         }
       }
     },
@@ -45,6 +51,12 @@
           "reactions": 2,
           "replies_count": 1,
           "impressions": 219
+        },
+        "2026-09-28": {
+          "snapshot_at": "2026-09-28T03:42:48Z",
+          "reactions": 2,
+          "replies_count": 1,
+          "impressions": 234
         }
       }
     },
@@ -69,6 +81,12 @@
         },
         "2026-09-21": {
           "snapshot_at": "2026-09-21T03:22:45Z",
+          "reactions": 1,
+          "replies_count": 0,
+          "impressions": 44
+        },
+        "2026-09-28": {
+          "snapshot_at": "2026-09-28T03:42:48Z",
           "reactions": 1,
           "replies_count": 0,
           "impressions": 44

@@ -1,0 +1,66 @@
+{
+  "urn": "urn:li:activity:7508908378186747904",
+  "id": "7508908378186747904",
+  "type": "post",
+  "posted_at": "2026-09-24T15:21:06Z",
+  "posted_date": "2026-09-24",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7508908378186747904/",
+  "preview": "\"𝘞𝘩𝘺 𝘪𝘴 𝘦𝘷𝘦𝘳𝘺𝘵𝘩𝘪𝘯𝘨 𝘴𝘰 𝘴𝘭𝘰𝘸? 𝘠𝘰𝘶 𝘩𝘢𝘷𝘦 𝘈𝘐 𝘯𝘰𝘸, 𝘭𝘦𝘵'𝘴 𝘮𝘰𝘷𝘦 𝘧𝘢𝘴𝘵𝘦𝘳.\" I'm hearing this more and more from Speed & Function clients lately, and honestly it's becoming its own genre of conversation. In their",
+  "text": null,
+  "weeks": {
+    "2026-09-28": {
+      "snapshot_at": "2026-09-28T03:52:27Z",
+      "metrics": {
+        "impressions": 194,
+        "members_reached": 129,
+        "reactions": 5,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 1,
+        "followers_gained": 0,
+        "engagement_rate": 2.58
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 27.9,
+          "Entry": 24.8,
+          "CXO": 11.6,
+          "Director": 8.5,
+          "Manager": 6.2
+        },
+        "job_title": {
+          "Software Engineer": 14,
+          "Founder": 5.4
+        },
+        "industry": {
+          "IT Services and IT Consulting": 32.6,
+          "Software Development": 27.1,
+          "Technology, Information and Internet": 10.9
+        },
+        "company_size": {
+          "51-200 employees": 26.4,
+          "11-50 employees": 14.7,
+          "1-10 employees": 14,
+          "1001-5000 employees": 9.3,
+          "201-500 employees": 5.4
+        },
+        "location": {
+          "Lviv": 4.7
+        },
+        "company": {
+          "Speed and Function": 8.5
+        }
+      },
+      "comments": [],
+      "reactors": [
+        "https://www.linkedin.com/in/anastasiiast",
+        "https://www.linkedin.com/in/anatoly-chelyshev",
+        "https://www.linkedin.com/in/johnpetrone",
+        "https://www.linkedin.com/in/oleksandr-mazur-005441174",
+        "https://www.linkedin.com/in/vadim-kovalenko-frontdev"
+      ]
+    }
+  }
+}

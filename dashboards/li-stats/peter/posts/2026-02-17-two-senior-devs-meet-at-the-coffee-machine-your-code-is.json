@@ -1815,6 +1815,128 @@
         "https://www.linkedin.com/in/yitzhak-kornbluth-02a187125",
         "https://www.linkedin.com/in/yurii-kinakh"
       ]
+    },
+    "2026-09-28": {
+      "snapshot_at": "2026-09-28T03:43:02Z",
+      "metrics": {
+        "impressions": 39237,
+        "members_reached": 24825,
+        "reactions": 70,
+        "comments": 90,
+        "reposts": 2,
+        "saves": 3,
+        "sends": 0,
+        "profile_viewers": 43,
+        "followers_gained": 5,
+        "engagement_rate": 0.41
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 35.1,
+          "Entry": 32.1,
+          "Owner": 3.8,
+          "Manager": 3.5,
+          "Director": 3.5
+        },
+        "job_title": {
+          "Software Engineer": 25.1,
+          "Full Stack Engineer": 3.2,
+          "Frontend Developer": 2.2,
+          "Founder": 2.1,
+          "Co-Founder": 1.5
+        },
+        "industry": {
+          "Software Development": 36.2,
+          "IT Services and IT Consulting": 27.7,
+          "Technology, Information and Internet": 6.8,
+          "Financial Services": 2.5,
+          "Computer Games": 1.3
+        },
+        "company_size": {
+          "10,001+ employees": 13.5,
+          "51-200 employees": 13.5,
+          "11-50 employees": 12.5,
+          "1001-5000 employees": 10.4,
+          "1-10 employees": 8.3
+        },
+        "location": {
+          "Zagreb Metropolitan Area": 3.4,
+          "London Area, United Kingdom": 2,
+          "Kyiv Metropolitan Area": 2,
+          "Prague Metropolitan Area": 2,
+          "Belgrade Metropolitan Area": 1.9
+        },
+        "company": {
+          "EPAM Systems": 0,
+          "Microsoft": 0,
+          "SoftServe": 0,
+          "Google": 0,
+          "Oracle": 0
+        }
+      },
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/vitaly-gapontsev",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7429507665682391040,7430565460774948865)",
+          "text": "Vitaly Gapontsev, Open to work  1st\nVitaly Gapontsev • 1st\nFront-End / Fullstack (React + Node.js)\nFigures why I'm no senior yet.\n1 reaction\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/oleksandr-koreniak-2a198319",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7429507665682391040,7430198858409734144)",
+          "text": "Oleksandr Koreniak Premium Profile 1st\nOleksandr Koreniak\n• 1st\nSenior C++ developer\nAI-generated code is simply working code that works and is worth as much as the AI ​​model that generated it. It's simply another code producer in the code supply chain. An experienced engineer knows where and how to use it.\n0",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/darrinbaines",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7429507665682391040,7429953503034449920)",
+          "text": "Darrin Baines  2nd\nDarrin Baines • 2nd\nBritish Health Economist | Pharmacy practice | Health systems | Darrin Baines (0000-0001-9502-4678) - ORCID\nFollow\nWhy did i read all those books on clean coding, pragmatic coding, scrum, waterfall, blah blah blah?\n0\n2\n2",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/darrinbaines",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7429507665682391040,7430103496760287232)",
+          "text": "Darrin Baines  2nd\nDarrin Baines • 2nd\nBritish Health Economist | Pharmacy practice | Health systems | Darrin Baines (0000-0001-9502-4678) - ORCID\nFollow\nKevin Brown Thank you\n0",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/lenjaffe",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7429507665682391040,7429586001544785920)",
+          "text": "Len Jaffe Verified Profile 3rd+\nLen Jaffe\n• 3rd+\nNon-fungible, Pragmatic, Wizened - Cloud Whisperer / Perl Monger / IaC DevOps Platform Engineer at Labcorp\n(edited) 7mo\nFollow\nThe difference between developer's idea of \"can be changed in the future\"  and business' idea of it are that the developer values it more than the business values it. In fact, the business typically only values \"solves the problem now\". Maintainability is clawed back one enhancement crisis at a time.\nLook at how long it took the US auto industry to adopt quality as a real metric alongside quantity.  We bought Japanese cars despite heavy tariffs, because they'd last as long as three cars from the the US big three.\nAnd then, when we do need to add a feature, we get told off by the PM and the Product owner for needing to do the refactoring that should have happened previously. Because refactoring isn't adding a new feature, and they have convenient amnesia regarding \"We'll fix that later when we need to. Right now, we need to ship.\"\n1 reaction\n1\n3\n3",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/ovchyn",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7429507665682391040,7429621231441637376)",
+          "text": "Peter Ovchynnikov\nAuthor\nCo-CEO @ Speed & Function ▪️ Building TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018\nLen Jaffe good catch.\n1 reaction\n1\n174 impressions\n174",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/darrinbaines",
+        "https://www.linkedin.com/in/lenjaffe",
+        "https://www.linkedin.com/in/oleksandr-koreniak-2a198319",
+        "https://www.linkedin.com/in/ovchyn",
+        "https://www.linkedin.com/in/vitaly-gapontsev"
+      ]
     }
   }
 }

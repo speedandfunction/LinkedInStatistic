@@ -228,6 +228,53 @@
         "https://www.linkedin.com/in/ACoAACm2JOMBYg0qqhkcZlAbS9WhVHU-XJ5xGcA",
         "https://www.linkedin.com/in/ACoAACmtHz8BKXHCwvuiyAilrbNcIyQFCxIaMhI"
       ]
+    },
+    "2026-09-28": {
+      "snapshot_at": "2026-09-28T03:52:07Z",
+      "metrics": {
+        "impressions": 340,
+        "members_reached": 155,
+        "reactions": 7,
+        "comments": 0,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 2,
+        "followers_gained": 0,
+        "engagement_rate": 2.06
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 32.3,
+          "Entry": 31,
+          "CXO": 8.4,
+          "Manager": 6.5
+        },
+        "job_title": {
+          "Software Engineer": 16.1
+        },
+        "industry": {
+          "IT Services and IT Consulting": 33.5,
+          "Software Development": 18.7,
+          "Technology, Information and Internet": 5.8
+        },
+        "company_size": {
+          "51-200 employees": 27.1,
+          "10,001+ employees": 13.5,
+          "1001-5000 employees": 10.3,
+          "11-50 employees": 8.4,
+          "1-10 employees": 6.5
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 9.7,
+          "Lviv": 9
+        },
+        "company": {
+          "Speed and Function": 12.9,
+          "Modern Expo": 3.9
+        }
+      },
+      "comments": []
     }
   }
 }

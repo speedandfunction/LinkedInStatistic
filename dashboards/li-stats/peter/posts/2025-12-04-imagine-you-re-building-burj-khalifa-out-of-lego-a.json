@@ -339,6 +339,108 @@
         "https://www.linkedin.com/in/mohammad-mahdi-khadem-al-charieh-bb80aa227",
         "https://www.linkedin.com/in/vitaliihoncharenko"
       ]
+    },
+    "2026-09-28": {
+      "snapshot_at": "2026-09-28T03:44:12Z",
+      "metrics": {
+        "impressions": 21384,
+        "members_reached": 16473,
+        "reactions": 23,
+        "comments": 5,
+        "reposts": 1,
+        "saves": 4,
+        "sends": 0,
+        "profile_viewers": 12,
+        "followers_gained": 2,
+        "engagement_rate": 0.14
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 39.5,
+          "Senior": 32.1,
+          "Manager": 4.6,
+          "Director": 4.2,
+          "CXO": 2.6
+        },
+        "job_title": {
+          "Software Engineer": 25.8,
+          "Full Stack Engineer": 3.1,
+          "Frontend Developer": 2.6,
+          "Project Manager": 1.6,
+          "Quality Assurance Engineer": 1.4
+        },
+        "industry": {
+          "Software Development": 36.3,
+          "IT Services and IT Consulting": 28.2,
+          "Technology, Information and Internet": 6.1,
+          "Computer Games": 3.9,
+          "Financial Services": 2
+        },
+        "company_size": {
+          "51-200 employees": 15.3,
+          "10,001+ employees": 13.8,
+          "11-50 employees": 13.7,
+          "1001-5000 employees": 12.4,
+          "201-500 employees": 9.4
+        },
+        "location": {
+          "Belgrade Metropolitan Area": 3.2,
+          "Kyiv Metropolitan Area": 2.7,
+          "Zagreb Metropolitan Area": 1.9,
+          "Warsaw Metropolitan Area": 1.6,
+          "Novi Sad Metropolitan Area": 1.5
+        },
+        "company": {
+          "EPAM Systems": 0,
+          "Microsoft": 0,
+          "SoftServe": 0,
+          "GlobalLogic": 0,
+          "Accenture": 0
+        }
+      },
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/vitaliihoncharenko",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7402388577843605504,7403441819377766400)",
+          "text": "Vitalii Honcharenko Premium Profile 2nd\nVitalii Honcharenko\n• 2nd\nSoftware Development Services at Yael Acceptic | AI/LLMs/ML/NLP, Web & Mobile, IoT, E-commerce/learning, Fin/Insur/PropTech, Logistics\nFollow\nThis is such a clear way to see the shift. AI turns code from a bottleneck into a canvas. The skill is no longer just building, it’s knowing what to build and when to pivot.\n1 reaction\n1\n2\n2",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/vitaliihoncharenko",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7402388577843605504,7405212464478498816)",
+          "text": "Vitalii Honcharenko Premium Profile 2nd\nVitalii Honcharenko\n• 2nd\nSoftware Development Services at Yael Acceptic | AI/LLMs/ML/NLP, Web & Mobile, IoT, E-commerce/learning, Fin/Insur/PropTech, Logistics\nFollow\nPeter Ovchynnikov thanks, true\n0",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/mohammad-mahdi-khadem-al-charieh-bb80aa227",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7402388577843605504,7404938634283491330)",
+          "text": "Mohammad-Mahdi Khadem-Al-Charieh Verified Profile 3rd+\nMohammad-Mahdi Khadem-Al-Charieh\n• 3rd+\nM. Sc. Informatics: Games Engineering\nFollow\nThe biggest challenge of building large projects is figuring out what the customer actually needs, formalizing that in precise language and properly communicating it.\nThat is what the picture is trying to convey.\nAnd that is exactly the opposite of what AI is good at.\nAI will make these issues worse, ship more of what people ask for and less of what they actually need.\nI guess you could say AI does at least help you fail faster and find issues in the requirements earlier.\n1 reaction\n1\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/ovchyn",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7402388577843605504,7405196742838808576)",
+          "text": "Peter Ovchynnikov\nAuthor\nCo-CEO @ Speed & Function ▪️ Building TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018\nYou're touching something real: AI is great at executing what you describe, terrible at questioning whether you described useful thing.\nAI isn't designed to define what to deliver. That's on us.\nWhat if we close that loop? People Ask → AI Ships → measure actual usage, maybe surveys too (though people tend to lie in those 😅) → AI suggests adjustments based on real data.\nMake the \"fail faster\" part of the system, not just a side effect. The cycle becomes: ship → observe → rewrite requirements → regenerate.\nStill not perfect and not ready now. But when iteration is cheap, you can afford to be wrong faster — and fix it faster too.\n0\n65 impressions\n65",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/mohammad-mahdi-khadem-al-charieh-bb80aa227",
+        "https://www.linkedin.com/in/ovchyn",
+        "https://www.linkedin.com/in/vitaliihoncharenko"
+      ]
     }
   }
 }
