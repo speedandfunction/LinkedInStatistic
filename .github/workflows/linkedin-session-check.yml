@@ -811,6 +811,9 @@ jobs:
     if: github.event_name == 'schedule' || !inputs.dry_run
     continue-on-error: true
     runs-on: ubuntu-latest
+    outputs:
+      # Порожньо = джоб не дійшов до кінця. Це НЕ «ок», і notify-db це каже.
+      touch: ${{ steps.touch.outputs.touch }}
     # Caps inside: npm 5 min + ping 2 min; the uses: steps carry their own.
     timeout-minutes: 25
     permissions:
@@ -827,6 +830,7 @@ jobs:
         with:
           node-version: 22
       - name: Touch the database (one read, nothing written)
+        id: touch
         timeout-minutes: 10
         env:
           # Through env only - never argv, never an expression inside run:.
@@ -834,8 +838,50 @@ jobs:
         run: |
           set +e; set -uo pipefail
           if [ ! -f .github/scripts/db-ci.mjs ]; then
-            echo "::warning::database keep-alive did not run - .github/scripts/db-ci.mjs is not in the checkout. Nothing else is affected."
+            echo "::warning::database keep-alive did not run - .github/scripts/db-ci.mjs is not in the checkout. The session check above is unaffected, but nothing is watching the database: the Grafana dashboards read it, and a paused project shows them an error."
             exit 0
           fi
-          node .github/scripts/db-ci.mjs touch || echo "::warning::database keep-alive: db-ci.mjs could not be run to completion. Nothing else is affected."
+          node .github/scripts/db-ci.mjs touch || echo "::warning::database keep-alive: db-ci.mjs could not be run to completion. Its result is therefore unknown - see the notify-db job."
+          exit 0
+
+  # THE DATABASE ALERT. Until 2026-09-29 the job above could not fail: its step
+  # ends in `exit 0`, so a database that did not answer left a green tick and a
+  # warning nobody reads. That is exactly how the 29 September outage was found -
+  # by hand, a day later, while doing something else. This job turns the result
+  # into the one thing that reaches a human: a Slack line with a ping, and only
+  # when there is something to do. Silence means the database answered.
+  notify-db:
+    needs: [db-keepalive]
+    if: always() && needs.db-keepalive.result != 'skipped'
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+        continue-on-error: true
+        timeout-minutes: 5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        continue-on-error: true
+        timeout-minutes: 5
+        with:
+          node-version: 22
+      - name: Post the database state to Slack (only when it needs a human)
+        timeout-minutes: 5
+        env:
+          # Through env only - never argv, never an expression inside run:.
+          DB_TOUCH: ${{ needs.db-keepalive.outputs.touch }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL_ID: ${{ vars.SLACK_CHANNEL_ID }}
+          SLACK_PEOPLE_JSON: ${{ secrets.SLACK_PEOPLE_JSON }}
+        run: |
+          set +e; set -uo pipefail
+          if [ ! -f .github/scripts/notify-db-touch.mjs ]; then
+            echo "::error::.github/scripts/notify-db-touch.mjs is not in the checkout - the database state was NOT posted (touch=${DB_TOUCH})"
+            exit 0
+          fi
+          node .github/scripts/notify-db-touch.mjs
           exit 0
