@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
-# Резервна копія схем li і dash — одним SQL-файлом.
+# Резервна копія схем li, dash і enrich — одним SQL-файлом.
 #
 #   LI_BACKUP_DSN=<dsn ролі li_backup> db/backup.sh <out.sql>
+#
+# ТРИ схеми, і третя — не для повноти. li і dash — похідна копія JSON із git: їх
+# можна зібрати наново (apply-schema + import). enrich — те, що показала сторінка
+# людини, коли її відкрили, — JSON-джерела НЕ має: база є єдиною копією, а цей
+# дамп — єдиною резервною. Дамп без enrich тут копією не вважається (код 5).
 #
 # DSN береться ТІЛЬКИ з env: в argv його видно в `ps` і в лозі. Сам файл дампа —
 # це весь корпус (імена, хедлайни, тексти коментарів): його місце — приватний
@@ -16,7 +21,7 @@
 #   2  неправильний виклик / немає LI_BACKUP_DSN / немає psql, pg_dump чи node
 #   3  pg_dump МОЛОДШИЙ за сервер (клієнт 16 проти сервера 17) — відмова з поясненням
 #   4  pg_dump або psql упав (база лежить, спить, неправильний пароль, TLS)
-#   5  дамп порожній або не збігається з базою — це НЕ резервна копія
+#   5  дамп порожній, без схеми enrich або не збігається з базою — це НЕ резервна копія
 #
 # Кількість рядків рахується З САМОГО ФАЙЛА (рядки між `COPY … FROM stdin;` і
 # `\.`), а не запитом до бази: твердження «у копії N рядків» має бути про копію.
@@ -59,7 +64,7 @@ umask 077
 TMP="${OUT}.partial.$$"
 COUNTS="$(mktemp)"; SRC="$(mktemp)"
 trap 'rm -f "$TMP" "$COUNTS" "$SRC"' EXIT
-if ! pg pg_dump --schema=li --schema=dash --no-owner --no-privileges --format=plain > "$TMP"; then
+if ! pg pg_dump --schema=li --schema=dash --schema=enrich --no-owner --no-privileges --format=plain > "$TMP"; then
   echo "backup: pg_dump failed (see the redacted message above)" >&2; exit 4
 fi
 grep -q '^-- PostgreSQL database dump complete' "$TMP" || {
@@ -75,7 +80,7 @@ awk '
 
 pg psql -X -At -F $'\t' -v ON_ERROR_STOP=1 > "$SRC" <<'SQL' || { echo "backup: could not count the source tables" >&2; exit 4; }
 select format('select %L, count(*) from %I.%I', schemaname || '.' || tablename, schemaname, tablename)
-  from pg_tables where schemaname in ('li','dash') order by 1
+  from pg_tables where schemaname in ('li','dash','enrich') order by 1
 \gexec
 SQL
 LC_ALL=C sort -o "$SRC" "$SRC"
@@ -93,7 +98,10 @@ done < "$SRC"
 
 views="$(grep -c '^CREATE VIEW dash\.' "$TMP" || true)"
 funcs="$(grep -c '^CREATE FUNCTION li\.' "$TMP" || true)"
+enrich_tables="$(awk -F'\t' '$1 ~ /^enrich\./ { n++ } END { print n + 0 }' "$COUNTS")"
+enrich_rows="$(awk -F'\t' '$1 ~ /^enrich\./ { n += $2 } END { print n + 0 }' "$COUNTS")"
 echo "backup: ${tables} tables, ${total} rows, ${views} dash views, ${funcs} li functions"
+echo "backup: of them ${enrich_tables} tables and ${enrich_rows} rows in enrich (no JSON source: this dump is its only backup)"
 
 # Тихий нуль — фірмова поломка цього репозиторію. Дамп бази, яку щойно скинули
 # або яка прокинулась порожньою, технічно «успішний»; резервною копією він не є.
@@ -102,6 +110,17 @@ if (( total == 0 )) || [[ -z "$snapshots" || "$snapshots" == 0 ]]; then
   echo "backup: the dump holds no account snapshots (li.account_week = ${snapshots:-absent}) — refusing to call this a backup" >&2
   exit 5
 fi
+# enrich у дампі МУСИТЬ бути — саме таблицями, а не лише рядком CREATE SCHEMA.
+# pg_dump мовчки пропускає --schema, якому нічого не відповідає, коли відповідає
+# хоч одному з решти; порівняння з джерелом цього теж не зловить (у джерелі їх так
+# само нема). Нуль рядків — не відмова: до першого прогону збагачення так і є.
+for t in enrich.profile enrich.visit; do
+  if ! awk -F'\t' -v t="$t" '$1 == t { found = 1 } END { exit !found }' "$COUNTS"; then
+    echo "backup: the dump holds no ${t} — schema enrich is missing from the source or was not dumped; refusing to call this a backup" >&2
+    echo "backup: apply it first (node db/apply-schema.mjs --enrich-only), then re-run" >&2
+    exit 5
+  fi
+done
 if (( mismatch > 0 )); then
   echo "backup: ${mismatch} table(s) differ between the dump and the source — a concurrent write, or a broken dump" >&2
   exit 5

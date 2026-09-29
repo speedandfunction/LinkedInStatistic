@@ -15,6 +15,7 @@
     "test:icp": "node fixture-icp.mjs",
     "test:roles": "node test-roles.mjs",
     "test:panels": "node test-verify-panels.mjs",
+    "test:enrich": "node test-enrich-views.mjs",
     "backup": "./backup.sh",
     "restore-drill": "./restore-drill.sh"
   },

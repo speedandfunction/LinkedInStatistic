@@ -11,6 +11,7 @@
 
 import assert from 'node:assert/strict';
 import { parseProfile, parseHead, parseExperience, normalizeLines, geoBucket } from './profile-parse.mjs';
+import { planRebucket, summarize } from './enrich-rebucket.mjs';
 
 let passed = 0;
 const test = (name, fn) => {
@@ -70,6 +71,16 @@ test('лічильник звʼязків не плутається з лока�
   assert.equal(parseHead(lines).location, 'Kyiv, Ukraine');
 });
 
+test('рядок роботодавця перед локацією не стає локацією', () => {
+  const lines = normalizeLines(dup('Test Person', '', 'A headline long enough to be one', '',
+    'Invented Foundation', '', 'Lisbon, Portugal', '', 'Contact info', '', '500+ connections'));
+  assert.equal(parseHead(lines).location, 'Lisbon, Portugal');
+  // А коли країни не видно ніде — лишається перший короткий рядок, і кошик «не знаємо».
+  const vague = normalizeLines(dup('Test Person', '', 'A headline long enough to be one', '', 'Arts and Culture'));
+  assert.equal(parseHead(vague).location, 'Arts and Culture');
+  assert.equal(geoBucket(parseHead(vague).location), null);
+});
+
 test('досвід: три місця, посада й компанія не переплутані', () => {
   const work = parseExperience(normalizeLines(FULL), ['Invented Foundation', 'Imaginary Health Co', 'Nowhere Systems']);
   assert.equal(work.length, 3);
@@ -97,14 +108,33 @@ test('тип зайнятості не стає компанією', () => {
   assert.equal(w[0].company, '', 'краще порожнє поле, ніж «Full-time» як роботодавець');
 });
 
-test('географія: дзеркало geo_classify.py — метро без країни це США', () => {
-  assert.equal(geoBucket('Greater Boston'), 'US');
+test('географія: країну називає рядок, штат або відоме місто — решта «не знаємо»', () => {
+  // США: явна країна, штат, код штату, відоме метро без країни
   assert.equal(geoBucket('Boston, Massachusetts, United States'), 'US');
+  assert.equal(geoBucket('Austin, TX'), 'US');
+  assert.equal(geoBucket('Denver, Colorado'), 'US');
+  assert.equal(geoBucket('Greater Boston'), 'US');
+  assert.equal(geoBucket('San Francisco Bay Area'), 'US');
+  assert.equal(geoBucket('United States'), 'US');
+  // Свої й off-target — і з комою, і БЕЗ неї. Саме ці рядки перша версія клала в US.
   assert.equal(geoBucket('Kyiv, Ukraine'), 'TEAM');
-  assert.equal(geoBucket('Bengaluru, India'), 'ANTI');
+  assert.equal(geoBucket('Ukraine'), 'TEAM');
+  assert.equal(geoBucket('Kyiv Metropolitan Area'), 'TEAM');
+  assert.equal(geoBucket('Lviv'), 'TEAM');
+  assert.equal(geoBucket('India'), 'ANTI');
+  assert.equal(geoBucket('Bengaluru, Karnataka, India'), 'ANTI');
   assert.equal(geoBucket('Shanghai, China'), 'ANTI');
+  // Решта світу
   assert.equal(geoBucket('Berlin, Germany'), 'OTHER');
-  assert.equal(geoBucket(''), null, 'порожня локація — не здогадка, а null');
+  assert.equal(geoBucket('Germany'), 'OTHER');
+  assert.equal(geoBucket('Greater London, England, United Kingdom'), 'OTHER');
+  assert.equal(geoBucket('Podgorica, Montenegro'), 'OTHER');
+  assert.equal(geoBucket('Somewhere, Freedonia'), 'OTHER', 'невідома країна після коми — інша країна, не США');
+  // Не знаємо — і не вдаємо. Порожній кошик чесніший за завищений стовпчик US.
+  assert.equal(geoBucket('Greater London'), null);
+  assert.equal(geoBucket('Remote'), null);
+  assert.equal(geoBucket('EMEA'), null);
+  assert.equal(geoBucket(''), null);
 });
 
 test('статус: ok / partial / drift', () => {
@@ -119,8 +149,24 @@ test('усе разом: поточне місце роботи береться
   const r = parseProfile({ mainText: FULL, employerNames: ['Invented Foundation'] });
   assert.equal(r.current_title, 'Head of Platform');
   assert.equal(r.current_company, 'Invented Foundation');
-  assert.equal(r.geo_bucket, 'US');
+  assert.equal(r.geo_bucket, 'US');   // 'Greater Boston' — відоме метро США
   assert.equal(r.work_history.length, 3);
+});
+
+test('перерахунок: міняє лише рядки, де кошик розійшовся з поточним правилом', () => {
+  const rows = [
+    { person_key: 'in/a', location_raw: 'Ukraine', geo_bucket: 'US' },                 // стара вада
+    { person_key: 'in/b', location_raw: 'Kyiv Metropolitan Area', geo_bucket: 'US' },  // стара вада
+    { person_key: 'in/c', location_raw: 'Austin, TX', geo_bucket: 'US' },              // було правильно
+    { person_key: 'in/d', location_raw: 'Remote', geo_bucket: 'US' },                  // не знаємо
+    { person_key: 'in/e', location_raw: '', geo_bucket: null },                        // і не знали
+    { person_key: 'in/f', location_raw: 'Berlin, Germany', geo_bucket: 'OTHER' },
+  ];
+  const changes = planRebucket(rows);
+  assert.deepEqual(changes.map((c) => c.person_key), ['in/a', 'in/b', 'in/d']);
+  assert.deepEqual(changes.map((c) => c.to), ['TEAM', 'TEAM', null]);
+  assert.deepEqual(summarize(changes), [['US → TEAM', 2], ['US → unknown', 1]]);
+  assert.deepEqual(planRebucket(rows.map((r) => ({ ...r, geo_bucket: geoBucket(r.location_raw) }))), [], 'другий прогін нічого не міняє');
 });
 
 console.log(`\n${passed} passed${process.exitCode ? ' — WITH FAILURES' : ''}`);

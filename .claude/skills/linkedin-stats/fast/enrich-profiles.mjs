@@ -133,7 +133,8 @@ async function record(person, outcome, parsed, note) {
        name = coalesce(nullif(excluded.name,''), enrich.profile.name),
        headline = coalesce(nullif(excluded.headline,''), enrich.profile.headline),
        location_raw = coalesce(nullif(excluded.location_raw,''), enrich.profile.location_raw),
-       geo_bucket = coalesce(excluded.geo_bucket, enrich.profile.geo_bucket),
+       geo_bucket = case when nullif(excluded.location_raw,'') is not null
+                         then excluded.geo_bucket else enrich.profile.geo_bucket end,
        current_title = coalesce(nullif(excluded.current_title,''), enrich.profile.current_title),
        current_company = coalesce(nullif(excluded.current_company,''), enrich.profile.current_company),
        work_history = case when jsonb_array_length(excluded.work_history) > 0

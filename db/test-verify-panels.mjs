@@ -14,7 +14,7 @@
 
 import {
   parseFilter, applyColumns, sqlstring, interpolateSql, usedSqlVars, emulateInfinity, variableValues,
-  compareFrames, verifyDashboard, verdict, formatProblem, feedKey,
+  compareFrames, verifyDashboard, verdict, formatProblem, feedKey, readsOnlyEnrich, enrichQuery, ENRICH_PANEL_VIEWS,
   INFINITY_TYPE, PG_TYPE, PG_UID, PROBE, Refusal, NotEmulated,
 } from "./verify-panels.mjs";
 
@@ -406,12 +406,175 @@ const first = (r) => { const { kind, panelId, refId, varIndex, column, row } = r
   const r = await runFake({ oldDash: NEW() });
   check("e2e: a baseline that is already SQL (after the merge) is not mistaken for parity", [...new Set(r.kinds)].sort(), ["baseline-not-infinity", "nothing-compared"]);
 }
+// --- the enrich panels: what opening a profile told us. No JSON feed ever
+// carried it, so there is no Infinity predecessor and nothing to compare with.
+// They are SKIPPED and COUNTED — and that must not become the door through which
+// a feed panel leaves the comparison, nor a way of not looking: each is RUN, and
+// a database that has no such view is a problem with a name.
+const ENRICH = {
+  state: `select opened, total from dash.enrich_state where author = 'fake' order by ord`,
+  geo: `select bucket, people from dash.enrich_geo where author = 'fake' order by ord`,
+  advocates: `select client_company, dates, headline, name, title from dash.enrich_advocates where author = 'fake' order by ord`,
+};
+const ENRICH_FRAMES = {
+  state: () => F([["opened", "number"], ["total", "number"]], [[7, 62]]),
+  geo: () => F([["bucket", "string"], ["people", "number"]], [["US", 3], ["TEAM", 1], ["ANTI", 1], ["OTHER", 1], ["not opened", 56]]),
+  // a cell of an enrich frame is a person too: it must not reach a report line
+  advocates: () => F([["client_company", "string"], ["dates", "string"], ["headline", "string"], ["name", "string"], ["title", "string"]],
+    [["Invented Client", "2019 - 2022", "sentinel-headline", "Zed Sentinel", "Analyst"]]),
+};
+const withEnrich = (extra = []) => { const a = ANSWERS(); for (const k of Object.keys(ENRICH)) a.set(ENRICH[k], ENRICH_FRAMES[k]()); for (const [sql, frame] of extra) a.set(sql, frame); return a; };
+const enrichPanel = (id, title, rawSql) => ({ id, title, datasource: PG_DS, ...panelRest(), targets: [sqlTarget(rawSql)] });
+const withEnrichRow = (...more) => {
+  const dash = NEW();
+  dash.panels.push({ id: 50, type: "row", title: "ICP", collapsed: false, panels: [] },
+    enrichPanel(51, "Profiles opened", ENRICH.state), enrichPanel(52, "Engagers by geography", ENRICH.geo), ...more);
+  return dash;
+};
+const geoOf = (tail) => `select bucket, people from dash.enrich_geo ${tail}`;
+{
+  // An ALLOWLIST: the agreed query over one of the six views, and nothing else.
+  const cases = [
+    [true, ENRICH.geo], [true, ENRICH.state], [true, ENRICH.advocates],
+    [true, "SELECT bucket, people\nFROM dash.enrich_geo\nWHERE author = 'fake'\nORDER BY ord;\n"],
+    [true, `select bucket, people -- the bars\nfrom dash.enrich_geo /* per author */ where author = 'fake' order by ord`],
+    [true, geoOf("where author = 'a--b' order by ord")],                      // a `--` inside the literal is not a comment
+    [false, 'select 1 from "dash"."enrich_geo"'],                              // reads it, but is not the agreed query
+    [false, SQL.people],
+    [false, `select 1 from dash.enrich_geo g join dash.feed_engagement_people p using (author)`],
+    [false, `select 1 from dash.enrich_geo, "dash"."feed_posts"`],
+    [false, geoOf("where author = 'fake' or true order by ord")],
+    [false, geoOf(", pg_roles where author = 'fake' order by ord")],           // a second relation, outside dash
+    [false, `select bucket, (select count(*) from pg_roles) from dash.enrich_geo where author = 'fake' order by ord`],
+    [false, `select bucket, people from dash.enrich_coverage where author = 'fake' order by ord`],   // in the contract, read by no panel
+    [false, `select bucket, people from dash.enrich_anything where author = 'fake' order by ord`],   // a view added tomorrow
+    // the three that the prefix rule let through
+    [false, `select person_key, bucket, persona, visited_at from dash.enrich_person where author = 'fake' order by ord`],
+    [false, `select name, profile_url from dash/**/.feed_engagement_people -- dash.enrich_geo`],
+    [false, `select rolname from pg_roles /* dash.enrich_state */`],
+    [false, `select person_key, bucket from li.enrich_person where author = 'fake' order by ord`],
+    [false, "select 1 from enrich.profile"], [false, "select 1"], [false, undefined],
+  ];
+  check(`enrich: only the agreed query over one of the six ICP views is an enrich target (${cases.length} cases) — a view named in a comment, a second relation, a subquery, dash.enrich_person are not`,
+    cases.map(([, sql]) => readsOnlyEnrich(sql)), cases.map(([want]) => want));
+  check("enrich: …and the allowlist is the six views the ICP row reads",
+    [ENRICH_PANEL_VIEWS, enrichQuery(ENRICH.advocates)],
+    [["enrich_advocates", "enrich_geo", "enrich_persona", "enrich_score_by_geo", "enrich_score_by_persona", "enrich_state"],
+     { view: "enrich_advocates", columns: ["client_company", "dates", "headline", "name", "title"] }]);
+}
+{
+  const r = await runFake({ dash: withEnrichRow(), answers: withEnrich() });
+  check("e2e: ENRICH panels have no counterpart by nature — skipped and counted, never a problem; the feed targets are compared as before",
+    { targets: r.targets, comparisons: r.comparisons, enrich: r.enrich, problems: r.problems.map(formatProblem) },
+    { targets: 2, comparisons: 5, enrich: 2, problems: [] });
+  check("e2e: …each is RUN, once, as written — and that is all that is asked about enrich", r.asked.filter((q) => q.includes("enrich")), [ENRICH.state, ENRICH.geo]);
+  check("e2e: …and the run passes, with the skipped ones on the books", [verdict([r]).ok, verdict([r]).enrich, verdict([r]).targets], [true, 2, 2]);
+}
+{
+  // The database of the day after the merge: the feeds are all there, the schema
+  // is the one main had BEFORE the ICP panels. Every feed target matches — and
+  // the three panels of the row show "relation does not exist" in Grafana.
+  const r = await runFake({ dash: withEnrichRow(enrichPanel(53, "Advocates", ENRICH.advocates)) });
+  check("e2e: a database OLDER than the dashboards — no dash.enrich_* in it — is [enrich-absent] on every ICP panel, though every feed target matches",
+    [r.problems.map((p) => [p.panelId, p.refId, p.kind]), r.targets, r.comparisons, r.enrich, verdict([r]).ok],
+    [[[51, "A", "enrich-absent"], [52, "A", "enrich-absent"], [53, "A", "enrich-absent"]], 2, 5, 3, false]);
+  check("e2e: …and the line says what to do about it", /apply the schema \(node db\/apply-schema\.mjs --force, then node db\/import\.mjs --publish/.test(formatProblem(r.problems[0])), true);
+}
+{
+  const pgError = (code, message) => Object.assign(new Error(message), { code, severity: "ERROR" });
+  const r = await runFake({ dash: withEnrichRow(enrichPanel(53, "Advocates", ENRICH.advocates)), answers: withEnrich([
+    [ENRICH.state, pgError("42703", 'column "opened" does not exist')],
+    [ENRICH.geo, pgError("42501", "permission denied for view enrich_geo")],
+    [ENRICH.advocates, pgError("2201B", "invalid regular expression: parentheses () not balanced")]]) });
+  check("e2e: a column the view does not have is [enrich-absent], a lost grant is [grant-missing], a query that fails while it runs is [sql-error]",
+    [r.problems.map((p) => [p.panelId, p.kind]), verdict([r]).ok], [[[51, "enrich-absent"], [52, "grant-missing"], [53, "sql-error"]], false]);
+}
+{
+  const swapped = `select people, bucket from dash.enrich_geo where author = 'fake' order by ord`;
+  const r = await runFake({ dash: withEnrichRow(enrichPanel(53, "Swapped", swapped), enrichPanel(54, "Advocates", ENRICH.advocates)), answers: withEnrich([
+    [swapped, F([["people", "number"], ["bucket", "string"]], [[3, "US"]])],
+    [ENRICH.state, F([["opened", "number"], ["total", "number"]], [])],
+    [ENRICH.geo, F([["bucket", "string"], ["persons", "number"]], [["US", 3]])],
+    [ENRICH.advocates, F(ENRICH_FRAMES.advocates().columns.map((c) => [c.name, c.type]), [])]]) });
+  check("e2e: an enrich frame is held to what needs no oracle — a bucket view with no row for the author, columns that are not the ones selected, columns out of byte order; an EMPTY list of advocates is fine",
+    [r.problems.map((p) => [p.panelId, p.kind]), r.enrich], [[[51, "enrich-empty"], [52, "column-name"], [53, "column-order"]], 4]);
+}
+{
+  const dash = NEW();
+  dash.panels.push({ id: 50, type: "row", title: "ICP", collapsed: true, panels: [enrichPanel(51, "Profiles opened", ENRICH.state)] });
+  const r = await runFake({ dash, answers: withEnrich() });
+  check("e2e: the same inside a COLLAPSED row", [r.kinds, r.enrich], [[], 1]);
+}
+{
+  const r = await runFake({ dash: withEnrichRow({ id: 53, title: "New feed panel", datasource: PG_DS, ...panelRest(), targets: [sqlTarget(SQL.people)] }), answers: withEnrich() });
+  check("e2e: a FEED panel without a counterpart STILL FAILS beside them — and so does the row that heads it",
+    [r.problems.map((p) => [p.panelId, p.refId, p.kind]), r.enrich, verdict([r]).ok],
+    [[[50, undefined, "no-counterpart"], [53, undefined, "no-counterpart"], [53, "A", "no-counterpart"]], 2, false]);
+}
+{
+  const mixed = `select p.name as "Name" from dash.enrich_geo g join dash.feed_engagement_people p using (author) where author = 'fake' order by p.ord`;
+  const r = await runFake({ dash: withEnrichRow(enrichPanel(53, "Both", mixed)), answers: withEnrich() });
+  check("e2e: a target that reads a feed view AS WELL is not excused by the enrich view next to it",
+    [r.problems.map((p) => [p.panelId, p.refId, p.kind]), r.enrich],
+    [[[50, undefined, "no-counterpart"], [53, undefined, "no-counterpart"], [53, "A", "no-counterpart"]], 2]);
+  check("e2e: …it is never sent to the database, and the line says why it is not excused",
+    [r.asked.includes(mixed), /is not one of the agreed enrich queries/.test(formatProblem(r.problems[2]))], [false, true]);
+}
+{
+  // What the prefix rule excused: the per-person view, a feed view behind a
+  // comment that names an enrich one, a catalog read behind such a comment.
+  const sneaky = [
+    `select person_key, bucket, persona, visited_at from dash.enrich_person where author = 'fake' order by ord`,
+    `select name, profile_url from dash/**/.feed_engagement_people -- dash.enrich_geo`,
+    `select rolname from pg_roles /* dash.enrich_state */`,
+  ];
+  const r = await runFake({ dash: withEnrichRow(...sneaky.map((sql, i) => enrichPanel(53 + i, `Sneaky ${i}`, sql))), answers: withEnrich() });
+  check("e2e: dash.enrich_person, a feed view behind a comment and a catalog read behind a comment are ordinary targets: no counterpart, not excused, not run",
+    [r.problems.filter((p) => p.refId !== undefined).map((p) => [p.panelId, p.kind]), r.enrich, r.asked.filter((q) => sneaky.includes(q))],
+    [[[53, "no-counterpart"], [54, "no-counterpart"], [55, "no-counterpart"]], 2, []]);
+}
+{
+  const dash = NEW(); dash.panels[1].targets[0].rawSql = ENRICH.geo;
+  const r = await runFake({ dash, answers: withEnrich() });
+  check("e2e: an enrich rawSql put ON a ported target is compared with that target's predecessor, not skipped",
+    [r.kinds, first(r).panelId, r.enrich, r.asked.includes(ENRICH.geo)], [["column-count"], 2, 0, true]);
+}
+{
+  const dash = withEnrichRow(
+    enrichPanel(53, "Raw variable", "select bucket, people from dash.enrich_geo where author = '${post}' order by ord"),
+    enrichPanel(54, "Template token", "select bucket, people from dash.enrich_geo where author = '__AUTHOR__' order by ord"),
+    enrichPanel(55, "Time macro", "select bucket, people from dash.enrich_geo where author = '$__timeFilter' order by ord"));
+  dash.panels.find((p) => p.id === 51).targets[0].datasource = { type: PG_TYPE, uid: "a-real-uid-must-not-be-committed" };
+  dash.panels.find((p) => p.id === 52).datasource = { type: PG_TYPE, uid: "a-real-uid-must-not-be-committed" };
+  const r = await runFake({ dash, answers: withEnrich() });
+  check("e2e: skipped is not unchecked — a committed uid, a raw ${post}, the template token and a time macro are problems on an enrich panel too",
+    [r.problems.map((p) => [p.panelId, p.kind]), r.enrich, r.asked.filter((q) => q.includes("enrich"))],
+    [[[52, "panel-datasource"], [51, "target-shape"], [53, "refused"], [54, "refused"], [55, "refused"]], 5, [ENRICH.state, ENRICH.geo]]);
+  check("e2e: …a refused rawSql is not sent to the database, and the uid is not echoed",
+    [r.asked.some((q) => /\$\{post\}|__AUTHOR__|\$__/.test(q)), reportLines.some((l) => l.includes("a-real-uid"))], [false, false]);
+}
+{
+  const macro = "select bucket, people from dash.enrich_geo where $__timeFilter(now()) order by ord";
+  const r = await runFake({ dash: withEnrichRow(enrichPanel(53, "Time macro in the condition", macro)), answers: withEnrich() });
+  check("e2e: an enrich view under any OTHER condition than author = '<slug>' is not the agreed query — not excused, not run",
+    [r.problems.map((p) => [p.panelId, p.refId, p.kind]), r.enrich, r.asked.includes(macro)],
+    [[[50, undefined, "no-counterpart"], [53, undefined, "no-counterpart"], [53, "A", "no-counterpart"]], 2, false]);
+}
+{
+  const only = { panels: [{ id: 50, type: "row", title: "ICP", panels: [] }, enrichPanel(51, "Profiles opened", ENRICH.state)] };
+  const r = await verifyDashboard({ name: "x.json", oldDash: { panels: [] }, newDash: only, feedFor: () => FEED, query: async () => ENRICH_FRAMES.state() });
+  check("e2e: skipping is not comparing — a dashboard of enrich panels only has compared nothing",
+    [r.problems.map((p) => p.kind), r.enrich, verdict([r]).ok], [["nothing-compared"], 1, false]);
+}
 {
   const empty = await verifyDashboard({ name: "x.json", oldDash: { panels: [] }, newDash: { panels: [] }, feedFor: () => FEED, query: async () => F([], []) });
   check("e2e: a dashboard with zero targets is a problem, not a pass", [empty.problems.map((p) => p.kind), verdict([empty]).ok], [["nothing-compared"], false]);
   check("verdict: nothing compared at all is a failure", [verdict([]).ok, verdict([{ targets: 0, comparisons: 0, problems: [] }]).ok], [false, false]);
   check("verdict: one good dashboard and one bad is a failure",
-    verdict([{ targets: 3, comparisons: 3, problems: [] }, { targets: 1, comparisons: 1, problems: [{}] }]), { dashboards: 2, targets: 4, comparisons: 4, problems: 1, ok: false });
+    verdict([{ targets: 3, comparisons: 3, problems: [] }, { targets: 1, comparisons: 1, problems: [{}] }]), { dashboards: 2, targets: 4, comparisons: 4, enrich: 0, problems: 1, ok: false });
+  check("verdict: the skipped enrich targets are summed, and are neither a comparison nor a problem",
+    verdict([{ targets: 3, comparisons: 3, enrich: 6, problems: [] }, { targets: 1, comparisons: 1, enrich: 0, problems: [] }, { targets: 2, comparisons: 2, problems: [] }]),
+    { dashboards: 3, targets: 6, comparisons: 6, enrich: 6, problems: 0, ok: true });
 }
 
 check("emulator: a variable query with meta.valueField picks that column",

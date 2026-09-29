@@ -24,6 +24,26 @@
 // carries a quote — so the escaping is exercised, not assumed. The two query
 // variables (account_latest_week, month) are compared as ordered lists.
 //
+// NOT COMPARABLE: the enrich panels. A target whose rawSql reads dash.enrich_*
+// shows what opening a profile told us (db/enrich-schema.sql). That was never a
+// JSON feed and never an Infinity target, so there is no predecessor to find and
+// no oracle to build one from. Such a target is counted and printed as skipped
+// ("enrich panels (no JSON oracle): N") and its missing counterpart is never a
+// problem. A dash.feed_* target without a counterpart fails as before.
+//
+// Skipped is not unchecked. What needs no oracle is still held to:
+//   * the six keys of a target and the refusals (a raw ${var}, a $__ macro, …);
+//   * the rawSql is RUN, as written, by the role this check logs in as — and has
+//     to answer. A database whose schema is older than this checkout has no
+//     dash.enrich_* views: every ICP panel then shows an error in Grafana while
+//     the feeds are byte-identical, and a check that only counted these targets
+//     said "0 problems" to that. Now it says [enrich-absent] (no such view,
+//     column or function), [grant-missing] (the role may not read it) or
+//     [enrich-empty] (a bucket view without a single row: the author is not in
+//     the database). The rows themselves are not looked at — only that the
+//     columns are the ones selected, in byte order of their names.
+// WHICH targets are excused is an allowlist, not a prefix: see enrichQuery().
+//
 //   LI_DSN=<url> node db/verify-panels.mjs [--baseline <git ref>] [--now <iso>]
 //                       [--dashboards <dir>] [--repo <dir>] [--max 40] [--dsn <url>]
 //
@@ -41,6 +61,8 @@
 //
 // Exit 0 = every target of every dashboard matched, at least one comparison ran,
 //          no target is still Infinity and every SQL target found its counterpart
+//          (the enrich panels have none by nature: they are not compared, but
+//          each was run and answered, see above)
 //          — AND nothing outside the ported parts moved: every dashboard-level
 //          key (refresh, time, links, title, …), every non-query variable except
 //          options/current/query of $post, and the rule that a variable used as
@@ -342,6 +364,112 @@ export function collectTargets(dash) {
   return { panels, byKey, duplicates };
 }
 
+// dash.enrich_* has no JSON oracle (see the top of this file). What is excused
+// from the comparison is an ALLOWLIST, not a prefix. The rawSql has to BE one of
+// the agreed enrich queries —
+//
+//     select <column>[, <column> …] from dash.<view> where author = '<slug>' order by ord
+//
+// — with <view> one of the six the ICP row reads. Comments are taken out first:
+// a view named in a comment is not a view that is read. Everything else is an
+// ordinary target and, without a counterpart, fails like any other: a query
+// that reads a feed view as well, a relation outside schema dash, a subquery, a
+// function call, li.enrich_person, dash.enrich_coverage, a view added tomorrow.
+// A new ICP panel therefore means a conscious edit HERE. This is the one
+// automatic check that a new panel reads only what was agreed; the boundary
+// itself is what grafana_ro is granted (db/test-roles.mjs).
+export const ENRICH_PANEL_VIEWS = ["enrich_advocates", "enrich_geo", "enrich_persona",
+  "enrich_score_by_geo", "enrich_score_by_persona", "enrich_state"];
+// The bucket views have a row for every bucket of every author, people = 0
+// included; only the list of advocates may be empty.
+const ENRICH_MAY_BE_EMPTY = new Set(["enrich_advocates"]);
+
+// rawSql without its comments. A quote opens a literal and the next quote ends
+// it ('' is two literals back to back, which reads the same), so a `--` inside
+// '…' stays where it is.
+function stripSqlComments(rawSql) {
+  const src = String(rawSql ?? "");
+  let out = "";
+  for (let i = 0; i < src.length;) {
+    if (src[i] === "'" || src[i] === '"') {
+      const end = src.indexOf(src[i], i + 1);
+      const stop = end < 0 ? src.length : end + 1;
+      out += src.slice(i, stop); i = stop;
+    } else if (src.startsWith("--", i)) {
+      const end = src.indexOf("\n", i);
+      out += " "; i = end < 0 ? src.length : end;
+    } else if (src.startsWith("/*", i)) {
+      const end = src.indexOf("*/", i + 2);
+      out += " "; i = end < 0 ? src.length : end + 2;
+    } else out += src[i++];
+  }
+  return out;
+}
+const ENRICH_QUERY = /^\s*select\s+([a-z_][a-z0-9_]*(?:\s*,\s*[a-z_][a-z0-9_]*)*)\s+from\s+dash\.([a-z_][a-z0-9_]*)\s+where\s+author\s*=\s*'[^']*'\s+order\s+by\s+ord\s*;?\s*$/i;
+
+// null, or { view, columns } of an agreed enrich query.
+export function enrichQuery(rawSql) {
+  const m = ENRICH_QUERY.exec(stripSqlComments(rawSql));
+  if (!m) return null;
+  const view = m[2].toLowerCase();
+  if (!ENRICH_PANEL_VIEWS.includes(view)) return null;
+  return { view, columns: m[1].split(",").map((c) => c.trim().toLowerCase()) };
+}
+export const readsOnlyEnrich = (rawSql) => enrichQuery(rawSql) !== null;
+
+// The rawSql names a dash.enrich_* relation (comments aside) — for the wording of
+// a no-counterpart line only, never to excuse anything.
+const namesEnrich = (rawSql) => /\bdash\b"?\s*\.\s*"?enrich_/i.test(stripSqlComments(rawSql));
+
+// An enrich target was run and answered with `frame`. Names, positions and
+// counts — no cell is read.
+const byteOrder = (a, b) => (a < b ? -1 : a > b ? 1 : 0);
+export function enrichFrameProblems(q, frame) {
+  const out = [];
+  const got = frame.columns.map((c) => c.name);
+  if (JSON.stringify(got) !== JSON.stringify(q.columns)) {
+    out.push({ kind: "column-name", detail: `the frame has ${got.length} column(s) that are not the ${q.columns.length} the rawSql selects, in that order` });
+  } else if (JSON.stringify(got) !== JSON.stringify([...got].sort(byteOrder))) {
+    out.push({ kind: "column-order", detail: "the columns are not in byte order of their names — the order every ported panel has" });
+  }
+  if (!frame.rows.length && !ENRICH_MAY_BE_EMPTY.has(q.view)) {
+    out.push({ kind: "enrich-empty", detail: `dash.${q.view} has no row for this author — it has one per bucket for every author in the database, so the author is not there (import first)` });
+  }
+  return out;
+}
+// …or it was refused by the server. The three answers that are about the
+// DATABASE, not about the rawSql, get their own names.
+const ENRICH_ABSENT = new Set(["3F000", "42P01", "42703", "42883"]);   // schema, relation, column, function
+function enrichFailure(e) {
+  if (isServerError(e) && ENRICH_ABSENT.has(e.code)) {
+    return { kind: "enrich-absent", detail: `the database has no such view, column or function (${e.code}): its schema is older than this checkout, and the panel shows an error — apply the schema (node db/apply-schema.mjs --force, then node db/import.mjs --publish; db/README.md)` };
+  }
+  if (isServerError(e) && e.code === "42501") {
+    return { kind: "grant-missing", detail: "permission denied (42501): the role this check logs in as may not read the view, or may not run a function under it — run it as grafana_ro; if this IS grafana_ro, the panel shows the same, re-apply the schema" };
+  }
+  return { kind: problemKind(e), detail: errorDetail(e) };
+}
+
+// The panels the baseline cannot have: no baseline panel of that id, at least
+// one target, and every target an enrich one. A row is excused with them only
+// when it is new too and heads NOTHING but such panels — its own `panels` when
+// collapsed, the siblings up to the next row when open. A new row over a feed
+// panel is still a panel without a counterpart.
+function enrichPanelIds(dash, oldPanels) {
+  const ids = new Set();
+  const isOne = (p) => p.type !== "row" && !oldPanels.has(p.id) && (p.targets ?? []).length > 0
+    && p.targets.every((t) => readsOnlyEnrich(t.rawSql));
+  const list = dash?.panels ?? [];
+  list.forEach((p, i) => {
+    if (p.type !== "row") { if (isOne(p)) ids.add(p.id); return; }
+    const members = [...(p.panels ?? [])];
+    for (const m of members) if (isOne(m)) ids.add(m.id);
+    for (let j = i + 1; j < list.length && list[j].type !== "row"; j++) members.push(list[j]);
+    if (!oldPanels.has(p.id) && !(p.targets ?? []).length && members.length && members.every(isOne)) ids.add(p.id);
+  });
+  return ids;
+}
+
 const isPgDatasource = (d) => d?.type === PG_TYPE && d?.uid === PG_UID;
 const isInfinityTarget = (t, p) => (t.datasource?.type ?? p?.datasource?.type) === INFINITY_TYPE
   || t.url !== undefined || t.root_selector !== undefined;
@@ -384,10 +512,11 @@ const problemKind = (e) => (e instanceof Refusal ? "refused" : e instanceof NotE
 export async function verifyDashboard({ name, oldDash, newDash, feedFor, query }) {
   const problems = [];
   const coerced = new Set();
-  let targets = 0, comparisons = 0;
+  let targets = 0, comparisons = 0, enrich = 0;
   const add = (p) => problems.push({ dashboard: name, ...p });
 
   const oldT = collectTargets(oldDash), newT = collectTargets(newDash);
+  const enrichPanels = enrichPanelIds(newDash, oldT.panels);
   for (const d of oldT.duplicates) add({ scope: "dashboard", kind: "ambiguous", detail: `baseline has a duplicate ${d}` });
   for (const d of newT.duplicates) add({ scope: "dashboard", kind: "ambiguous", detail: `duplicate ${d}` });
 
@@ -477,7 +606,15 @@ export async function verifyDashboard({ name, oldDash, newDash, feedFor, query }
   for (const [id, np] of newT.panels) {
     const where = { scope: "panel", panelId: id, title: np.title ?? "" };
     const op = oldT.panels.get(id);
-    if (!op) { add({ ...where, kind: "no-counterpart", detail: "the baseline has no panel with this id" }); continue; }
+    if (!op) {
+      // An enrich panel has no baseline by nature. What needs no baseline is
+      // still checked: a real datasource uid must not be committed here either.
+      if (!enrichPanels.has(id)) add({ ...where, kind: "no-counterpart", detail: "the baseline has no panel with this id" });
+      else if (np.datasource !== undefined && !isPgDatasource(np.datasource)) {
+        add({ ...where, kind: "panel-datasource", detail: "panel-level datasource is not { grafana-postgresql-datasource, ${DS_LINKEDIN_PG} }" });
+      }
+      continue;
+    }
     const drift = driftKeys(op, np, ["targets", "datasource", "panels"]);
     if (drift.length) add({ ...where, kind: "panel-changed", detail: `changed besides targets/datasource: ${drift.join(", ")}` });
     if ((np.targets ?? []).length && op.datasource !== undefined && !isPgDatasource(np.datasource)) {
@@ -493,7 +630,34 @@ export async function verifyDashboard({ name, oldDash, newDash, feedFor, query }
     const where = { scope: "panel", panelId: panel.id, title: panel.title ?? "", refId: target.refId };
     if (isInfinityTarget(target, panel)) { add({ ...where, kind: "still-infinity" }); continue; }
     const old = oldT.byKey.get(key);
-    if (!old) { add({ ...where, kind: "no-counterpart", detail: "the baseline has no target with this panel id + refId" }); continue; }
+    const asEnrich = old ? null : enrichQuery(target.rawSql);
+    if (asEnrich) {
+      // Not comparable: counted, never a problem for having no counterpart. It
+      // is still a rawSql Grafana will send, so the shape and the refusals hold
+      // (a probe stands in for a variable) — and it is RUN, once, as written: a
+      // panel whose view the database does not have is a broken panel.
+      enrich++;
+      for (const s of targetShape(target)) add({ ...where, kind: "target-shape", detail: s });
+      let sql = null;
+      try { sql = interpolateSql(target.rawSql, Object.fromEntries(KNOWN_VARS.map((n) => [n, PROBE]))); }
+      catch (e) { add({ ...where, kind: problemKind(e), detail: errorDetail(e) }); }
+      if (sql !== null) {
+        try {
+          const frame = await query(sql);
+          for (const p of enrichFrameProblems(asEnrich, frame)) add({ ...where, ...p });
+        } catch (e) {
+          if (e instanceof CannotRun) throw e;
+          add({ ...where, ...enrichFailure(e) });
+        }
+      }
+      continue;
+    }
+    if (!old) {
+      add({ ...where, kind: "no-counterpart", detail: namesEnrich(target.rawSql)
+        ? "the baseline has no target with this panel id + refId — and the rawSql is not one of the agreed enrich queries (select <columns> from dash.<one of the six ICP views> where author = '<slug>' order by ord), so it is not excused"
+        : "the baseline has no target with this panel id + refId" });
+      continue;
+    }
     if (!isInfinityTarget(old.target, old.panel)) {
       add({ ...where, kind: "baseline-not-infinity", detail: "the baseline target is not an Infinity query — pass --baseline <last Infinity commit>" });
       continue;
@@ -532,7 +696,7 @@ export async function verifyDashboard({ name, oldDash, newDash, feedFor, query }
   }
   if (!targets) add({ scope: "dashboard", kind: "nothing-compared", detail: "0 SQL targets were compared" });
 
-  return { name, targets, comparisons, problems, coerced: [...coerced].sort() };
+  return { name, targets, comparisons, enrich, problems, coerced: [...coerced].sort() };
 }
 
 // One line per problem. Every field is a name, a position or a type.
@@ -549,11 +713,14 @@ export function formatProblem(p) {
   return bits.join("  ");
 }
 
-// Nothing compared is not "identical": it is a check that did not look.
+// Nothing compared is not "identical": it is a check that did not look. The
+// enrich targets are reported beside the rest and count towards neither side:
+// skipping them is not a comparison, and it is not a problem. (One that could
+// not be run, or was not answered, IS a problem — it is in `problems`.)
 export function verdict(results) {
-  const total = (k) => results.reduce((a, r) => a + r[k], 0);
+  const total = (k) => results.reduce((a, r) => a + (r[k] ?? 0), 0);
   const problems = results.reduce((a, r) => a + r.problems.length, 0);
-  return { dashboards: results.length, targets: total("targets"), comparisons: total("comparisons"), problems,
+  return { dashboards: results.length, targets: total("targets"), comparisons: total("comparisons"), enrich: total("enrich"), problems,
     ok: results.length > 0 && problems === 0 && total("targets") > 0 && total("comparisons") > 0 };
 }
 
@@ -712,7 +879,7 @@ async function main() {
 
     const results = [];
     for (const file of files) {
-      const missing = (kind, detail) => results.push({ name: file, targets: 0, comparisons: 0, coerced: [],
+      const missing = (kind, detail) => results.push({ name: file, targets: 0, comparisons: 0, enrich: 0, coerced: [],
         problems: [{ dashboard: file, scope: "dashboard", kind, detail }] });
       const path = join(DASH_DIR, file);
       if (!existsSync(path)) { missing("dashboard-missing", "the file is not in the dashboards directory"); continue; }
@@ -731,13 +898,15 @@ async function main() {
 
     console.log(`panel parity check — clock pinned at ${db.now}, baseline ${BASELINE}\n`);
     for (const r of results) {
+      const skipped = r.enrich ? ` enrich-skipped=${r.enrich}` : "";
       console.log(r.problems.length
-        ? `DIFF ${r.name} targets=${r.targets} comparisons=${r.comparisons} problems=${r.problems.length}`
-        : `OK ${r.name} targets=${r.targets} comparisons=${r.comparisons}`);
+        ? `DIFF ${r.name} targets=${r.targets} comparisons=${r.comparisons}${skipped} problems=${r.problems.length}`
+        : `OK ${r.name} targets=${r.targets} comparisons=${r.comparisons}${skipped}`);
       if (r.coerced.length) console.log(`     note: the emulator changed a value's type for column(s) ${r.coerced.map((c) => JSON.stringify(c)).join(", ")} — Infinity formats numbers in Go, check these by eye`);
     }
     const v = verdict(results);
     console.log(`\n-- ${v.dashboards} dashboard(s), ${v.targets} target(s), ${v.comparisons} comparison(s), ${v.problems} problem(s)`);
+    console.log(`   enrich panels (no JSON oracle): ${v.enrich} — skipped, not compared; each was run as written and had to answer`);
     if (!v.ok) {
       console.error("");
       const all = results.flatMap((r) => r.problems);
@@ -747,7 +916,9 @@ async function main() {
       console.error("\n(cell values are never printed — reproduce locally against the feed views to see them)");
       return 1;
     }
-    console.log("\nevery SQL target returns the frame its Infinity predecessor returned.");
+    console.log(v.enrich
+      ? "\nevery SQL target that has an Infinity predecessor returns the frame it returned; every enrich target is answered by the database."
+      : "\nevery SQL target returns the frame its Infinity predecessor returned.");
     return 0;
   } catch (e) {
     // The comparison did not happen. Report the SHAPE and leave with 2, never

@@ -2724,6 +2724,425 @@
       ],
       "title": "Impressions per post over time",
       "type": "ae3e-plotly-panel"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 97
+      },
+      "id": 37,
+      "panels": [],
+      "title": "ICP — who engages (from opened profiles)",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
+      },
+      "description": "Source: dash.enrich_state. \"total\" is everyone who reacted to or commented on this author's posts (people only, company pages are not counted); \"opened\" is how many of them have had their LinkedIn profile opened by the enrichment run. Geography, work history and the current job title are known for the OPENED profiles only, so every panel in this row describes that part of the audience. 'not opened' and 'unknown' in the panels beside mean \"we have not looked\", not \"nobody\".",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          },
+          "unit": "locale"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 0,
+        "y": 98
+      },
+      "id": 38,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^(opened|total)$/",
+          "values": false
+        },
+        "textMode": "value_and_name"
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select opened, total\nfrom dash.enrich_state\nwhere author = 'peter'\norder by ord",
+          "refId": "A"
+        }
+      ],
+      "title": "Profiles opened",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
+      },
+      "description": "Source: dash.enrich_geo — the location written on each OPENED profile, sorted into US, TEAM (the country our own team works from), ANTI (countries outside the ICP) and OTHER. It counts people, not reactions. 'not opened' is everyone we have no location for — the profile has not been opened yet, or it was opened and shows no location: it means \"we have not looked\", not \"nobody\" and not \"somewhere else\". That bar shrinks as more profiles are opened. The bucket is set when the profile is opened: the country is read from the location itself, from a US state, or from a short list of well-known cities. A location that names no country we can recognise (\"Remote\", \"EMEA\", an unfamiliar metropolitan area) is left unknown and sits under 'not opened' — it is never guessed to be US.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "blue",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "lineWidth": 1,
+            "orientation": "horizontal"
+          },
+          "unit": "locale"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 9,
+        "x": 6,
+        "y": 98
+      },
+      "id": 39,
+      "options": {
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "displayMode": "hidden",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "orientation": "horizontal",
+        "showValue": "always",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "bucket"
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select bucket, people\nfrom dash.enrich_geo\nwhere author = 'peter'\norder by ord",
+          "refId": "A"
+        }
+      ],
+      "title": "Engagers by geography",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
+      },
+      "description": "Source: dash.enrich_persona — the persona is read from the current job title on the opened profile plus the headline (the profile's own, or the one LinkedIn shows next to a reaction when the profile is not opened yet). P3 = owners and top executives (owner, CEO, founder, president, managing partner…); P1 = technology and product leaders (CTO, CIO, head of engineering, product manager…); P2 = operations leaders (director of operations, program manager, chief of staff…); 'other' = a title that matches none of them. 'unknown' is a person with no title and no headline to read (or a headline of punctuation only, as LinkedIn shows a missing one): it means \"we have not looked\", not \"nobody\". A keyword match on a title is a hint, not a verified role. A title that only CONTAINS a P3 word is not P3: \"Product Owner\", \"Vice President\", \"Principal Engineer\", \"Assistant to the CEO\" are counted by the rest of the title. The lists are English: a title in another language is 'other'.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "blue",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "lineWidth": 1,
+            "orientation": "horizontal"
+          },
+          "unit": "locale"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 9,
+        "x": 15,
+        "y": 98
+      },
+      "id": 40,
+      "options": {
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "displayMode": "hidden",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "orientation": "horizontal",
+        "showValue": "always",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "persona"
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select people, persona\nfrom dash.enrich_persona\nwhere author = 'peter'\norder by ord",
+          "refId": "A"
+        }
+      ],
+      "title": "Engagers by persona (from title)",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
+      },
+      "description": "Source: dash.enrich_score_by_geo — the same per-event points as \"Engagement score (all time)\" at the top of this dashboard, split by where the person is according to the opened profile. The bars add up to that all-time score. 'not opened' is the score from everyone we have no location for — profiles not opened yet, opened profiles that show no location, and company pages, which are never opened: it means \"we have not looked\", not \"nobody\". A location that names no country we can recognise is left unknown and counted under 'not opened' — see \"Engagers by geography\".",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "green",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "lineWidth": 1,
+            "orientation": "horizontal"
+          },
+          "unit": "locale"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 106
+      },
+      "id": 41,
+      "options": {
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "displayMode": "hidden",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "orientation": "horizontal",
+        "showValue": "always",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "bucket"
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select bucket, score\nfrom dash.enrich_score_by_geo\nwhere author = 'peter'\norder by ord",
+          "refId": "A"
+        }
+      ],
+      "title": "Engagement score by geography (all time)",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
+      },
+      "description": "Source: dash.enrich_score_by_persona — the same per-event points as \"Engagement score (all time)\" at the top of this dashboard, split by persona (P3 owners and top executives, P1 technology and product leaders, P2 operations leaders, read from the job title and headline). The bars add up to that all-time score. 'unknown' is the score from engagers with no title and no headline to read, and from company pages: it means \"we have not looked\", not \"nobody\". The persona is a keyword match on the title — a hint, not a verified role; what it does and does not catch is in \"Engagers by persona (from title)\".",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "green",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "lineWidth": 1,
+            "orientation": "horizontal"
+          },
+          "unit": "locale"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 106
+      },
+      "id": 42,
+      "options": {
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "displayMode": "hidden",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "orientation": "horizontal",
+        "showValue": "always",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "persona"
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select persona, score\nfrom dash.enrich_score_by_persona\nwhere author = 'peter'\norder by ord",
+          "refId": "A"
+        }
+      ],
+      "title": "Engagement score by persona (all time)",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_LINKEDIN_PG}"
+      },
+      "description": "Source: dash.enrich_advocates — engagers whose work history on their OPENED profile names a company from our client list (enrich.advocate_company); one row per person and matching job. Only opened profiles can appear here, so an empty table means none found yet among the profiles opened so far — or a client list that is still empty in the database — \"we have not looked\" at the rest, not \"nobody\" worked at a client. A company-name match is a lead to check, not a verified fact.",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "left",
+            "cellOptions": {
+              "type": "auto",
+              "wrapText": true
+            },
+            "filterable": false,
+            "inspect": true
+          },
+          "noValue": "none found yet"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "headline"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 360
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 114
+      },
+      "id": 43,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_LINKEDIN_PG}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select client_company, dates, headline, name, title\nfrom dash.enrich_advocates\nwhere author = 'peter'\norder by ord",
+          "refId": "A"
+        }
+      ],
+      "title": "Advocates — worked at a client of ours",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {
+              "client_company": 1,
+              "dates": 3,
+              "headline": 4,
+              "name": 0,
+              "title": 2
+            },
+            "renameByName": {
+              "client_company": "Client",
+              "dates": "Dates",
+              "headline": "Headline",
+              "name": "Person",
+              "title": "Title there"
+            }
+          }
+        }
+      ],
+      "type": "table"
     }
   ],
   "preload": false,

@@ -574,6 +574,67 @@ with `db/import.mjs`. A hand-merged week loses nothing by waiting for Monday's
 backup — that is a full dump and includes it. Tick `backup` when you want a
 restore point *now* (before a schema change, after a repair).
 
+**One part of the database can NOT be rebuilt from git: schema `enrich`** — what
+opening a person's profile page showed (name and headline, the raw location
+string and its bucket, current title and company, up to five jobs with their
+dates, the visit log) and the list of client companies the owner keeps there. It
+has no JSON source, so the database is its only copy and this dump is its only
+backup. The dump therefore covers **three** schemas,
+`li`, `dash` and `enrich` (`pg_dump --schema=li --schema=dash --schema=enrich`);
+`db/backup.sh` refuses to call a dump without `enrich.profile` and
+`enrich.visit` a backup (exit `5`, *the backup FAILED (pg_dump)*), and its log
+says how many of the dumped rows are enrichment. Between two Mondays, up to a
+week of opened profiles exists nowhere else — after a day with many of them,
+ticking `backup` is cheap. `li_backup` reads `enrich` through the grants in
+`db/enrich-schema.sql`; on a database where that file has not been re-applied
+since the ICP panels landed, the dump fails with *permission denied for schema
+enrich* until the owner runs `node db/apply-schema.mjs --enrich-only` (it drops
+nothing and touches no data).
+
+**The backup repository now holds personal data that is public nowhere.** Until
+the dump carried `enrich`, it repeated what the public JSON already says (names,
+headlines, comment text). Locations and work histories are not in that JSON:
+access to the private backup repository is the only thing in front of them.
+Keep its collaborators and deploy keys as few as the people who hold the owner's
+DSN. `push.sh` overwrites one file, so **every weekly dump stays in that
+repository's git history**: deleting a person from `enrich.profile` does not
+remove them from earlier commits — that takes rewriting the history of the
+backup repository (or starting a new one from the latest dump). How many weeks
+of history to keep is an open operator decision.
+
+#### First rollout of the ICP panels — the database first, then the merge
+
+The dashboards with the *ICP — who engages* row read views the production
+database does not have yet, and the new `db/backup.sh` dumps a schema `li_backup`
+cannot read yet. Merged first, **all 18 ICP panels show an error** (`relation
+"dash.enrich_geo" does not exist`) and **the whole weekly backup fails**
+(`permission denied for schema enrich`) — while `db-sync` stays green, because
+the feeds are still byte-identical. So, as the **database owner**, from a
+checkout of the branch, **before** the merge:
+
+```bash
+# 1. grants and the client table in schema enrich; drops nothing, li and dash untouched
+LI_DSN="$LI_DATABASE_URL" node db/apply-schema.mjs --enrich-only
+# 2. a restore point, with the new backup.sh: three schemas, enrichment included
+LI_BACKUP_DSN=... db/backup.sh /tmp/li-backup/before-icp.sql
+# 3. schema and data; panels are empty for about a minute. enrich is never dropped:
+#    apply-schema counts its rows before and after and rolls everything back on a loss
+LI_DSN="$LI_DATABASE_URL" node db/apply-schema.mjs --force
+LI_DSN="$LI_DATABASE_URL" node db/import.mjs --publish
+# 4. check: the feeds, the panels as the role Grafana logs in as, the grants
+LI_DSN="$LI_DATABASE_URL"    node db/verify.mjs
+LI_DSN=<dsn of grafana_ro>   node db/verify-panels.mjs --baseline caf2834
+node db/test-roles.mjs --no-scratch
+# 5. the client list, by hand (db/README.md, «Адвокати»): without it the
+#    Advocates panel says "none found yet"
+```
+
+Only then merge and push the dashboards. If the merge happened first, nothing is
+lost — the same five steps, from `main`, cure both failures.
+`db/verify-panels.mjs` against a database older than the dashboards exits `1`
+and names every ICP panel `[enrich-absent]`; the weekly `db-sync` does **not**
+run it, so until somebody does, nothing reports that state.
+
 ### The three guarantees
 
 1. **A database problem never costs a week and never turns the run red** (it

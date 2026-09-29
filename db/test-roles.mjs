@@ -20,6 +20,11 @@
 // ДВІ ЧАСТИНИ.
 //   A. На базі з --dsn, нічого не змінюючи: кожна роль читає те, що їй належить, і
 //      дістає відмову на все зайве. Годинник: пін однієї сесії не видно іншій.
+//      Схема enrich (те, що показала сторінка людини) — окремим блоком: grafana_ro
+//      не має в ній НІЧОГО і читає збагачення лише через СІМ в'юх dash.enrich_*;
+//      рядок на людину (li.enrich_person) йому недосяжний; li_sync не читає
+//      збагачення взагалі — ні в enrich, ні через dash; li_backup читає схему всю
+//      (дамп — єдина інша копія); li_writer — те, що мав.
 //   B. На ТИМЧАСОВІЙ базі, яку тест створює і видаляє сам (--no-scratch вимикає):
 //      справжній `import.mjs --publish` від імені li_sync — на порожній базі
 //      (перший синк), повторно (усталений стан, 0 рядків), на виправленому корпусі
@@ -39,6 +44,7 @@ import { fileURLToPath } from "node:url";
 import pg from "pg";
 import { pgConfig, resolveDsn } from "./pg-config.mjs";
 import { openDb } from "./export.mjs";
+import { schemaSql } from "./apply-schema.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const REPO = resolve(HERE, "..");
@@ -94,9 +100,21 @@ const dashViews = async (c) =>
   (await c.query("select viewname from pg_views where schemaname = 'dash' order by 1")).rows.map((r) => r.viewname);
 const liTables = async (c) =>
   (await c.query("select tablename from pg_tables where schemaname = 'li' order by 1")).rows.map((r) => r.tablename);
+// Каталог читає будь-яка роль, тож список є і в тієї, якій саму схему закрито.
+const enrichRelations = async (c) =>
+  (await c.query(`select c.relname from pg_class c join pg_namespace n on n.oid = c.relnamespace
+                   where n.nspname = 'enrich' and c.relkind in ('r','v') order by 1`)).rows.map((r) => r.relname);
 
-async function sweepViews(c, role) {
-  const views = await dashViews(c);
+// Сім в'юх контракту ICP-панелей — усе збагачення, яке є у схемі dash.
+const ENRICH_VIEWS = ["enrich_advocates", "enrich_coverage", "enrich_geo", "enrich_persona",
+  "enrich_score_by_geo", "enrich_score_by_persona", "enrich_state"];
+const isEnrichView = (v) => v.startsWith("enrich_");
+
+// `refused` — в'юхи, які ця роль читати НЕ повинна: на них мусить бути відмова
+// (42501), а не читання і не будь-яка інша помилка.
+async function sweepViews(c, role, refused = () => false) {
+  const all = await dashViews(c);
+  const views = all.filter((v) => !refused(v));
   if (views.length === 0) { bad(`no dash views visible to ${role}`); return; }
   const broken = [];
   for (const v of views) {
@@ -104,7 +122,8 @@ async function sweepViews(c, role) {
     catch (e) { broken.push(`${v} (${e.code} ${e.message})`); }
   }
   broken.length ? bad(`${role} cannot read ${broken.length}/${views.length} dash views: ${broken.join("; ")}`)
-                : ok(`${role} reads all ${views.length} dash views`);
+                : ok(`${role} reads all ${views.length} dash views${all.length > views.length ? ` it is meant to read (of ${all.length})` : ""}`);
+  for (const v of all.filter(refused)) await denied(c, `${role} select dash.${v}`, `select 1 from dash.${v} limit 1`);
 }
 
 // ============================================================ A. на місці
@@ -121,6 +140,33 @@ async function partA(db = null) {
     await denied(c, "grafana_ro insert li.author", "insert into li.author(author, name) values ('x', 'x')");
     await denied(c, "grafana_ro create table in dash", "create table dash.nope(i int)");
     await denied(c, "grafana_ro call li.request_week", "select li.request_week('x', '2026-01-05'::date, gen_random_uuid(), 'x')");
+    // Збагачення — лише через dash.enrich_* (їх щойно прочитав sweepViews). Саму
+    // схему enrich роль не бачить: ні локації, ні історії роботи, ні журналу візитів.
+    const rels = await enrichRelations(c);
+    check(rels.includes("profile") && rels.includes("visit") && rels.includes("advocate_company"),
+      `schema enrich holds profile, visit and advocate_company (${rels.length} relation(s))`, rels.join(", "));
+    for (const r of rels) await denied(c, `grafana_ro select enrich.${r}`, `select 1 from enrich.${r} limit 1`);
+    const held = (await c.query(`select has_schema_privilege('grafana_ro', 'enrich', 'usage') as usage,
+                                        (select count(*)::int from pg_class c join pg_namespace n on n.oid = c.relnamespace
+                                          where n.nspname = 'enrich' and c.relkind in ('r','v','S')
+                                            and has_table_privilege('grafana_ro', c.oid, 'select')) as readable`)).rows[0];
+    check(held.usage === false && held.readable === 0, "grafana_ro holds no USAGE on schema enrich and no SELECT on anything in it", JSON.stringify(held));
+    // Усе, що є в dash, читає кожен, хто може надіслати запит у датасорс: тому там
+    // рівно сім в'юх контракту. Рядок на людину (кошик, персона, час візиту) живе в
+    // li.enrich_person — разом із dash.person це був би список «ім'я, URL профілю,
+    // US/TEAM/ANTI/OTHER, персона, коли ми дивились», якого не показує жодна панель.
+    const enrichViews = (await dashViews(c)).filter(isEnrichView);
+    check(JSON.stringify([...enrichViews].sort()) === JSON.stringify([...ENRICH_VIEWS].sort()),
+      `grafana_ro reads enrichment through the ${ENRICH_VIEWS.length} dash.enrich_* views of the contract, and schema dash holds no other`, enrichViews.join(", "));
+    await denied(c, "grafana_ro select li.enrich_person (per person: bucket, persona, time of the visit)", "select 1 from li.enrich_person limit 1");
+    await denied(c, "grafana_ro call li.persona_of by name", "select li.persona_of('CEO')");
+    // Рубрику виконує той, хто читає в'юху: без EXECUTE панелі персон падають.
+    const fn = (await c.query(`select has_function_privilege('grafana_ro', p.oid, 'execute') as reader, p.prosecdef, p.proconfig
+                                 from pg_proc p join pg_namespace n on n.oid = p.pronamespace
+                                where n.nspname = 'li' and p.proname = 'persona_of'`)).rows;
+    check(fn.length === 1 && fn[0].reader === true && fn[0].prosecdef === false
+      && (fn[0].proconfig ?? []).some((x) => /^search_path=pg_catalog, ?pg_temp$/.test(x)),
+      "li.persona_of: executable by grafana_ro, not a definer, search_path pinned to pg_catalog, pg_temp (the reader's own btrim() cannot get in front)", JSON.stringify(fn));
   });
 
   await as("li_writer", db, async (c) => {
@@ -133,6 +179,26 @@ async function partA(db = null) {
     // Скрейпер ПРОСИТЬ, а не вирішує: двері li_sync для нього зачинені.
     await denied(c, "li_writer call li.publish_run", "select li.publish_run(gen_random_uuid(), 'x')");
     await denied(c, "li_writer call li.set_scoring", "select li.set_scoring(gen_random_uuid(), 'max', '{}', '{}', '{}')");
+    // enrich: рівно те, що роль мала до ICP-панелей. Пише те, що відкрила, і не
+    // може ні стерти журнал візитів (це і є ліміт на день), ні читати список клієнтів.
+    try { await c.query("select 1 from enrich.profile limit 1"); await c.query("select 1 from enrich.visit limit 1"); await c.query("select 1 from enrich.today limit 1"); ok("li_writer reads enrich.profile, enrich.visit and enrich.today"); }
+    catch (e) { bad(`li_writer cannot read enrich: ${e.code} ${e.message}`); }
+    // Права перевіряються до першого рядка, тож `where false` доводить дозвіл і
+    // нічого не пише — навіть послідовність візитів не зрушує (частина A нічого
+    // не змінює, а її ганяють і на бойовій базі).
+    try {
+      await c.query("insert into enrich.visit (person_key, visited_by, outcome) select 'x', 'x', 'skipped' where false");
+      await c.query(`insert into enrich.profile (person_key, parse_status, visited_at, visited_by) select 'x', 'partial', now(), 'x' where false
+                     on conflict (person_key) do update set visited_at = excluded.visited_at`);
+      ok("li_writer may record a visit and upsert a profile in enrich");
+    } catch (e) { bad(`li_writer cannot write enrich: ${e.code} ${e.message}`); }
+    await denied(c, "li_writer delete enrich.visit", "delete from enrich.visit where false");
+    await denied(c, "li_writer delete enrich.profile", "delete from enrich.profile where false");
+    await denied(c, "li_writer truncate enrich.visit", "truncate enrich.visit");
+    await denied(c, "li_writer select enrich.advocate_company", "select 1 from enrich.advocate_company limit 1");
+    await denied(c, "li_writer insert enrich.advocate_company", "insert into enrich.advocate_company(pattern) select 'x' where false");
+    // «all tables in schema li» забрав би й в'юху над збагаченням — вона скрейперу ні до чого.
+    await denied(c, "li_writer select li.enrich_person", "select 1 from li.enrich_person limit 1");
   });
 
   await as("li_sync", db, async (c) => {
@@ -140,7 +206,9 @@ async function partA(db = null) {
     const unreadable = [];
     for (const t of tables) { try { await c.query(`select 1 from li.${t} limit 1`); } catch (e) { unreadable.push(`${t} (${e.code})`); } }
     check(unreadable.length === 0, `li_sync reads all ${tables.length} li tables`, unreadable.join(", "));
-    await sweepViews(c, "li_sync");
+    // Фіди й усе, що під ними, — так. Збагачення — ні: його немає в main, а ця роль —
+    // секрет CI публічного репозиторію. verify.mjs перелічує лише dash.feed_*.
+    await sweepViews(c, "li_sync", isEnrichView);
     // Нічого, крім того, що робить імпортер: жодного прямого UPDATE / DELETE /
     // TRUNCATE, жодного DDL, жодного обходу гейту, жодного піна глобального годинника.
     await denied(c, "li_sync update li.post", "update li.post set preview = preview where false");
@@ -157,6 +225,17 @@ async function partA(db = null) {
     await denied(c, "li_sync alter table", "alter table li.post add column nope int");
     await denied(c, "li_sync drop view", "drop view dash.post");
     await denied(c, "li_sync create function in li", "create function li.nope() returns int language sql as 'select 1'");
+    // Синк відтворює main, а збагачення в main немає: в enrich йому нема чого робити.
+    await denied(c, "li_sync select enrich.profile", "select 1 from enrich.profile limit 1");
+    await denied(c, "li_sync insert enrich.visit", "insert into enrich.visit (person_key, visited_by, outcome) select 'x', 'x', 'skipped' where false");
+    // …і в обхід теж: ні рядка на людину, ні рубрики, ні жодної з dash.enrich_*
+    // (їх щойно перебрав sweepViews — кожна мусила відмовити).
+    await denied(c, "li_sync select li.enrich_person", "select 1 from li.enrich_person limit 1");
+    await denied(c, "li_sync call li.persona_of", "select li.persona_of('CEO')");
+    const held = (await c.query(`select count(*)::int as n from pg_class c join pg_namespace n on n.oid = c.relnamespace
+                                  where ((n.nspname = 'dash' and left(c.relname, 7) = 'enrich_') or (n.nspname = 'li' and c.relname = 'enrich_person'))
+                                    and has_table_privilege('li_sync', c.oid, 'select')`)).rows[0].n;
+    check(held === 0, "li_sync holds SELECT on no enrich view — not in dash, not in li", `${held} view(s)`);
     // Тільки при справжньому вході: у режимі SET ROLE session_user — власник, і
     // йому SET ROLE дозволено за визначенням, тож перевірка нічого б не сказала.
     if (DSN_OF.li_sync) await denied(c, "li_sync set role li_owner", "set local role li_owner");
@@ -176,7 +255,18 @@ async function partA(db = null) {
     await c.query("rollback");
     check(broken.length === 0, `li_backup locks and reads all ${tables.length} li tables`, broken.join(", "));
 
-    const seqs = (await c.query("select schemaname, sequencename from pg_sequences where schemaname in ('li','dash')")).rows;
+    // enrich — єдина копія своїх даних: те, чого li_backup не прочитає, у дампі не буде.
+    const enrich = (await c.query("select tablename from pg_tables where schemaname = 'enrich' order by 1")).rows.map((r) => r.tablename);
+    const enrichBroken = [];
+    await c.query("begin");
+    for (const t of enrich) {
+      try { await c.query("savepoint s"); await c.query(`lock table enrich.${t} in access share mode`); await c.query(`select * from enrich.${t} limit 1`); await c.query("release savepoint s"); }
+      catch (e) { enrichBroken.push(`${t} (${e.code})`); await c.query("rollback to savepoint s"); }
+    }
+    await c.query("rollback");
+    check(enrich.length >= 3 && enrichBroken.length === 0, `li_backup locks and reads all ${enrich.length} enrich tables`, enrichBroken.join(", ") || enrich.join(", "));
+
+    const seqs = (await c.query("select schemaname, sequencename from pg_sequences where schemaname in ('li','dash','enrich')")).rows;
     const seqBroken = [];
     for (const s of seqs) { try { await c.query(`select last_value from ${s.schemaname}.${s.sequencename}`); } catch (e) { seqBroken.push(`${s.sequencename} (${e.code})`); } }
     check(seqBroken.length === 0, `li_backup reads all ${seqs.length} sequence(s)`, seqBroken.join(", "));
@@ -197,6 +287,10 @@ async function partA(db = null) {
     await denied(c, "li_backup call li.request_week", "select li.request_week('x', '2026-01-05'::date, gen_random_uuid(), 'x')");
     await denied(c, "li_backup call li.publish_run", "select li.publish_run(gen_random_uuid(), 'x')");
     await denied(c, "li_backup call li.upsert_author", "select li.upsert_author('[]'::jsonb)");
+    await denied(c, "li_backup insert enrich.visit", "insert into enrich.visit (person_key, visited_by, outcome) select 'x', 'x', 'skipped' where false");
+    await denied(c, "li_backup update enrich.profile", "update enrich.profile set name = name where false");
+    await denied(c, "li_backup delete enrich.visit", "delete from enrich.visit where false");
+    await denied(c, "li_backup insert enrich.advocate_company", "insert into enrich.advocate_company(pattern) select 'x' where false");
   });
 }
 
@@ -247,6 +341,14 @@ await clockChecks();
 // ------------------------------------------------ ворота і побічний канал
 const GATED_VIEWS = ["published_week", "post", "post_week", "post_demographic", "account_week",
   "account_demographic", "comment", "comment_week", "person", "engagement_event", "scan_target"];
+// В'юха dash, що читає enrich.* напряму. Гейту в неї немає (у збагачення нема
+// тижня), але бар'єр потрібен з тієї ж причини: без нього предикат читача дійшов
+// би до рядків, яких в'юха не показує, — до історії роботи тих, хто в клієнта не
+// працював. Проба на ДАНИХ — у db/test-enrich-views.mjs: тут enrich порожній.
+// Друга така в'юха, li.enrich_person, лежить у схемі li: читач її не назве, тож
+// пробувати нема чим — її опцію звіряє каталог.
+const ENRICH_BARRIER_VIEWS = ["enrich_advocates"];
+const BARRIER_VIEWS = [...GATED_VIEWS, ...ENRICH_BARRIER_VIEWS];
 
 async function leakChecks(db) {
   // Один опублікований тиждень одного автора стає rejected — і за ним мають
@@ -274,9 +376,14 @@ async function leakChecks(db) {
   await asOwner(db, async (c) => {
     const rows = (await c.query(`select c.relname from pg_class c join pg_namespace n on n.oid = c.relnamespace
                                   where n.nspname = 'dash' and c.relkind = 'v' and c.relname = any($1)
-                                    and coalesce(c.reloptions::text, '') like '%security_barrier=true%'`, [GATED_VIEWS])).rows.map((r) => r.relname);
-    const missing = GATED_VIEWS.filter((v) => !rows.includes(v));
-    check(missing.length === 0, `all ${GATED_VIEWS.length} dash views that read a gated table are security_barrier views`, missing.join(", "));
+                                    and coalesce(c.reloptions::text, '') like '%security_barrier=true%'`, [BARRIER_VIEWS])).rows.map((r) => r.relname);
+    const missing = BARRIER_VIEWS.filter((v) => !rows.includes(v));
+    check(missing.length === 0, `all ${BARRIER_VIEWS.length} dash views that read a gated table (${GATED_VIEWS.length}) or schema enrich (${ENRICH_BARRIER_VIEWS.length}) are security_barrier views`, missing.join(", "));
+    const perPerson = (await c.query(`select n.nspname || '.' || c.relname as rel, coalesce(c.reloptions::text, '') like '%security_barrier=true%' as barrier
+                                        from pg_class c join pg_namespace n on n.oid = c.relnamespace
+                                       where c.relkind = 'v' and c.relname = 'enrich_person'`)).rows;
+    check(JSON.stringify(perPerson) === JSON.stringify([{ rel: "li.enrich_person", barrier: true }]),
+      "the per-person enrich view is li.enrich_person — a security_barrier view in schema li, and nowhere in dash", JSON.stringify(perPerson));
   });
 
   await as("grafana_ro", db, async (c) => {
@@ -310,11 +417,11 @@ async function leakChecks(db) {
     check(control.evaluated > control.visible,
       `leak probe is sensitive: on a barrier-less control view the predicate ran on ${control.evaluated - control.visible} hidden row(s)`);
     const leaks = [];
-    for (const v of GATED_VIEWS) {
+    for (const v of BARRIER_VIEWS) {
       const r = await probe(v);
       if (r.evaluated !== r.visible) leaks.push(`${v} (+${r.evaluated - r.visible})`);
     }
-    check(leaks.length === 0, `rejected week: a leaky predicate sees only visible rows in all ${GATED_VIEWS.length} gated dash views`, leaks.join(", "));
+    check(leaks.length === 0, `rejected week: a leaky predicate sees only visible rows in all ${BARRIER_VIEWS.length} barrier dash views`, leaks.join(", "));
     // Те саме без pg_temp: помилка як оракул.
     let divLeaks = 0;
     for (const v of ["post_week", "account_week"]) {
@@ -349,11 +456,27 @@ if (!argv.includes("--no-scratch")) {
   await asOwner(null, (c) => c.query(`create database ${SCRATCH}`));
   const work = mkdtempSync(join(tmpdir(), "li-roletest-"));
   try {
+    // Той самий текст у тому самому порядку, що накочує apply-schema.mjs: спершу
+    // enrich-schema.sql, потім schema.sql, яка від нього залежить.
     await asOwner(SCRATCH, async (c) => {
-      const sql = readFileSync(join(HERE, "schema.sql"), "utf8").split("\n").filter((l) => !l.startsWith("\\")).join("\n");
-      await c.query("begin"); await c.query(sql); await c.query("commit");
+      await c.query("begin"); await c.query(schemaSql()); await c.query("commit");
     });
-    ok("schema.sql applied to the scratch database by the --dsn role");
+    ok("enrich-schema.sql, then schema.sql, applied to the scratch database by the --dsn role");
+    // І запобіжник на початку schema.sql: без схеми enrich вона відмовляє ДО того,
+    // як щось дропнути, — у транзакції, яка відкочується, на цій же базі.
+    await asOwner(SCRATCH, async (c) => {
+      const alone = schemaSql().split("-- ---- schema.sql\n")[1];
+      await c.query("begin");
+      try {
+        await c.query("drop schema dash cascade"); await c.query("drop schema enrich cascade");
+        await c.query(alone);
+        bad("schema.sql without schema enrich: applied, must refuse");
+      } catch (e) {
+        check(e.code === "P0001" && /schema enrich is missing/.test(e.message), "schema.sql without schema enrich: refuses with a message that says what to apply first", `${e.code} ${e.message}`);
+      } finally { await c.query("rollback"); }
+      const still = (await c.query("select to_regclass('enrich.profile') is not null and to_regclass('li.post') is not null and to_regclass('dash.enrich_geo') is not null as yes")).rows[0].yes;
+      check(still === true, "after the refusal: enrich, li and dash are all still there");
+    });
 
     const node = (script, args, dsn) => spawnSync("node", [join(HERE, script), ...args],
       { cwd: REPO, encoding: "utf8", env: { ...process.env, LI_DSN: dsn } });
