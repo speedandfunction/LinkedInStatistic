@@ -3,6 +3,10 @@
 # (schema.sql — єдиний .sql, якому тут місце.)
 *.sql
 !schema.sql
+# enrich-schema.sql — теж опис схеми, а не дані. Ідемпотентний, нічого не дропає:
+# схема `enrich` тримає те, що ми побачили на сторінці людини, і JSON-джерела в
+# неї немає, тож schema.sql не має права її зносити.
+!enrich-schema.sql
 *.sql.partial.*
 *.dump
 backups/
