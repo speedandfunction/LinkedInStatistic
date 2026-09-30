@@ -10,9 +10,13 @@
 #      (це НЕ бойовий сервер: локальний контейнер або одноразовий Postgres у CI);
 #   2. відновлює в неї дамп через psql з ON_ERROR_STOP — будь-яка помилка
 #      відновлення валить навчання, а не ховається в середині виводу;
-#   3. рахує рядки в кожній таблиці відновленої бази і джерела та порівнює;
-#      звіряє кількість dash-в'юх і li-функцій; читає КОЖНУ dash-в'юху — схема,
-#      яка відновилась, але не виконується, теж не відновлення;
+#   3. рахує рядки в кожній таблиці відновленої бази і джерела та порівнює — у
+#      ТРЬОХ схемах: li, dash і enrich; звіряє кількість dash-в'юх, li-функцій і
+#      таблиць та в'юх enrich; читає КОЖНУ в'юху dash, enrich і li (там одна:
+#      li.enrich_person, рядок на людину під ICP-панелями) — схема, яка
+#      відновилась, але не виконується, теж не відновлення. Дамп без схеми enrich
+#      навчання не проходить: збагачення не має JSON-джерела, і відновлення з
+#      такого дампа втратило б його назавжди;
 #   4. з --verify — проганяє db/verify.mjs ПРОТИ ВІДНОВЛЕНОЇ бази: побайтовий
 #      паритет відновленого з JSON у робочому дереві. Це найсильніше з тверджень
 #      («з цієї копії можна зібрати ті самі дашборди»), але воно правдиве лише
@@ -56,11 +60,11 @@ source_() { node "$HERE/pg-env.mjs" LI_BACKUP_DSN -- "$@"; }
 
 COUNT_SQL="$(cat <<'SQL'
 select format('select %L, count(*) from %I.%I', schemaname || '.' || tablename, schemaname, tablename)
-  from pg_tables where schemaname in ('li','dash') order by 1
+  from pg_tables where schemaname in ('li','dash','enrich') order by 1
 \gexec
 SQL
 )"
-SHAPE_SQL="select (select count(*) from pg_views where schemaname='dash'), (select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='li')"
+SHAPE_SQL="select (select count(*) from pg_views where schemaname='dash'), (select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='li'), (select count(*) from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='enrich' and c.relkind in ('r','v'))"
 
 RESTORED="$(mktemp)"; SRC="$(mktemp)"; INDUMP="$(mktemp)"
 cleanup() {
@@ -112,19 +116,34 @@ extra="$(LC_ALL=C join -t $'\t' -v 2 "$SRC" "$RESTORED" | wc -l | tr -d ' ')"
 
 # ---- форма: в'юхи й функції, і чи вони живі ---------------------------------
 got_shape="$(scratch psql -X -At -F ' ' -v ON_ERROR_STOP=1 -c "$SHAPE_SQL")"
-echo "restore-drill: restored ${got_shape%% *} dash views and ${got_shape##* } li functions${src_shape:+ (source: ${src_shape%% *} and ${src_shape##* })}"
+read -r got_views got_funcs got_enrich <<<"$got_shape"
+src_note=""
+if [[ -n "$src_shape" ]]; then
+  read -r src_views src_funcs src_enrich <<<"$src_shape"
+  src_note=" (source: ${src_views}, ${src_funcs} and ${src_enrich})"
+fi
+echo "restore-drill: restored ${got_views} dash views, ${got_funcs} li functions and ${got_enrich} enrich tables and views${src_note}"
 if [[ -n "$src_shape" && "$src_shape" != "$got_shape" ]]; then
-  echo "restore-drill: the number of views/functions differs from the source" >&2; bad=$((bad + 1))
+  echo "restore-drill: the number of views/functions/enrich relations differs from the source" >&2; bad=$((bad + 1))
+fi
+# enrich — єдина схема, якої не зібрати з git. Дамп, у якому її немає, відновився б
+# «без помилок» і мовчки лишив би базу без збагачення; коли порівнювати нема з чим
+# (LI_BACKUP_DSN не заданий), лише ця перевірка це й побачить.
+enrich_ok="$(scratch psql -X -At -v ON_ERROR_STOP=1 -c "select to_regclass('enrich.profile') is not null and to_regclass('enrich.visit') is not null and to_regclass('enrich.advocate_company') is not null")"
+if [[ "$enrich_ok" != t ]]; then
+  echo "restore-drill: the restored database has no enrich.profile / enrich.visit / enrich.advocate_company — this dump does NOT carry the enrichment, and nothing else does" >&2
+  bad=$((bad + 1))
 fi
 broken="$(scratch psql -X -At -v ON_ERROR_STOP=0 2>&1 >/dev/null <<'SQL' | grep -c 'ERROR' || true
-select format('select count(*) from (select * from dash.%I limit 1) x', viewname) from pg_views where schemaname = 'dash' order by 1
+select format('select count(*) from (select * from %I.%I limit 1) x', schemaname, viewname) from pg_views where schemaname in ('dash','enrich','li') order by 1
 \gexec
 SQL
 )"
-if (( broken > 0 )); then echo "restore-drill: ${broken} dash view(s) do not execute in the restored database" >&2; bad=$((bad + broken))
-else echo "restore-drill: every dash view executes in the restored database"; fi
+if (( broken > 0 )); then echo "restore-drill: ${broken} dash/enrich/li view(s) do not execute in the restored database" >&2; bad=$((bad + broken))
+else echo "restore-drill: every dash, enrich and li view executes in the restored database"; fi
 published="$(scratch psql -X -At -v ON_ERROR_STOP=1 -c 'select count(*) from dash.published_week')"
-echo "restore-drill: ${tables} tables, ${total} rows, ${published} published week(s) visible through dash"
+enriched="$(awk -F'\t' '$1 == "enrich.profile" { print $2 }' "$RESTORED")"
+echo "restore-drill: ${tables} tables, ${total} rows, ${published} published week(s) visible through dash, ${enriched:-0} opened profile(s) in enrich"
 
 if (( VERIFY )); then
   # DSN тимчасової бази збирається в env дочірнього процесу — не в argv.

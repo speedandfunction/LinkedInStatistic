@@ -24,10 +24,28 @@
 --   * Every fact carries `run_id`, so "which scrape put this here" is answerable
 --     without a git blame.
 --
--- Apply with:
---   docker exec -i li-pg psql -U postgres -d linkedin -v ON_ERROR_STOP=1 < db/schema.sql
+-- A THIRD schema, `enrich`, is NOT defined here and is never dropped here: what
+-- opening a person's profile page showed. It has no JSON to be rebuilt from, so
+-- it lives in db/enrich-schema.sql (idempotent, drops nothing). This file reads
+-- it — the dash.enrich_* views — and therefore must be applied AFTER that one.
+--
+-- Apply with (both files, in this order, one transaction):
+--   node db/apply-schema.mjs
+-- or, where there is a psql:
+--   cat db/enrich-schema.sql db/schema.sql | docker exec -i li-pg psql -U postgres -d linkedin -v ON_ERROR_STOP=1
 
 \set ON_ERROR_STOP on
+
+-- Before anything is dropped: without schema enrich this file would stop at the
+-- first dash.enrich_* view with "relation does not exist" — after li and dash are
+-- already gone, if it is fed to psql on its own. Say what is wrong, and say it
+-- while the database is still whole.
+do $$ begin
+  if to_regclass('enrich.profile') is null or to_regclass('enrich.advocate_company') is null then
+    raise exception 'schema enrich is missing or older than this file'
+      using hint = 'Apply db/enrich-schema.sql first. node db/apply-schema.mjs applies both, in order.';
+  end if;
+end $$;
 
 drop schema if exists dash cascade;
 drop schema if exists li cascade;
@@ -1335,6 +1353,314 @@ create view dash.feed_page_search_weeks as
 
 
 -- ===========================================================================
+-- dash.enrich_* — ICP: who engages, from the profiles we opened
+-- ===========================================================================
+--
+-- The feed views above repeat what the JSON feed says. These do not: they read
+-- schema `enrich` — what OPENING a person's profile page showed (location, the
+-- current title, the work history). That schema is defined in
+-- db/enrich-schema.sql, not here, because this file begins with DROP SCHEMA and
+-- rebuilds everything from the JSON corpus, and enrichment has no JSON to be
+-- rebuilt from. So this file DEPENDS on that one: db/apply-schema.mjs applies
+-- enrich-schema.sql first, then this file, in one transaction.
+--
+-- NO ORACLE. db/verify.mjs has nothing to hold these against — its FEED PARITY
+-- block lists dash.feed_* only, and db/verify-panels.mjs has no predecessor to
+-- compare the panels that read dash.enrich_* with: it runs each of them and
+-- demands an answer, no more. What can be proven is proven by
+-- db/test-enrich-views.mjs: the scores below add up, to the unit, to the all-time
+-- score the dashboard already shows.
+--
+-- THE CONTRACT (the "ICP — who engages" row of _template/author.json is built
+-- against it):
+--
+--   * columns: `author text`, `ord integer`, then the panel's fields;
+--   * a view with buckets has EVERY bucket for EVERY author, people = 0 included:
+--     a bar that is missing reads as "no data", a bar at 0 reads as 0;
+--   * a PERSON is a row of dash.person whose key starts with 'in/'. Company pages
+--     ('company/...') engage too, but they are not people: they are in no head
+--     count here. Their events still carry points, so in the two score views they
+--     sit under 'not opened' / 'unknown' — that is what makes the buckets add up
+--     to the total;
+--   * 'not opened' and 'unknown' mean "WE HAVE NOT LOOKED", never "nobody": the
+--     bar shrinks as profiles get opened, it says nothing about the audience.
+--     'not opened' also holds a profile that was opened and showed no location
+--     (enrich.profile.geo_bucket is NULL — "we do not know", as the parser puts
+--     it): calling that OTHER would be a guess about where the person lives;
+--   * the bucket is the PARSER's (fast/profile-parse.mjs), stored when the profile
+--     was opened; nothing here second-guesses it. The parser names a country only
+--     when the location does (a country, a US state, a well-known city); anything
+--     else is NULL and lands under 'not opened'. Rows stored by an older parser
+--     are re-bucketed from enrich.profile.location_raw by fast/enrich-rebucket.mjs.
+--
+-- THE GATE. People and events arrive through dash.person and
+-- dash.engagement_scored, so a week that is not published is not counted here
+-- either. enrich.profile has no week: it is joined only to people who are
+-- already visible.
+--
+-- WHAT GRAFANA MAY SEE. grafana_ro holds nothing in schema enrich; these views
+-- run with li_owner's rights. Whoever may query the datasource may send ANY SQL,
+-- so what is in schema dash is what a reader gets — all of it, not only what the
+-- committed panels select. Hence:
+--
+--   * the SEVEN views of the contract are the only enrichment in schema dash:
+--     six of them are counts and sums per bucket, the seventh
+--     (dash.enrich_advocates) shows the ONE line of a work history that names a
+--     client;
+--   * the building block under them — one row per PERSON, with the bucket, the
+--     persona and the time the profile was opened — is li.enrich_person, in
+--     schema li, where grafana_ro has no USAGE. Joined to dash.person it would
+--     be a list of "name, profile URL, US/TEAM/ANTI/OTHER, persona, when we
+--     looked", which no panel shows and the JSON feed never carried. The dash
+--     views read it with their owner's rights, so the reader loses nothing;
+--   * the two views that read enrich.* directly are security_barrier views — see
+--     the note at dash.published_week. Without the barrier a predicate like
+--     `where leak(title)` would run on every line of everybody's history before
+--     the client filter did;
+--   * li_sync (the CI role) replays main, and enrichment is not in main: it is
+--     refused on li.enrich_person and on every dash.enrich_* view (ROLES, below).
+--
+-- Location, the rest of the history, the current company and the visit log are
+-- in no view at all.
+
+-- The persona rubric, in ONE place: three lists of titles, tried in order of
+-- precedence, first hit wins — "Founder & CTO" is P3, not P1. Case-insensitive,
+-- on word boundaries ('coo' does not fire inside "cooperative"); a space in a
+-- title stands for any run of whitespace. A rubric change is an edit of this
+-- function and nothing else.
+--
+-- THE LISTS are the ICP sheet's, verbatim, plus two SPELLINGS of titles that are
+-- already on them: 'cofounder' (of 'co-founder') and 'vp, it' (of 'vp it').
+--
+-- NOT P3. A list matched word by word also catches every title that merely
+-- CONTAINS one of its words, and P3 outranks the rest — so a "Product Owner" was
+-- counted among the owners, a "Principal Engineer" among the principals, and
+-- neither could reach the bucket it belongs to (on the corpus of 2026-09: 7 of
+-- the 42 P3 of one author). These compound titles are taken out of the text
+-- BEFORE the lists are tried; what is left is matched as before:
+--   * "product owner"                       — a role in a Scrum team, not an owner;
+--   * "vice president"                      — 'president' is on the list, a VP is
+--                                             not. "Executive Vice President" is:
+--                                             it is read as the list's own 'evp';
+--   * "principal <…> engineer / architect / consultant / manager / …"
+--                                           — a seniority grade. Only the word
+--                                             'principal' goes, so that "Principal
+--                                             Product Manager" is the P1 it is;
+--   * "assistant / advisor / chief of staff TO the <any P3 title>"
+--                                           — names somebody else's title. Only
+--                                             "to the CEO" goes: a "Chief of Staff
+--                                             to the CEO" is P2.
+-- What this does NOT catch is a P3 word next to a hyphen ("Founder-led sales"):
+-- a keyword match on a headline stays a hint, and the panels say so.
+--
+-- WHITESPACE. LinkedIn writes titles with no-break and zero-width spaces, which
+-- [[:space:]] does not match ("Product<nbsp>Manager" read as one word). They are
+-- turned into plain spaces first. chr() rather than the characters themselves:
+-- they are invisible in an editor, and a backslash escape would read differently
+-- under another standard_conforming_strings.
+--
+-- 'unknown' is "nothing to read": no text, or punctuation only — LinkedIn shows
+-- a missing headline as "--". A headline in another language than English has
+-- something to read and no title on the lists: it is 'other'.
+--
+-- search_path is pinned. The function is not inlined (its body has a subquery),
+-- so replace(), btrim() and ~* are looked up when it RUNS — with the search_path
+-- of whoever queries the view. It is the one function that is handed text no
+-- view shows (enrich.profile.current_title), and a reader able to create a
+-- function in any schema on its path could have put its own btrim() in front.
+--
+-- [[:<:]] and [[:>:]] are the word boundaries, spelled without a backslash.
+create function li.persona_of(p_text text) returns text
+  language sql immutable
+  set search_path = pg_catalog, pg_temp
+  as $$
+    with rubric(precedence, persona, titles) as (values
+      (1, 'P3', 'owner|ceo|chief executive officer|president|founder|co-founder|cofounder|managing partner|principal|executive director|managing director|coo|cfo|chief growth officer|evp'),
+      (2, 'P1', 'cto|chief technology officer|head of technology|director of technology|vp of it|vp it|vp, it|cio|engineering manager|head of engineering|head of product|director of product|product manager|solution architect|application security lead|head of platform'),
+      (3, 'P2', 'director of operations|head of operations|program manager|director of quality|chief of staff')
+    ),
+    seen as (
+      -- soft hyphen and the zero-width joiners vanish; every odd space is a space
+      select btrim(regexp_replace(
+               regexp_replace(
+                 regexp_replace(coalesce(p_text, ''),
+                   '[' || chr(173) || chr(8204) || chr(8205) || chr(8288) || chr(65279) || ']', '', 'g'),
+                 '[' || chr(160) || chr(8192) || chr(8193) || chr(8194) || chr(8195) || chr(8196) || chr(8197) || chr(8198)
+                     || chr(8199) || chr(8200) || chr(8201) || chr(8202) || chr(8203) || chr(8239) || chr(8287) || chr(12288) || ']', ' ', 'g'),
+               '[[:space:]]+', ' ', 'g')) as txt
+    ),
+    read as (
+      select s.txt,
+             regexp_replace(
+               regexp_replace(s.txt, '[[:<:]]executive vice[ -]president[[:>:]]', 'evp', 'gi'),
+               '[[:<:]](product owner'
+                 || '|vice[ -]president'
+                 || '|principal(?= ((?!(and|at|of|in|for) )[a-z]+ ){0,2}(engineer|developer|architect|consultant|designer|analyst|scientist|researcher|programmer|manager)s?[[:>:]])'
+                 || '|(?<=(assistant|advisor|adviser|secretary|chief of staff) )to (the )?(' || (select r.titles from rubric r where r.persona = 'P3') || ')'
+                 || ')[[:>:]]', ' ', 'gi') as titles
+        from seen s
+    )
+    select coalesce(
+      (select r.persona
+         from rubric r
+        where read.titles ~* ('[[:<:]](' || replace(r.titles, ' ', '[[:space:]]+') || ')[[:>:]]')
+        order by r.precedence
+        limit 1),
+      -- no title matched: 'other' if there was something to read, 'unknown' if not
+      case when regexp_replace(read.txt,
+                  '[[:space:][:punct:]' || chr(171) || chr(183) || chr(187) || chr(8211) || chr(8212) || chr(8216) || chr(8217)
+                      || chr(8220) || chr(8221) || chr(8226) || chr(8230) || chr(8722) || ']', '', 'g') = ''
+           then 'unknown' else 'other' end)
+      from read
+  $$;
+comment on function li.persona_of(text) is
+  'P3 | P1 | P2 | other | unknown (nothing to read). The ICP persona of a title or headline; the only copy of the rubric.';
+
+-- The building block: one row per visible PERSON of an author, with what the
+-- opened profile says about them. The persona is read from the best text there
+-- is: the current title and the headline as the profile page showed them, else
+-- the headline the scraper saw next to the reaction. An EMPTY enrich headline
+-- counts as absent — the parser stores '' when it found none, and '' must not
+-- hide the headline li.person does have.
+--
+-- In schema li, NOT in dash: this is enrichment per person, and everything in
+-- dash is readable by whoever may query the Grafana datasource — see WHAT
+-- GRAFANA MAY SEE above. The seven dash.enrich_* views below are all there is
+-- to read; they reach this one with li_owner's rights.
+create view li.enrich_person with (security_barrier) as
+  select p.author, p.person_key,
+         (e.person_key is not null)           as opened,
+         coalesce(e.geo_bucket, 'not opened') as bucket,
+         li.persona_of(coalesce(e.current_title, '') || ' ' ||
+                       coalesce(nullif(btrim(e.headline), ''), p.headline, '')) as persona,
+         e.visited_at
+    from dash.person p
+    left join enrich.profile e on e.person_key = p.person_key
+   where p.person_key like 'in/%';
+comment on view li.enrich_person is
+  'One row per visible person: opened, geography bucket, persona, time of the visit. Read by dash.enrich_* only — never granted to grafana_ro or li_sync.';
+
+-- How far the opening of profiles has got.
+create view dash.enrich_coverage as
+  with b(ord, bucket, opened) as (values (0, 'opened', true), (1, 'not opened', false))
+  select a.author, b.ord, b.bucket,
+         count(p.person_key)::integer as people
+    from li.author a
+   cross join b
+    left join li.enrich_person p on p.author = a.author and p.opened = b.opened
+   group by a.author, b.ord, b.bucket;
+
+-- The same two numbers on one row, for a stat tile. last_visit is the latest
+-- profile of THIS author's people that was opened — by whichever account opened
+-- it — and NULL while none has been.
+create view dash.enrich_state as
+  select a.author, 0 as ord,
+         (count(*) filter (where p.opened))::integer as opened,
+         count(p.person_key)::integer                as total,
+         max(p.visited_at)                           as last_visit
+    from li.author a
+    left join li.enrich_person p on p.author = a.author
+   group by a.author;
+
+create view dash.enrich_geo as
+  with b(ord, bucket) as (values (0, 'US'), (1, 'TEAM'), (2, 'ANTI'), (3, 'OTHER'), (4, 'not opened'))
+  select a.author, b.ord, b.bucket,
+         count(p.person_key)::integer as people
+    from li.author a
+   cross join b
+    left join li.enrich_person p on p.author = a.author and p.bucket = b.bucket
+   group by a.author, b.ord, b.bucket;
+
+-- ONCE PER PERSON. The persona is a function call — a dozen regular expressions
+-- on a headline — and where the planner puts it is the planner's business. In a
+-- database that has just been imported and not analyzed yet it chose a nested
+-- loop with li.enrich_person on the inside: the rubric ran once per EVENT and
+-- PERSON, 172,000 times for one author, and the panel ran into the reader's
+-- statement_timeout (22 s, measured). `materialized` takes that choice away: the
+-- people are read and classified once per query, whatever the join above them
+-- does. It cannot be narrowed to one author from outside — a materialized CTE
+-- takes no condition from the query that reads it — so its cost grows with the
+-- number of people in the corpus, not with the plan: 60 ms at 430 people.
+create view dash.enrich_persona as
+  with b(ord, persona) as (values (0, 'P3'), (1, 'P1'), (2, 'P2'), (3, 'other'), (4, 'unknown')),
+  who as materialized (select p.author, p.person_key, p.persona from li.enrich_person p)
+  select a.author, b.ord, b.persona,
+         count(p.person_key)::integer as people
+    from li.author a
+   cross join b
+    left join who p on p.author = a.author and p.persona = b.persona
+   group by a.author, b.ord, b.persona;
+
+-- ALL-TIME score, split by who earned it. The points are dash.engagement_scored's
+-- — the very rows dash.engagement_total sums for its all_time scope — so nothing
+-- is scored a second time here and no rounding is needed: a sum of the same
+-- numerics, grouped differently. Every event lands in exactly one bucket (an
+-- event of a company page, or of a person the gate still hides, under
+-- 'not opened' / 'unknown'), hence for every author
+--   sum(score) over the buckets = dash.feed_engagement_score_totals.score, all_time
+-- and the same for reactions and comments. db/test-enrich-views.mjs holds it to that.
+create view dash.enrich_score_by_geo as
+  with b(ord, bucket) as (values (0, 'US'), (1, 'TEAM'), (2, 'ANTI'), (3, 'OTHER'), (4, 'not opened')),
+  who as materialized (select p.author, p.person_key, p.bucket from li.enrich_person p),   -- see ONCE PER PERSON
+  s as (
+    select e.author, e.kind, e.points,
+           coalesce(p.bucket, 'not opened') as bucket
+      from dash.engagement_scored e
+      left join who p on p.author = e.author and p.person_key = e.person_key)
+  select a.author, b.ord, b.bucket,
+         coalesce(sum(s.points), 0)                               as score,
+         (count(*) filter (where s.kind = 'reaction'))::integer   as reactions,
+         (count(*) filter (where s.kind = 'comment'))::integer    as comments
+    from li.author a
+   cross join b
+    left join s on s.author = a.author and s.bucket = b.bucket
+   group by a.author, b.ord, b.bucket;
+
+create view dash.enrich_score_by_persona as
+  with b(ord, persona) as (values (0, 'P3'), (1, 'P1'), (2, 'P2'), (3, 'other'), (4, 'unknown')),
+  who as materialized (select p.author, p.person_key, p.persona from li.enrich_person p),  -- see ONCE PER PERSON
+  s as (
+    select e.author, e.kind, e.points,
+           coalesce(p.persona, 'unknown') as persona
+      from dash.engagement_scored e
+      left join who p on p.author = e.author and p.person_key = e.person_key)
+  select a.author, b.ord, b.persona,
+         coalesce(sum(s.points), 0)                               as score,
+         (count(*) filter (where s.kind = 'reaction'))::integer   as reactions,
+         (count(*) filter (where s.kind = 'comment'))::integer    as comments
+    from li.author a
+   cross join b
+    left join s on s.author = a.author and s.persona = b.persona
+   group by a.author, b.ord, b.persona;
+
+-- People who worked at a client of ours: one row per line of a work history
+-- whose company matches a pattern of enrich.advocate_company — somebody with two
+-- jobs at the same client is two rows. By name, in byte order (see ORDER above);
+-- ord is the 0-based position within the author, as in every feed view. The name
+-- and the headline are the profile page's when it had them, the scraper's
+-- otherwise. A work_history that is not an array is read as an empty one: one
+-- malformed row must not take the panel down.
+create view dash.enrich_advocates with (security_barrier) as
+  select p.author,
+         (row_number() over (partition by p.author
+                             order by coalesce(nullif(btrim(e.name), ''), p.name, p.person_key) collate "C",
+                                      p.person_key collate "C", w.pos) - 1)::integer as ord,
+         coalesce(nullif(btrim(e.name), ''), p.name, p.person_key) as name,
+         coalesce(nullif(btrim(e.headline), ''), p.headline, '')   as headline,
+         w.job ->> 'company'                                       as client_company,
+         coalesce(w.job ->> 'title', '')                           as title,
+         coalesce(w.job ->> 'dates', '')                           as dates
+    from dash.person p
+    join enrich.profile e on e.person_key = p.person_key
+   cross join lateral jsonb_array_elements(
+           case when jsonb_typeof(e.work_history) = 'array' then e.work_history else '[]'::jsonb end)
+         with ordinality as w(job, pos)
+   where p.person_key like 'in/%'
+     and exists (select 1 from enrich.advocate_company c
+                  where w.job ->> 'company' ~* c.pattern);
+
+
+-- ===========================================================================
 -- the merge rules, fenced behind SECURITY DEFINER functions
 -- ===========================================================================
 --
@@ -2170,6 +2496,15 @@ comment on function li.publish_run is
 --              li and dash — what pg_dump needs — and nothing else: no INSERT,
 --              no EXECUTE on any writer function.
 --
+-- Schema enrich hands out its own grants, in db/enrich-schema.sql, because it
+-- outlives this file: li_owner reads it (the dash.enrich_* views run with the
+-- owner's rights), li_backup reads all of it (the dump is the only other copy),
+-- li_writer writes what it opened. grafana_ro holds NOTHING there — it reaches
+-- enrichment only through the seven dash.enrich_* views, which the grants on
+-- schema dash below already cover; li.enrich_person, the per-person block under
+-- them, it cannot name at all. li_sync holds nothing there either, and is
+-- refused on those views too: see ENRICHMENT below.
+--
 -- All of them are created WITHOUT passwords. Setting them is the operator's job
 -- and belongs nowhere near a repo:
 --
@@ -2326,6 +2661,35 @@ grant execute on function li.current_month()             to grafana_ro, li_sync;
 grant execute on function li.current_week_monday()       to grafana_ro, li_sync;
 grant execute on function li.js_round(numeric)           to grafana_ro, li_sync;
 grant execute on function li.js_round(double precision)  to grafana_ro, li_sync;
+-- The persona rubric runs inside li.enrich_person, under the dash.enrich_* views:
+-- the reader of those needs it, and nobody else does.
+grant execute on function li.persona_of(text)            to grafana_ro;
+
+-- ENRICHMENT is for the dashboards and for the backup, and for nobody else. The
+-- grants above are by schema ("all tables in schema li / dash"), which took in
+-- the enrich views with the rest:
+--   * li_sync is the credential CI holds, in a public repository. It replays
+--     main and checks the feeds (verify.mjs lists dash.feed_* only); enrichment
+--     is in neither. Without this it could read who worked at a client
+--     (dash.enrich_advocates) and the bucket of every person (li.enrich_person).
+--   * li_writer reads enrich.profile itself — it wrote it — and has no use for a
+--     view over it; INSERT on a view means nothing.
+-- By name for the one view in li; by prefix in dash, so that a dash.enrich_* view
+-- added later is covered without anyone remembering this block. grafana_ro needs
+-- no line here: it holds no USAGE on schema li, and the seven views in dash are
+-- exactly what it is meant to read. db/test-roles.mjs checks all of it by
+-- logging in as each role.
+revoke all on li.enrich_person from li_writer, li_sync;
+do $$
+declare r record;
+begin
+  for r in select c.oid::regclass as rel
+             from pg_class c join pg_namespace n on n.oid = c.relnamespace
+            where n.nspname = 'dash' and c.relkind = 'v' and left(c.relname, 7) = 'enrich_'
+  loop
+    execute format('revoke all on %s from li_sync', r.rel);
+  end loop;
+end $$;
 
 -- Views read tables with the owner's rights, so grafana_ro never needs SELECT in
 -- li. Functions are the exception — see the EXECUTE grants above.

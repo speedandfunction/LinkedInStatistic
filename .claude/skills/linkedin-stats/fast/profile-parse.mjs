@@ -53,14 +53,19 @@ export function parseHead(lines) {
     if (HEADING_RE.test(l) || COUNT_RE.test(l) || NOISE_RE.test(l) || DEGREE_RE.test(l)) continue;
     if (l.length >= 20) { headline = l; iHeadline = i; break; }
   }
-  let location = '';
+  // Між підписом і локацією LinkedIn інколи ставить ще короткий рядок — назву
+  // роботодавця чи галузь («Nestlé», «Arts and Culture»). Тому спершу шукаємо у
+  // вікні рядок, у якому видно країну; і лише якщо такого немає — беремо перший
+  // короткий, як раніше. Кошик для нього однаково буде «не знаємо».
+  const candidates = [];
   for (let i = iHeadline + 1; i < Math.min(lines.length, iHeadline + 6); i++) {
     const l = lines[i];
     if (!l || HEADING_RE.test(l)) break;
     if (COUNT_RE.test(l) || NOISE_RE.test(l) || DEGREE_RE.test(l)) continue;
     // Локація коротка і без крапки в кінці; "Contact info" уже відсіяно.
-    if (l.length <= 60 && !/[.!?]$/.test(l)) { location = l; break; }
+    if (l.length <= 60 && !/[.!?]$/.test(l)) candidates.push(l);
   }
+  const location = candidates.find((l) => countryOf(l) !== null) ?? candidates[0] ?? '';
   return { name, headline, location };
 }
 
@@ -109,24 +114,68 @@ export function parseExperience(lines, employerNames = []) {
 }
 
 /**
- * US / TEAM / ANTI / OTHER — ДЗЕРКАЛО fast/page/geo_classify.py, рядок у рядок.
- * Той файл уже рахує географію для дашборда сторінки компанії, і два різні
- * правила дали б дві різні відповіді про ту саму людину.
+ * US / TEAM / ANTI / OTHER — або null, коли з рядка країну не видно.
  *
- * Правило LinkedIn: метро США пишеться БЕЗ країни ("Greater Boston"), у решти
- * світу останній токен — країна ("Kyiv, Ukraine"). Тому: немає коми — США.
+ * Ті самі чотири кошики, що у fast/page/geo_classify.py, але НЕ те саме правило,
+ * і це свідомо. Там джерело — експорт демографії сторінки компанії, де діє
+ * конвенція «метро без країни = США». На сторінці ЛЮДИНИ вона не діє: LinkedIn
+ * пише «Ukraine», «India», «Kyiv Metropolitan Area», «Greater London» без жодної
+ * коми. Перша версія дзеркалила geo_classify рядок у рядок і клала все це у
+ * стовпчик US — тобто завищувала саме той показник, заради якого географію й
+ * міряють (знайдено рев'ю 2026-09-30).
+ *
+ * Тому тут: країну називає або сам рядок, або штат США, або місто з короткого
+ * списку. Усе інше — null, «не знаємо». Порожній кошик чесніший за вгаданий.
  */
 const COUNTRY_BUCKET = { ukraine: 'TEAM', india: 'ANTI', china: 'ANTI' };
+const US_NAMES = new Set(['united states', 'united states of america', 'usa', 'us', 'u.s.', 'u.s.a.']);
+const US_STATES = new Set(('alabama alaska arizona arkansas california colorado connecticut delaware florida georgia hawaii idaho '
+  + 'illinois indiana iowa kansas kentucky louisiana maine maryland massachusetts michigan minnesota mississippi missouri '
+  + 'montana nebraska nevada|new hampshire|new jersey|new mexico|new york|north carolina|north dakota|ohio oklahoma oregon '
+  + 'pennsylvania|rhode island|south carolina|south dakota|tennessee texas utah vermont virginia washington|west virginia|'
+  + 'wisconsin wyoming|district of columbia').split(/[| ]+(?=[a-z])/).flatMap((x) => x.split('|')).map((x) => x.trim()).filter(Boolean));
+for (const two of ['new hampshire', 'new jersey', 'new mexico', 'new york', 'north carolina', 'north dakota', 'rhode island',
+  'south carolina', 'south dakota', 'west virginia', 'district of columbia']) US_STATES.add(two);
+const US_STATE_CODES = new Set('AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY DC'.split(' '));
+// Метро США, які LinkedIn показує без штату й без країни.
+const US_METROS = /\b(san francisco bay|new york city|greater (boston|chicago|seattle|philadelphia|houston|minneapolis|st\.? louis|pittsburgh|atlanta|denver|phoenix|sacramento|san diego|los angeles|new york)|los angeles metropolitan|dallas[- ]fort worth|washington dc|salt lake city|research triangle|miami[- ]fort lauderdale|silicon valley)\b/i;
+// Країни, які ми хочемо впізнати в рядку БЕЗ коми. Решта країн потрапить у OTHER
+// лише тоді, коли стоїть останнім токеном після коми.
+const COUNTRIES = new Set(('ukraine india china germany poland france spain italy portugal netherlands belgium switzerland austria '
+  + 'sweden norway denmark finland ireland romania bulgaria czechia hungary greece turkey israel canada mexico brazil argentina '
+  + 'colombia chile australia japan singapore indonesia philippines vietnam thailand malaysia pakistan bangladesh nigeria kenya '
+  + 'egypt georgia-country armenia kazakhstan lithuania latvia estonia moldova serbia croatia slovakia slovenia cyprus montenegro '
+  + 'luxembourg iceland').split(' ').filter((c) => c !== 'georgia-country'));
+for (const multi of ['united kingdom', 'czech republic', 'south africa', 'new zealand', 'saudi arabia', 'united arab emirates', 'south korea', 'hong kong'])
+  COUNTRIES.add(multi);
+const UA_CITIES = /\b(kyiv|kiev|lviv|kharkiv|odesa|odessa|dnipro|zaporizhzhia|vinnytsia|ivano-frankivsk|ternopil|chernivtsi|uzhhorod|lutsk|poltava|cherkasy|zhytomyr|rivne|sumy|mykolaiv|kherson|chernihiv|khmelnytskyi)\b/i;
+
+const bucketOfCountry = (c) => (US_NAMES.has(c) ? 'US' : (COUNTRY_BUCKET[c] ?? 'OTHER'));
+
 export function countryOf(loc) {
-  const parts = String(loc ?? '').split(',').map((p) => p.trim()).filter(Boolean);
-  if (parts.length <= 1) return 'United States';
-  return parts[parts.length - 1];
+  const raw = String(loc ?? '').trim();
+  if (!raw) return null;
+  const parts = raw.split(',').map((p) => p.trim()).filter(Boolean);
+  const last = parts[parts.length - 1].toLowerCase();
+  // 1. Останній токен — країна або США.
+  if (US_NAMES.has(last)) return 'united states';
+  if (COUNTRIES.has(last)) return last;
+  // 2. Штат США повною назвою або кодом ("Austin, TX", "Boston, Massachusetts").
+  if (parts.length > 1 && (US_STATES.has(last) || US_STATE_CODES.has(parts[parts.length - 1]))) return 'united states';
+  // 3. Рядок без коми: сама країна, відоме метро США або українське місто.
+  const whole = raw.toLowerCase().replace(/\s+(metropolitan area|metro area|area|region|oblast)$/i, '').trim();
+  if (US_NAMES.has(whole)) return 'united states';
+  if (COUNTRIES.has(whole)) return whole;
+  if (UA_CITIES.test(raw)) return 'ukraine';
+  if (US_METROS.test(raw)) return 'united states';
+  if (US_STATES.has(whole)) return 'united states';
+  // 4. Після коми стоїть щось, чого ми не знаємо: це країна поза списком.
+  if (parts.length > 1) return last;
+  return null;                                    // не знаємо — і не вдаємо, що знаємо
 }
 export function geoBucket(location) {
-  if (!String(location ?? '').trim()) return null;   // порожнє — не здогадка, а «не знаємо»
-  const c = countryOf(location).toLowerCase();
-  if (['united states', 'usa', 'us'].includes(c)) return 'US';
-  return COUNTRY_BUCKET[c] ?? 'OTHER';
+  const c = countryOf(location);
+  return c === null ? null : bucketOfCountry(c);
 }
 
 /**

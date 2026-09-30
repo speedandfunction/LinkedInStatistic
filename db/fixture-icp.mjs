@@ -26,6 +26,7 @@ import { fileURLToPath } from "node:url";
 import pg from "pg";
 
 import { pgConfig } from "./pg-config.mjs";
+import { schemaSql } from "./apply-schema.mjs";
 const HERE = dirname(fileURLToPath(import.meta.url));
 const REPO = resolve(HERE, "..");
 
@@ -130,9 +131,10 @@ await admin.end();
 
 const c = new pg.Client(pgConfig(DSN));
 await c.connect();
-// psql meta-commands are not SQL; everything else in schema.sql is.
-await c.query(readFileSync(join(HERE, "schema.sql"), "utf8")
-  .split("\n").filter((l) => !l.startsWith("\\")).join("\n"));
+// enrich-schema.sql first, then schema.sql, which reads it (dash.enrich_*): the
+// same text, in the same order, as apply-schema.mjs applies — psql meta-commands
+// already stripped.
+await c.query(schemaSql());
 await c.end();
 console.error(`fixture database: ${dbName}`);
 
