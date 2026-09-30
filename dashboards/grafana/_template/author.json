@@ -45,7 +45,7 @@
       },
       "id": 21,
       "panels": [],
-      "title": "Engagement score \u2014 who engaged, weighted by tier",
+      "title": "Engagement score — who engaged, weighted by tier",
       "type": "row"
     },
     {
@@ -167,7 +167,7 @@
           "refId": "A"
         }
       ],
-      "title": "\u2026from normal audience",
+      "title": "…from normal audience",
       "type": "stat"
     },
     {
@@ -228,7 +228,7 @@
           "refId": "A"
         }
       ],
-      "title": "\u2026from ICP",
+      "title": "…from ICP",
       "type": "stat"
     },
     {
@@ -289,7 +289,7 @@
           "refId": "A"
         }
       ],
-      "title": "\u2026from VIP list (4\u00d7)",
+      "title": "…from VIP list (4×)",
       "type": "stat"
     },
     {
@@ -411,7 +411,7 @@
           "refId": "A"
         }
       ],
-      "title": "\u2026from normal audience",
+      "title": "…from normal audience",
       "type": "stat"
     },
     {
@@ -472,7 +472,7 @@
           "refId": "A"
         }
       ],
-      "title": "\u2026from ICP",
+      "title": "…from ICP",
       "type": "stat"
     },
     {
@@ -533,7 +533,7 @@
           "refId": "A"
         }
       ],
-      "title": "\u2026from VIP list (4\u00d7)",
+      "title": "…from VIP list (4×)",
       "type": "stat"
     },
     {
@@ -1111,7 +1111,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Reactions \u2014 total"
+                "value": "Reactions — total"
               }
             ]
           },
@@ -1123,7 +1123,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Reactions \u2014 ICP"
+                "value": "Reactions — ICP"
               }
             ]
           },
@@ -1135,7 +1135,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Comments \u2014 total"
+                "value": "Comments — total"
               }
             ]
           },
@@ -1147,7 +1147,7 @@
             "properties": [
               {
                 "id": "displayName",
-                "value": "Comments \u2014 ICP"
+                "value": "Comments — ICP"
               }
             ]
           },
@@ -1291,7 +1291,7 @@
           "refId": "A"
         }
       ],
-      "title": "Reactions & comments \u2014 total vs ICP (last week and all time)",
+      "title": "Reactions & comments — total vs ICP (last week and all time)",
       "transformations": [
         {
           "id": "organize",
@@ -2670,7 +2670,7 @@
         "data": "[]",
         "layout": "{}",
         "onclick": "",
-        "script": "// ae3e-plotly-panel script \u2014 scatter + quadratic regression\nconst fields = (data && data.series && data.series[0] && data.series[0].fields) || [];\nconst get = (name) => {\n  const f = fields.find(x => x.name === name);\n  if (!f) return [];\n  const v = f.values;\n  if (Array.isArray(v)) return v;\n  if (v && typeof v.toArray === 'function') return v.toArray();\n  return Array.from(v || []);\n};\n\nconst xs = get('posts_in_month');\nconst ys = get('impressions');\nconst ids = get('id');\nconst dates = get('posted_date');\nconst types = get('type');\n\nconst n = xs.length;\n\n// Quadratic fit: solve normal equations for y = a + b*x + c*x^2\nlet S0 = n, S1 = 0, S2 = 0, S3 = 0, S4 = 0;\nlet T0 = 0, T1 = 0, T2 = 0;\nfor (let i = 0; i < n; i++) {\n  const x = xs[i], y = ys[i];\n  const x2 = x * x;\n  S1 += x; S2 += x2; S3 += x2 * x; S4 += x2 * x2;\n  T0 += y; T1 += x * y; T2 += x2 * y;\n}\n\n// Gaussian elimination on the 3x3 augmented matrix [S | T]\nconst M = [\n  [S0, S1, S2, T0],\n  [S1, S2, S3, T1],\n  [S2, S3, S4, T2]\n];\nfor (let i = 0; i < 3; i++) {\n  let maxRow = i;\n  for (let k = i + 1; k < 3; k++) if (Math.abs(M[k][i]) > Math.abs(M[maxRow][i])) maxRow = k;\n  [M[i], M[maxRow]] = [M[maxRow], M[i]];\n  for (let k = i + 1; k < 3; k++) {\n    const factor = M[i][i] ? M[k][i] / M[i][i] : 0;\n    for (let j = i; j < 4; j++) M[k][j] -= factor * M[i][j];\n  }\n}\nconst c = M[2][2] ? M[2][3] / M[2][2] : 0;\nconst b = M[1][1] ? (M[1][3] - M[1][2] * c) / M[1][1] : 0;\nconst a = M[0][0] ? (M[0][3] - M[0][1] * b - M[0][2] * c) / M[0][0] : 0;\n\n// R^2\nconst meanY = n ? T0 / n : 0;\nlet ssRes = 0, ssTot = 0;\nfor (let i = 0; i < n; i++) {\n  const pred = a + b * xs[i] + c * xs[i] * xs[i];\n  ssRes += (ys[i] - pred) ** 2;\n  ssTot += (ys[i] - meanY) ** 2;\n}\nconst r2 = ssTot ? 1 - ssRes / ssTot : 0;\n\n// Smooth curve across the x range\nconst xMin = xs.length ? Math.min(...xs) : 0;\nconst xMax = xs.length ? Math.max(...xs) : 1;\nconst steps = 50;\nconst curveX = [], curveY = [];\nfor (let i = 0; i <= steps; i++) {\n  const x = xMin + (xMax - xMin) * i / steps;\n  curveX.push(x);\n  curveY.push(a + b * x + c * x * x);\n}\n\nreturn {\n  data: [\n    {\n      x: xs, y: ys, mode: 'markers', type: 'scatter', name: 'Posts',\n      text: ids.map((id, i) => (dates[i] || '') + ' \u2022 ' + (types[i] || '') + ' \u2022 id=' + id),\n      hovertemplate: 'Posts in month: %{x}<br>Impressions: %{y:,}<br>%{text}<extra></extra>',\n      marker: { size: 10, color: '#5794f2', opacity: 0.75, line: { width: 1, color: '#3a6dbf' } }\n    },\n    {\n      x: curveX, y: curveY,\n      mode: 'lines', type: 'scatter',\n      name: 'Quadratic fit (R\u00b2=' + r2.toFixed(2) + ')',\n      line: { color: '#ff7f0e', width: 2, dash: 'dash' }\n    }\n  ],\n  layout: {\n    xaxis: { title: { text: 'Posts published that month' }, gridcolor: '#444', dtick: 1 },\n    yaxis: { title: { text: 'Impressions (latest snapshot)' }, gridcolor: '#444' },\n    showlegend: true,\n    legend: { orientation: 'h', y: -0.2, x: 0 },\n    plot_bgcolor: 'rgba(0,0,0,0)', paper_bgcolor: 'rgba(0,0,0,0)',\n    font: { color: '#ccc' },\n    margin: { l: 60, r: 20, t: 20, b: 80 }\n  }\n};\n"
+        "script": "// ae3e-plotly-panel script — scatter + quadratic regression\nconst fields = (data && data.series && data.series[0] && data.series[0].fields) || [];\nconst get = (name) => {\n  const f = fields.find(x => x.name === name);\n  if (!f) return [];\n  const v = f.values;\n  if (Array.isArray(v)) return v;\n  if (v && typeof v.toArray === 'function') return v.toArray();\n  return Array.from(v || []);\n};\n\nconst xs = get('posts_in_month');\nconst ys = get('impressions');\nconst ids = get('id');\nconst dates = get('posted_date');\nconst types = get('type');\n\nconst n = xs.length;\n\n// Quadratic fit: solve normal equations for y = a + b*x + c*x^2\nlet S0 = n, S1 = 0, S2 = 0, S3 = 0, S4 = 0;\nlet T0 = 0, T1 = 0, T2 = 0;\nfor (let i = 0; i < n; i++) {\n  const x = xs[i], y = ys[i];\n  const x2 = x * x;\n  S1 += x; S2 += x2; S3 += x2 * x; S4 += x2 * x2;\n  T0 += y; T1 += x * y; T2 += x2 * y;\n}\n\n// Gaussian elimination on the 3x3 augmented matrix [S | T]\nconst M = [\n  [S0, S1, S2, T0],\n  [S1, S2, S3, T1],\n  [S2, S3, S4, T2]\n];\nfor (let i = 0; i < 3; i++) {\n  let maxRow = i;\n  for (let k = i + 1; k < 3; k++) if (Math.abs(M[k][i]) > Math.abs(M[maxRow][i])) maxRow = k;\n  [M[i], M[maxRow]] = [M[maxRow], M[i]];\n  for (let k = i + 1; k < 3; k++) {\n    const factor = M[i][i] ? M[k][i] / M[i][i] : 0;\n    for (let j = i; j < 4; j++) M[k][j] -= factor * M[i][j];\n  }\n}\nconst c = M[2][2] ? M[2][3] / M[2][2] : 0;\nconst b = M[1][1] ? (M[1][3] - M[1][2] * c) / M[1][1] : 0;\nconst a = M[0][0] ? (M[0][3] - M[0][1] * b - M[0][2] * c) / M[0][0] : 0;\n\n// R^2\nconst meanY = n ? T0 / n : 0;\nlet ssRes = 0, ssTot = 0;\nfor (let i = 0; i < n; i++) {\n  const pred = a + b * xs[i] + c * xs[i] * xs[i];\n  ssRes += (ys[i] - pred) ** 2;\n  ssTot += (ys[i] - meanY) ** 2;\n}\nconst r2 = ssTot ? 1 - ssRes / ssTot : 0;\n\n// Smooth curve across the x range\nconst xMin = xs.length ? Math.min(...xs) : 0;\nconst xMax = xs.length ? Math.max(...xs) : 1;\nconst steps = 50;\nconst curveX = [], curveY = [];\nfor (let i = 0; i <= steps; i++) {\n  const x = xMin + (xMax - xMin) * i / steps;\n  curveX.push(x);\n  curveY.push(a + b * x + c * x * x);\n}\n\nreturn {\n  data: [\n    {\n      x: xs, y: ys, mode: 'markers', type: 'scatter', name: 'Posts',\n      text: ids.map((id, i) => (dates[i] || '') + ' • ' + (types[i] || '') + ' • id=' + id),\n      hovertemplate: 'Posts in month: %{x}<br>Impressions: %{y:,}<br>%{text}<extra></extra>',\n      marker: { size: 10, color: '#5794f2', opacity: 0.75, line: { width: 1, color: '#3a6dbf' } }\n    },\n    {\n      x: curveX, y: curveY,\n      mode: 'lines', type: 'scatter',\n      name: 'Quadratic fit (R²=' + r2.toFixed(2) + ')',\n      line: { color: '#ff7f0e', width: 2, dash: 'dash' }\n    }\n  ],\n  layout: {\n    xaxis: { title: { text: 'Posts published that month' }, gridcolor: '#444', dtick: 1 },\n    yaxis: { title: { text: 'Impressions (latest snapshot)' }, gridcolor: '#444' },\n    showlegend: true,\n    legend: { orientation: 'h', y: -0.2, x: 0 },\n    plot_bgcolor: 'rgba(0,0,0,0)', paper_bgcolor: 'rgba(0,0,0,0)',\n    font: { color: '#ccc' },\n    margin: { l: 60, r: 20, t: 20, b: 80 }\n  }\n};\n"
       },
       "pluginVersion": "",
       "targets": [
@@ -2706,7 +2706,7 @@
         "data": "[]",
         "layout": "{}",
         "onclick": "",
-        "script": "// ae3e-plotly-panel script \u2014 impressions per post over time + median (L1) fit + bootstrap band\nconst fields = (data && data.series && data.series[0] && data.series[0].fields) || [];\nconst get = (name) => {\n  const f = fields.find(x => x.name === name);\n  if (!f) return [];\n  const v = f.values;\n  if (Array.isArray(v)) return v;\n  if (v && typeof v.toArray === 'function') return v.toArray();\n  return Array.from(v || []);\n};\n\nconst dates = get('posted_date');\nconst ysAll = get('impressions');\nconst idsAll = get('id');\nconst typesAll = get('type');\nconst ppmAll = get('posts_in_month');\n\n// Center x for numerical stability \u2014 use days since the earliest post\nconst day = 86400000;\nconst toMs = (d) => new Date(d + 'T00:00:00Z').getTime();\nconst msAll = dates.map(toMs);\nconst tMin = Math.min(...msAll);\nconst tMax = Math.max(...msAll);\n\n// Drop rows without a numeric Y (defensive; correlation_points should already be clean)\nconst xs = [], ys = [], rowDates = [], rowIds = [], rowTypes = [], rowPpm = [];\nfor (let i = 0; i < dates.length; i++) {\n  if (typeof ysAll[i] !== 'number' || !isFinite(ysAll[i])) continue;\n  xs.push((msAll[i] - tMin) / day);\n  ys.push(ysAll[i]);\n  rowDates.push(dates[i]);\n  rowIds.push(idsAll[i]);\n  rowTypes.push(typesAll[i]);\n  rowPpm.push(ppmAll[i]);\n}\nconst n = xs.length;\n\n// --- IRLS median (L1) regression -------------------------------------------\nfunction l1Fit(xs, ys, iters, eps) {\n  const n = xs.length;\n  if (n < 2) return [n ? (ys[0] || 0) : 0, 0];\n  let sX = 0, sY = 0, sXY = 0, sX2 = 0;\n  for (let i = 0; i < n; i++) {\n    sX += xs[i]; sY += ys[i];\n    sXY += xs[i] * ys[i]; sX2 += xs[i] * xs[i];\n  }\n  const den = n * sX2 - sX * sX;\n  let b = den ? (n * sXY - sX * sY) / den : 0;\n  let a = (sY - b * sX) / n;\n  for (let iter = 0; iter < iters; iter++) {\n    let w = 0, wx = 0, wy = 0, wxx = 0, wxy = 0;\n    for (let i = 0; i < n; i++) {\n      const r = Math.abs(ys[i] - (a + b * xs[i]));\n      const wi = 1 / Math.max(r, eps);\n      w += wi; wx += wi * xs[i]; wy += wi * ys[i];\n      wxx += wi * xs[i] * xs[i]; wxy += wi * xs[i] * ys[i];\n    }\n    const d = w * wxx - wx * wx;\n    if (!d) break;\n    const newB = (w * wxy - wx * wy) / d;\n    const newA = (wy - newB * wx) / w;\n    if (Math.abs(newA - a) < 1e-6 && Math.abs(newB - b) < 1e-6) { a = newA; b = newB; break; }\n    a = newA; b = newB;\n  }\n  return [a, b];\n}\n\nconst [a, b] = l1Fit(xs, ys, 50, 1e-6);\n\n// Pseudo-R^2 for L1: 1 - sum|y - yhat| / sum|y - median(y)|\nconst sortedY = [...ys].sort((p, q) => p - q);\nconst medY = sortedY.length % 2\n  ? sortedY[(sortedY.length - 1) >> 1]\n  : 0.5 * (sortedY[sortedY.length / 2 - 1] + sortedY[sortedY.length / 2]);\nlet sumDevFit = 0, sumDevNull = 0;\nfor (let i = 0; i < n; i++) {\n  sumDevFit += Math.abs(ys[i] - (a + b * xs[i]));\n  sumDevNull += Math.abs(ys[i] - medY);\n}\nconst r1 = sumDevNull ? 1 - sumDevFit / sumDevNull : 0;\n\n// --- Bootstrap band (B resamples, percentile band at curve nodes) ----------\nconst STEPS = 40, B = 200;\nconst xMaxN = (tMax - tMin) / day;\nconst curveXn = [];\nfor (let i = 0; i <= STEPS; i++) curveXn.push(xMaxN * i / STEPS);\n\n// Deterministic LCG seeded by N so the band stops shimmering on every refresh\nlet seed = 1234567 + n * 31;\nconst rand = () => { seed = (seed * 1664525 + 1013904223) & 0x7fffffff; return seed / 0x7fffffff; };\n\nconst bootCurves = [];\nfor (let bi = 0; bi < B; bi++) {\n  const bxs = new Array(n), bys = new Array(n);\n  for (let i = 0; i < n; i++) {\n    const k = Math.floor(rand() * n);\n    bxs[i] = xs[k]; bys[i] = ys[k];\n  }\n  const [ba, bb] = l1Fit(bxs, bys, 25, 1e-6);\n  bootCurves.push(curveXn.map(x => ba + bb * x));\n}\nconst lo = [], hi = [];\nfor (let i = 0; i < curveXn.length; i++) {\n  const col = bootCurves.map(c => c[i]).sort((p, q) => p - q);\n  lo.push(col[Math.floor(0.025 * B)]);\n  hi.push(col[Math.floor(0.975 * B)]);\n}\nconst median = curveXn.map(x => a + b * x);\n\nconst fromMs = (t) => new Date(t).toISOString().slice(0, 10);\nconst curveX = curveXn.map(x => fromMs(tMin + x * day));\nconst monthlyDelta = b * 30;\n\nreturn {\n  data: [\n    // Bootstrap band: upper edge (invisible line), then lower edge filled toward it\n    {\n      x: curveX, y: hi, type: 'scatter', mode: 'lines',\n      line: { width: 0 }, hoverinfo: 'skip', showlegend: false\n    },\n    {\n      x: curveX, y: lo, type: 'scatter', mode: 'lines',\n      line: { width: 0 }, fill: 'tonexty',\n      fillcolor: 'rgba(255, 127, 14, 0.18)',\n      name: '95% bootstrap band', hoverinfo: 'skip'\n    },\n    // Raw points\n    {\n      x: rowDates, y: ys, mode: 'markers', type: 'scatter', name: 'Posts',\n      text: rowIds.map((id, i) => (rowTypes[i] || '') + ' \u2022 posts/mo: ' + (rowPpm[i] != null ? rowPpm[i] : '') + ' \u2022 id=' + id),\n      hovertemplate: '%{x}<br>Impressions: %{y:,}<br>%{text}<extra></extra>',\n      marker: { size: 10, color: '#5794f2', opacity: 0.75, line: { width: 1, color: '#3a6dbf' } }\n    },\n    // Median (L1) fit line\n    {\n      x: curveX, y: median, mode: 'lines', type: 'scatter',\n      name: 'Median fit (pseudo-R\u00b2=' + r1.toFixed(2) + ', ' + (monthlyDelta >= 0 ? '+' : '') + monthlyDelta.toFixed(0) + ' impr/30d, 95% boot band)',\n      line: { color: '#ff7f0e', width: 2, dash: 'dash' }\n    }\n  ],\n  layout: {\n    xaxis: { title: { text: 'Date posted' }, gridcolor: '#444', type: 'date' },\n    yaxis: { title: { text: 'Impressions (latest snapshot)' }, gridcolor: '#444' },\n    showlegend: true,\n    legend: { orientation: 'h', y: -0.2, x: 0 },\n    plot_bgcolor: 'rgba(0,0,0,0)', paper_bgcolor: 'rgba(0,0,0,0)',\n    font: { color: '#ccc' },\n    margin: { l: 60, r: 20, t: 20, b: 80 }\n  }\n};\n"
+        "script": "// ae3e-plotly-panel script — impressions per post over time + median (L1) fit + bootstrap band\nconst fields = (data && data.series && data.series[0] && data.series[0].fields) || [];\nconst get = (name) => {\n  const f = fields.find(x => x.name === name);\n  if (!f) return [];\n  const v = f.values;\n  if (Array.isArray(v)) return v;\n  if (v && typeof v.toArray === 'function') return v.toArray();\n  return Array.from(v || []);\n};\n\nconst dates = get('posted_date');\nconst ysAll = get('impressions');\nconst idsAll = get('id');\nconst typesAll = get('type');\nconst ppmAll = get('posts_in_month');\n\n// Center x for numerical stability — use days since the earliest post\nconst day = 86400000;\nconst toMs = (d) => new Date(d + 'T00:00:00Z').getTime();\nconst msAll = dates.map(toMs);\nconst tMin = Math.min(...msAll);\nconst tMax = Math.max(...msAll);\n\n// Drop rows without a numeric Y (defensive; correlation_points should already be clean)\nconst xs = [], ys = [], rowDates = [], rowIds = [], rowTypes = [], rowPpm = [];\nfor (let i = 0; i < dates.length; i++) {\n  if (typeof ysAll[i] !== 'number' || !isFinite(ysAll[i])) continue;\n  xs.push((msAll[i] - tMin) / day);\n  ys.push(ysAll[i]);\n  rowDates.push(dates[i]);\n  rowIds.push(idsAll[i]);\n  rowTypes.push(typesAll[i]);\n  rowPpm.push(ppmAll[i]);\n}\nconst n = xs.length;\n\n// --- IRLS median (L1) regression -------------------------------------------\nfunction l1Fit(xs, ys, iters, eps) {\n  const n = xs.length;\n  if (n < 2) return [n ? (ys[0] || 0) : 0, 0];\n  let sX = 0, sY = 0, sXY = 0, sX2 = 0;\n  for (let i = 0; i < n; i++) {\n    sX += xs[i]; sY += ys[i];\n    sXY += xs[i] * ys[i]; sX2 += xs[i] * xs[i];\n  }\n  const den = n * sX2 - sX * sX;\n  let b = den ? (n * sXY - sX * sY) / den : 0;\n  let a = (sY - b * sX) / n;\n  for (let iter = 0; iter < iters; iter++) {\n    let w = 0, wx = 0, wy = 0, wxx = 0, wxy = 0;\n    for (let i = 0; i < n; i++) {\n      const r = Math.abs(ys[i] - (a + b * xs[i]));\n      const wi = 1 / Math.max(r, eps);\n      w += wi; wx += wi * xs[i]; wy += wi * ys[i];\n      wxx += wi * xs[i] * xs[i]; wxy += wi * xs[i] * ys[i];\n    }\n    const d = w * wxx - wx * wx;\n    if (!d) break;\n    const newB = (w * wxy - wx * wy) / d;\n    const newA = (wy - newB * wx) / w;\n    if (Math.abs(newA - a) < 1e-6 && Math.abs(newB - b) < 1e-6) { a = newA; b = newB; break; }\n    a = newA; b = newB;\n  }\n  return [a, b];\n}\n\nconst [a, b] = l1Fit(xs, ys, 50, 1e-6);\n\n// Pseudo-R^2 for L1: 1 - sum|y - yhat| / sum|y - median(y)|\nconst sortedY = [...ys].sort((p, q) => p - q);\nconst medY = sortedY.length % 2\n  ? sortedY[(sortedY.length - 1) >> 1]\n  : 0.5 * (sortedY[sortedY.length / 2 - 1] + sortedY[sortedY.length / 2]);\nlet sumDevFit = 0, sumDevNull = 0;\nfor (let i = 0; i < n; i++) {\n  sumDevFit += Math.abs(ys[i] - (a + b * xs[i]));\n  sumDevNull += Math.abs(ys[i] - medY);\n}\nconst r1 = sumDevNull ? 1 - sumDevFit / sumDevNull : 0;\n\n// --- Bootstrap band (B resamples, percentile band at curve nodes) ----------\nconst STEPS = 40, B = 200;\nconst xMaxN = (tMax - tMin) / day;\nconst curveXn = [];\nfor (let i = 0; i <= STEPS; i++) curveXn.push(xMaxN * i / STEPS);\n\n// Deterministic LCG seeded by N so the band stops shimmering on every refresh\nlet seed = 1234567 + n * 31;\nconst rand = () => { seed = (seed * 1664525 + 1013904223) & 0x7fffffff; return seed / 0x7fffffff; };\n\nconst bootCurves = [];\nfor (let bi = 0; bi < B; bi++) {\n  const bxs = new Array(n), bys = new Array(n);\n  for (let i = 0; i < n; i++) {\n    const k = Math.floor(rand() * n);\n    bxs[i] = xs[k]; bys[i] = ys[k];\n  }\n  const [ba, bb] = l1Fit(bxs, bys, 25, 1e-6);\n  bootCurves.push(curveXn.map(x => ba + bb * x));\n}\nconst lo = [], hi = [];\nfor (let i = 0; i < curveXn.length; i++) {\n  const col = bootCurves.map(c => c[i]).sort((p, q) => p - q);\n  lo.push(col[Math.floor(0.025 * B)]);\n  hi.push(col[Math.floor(0.975 * B)]);\n}\nconst median = curveXn.map(x => a + b * x);\n\nconst fromMs = (t) => new Date(t).toISOString().slice(0, 10);\nconst curveX = curveXn.map(x => fromMs(tMin + x * day));\nconst monthlyDelta = b * 30;\n\nreturn {\n  data: [\n    // Bootstrap band: upper edge (invisible line), then lower edge filled toward it\n    {\n      x: curveX, y: hi, type: 'scatter', mode: 'lines',\n      line: { width: 0 }, hoverinfo: 'skip', showlegend: false\n    },\n    {\n      x: curveX, y: lo, type: 'scatter', mode: 'lines',\n      line: { width: 0 }, fill: 'tonexty',\n      fillcolor: 'rgba(255, 127, 14, 0.18)',\n      name: '95% bootstrap band', hoverinfo: 'skip'\n    },\n    // Raw points\n    {\n      x: rowDates, y: ys, mode: 'markers', type: 'scatter', name: 'Posts',\n      text: rowIds.map((id, i) => (rowTypes[i] || '') + ' • posts/mo: ' + (rowPpm[i] != null ? rowPpm[i] : '') + ' • id=' + id),\n      hovertemplate: '%{x}<br>Impressions: %{y:,}<br>%{text}<extra></extra>',\n      marker: { size: 10, color: '#5794f2', opacity: 0.75, line: { width: 1, color: '#3a6dbf' } }\n    },\n    // Median (L1) fit line\n    {\n      x: curveX, y: median, mode: 'lines', type: 'scatter',\n      name: 'Median fit (pseudo-R²=' + r1.toFixed(2) + ', ' + (monthlyDelta >= 0 ? '+' : '') + monthlyDelta.toFixed(0) + ' impr/30d, 95% boot band)',\n      line: { color: '#ff7f0e', width: 2, dash: 'dash' }\n    }\n  ],\n  layout: {\n    xaxis: { title: { text: 'Date posted' }, gridcolor: '#444', type: 'date' },\n    yaxis: { title: { text: 'Impressions (latest snapshot)' }, gridcolor: '#444' },\n    showlegend: true,\n    legend: { orientation: 'h', y: -0.2, x: 0 },\n    plot_bgcolor: 'rgba(0,0,0,0)', paper_bgcolor: 'rgba(0,0,0,0)',\n    font: { color: '#ccc' },\n    margin: { l: 60, r: 20, t: 20, b: 80 }\n  }\n};\n"
       },
       "pluginVersion": "",
       "targets": [
@@ -2735,7 +2735,7 @@
       },
       "id": 37,
       "panels": [],
-      "title": "ICP \u2014 who engages (from opened profiles)",
+      "title": "ICP — who engages (from opened profiles)",
       "type": "row"
     },
     {
@@ -2805,7 +2805,7 @@
         "type": "grafana-postgresql-datasource",
         "uid": "${DS_LINKEDIN_PG}"
       },
-      "description": "Source: dash.enrich_geo \u2014 the location written on each OPENED profile, sorted into US, TEAM (the country our own team works from), ANTI (countries outside the ICP) and OTHER. It counts people, not reactions. 'not opened' is everyone we have no location for \u2014 the profile has not been opened yet, or it was opened and shows no location: it means \"we have not looked\", not \"nobody\" and not \"somewhere else\". That bar shrinks as more profiles are opened. The bucket is set when the profile is opened: the country is read from the location itself, from a US state, or from a short list of well-known cities. A location that names no country we can recognise (\"Remote\", \"EMEA\", an unfamiliar metropolitan area) is left unknown and sits under 'not opened' \u2014 it is never guessed to be US.",
+      "description": "Each person who reacted to or commented on this author's posts, grouped by the location on their opened profile. It counts people, not reactions. USA is our market. 'Ukraine' is where our own team is, so reactions from there are mostly colleagues and friends. 'India / China' are outside our market. 'Profile not opened yet' is everyone we have no location for: the profile has not been opened yet, or it was opened and shows no location we can recognise ('Remote', 'EMEA'). It means we have not looked, not that nobody is there — the bar shrinks as more profiles are opened. The country is read from the location itself, from a US state, or from a short list of well-known cities; it is never guessed. Source: dash.enrich_geo.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2818,7 +2818,34 @@
             "lineWidth": 1,
             "orientation": "horizontal"
           },
-          "unit": "locale"
+          "unit": "locale",
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "US": {
+                  "text": "USA",
+                  "index": 0
+                },
+                "TEAM": {
+                  "text": "Ukraine — where our own team is",
+                  "index": 1
+                },
+                "ANTI": {
+                  "text": "India / China — outside our market",
+                  "index": 2
+                },
+                "OTHER": {
+                  "text": "Other countries",
+                  "index": 3
+                },
+                "not opened": {
+                  "text": "Profile not opened yet",
+                  "index": 4
+                }
+              }
+            }
+          ]
         },
         "overrides": []
       },
@@ -2844,7 +2871,9 @@
           "mode": "single",
           "sort": "none"
         },
-        "xField": "bucket"
+        "xField": "bucket",
+        "xTickLabelMaxLength": 0,
+        "xTickLabelSpacing": 0
       },
       "pluginVersion": "",
       "targets": [
@@ -2860,7 +2889,7 @@
           "refId": "A"
         }
       ],
-      "title": "Engagers by geography",
+      "title": "Who reacts — by country",
       "type": "barchart"
     },
     {
@@ -2868,7 +2897,7 @@
         "type": "grafana-postgresql-datasource",
         "uid": "${DS_LINKEDIN_PG}"
       },
-      "description": "Source: dash.enrich_persona \u2014 the persona is read from the current job title on the opened profile plus the headline (the profile's own, or the one LinkedIn shows next to a reaction when the profile is not opened yet). P3 = owners and top executives (owner, CEO, founder, president, managing partner\u2026); P1 = technology and product leaders (CTO, CIO, head of engineering, product manager\u2026); P2 = operations leaders (director of operations, program manager, chief of staff\u2026); 'other' = a title that matches none of them. 'unknown' is a person with no title and no headline to read (or a headline of punctuation only, as LinkedIn shows a missing one): it means \"we have not looked\", not \"nobody\". A keyword match on a title is a hint, not a verified role. A title that only CONTAINS a P3 word is not P3: \"Product Owner\", \"Vice President\", \"Principal Engineer\", \"Assistant to the CEO\" are counted by the rest of the title. The lists are English: a title in another language is 'other'.",
+      "description": "Each person who reacted to or commented on this author's posts, grouped by what their job title says. We read the current title on the opened profile (or, until the profile is opened, the headline LinkedIn shows next to the reaction) and look for role words. Decision makers: owner, CEO, founder, co-founder, president, managing partner, managing / executive director, COO, CFO. Tech & product leads: CTO, CIO, head or director of engineering / technology / product, engineering manager, product manager, VP of IT. Operations leads: director or head of operations, program manager, director of quality, chief of staff. When a title has words from several groups, the most senior group wins (decision makers first, then tech & product, then operations). 'Other roles' is a title that matches none of the lists (developers, designers, recruiters, students, titles not in English). 'No job title' means there was nothing to read — LinkedIn shows a missing headline as '--'; it means we do not know, not that nobody is there. This is a hint from words in a title, not a verified role: a 'founder' can run a 500-person company or a one-person brand. A title that only contains a senior word is not promoted: 'Product Owner', 'Vice President', 'Principal Engineer', 'Assistant to the CEO' are read by the rest of the title. Source: dash.enrich_persona.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2881,7 +2910,34 @@
             "lineWidth": 1,
             "orientation": "horizontal"
           },
-          "unit": "locale"
+          "unit": "locale",
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "P3": {
+                  "text": "Decision makers — CEO, founder, owner",
+                  "index": 0
+                },
+                "P1": {
+                  "text": "Tech & product leads — CTO, CIO, VP eng.",
+                  "index": 1
+                },
+                "P2": {
+                  "text": "Operations leads — ops director, PMO",
+                  "index": 2
+                },
+                "other": {
+                  "text": "Other roles — engineers, sales, HR…",
+                  "index": 3
+                },
+                "unknown": {
+                  "text": "No job title on the profile",
+                  "index": 4
+                }
+              }
+            }
+          ]
         },
         "overrides": []
       },
@@ -2907,7 +2963,9 @@
           "mode": "single",
           "sort": "none"
         },
-        "xField": "persona"
+        "xField": "persona",
+        "xTickLabelMaxLength": 0,
+        "xTickLabelSpacing": 0
       },
       "pluginVersion": "",
       "targets": [
@@ -2923,7 +2981,7 @@
           "refId": "A"
         }
       ],
-      "title": "Engagers by persona (from title)",
+      "title": "Who reacts — by role (read from the job title)",
       "type": "barchart"
     },
     {
@@ -2931,7 +2989,7 @@
         "type": "grafana-postgresql-datasource",
         "uid": "${DS_LINKEDIN_PG}"
       },
-      "description": "Source: dash.enrich_score_by_geo \u2014 the same per-event points as \"Engagement score (all time)\" at the top of this dashboard, split by where the person is according to the opened profile. The bars add up to that all-time score. 'not opened' is the score from everyone we have no location for \u2014 profiles not opened yet, opened profiles that show no location, and company pages, which are never opened: it means \"we have not looked\", not \"nobody\". A location that names no country we can recognise is left unknown and counted under 'not opened' \u2014 see \"Engagers by geography\".",
+      "description": "The same points as 'Engagement score (all time)' at the top of this dashboard, split by the country of the person who earned them — the groups are explained in 'Who reacts — by country'. The bars add up to the all-time score. 'Profile not opened yet' also holds the points from company pages, which are never opened. Source: dash.enrich_score_by_geo.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2944,7 +3002,34 @@
             "lineWidth": 1,
             "orientation": "horizontal"
           },
-          "unit": "locale"
+          "unit": "locale",
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "US": {
+                  "text": "USA",
+                  "index": 0
+                },
+                "TEAM": {
+                  "text": "Ukraine — where our own team is",
+                  "index": 1
+                },
+                "ANTI": {
+                  "text": "India / China — outside our market",
+                  "index": 2
+                },
+                "OTHER": {
+                  "text": "Other countries",
+                  "index": 3
+                },
+                "not opened": {
+                  "text": "Profile not opened yet",
+                  "index": 4
+                }
+              }
+            }
+          ]
         },
         "overrides": []
       },
@@ -2970,7 +3055,9 @@
           "mode": "single",
           "sort": "none"
         },
-        "xField": "bucket"
+        "xField": "bucket",
+        "xTickLabelMaxLength": 0,
+        "xTickLabelSpacing": 0
       },
       "pluginVersion": "",
       "targets": [
@@ -2986,7 +3073,7 @@
           "refId": "A"
         }
       ],
-      "title": "Engagement score by geography (all time)",
+      "title": "Engagement score by country (all time)",
       "type": "barchart"
     },
     {
@@ -2994,7 +3081,7 @@
         "type": "grafana-postgresql-datasource",
         "uid": "${DS_LINKEDIN_PG}"
       },
-      "description": "Source: dash.enrich_score_by_persona \u2014 the same per-event points as \"Engagement score (all time)\" at the top of this dashboard, split by persona (P3 owners and top executives, P1 technology and product leaders, P2 operations leaders, read from the job title and headline). The bars add up to that all-time score. 'unknown' is the score from engagers with no title and no headline to read, and from company pages: it means \"we have not looked\", not \"nobody\". The persona is a keyword match on the title \u2014 a hint, not a verified role; what it does and does not catch is in \"Engagers by persona (from title)\".",
+      "description": "The same points as 'Engagement score (all time)' at the top of this dashboard, split by the role of the person who earned them — the groups are explained in 'Who reacts — by role'. The bars add up to the all-time score. 'No job title' also holds the points from company pages, which have no title and are never opened. The role is a hint from words in a title, not a verified role. Source: dash.enrich_score_by_persona.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -3007,7 +3094,34 @@
             "lineWidth": 1,
             "orientation": "horizontal"
           },
-          "unit": "locale"
+          "unit": "locale",
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "P3": {
+                  "text": "Decision makers — CEO, founder, owner",
+                  "index": 0
+                },
+                "P1": {
+                  "text": "Tech & product leads — CTO, CIO, VP eng.",
+                  "index": 1
+                },
+                "P2": {
+                  "text": "Operations leads — ops director, PMO",
+                  "index": 2
+                },
+                "other": {
+                  "text": "Other roles — engineers, sales, HR…",
+                  "index": 3
+                },
+                "unknown": {
+                  "text": "No job title on the profile",
+                  "index": 4
+                }
+              }
+            }
+          ]
         },
         "overrides": []
       },
@@ -3033,7 +3147,9 @@
           "mode": "single",
           "sort": "none"
         },
-        "xField": "persona"
+        "xField": "persona",
+        "xTickLabelMaxLength": 0,
+        "xTickLabelSpacing": 0
       },
       "pluginVersion": "",
       "targets": [
@@ -3049,7 +3165,7 @@
           "refId": "A"
         }
       ],
-      "title": "Engagement score by persona (all time)",
+      "title": "Engagement score by role (all time)",
       "type": "barchart"
     },
     {
@@ -3057,7 +3173,7 @@
         "type": "grafana-postgresql-datasource",
         "uid": "${DS_LINKEDIN_PG}"
       },
-      "description": "Source: dash.enrich_advocates \u2014 engagers whose work history on their OPENED profile names a company from our client list (enrich.advocate_company); one row per person and matching job. Only opened profiles can appear here, so an empty table means none found yet among the profiles opened so far \u2014 or a client list that is still empty in the database \u2014 \"we have not looked\" at the rest, not \"nobody\" worked at a client. A company-name match is a lead to check, not a verified fact.",
+      "description": "Source: dash.enrich_advocates — engagers whose work history on their OPENED profile names a company from our client list (enrich.advocate_company); one row per person and matching job. Only opened profiles can appear here, so an empty table means none found yet among the profiles opened so far — or a client list that is still empty in the database — \"we have not looked\" at the rest, not \"nobody\" worked at a client. A company-name match is a lead to check, not a verified fact.",
       "fieldConfig": {
         "defaults": {
           "custom": {
@@ -3119,7 +3235,7 @@
           "refId": "A"
         }
       ],
-      "title": "Advocates \u2014 worked at a client of ours",
+      "title": "Advocates — worked at a client of ours",
       "transformations": [
         {
           "id": "organize",
@@ -3198,7 +3314,7 @@
     ]
   },
   "timezone": "browser",
-  "title": "LinkedIn Stats \u2014 Template",
+  "title": "LinkedIn Stats — Template",
   "uid": "linkedin-template",
   "version": 42
 }
