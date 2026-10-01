@@ -28,6 +28,7 @@ import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 
 import { parseProfile } from './profile-parse.mjs';
+import { optOutKeys, isOptedOut } from './people.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const SKILL = path.resolve(HERE, '..');
@@ -81,9 +82,11 @@ function group(p) {
   if (!HAS_COMPANY.test(h)) return 3;
   return 4;
 }
+const OPT_OUT = optOutKeys();                  // asked to be removed (#30): never opened, never stored
 const queue = Object.values(engagement.people ?? {})
   .filter((p) => String(p.key ?? '').startsWith('in/'))
   .filter((p) => !OURS.has(String(p.key).toLowerCase()))
+  .filter((p) => !isOptedOut(OPT_OUT, p.profile_url || p.key))
   .filter((p) => p.profile_url)
   .map((p) => ({ ...p, grp: group(p), last: lastSeen[p.key] || '' }))
   .sort((a, b) => a.grp - b.grp || String(b.last).localeCompare(String(a.last)));

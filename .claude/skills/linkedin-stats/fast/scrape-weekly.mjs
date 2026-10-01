@@ -2299,8 +2299,10 @@ async function phasePeople(page) {
   let profilesWritten = 0;
   try {
     const profiles = openProfileStore(PROFILES_DIR);
+    const optOut = People.optOutKeys();
     for (const p of mergedPeople) {
       if (!p.profile_url) continue; // name-only identities have no stable file
+      if (People.isOptedOut(optOut, p.profile_url)) continue; // asked to be removed (#30): no file, ever
       profiles.set(profileKey(p.profile_url), p.headline, {
         name: p.name, profileUrl: p.profile_url,
       });

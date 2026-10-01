@@ -50,6 +50,7 @@ slack.com:443                  optional, only if this server posts the report
 | `scripts/lifleet/authors.json` | maps account slug → cloud profile id | same as above; without it nothing can run |
 | a GitHub token | push a branch, open the PR | fine-grained, **one repository**, only `contents: write` + `pull requests: write`. Not a personal classic token |
 | `SLACK_BOT_TOKEN`, `SLACK_CHANNEL_ID`, `SLACK_PEOPLE_JSON` | optional: post the weekly result | a bot that can only write in one channel |
+| `LI_OPT_OUT` | people who asked to be removed from the corpus (#30): their `in/<slug>` keys, comma-separated | the list itself names them, so it travels as an environment variable (`.env` on the server, a repository variable in GitHub), never as a file in this public repository. Without it the next read of a reaction list they are on re-creates their records |
 
 Deliberately **not** on this server: any database connection string, the
 Grafana token, the datasource uid. Nothing here needs them, and the database

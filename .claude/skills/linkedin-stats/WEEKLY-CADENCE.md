@@ -137,6 +137,7 @@ step exists to tell you that in one line instead of failing 25 minutes in.
 | `GRAFANA_URL` | variable | `update-post-variable.mjs:36`. The weekly workflow falls back inline to `https://speedandfunction.grafana.net`; `pages-deploy.yml` has **no** fallback and skips the step instead. Set it so the two agree. |
 | `LIFLEET_PROXIES` | variable | Default `on`. On the free Browserbase plan proxies `402` and the backend falls back automatically (`browserbase-backend.mjs:95-108`); `off` just skips the wasted call. |
 | `LI_SESSION_TIMEOUT` | variable | Default `1800` s (`browserbase-backend.mjs:90`). The scrape hard cap is 2100 s, so a slow author can outlive its own Browserbase session. Set `2400`. |
+| `LI_OPT_OUT` | variable | People who asked to be removed from the corpus (#30): slugs, `in/<slug>` keys or profile URLs, comma- or space-separated. `merge.py` scrubs **every** write to `dashboards/li-stats/` against this set at its single write point (`write_atomic`), the profile store never writes their file, and the profile opener never visits them. Unset → nobody is opted out — and the next read of a reaction list they are on re-creates their records (2026-10-01). Kept here, as a variable, on purpose: the tree is public and a slug on a list in it would itself be a trace. |
 | `SLACK_BOT_TOKEN` | secret | The session-check bot, reused by the weekly result message. Also read by `pages-deploy.yml`. Unset or revoked → a `::warning::` in the "Post the weekly result to Slack" step of the `notify` job (or "Post the pages-deploy result to Slack") and **no message**; the run's conclusion is unaffected. |
 | `SLACK_CHANNEL_ID` | variable | The `C…` id of `#linkedin-session-bot` — the same variable the daily session check reads. Unset → same warning, no message. |
 | `SLACK_PEOPLE_JSON` | secret | Only its `_operator` key is read here: the member id pinged when a week is not published or a deploy failed. Missing or not a `U…`/`W…` id → the message still posts, says nobody was pinged, and the log carries a `::warning::`. |
@@ -249,6 +250,7 @@ gh secret set GRAFANA_SERVICE_ACCOUNT_TOKEN --repo "$R"
 gh variable set GRAFANA_URL        --repo "$R" --body 'https://speedandfunction.grafana.net'
 gh variable set LIFLEET_PROXIES    --repo "$R" --body 'on'    # paid plan: UA residential IP keeps the session alive
 gh variable set LI_SESSION_TIMEOUT --repo "$R" --body '2400'  # must exceed the 2100s cap
+gh variable set LI_OPT_OUT          --repo "$R" --body 'in/<slug>'  # people removed at their request (#30); several: comma-separated
 
 # --- verify ---
 gh secret   list --repo "$R"

@@ -472,4 +472,26 @@ test('mergePeople keeps the richest record per key', () => {
   assert.equal(merged.find((m) => m.key === 'in/a').headline, 'Founder');
 });
 
+test('opt-out: every spelling of a key lands on the same in/<slug>', () => {
+  for (const v of ['gone-person', 'in/gone-person', 'IN/GONE-PERSON', 'https://www.linkedin.com/in/Gone-Person/',
+    'https://linkedin.com/in/gone%2Dperson?x=1', '/in/gone-person/recent-activity/']) {
+    assert.equal(P.optOutKey(v), 'in/gone-person', v);
+  }
+  // the corpus stores a Cyrillic slug percent-encoded; LinkedIn links it decoded — one key
+  assert.equal(P.optOutKey('in/%d1%82%d0%b5%d1%81%d1%82'), P.optOutKey('https://www.linkedin.com/in/тест/'));
+  for (const v of ['', 'post:urn:li:activity:1', 'https://www.linkedin.com/company/acme', 'urn:li:comment:(1,2)']) {
+    assert.equal(P.optOutKey(v), '', v);
+  }
+});
+
+test('opt-out: the variable parses, and an unset one opts nobody out', () => {
+  const keys = P.optOutKeys(' https://www.linkedin.com/IN/Gone-Person/ , in/other-gone\n');
+  assert.deepEqual([...keys].sort(), ['in/gone-person', 'in/other-gone']);
+  assert.equal(P.isOptedOut(keys, 'https://www.linkedin.com/in/gone-person'), true);
+  assert.equal(P.isOptedOut(keys, 'in/stays-person'), false);
+  assert.equal(P.optOutKeys('').size, 0);
+  assert.equal(P.optOutKeys(undefined).size, 0);
+  assert.equal(P.isOptedOut(new Set(), 'in/gone-person'), false);
+});
+
 console.log(`\n${passed} passed${process.exitCode ? ' — WITH FAILURES' : ''}`);
