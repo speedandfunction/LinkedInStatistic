@@ -91,6 +91,42 @@ export function parseReactorLabel(label) {
   return { name: name.slice(0, 120), headline: rest.slice(0, 400) };
 }
 
+/**
+ * Opt-out. A person who asked to be removed from the corpus (#30) must never be
+ * written again, and every reaction list or comment thread they are on hands
+ * them back to the scraper. The keys come from LI_OPT_OUT (comma/whitespace
+ * separated: a slug, an "in/<slug>" key or a profile URL) — never from a file
+ * in this public repository. merge.py enforces the same set at its single
+ * write point; this side only keeps dashboards/profiles/ and the profile
+ * opener from touching them. Counts are not filtered: reactor_count must stay
+ * what LinkedIn shows, or every later run sees a "changed" target.
+ */
+export function optOutKeys(raw = process.env.LI_OPT_OUT) {
+  const keys = new Set();
+  for (const tok of String(raw ?? '').split(/[\s,]+/)) {
+    const k = optOutKey(tok);
+    if (k) keys.add(k);
+  }
+  return keys;
+}
+// "in/<slug>", decoded and lower-cased, from any of the accepted spellings; ''
+// for anything that is not a person. Decoding matters: the corpus stores a
+// Cyrillic slug percent-encoded and LinkedIn links it decoded.
+export function optOutKey(value) {
+  const s = String(value ?? '').trim();
+  if (!s) return '';
+  const m = s.match(/\/in\/([^/?#]+)/i);
+  let slug;
+  if (m) slug = m[1];
+  else if (s.includes('/') && !/^in\//i.test(s)) return '';
+  else slug = s.replace(/^in\//i, '');
+  try { slug = decodeURIComponent(slug); } catch { /* keep as is */ }
+  slug = slug.replace(/\/+$/, '').toLowerCase();
+  // A LinkedIn slug never carries ":" — that is a URN or a target id, not a person.
+  return /[a-z0-9]/.test(slug) && !slug.includes(':') ? `in/${slug}` : '';
+}
+export const isOptedOut = (keys, urlOrKey) => keys.size > 0 && keys.has(optOutKey(urlOrKey));
+
 export function personRecord({ name, url, headline }) {
   const key = personKey(url, name);
   if (!key) return null;

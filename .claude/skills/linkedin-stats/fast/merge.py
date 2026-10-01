@@ -20,7 +20,7 @@ import os
 import re
 import sys
 import tempfile
-from urllib.parse import quote
+from urllib.parse import quote, unquote
 
 
 _SURROGATES = re.compile(r"[\ud800-\udfff]")
@@ -43,8 +43,91 @@ def strip_surrogates(obj):
     return obj
 
 
+# ---- Opt-out ---------------------------------------------------------------
+# A person who asked to be removed from this corpus (#30) must never come back
+# into it, and every read of a reaction list or a comment thread they are on
+# hands the scraper their record again. There is no list of such people in the
+# repository — the repository is public and a slug on a list is itself a trace
+# — so the keys arrive through the environment: LI_OPT_OUT, comma- or
+# whitespace-separated, each a slug, an "in/<slug>" key or a profile URL. A
+# GitHub Actions variable carries it to the weekly run, .env carries it to a
+# local one; an unset variable means nobody is opted out.
+#
+# This is enforced at the ONE place every dashboards/li-stats file is written:
+# write_atomic(). Whatever the merge functions assembled, nothing keyed to an
+# opted-out person reaches disk — a people-map entry, an event, a roster URL,
+# a comment card, a verdict — and what was already in the file is scrubbed on
+# the way out too, so a stray record does not survive the next merge either.
+# Counts are untouched on purpose: reactor_count stays what LinkedIn shows,
+# otherwise every later run would see a "changed" count and re-read the list.
+ID_FIELDS = ("key", "person_key", "profile_url", "author_url", "comment_author_url", "url")
+
+
+def person_key(value):
+    """'in/<slug>' (decoded, lower-case) from a slug, an in/<slug> key or a profile
+    URL; '' for anything that is not one. Percent-encoded slugs (Cyrillic names)
+    decode so that the stored key and the URL form agree."""
+    s = str(value or "").strip()
+    if not s:
+        return ""
+    m = re.search(r"/in/([^/?#]+)", s, re.I)
+    if m:
+        slug = m.group(1)
+    elif "/" in s and not s.lower().startswith("in/"):
+        return ""
+    else:
+        slug = s[3:] if s.lower().startswith("in/") else s
+    slug = unquote(slug).strip("/").lower()
+    # A LinkedIn slug never carries ":" — that is a URN or a target id, not a person.
+    if not slug or ":" in slug or not re.search(r"[a-z0-9]", slug):
+        return ""
+    return f"in/{slug}"
+
+
+def opt_out_keys(env=None):
+    raw = (env if env is not None else os.environ).get("LI_OPT_OUT", "") or ""
+    return {k for k in (person_key(tok) for tok in re.split(r"[,\s]+", raw)) if k}
+
+
+def _looks_like_person(s):
+    return isinstance(s, str) and ("/in/" in s or s.lower().startswith("in/"))
+
+
+def _names_opted_out(obj, keys):
+    """A dict that identifies an opted-out person in one of its id fields."""
+    if not isinstance(obj, dict):
+        return False
+    return any(_looks_like_person(obj.get(f)) and person_key(obj.get(f)) in keys for f in ID_FIELDS)
+
+
+def scrub_opt_out(obj, keys):
+    """Return obj without anything keyed to an opted-out person. Pure; the input
+    is not modified."""
+    if not keys:
+        return obj
+    if isinstance(obj, dict):
+        out = {}
+        for k, v in obj.items():
+            if _looks_like_person(k) and person_key(k) in keys:
+                continue                      # people map entry keyed by the person
+            if _names_opted_out(v, keys):
+                continue                      # events map entry, or any record of theirs
+            out[k] = scrub_opt_out(v, keys)
+        return out
+    if isinstance(obj, list):
+        out = []
+        for item in obj:
+            if _looks_like_person(item) and person_key(item) in keys:
+                continue                      # a roster entry (profile URL)
+            if _names_opted_out(item, keys):
+                continue                      # a person, an event, a comment card
+            out.append(scrub_opt_out(item, keys))
+        return out
+    return obj
+
+
 def write_atomic(path, data):
-    data = strip_surrogates(data)
+    data = scrub_opt_out(strip_surrogates(data), opt_out_keys())
     dir_ = os.path.dirname(path) or "."
     fd, tmp = tempfile.mkstemp(prefix=".fast-merge.", suffix=".json", dir=dir_)
     try:

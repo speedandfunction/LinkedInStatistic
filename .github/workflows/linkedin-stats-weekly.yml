@@ -226,6 +226,11 @@ jobs:
           # Browserbase session and lose the week. Unset -> "" -> the
           # backend's `|| 1800` default, so this is safe to always pass.
           LI_SESSION_TIMEOUT: ${{ vars.LI_SESSION_TIMEOUT }}
+          # People who asked to be removed from the corpus (#30). merge.py
+          # scrubs every write against this set and the profile store skips
+          # them; the list lives here, as a repo variable, never in the
+          # public tree. Unset -> "" -> nobody is opted out.
+          LI_OPT_OUT: ${{ vars.LI_OPT_OUT }}
           WEEK: ${{ steps.week.outputs.week }}
           # merge.py performs EVERY dashboards/li-stats write and opens its
           # files with no explicit encoding=, so it inherits the process
