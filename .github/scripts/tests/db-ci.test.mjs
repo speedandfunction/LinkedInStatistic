@@ -10,10 +10,10 @@
 // a problem staying silent (no output, no ::warning::), and a third party's
 // name or a DSN reaching a world-readable log.
 
-import test from "node:test";
+import test, { after } from "node:test";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -40,8 +40,21 @@ const VERIFY_OK = [
   'console.log("all feeds byte-identical between the JSON build and the database export.");',
 ].join("");
 
+// Every temp directory this file creates is removed once the file is done. The
+// stubs hold no real data, but a run used to leave dozens of them behind, and
+// a fake linkedin.sql in $TMPDIR makes "is a real dump lying around?" noisy.
+const TMP_DIRS = [];
+function tempDir(prefix) {
+  const dir = mkdtempSync(join(tmpdir(), prefix));
+  TMP_DIRS.push(dir);
+  return dir;
+}
+after(() => {
+  for (const dir of TMP_DIRS) rmSync(dir, { recursive: true, force: true });
+});
+
 function sandbox({ importJs, verifyJs, backupSh, pingJs, authors = ["andy", "peter"] } = {}) {
-  const dir = mkdtempSync(join(tmpdir(), "db-ci-"));
+  const dir = tempDir("db-ci-");
   mkdirSync(join(dir, "db"));
   // What main PUBLISHES: one feed per author folder with an account.json, plus
   // the page feed. posts/ and a folder without account.json are not feeds.
@@ -211,7 +224,7 @@ test("a parity check that says OK over fewer feeds than main publishes is parity
 test("expectedFeeds counts what build-pages.mjs publishes: author folders with account.json, plus page", () => {
   assert.equal(expectedFeeds(sandbox()), 3);
   assert.equal(expectedFeeds(sandbox({ authors: ["andy", "maria", "peter"] })), 4);
-  assert.equal(expectedFeeds(mkdtempSync(join(tmpdir(), "db-ci-empty-"))), 0);
+  assert.equal(expectedFeeds(tempDir("db-ci-empty-")), 0);
 });
 
 test("verify's own 'could not run' line is shown in its safe shapes", () => {
