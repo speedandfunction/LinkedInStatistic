@@ -535,6 +535,140 @@
         "https://www.linkedin.com/in/mariia-platonova",
         "https://www.linkedin.com/in/yazvinskaya"
       ]
+    },
+    "2026-09-28": {
+      "snapshot_at": "2026-09-28T04:00:38Z",
+      "metrics": {
+        "impressions": 510,
+        "members_reached": 234,
+        "reactions": 19,
+        "comments": 12,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 5,
+        "followers_gained": 1,
+        "engagement_rate": 6.08
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 35,
+          "Entry": 29.5,
+          "Director": 11.5,
+          "Manager": 5.6,
+          "CXO": 4.3
+        },
+        "job_title": {
+          "Software Engineer": 7.7,
+          "Frontend Developer": 3,
+          "Product Manager": 2.6
+        },
+        "industry": {
+          "IT Services and IT Consulting": 21.4,
+          "Software Development": 17.5,
+          "Advertising Services": 9.8,
+          "Technology, Information and Internet": 8.1,
+          "Design Services": 6
+        },
+        "company_size": {
+          "51-200 employees": 22.6,
+          "10,001+ employees": 15,
+          "1001-5000 employees": 11.5,
+          "11-50 employees": 9,
+          "201-500 employees": 8.1
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 17.5,
+          "Lviv": 7.3,
+          "Prague Metropolitan Area": 4.7,
+          "Warsaw Metropolitan Area": 3.4,
+          "Greater Philadelphia": 3
+        },
+        "company": {
+          "Speed and Function": 7.7
+        }
+      },
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/iegor-osaulenko-b073444b",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7483822620136640513,7484228695533064192)",
+          "text": "Iegor Osaulenko Verified Profile 1st\nIegor Osaulenko\n• 1st\nSenior Software Engineer - Backend & Systems: Python | Go | .NET/C# | JS/TS | Cloud |  AI Native\nIt's fascinating to me how we, representing quite different professional areas, scrambling with the same challenges.\nBut getting to the point - don't idulge human human behavior into AI! (that's how I cope with the thought \"if I don't believe it - it's not real!)\n1 reaction\n1\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/maria-umen-a58169a2",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7483822620136640513,7484700132756750336)",
+          "text": "Maria Umen\nAuthor\n🌿UI—UX designer, researcher, and chronicler of life’s simple beauty.\nIegor Osaulenko Deal  🤝\n0\n41 impressions\n41",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/yazvinskaya",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7483822620136640513,7483829317228060673)",
+          "text": "Mila Yazvinska  1st\nMila Yazvinska • 1st\nMarketing & Impact Project Manager\nlol\nMissing a couple of classes is completely normal when you're balancing a million things. To answer your big question: yes, working with you would be a blast, \"wild nights\" of prompting included 😆\n1 reaction\n1\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/maria-umen-a58169a2",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7483822620136640513,7483847490002345984)",
+          "text": "Maria Umen\nAuthor\n🌿UI—UX designer, researcher, and chronicler of life’s simple beauty.\nMila Yazvinska Pffff 😆\n0\n76 impressions\n76",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/evgenia-usenok-8b4034b",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7483822620136640513,7484913515825205248)",
+          "text": "Evgenia Usenok  1st\nEvgenia Usenok • 1st\nCommunicator at Reactive Post. Personal Stylist\nActually, I'm very polite with my AI, always saying Hi, please, would you... Maybe some day i'll give me a cozier prison with a window and a pencil:)\n1 reaction\n1\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/maria-umen-a58169a2",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7483822620136640513,7484924542620962816)",
+          "text": "Maria Umen\nAuthor\n🌿UI—UX designer, researcher, and chronicler of life’s simple beauty.\nEvgenia Usenok Ohhh my 🙈\nShow translation\n0\n11 impressions\n11",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/dariamalova",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7483822620136640513,7483834619767873536)",
+          "text": "Daria Malova, Open to work Verified Profile 1st\nDaria Malova\n• 1st\nContent Manager & Social Media Creator\nI’ve never had such a clear picture in my head of how different AIs communicate 😁 thanks for this visualization\n1 reaction\n1\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/maria-umen-a58169a2",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7483822620136640513,7483847282082091008)",
+          "text": "Maria Umen\nAuthor\n🌿UI—UX designer, researcher, and chronicler of life’s simple beauty.\nDaria Malova I’m crying 🤣\n1 reaction\n1\n52 impressions\n52",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/dariamalova",
+        "https://www.linkedin.com/in/evgenia-usenok-8b4034b",
+        "https://www.linkedin.com/in/iegor-osaulenko-b073444b",
+        "https://www.linkedin.com/in/maria-umen-a58169a2",
+        "https://www.linkedin.com/in/yazvinskaya"
+      ]
     }
   }
 }

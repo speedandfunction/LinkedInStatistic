@@ -379,6 +379,109 @@
         "https://www.linkedin.com/in/rajbharathi",
         "https://www.linkedin.com/in/vitaly-gapontsev"
       ]
+    },
+    "2026-09-28": {
+      "snapshot_at": "2026-09-28T03:43:39Z",
+      "metrics": {
+        "impressions": 1455,
+        "members_reached": 869,
+        "reactions": 15,
+        "comments": 7,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 1,
+        "profile_viewers": 7,
+        "followers_gained": 0,
+        "engagement_rate": 1.51
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 33.7,
+          "Entry": 20.7,
+          "Director": 8.6,
+          "CXO": 7.5,
+          "Owner": 5.8
+        },
+        "job_title": {
+          "Software Engineer": 11.2,
+          "Founder": 4.3,
+          "Co-Founder": 4,
+          "Frontend Developer": 2,
+          "Chief Technology Officer": 1.7
+        },
+        "industry": {
+          "Software Development": 26.8,
+          "IT Services and IT Consulting": 25.4,
+          "Technology, Information and Internet": 10.7,
+          "Hospitals and Health Care": 4.6,
+          "Financial Services": 3.5
+        },
+        "company_size": {
+          "11-50 employees": 14.4,
+          "51-200 employees": 14.4,
+          "10,001+ employees": 14.2,
+          "1-10 employees": 14.2,
+          "1001-5000 employees": 9.2
+        },
+        "location": {
+          "Copenhagen Metropolitan Area": 6.9,
+          "Kyiv Metropolitan Area": 5.9,
+          "Lviv": 4.5,
+          "San Francisco Bay Area": 4,
+          "New York City Metropolitan Area": 3.6
+        },
+        "company": {
+          "Speed and Function": 2.3,
+          "CloudLinux": 0,
+          "JetBlue": 0,
+          "Amazon": 0,
+          "Caliber": 0
+        }
+      },
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/nimish-g%C3%A5tam-44125512",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7449791320329547776,7449803321902559232)",
+          "text": "Nimish Gåtam Verified Profile 1st\nNimish Gåtam\n• 1st\nVP of AI Engineering | Fractional CTO consultant | Policy and Responsible AI | Ex-CTO | Ex-Wikipedia\nI think many of us have an 'accidentally made enwiki unreachable' story somewhere... almost a rite of passage!\n0\n4\n4",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/johanevj",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7449791320329547776,7449876023262789634)",
+          "text": "Johan Jönsson  2nd\nJohan Jönsson • 2nd\nManager, Movement Communications, Wikimedia Foundation – Working in the intersection of product development, communications and community\nFollow\nStill an exclusive tribe, though.\n0",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/rajbharathi",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7449791320329547776,7449833318843383808)",
+          "text": "Raj Bharathi Verified Profile 1st\nRaj Bharathi\n• 1st\nCEO @KronosX AI | Building the agentic data layer that makes Healthcare AI-Ready.\nWow great story any day!\n1 reaction\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/vitaly-gapontsev",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7449791320329547776,7449897619772022786)",
+          "text": "Vitaly Gapontsev, Open to work  1st\nVitaly Gapontsev • 1st\nFront-End / Fullstack (React + Node.js)\nYep. The system is defined not by whether it makes mistakes (every system does), but by how it processes them.\n1 reaction\n1",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/johanevj",
+        "https://www.linkedin.com/in/nimish-g%C3%A5tam-44125512",
+        "https://www.linkedin.com/in/rajbharathi",
+        "https://www.linkedin.com/in/vitaly-gapontsev"
+      ]
     }
   }
 }

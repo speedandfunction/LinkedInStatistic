@@ -299,6 +299,88 @@
       "commenters": [
         "https://www.linkedin.com/in/dhayfule"
       ]
+    },
+    "2026-09-28": {
+      "snapshot_at": "2026-09-28T03:45:48Z",
+      "metrics": {
+        "impressions": 3467,
+        "members_reached": 2551,
+        "reactions": 8,
+        "comments": 3,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 1,
+        "followers_gained": 0,
+        "engagement_rate": 0.32
+      },
+      "demographics": {
+        "seniority": {
+          "Entry": 38.7,
+          "Senior": 26.1,
+          "Director": 6.1,
+          "CXO": 4.4,
+          "Manager": 4.2
+        },
+        "job_title": {
+          "Software Engineer": 13.2,
+          "Project Manager": 2.8,
+          "Chief Executive Officer": 2.2,
+          "Founder": 1.8,
+          "Full Stack Engineer": 1.7
+        },
+        "industry": {
+          "IT Services and IT Consulting": 23.6,
+          "Software Development": 16.9,
+          "Technology, Information and Internet": 3.3,
+          "Banking": 2.9,
+          "Financial Services": 2.1
+        },
+        "company_size": {
+          "11-50 employees": 14.7,
+          "51-200 employees": 14.7,
+          "1001-5000 employees": 12.3,
+          "1-10 employees": 9.6,
+          "201-500 employees": 9.1
+        },
+        "location": {
+          "Ljubljana Metropolitan Area": 18.7,
+          "Belgrade Metropolitan Area": 11.6,
+          "Zagreb Metropolitan Area": 11.5,
+          "Novi Sad Metropolitan Area": 3.9,
+          "Maribor Metropolitan Area": 2.6
+        },
+        "company": {
+          "Speed and Function": 0,
+          "NLB d.d.": 0,
+          "OTP banka, Slovenija": 0,
+          "HTEC": 0,
+          "Telekom Slovenije": 0
+        }
+      },
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/dhayfule",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7464644189239091201,7464923016796459008)",
+          "text": "Pravin Dhayfule Verified Profile 2nd\nPravin Dhayfule\n• 2nd\nCEO - Cybrent Technology solutions | Ethical AI Governance | Quantum Resilient Cybersecurity Solution Provider | Helping Industry Recover From Blind AI Expenditure\nFollow\nPeter Ovchynnikov but why even allow AI to directly touch the codebase?\nAnd why not mentor AI for ethical behaviour and follow code of conduct?\n0\n2\n2",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/dhayfule",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7464644189239091201,7466171566507311106)",
+          "text": "Pravin Dhayfule Verified Profile 2nd\nPravin Dhayfule\n• 2nd\nCEO - Cybrent Technology solutions | Ethical AI Governance | Quantum Resilient Cybersecurity Solution Provider | Helping Industry Recover From Blind AI Expenditure\n(edited) 4mo\nFollow\nPeter Ovchynnikov I don't just have the answer how but also a real case study of Human-AI collaboration in building something which human intellectuals had rejected and quoted impossible, but now exists beyond prompt engineering, Vibecoding or autonomous AI coding.\nhttps://peerlist.io/scroll/post/ACTHKKDA6NODDOA9EIOEJPA7KNL86O\nYou can read it or ignore it... But it has happened and that's the fact.\nHistory of DELOL Shield\npeerlist.io\n0",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/dhayfule"
+      ]
     }
   }
 }

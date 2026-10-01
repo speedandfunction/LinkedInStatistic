@@ -347,6 +347,114 @@
         "https://www.linkedin.com/in/kentgregoire",
         "https://www.linkedin.com/in/yazvinskaya"
       ]
+    },
+    "2026-09-28": {
+      "snapshot_at": "2026-09-28T04:01:48Z",
+      "metrics": {
+        "impressions": 349,
+        "members_reached": 150,
+        "reactions": 13,
+        "comments": 4,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 3,
+        "followers_gained": 0,
+        "engagement_rate": 4.87
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 28.7,
+          "Entry": 20,
+          "Director": 12.7,
+          "CXO": 11.3,
+          "Manager": 6.7
+        },
+        "job_title": {
+          "Software Engineer": 6,
+          "Product Manager": 4.7,
+          "Chief Executive Officer": 4
+        },
+        "industry": {
+          "IT Services and IT Consulting": 21.3,
+          "Software Development": 15.3,
+          "Technology, Information and Internet": 8,
+          "Advertising Services": 6.7,
+          "Design Services": 5.3
+        },
+        "company_size": {
+          "11-50 employees": 18,
+          "51-200 employees": 18,
+          "10,001+ employees": 11.3,
+          "1001-5000 employees": 10.7,
+          "1-10 employees": 10
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 13.3,
+          "New York City Metropolitan Area": 5.3,
+          "Greater Philadelphia": 5.3
+        },
+        "company": {
+          "Speed and Function": 10
+        }
+      },
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/kentgregoire",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7498789820241010688,7498820614900858882)",
+          "text": "Kent Gregoire Premium Profile 1st\nKent Gregoire\n• 1st\nThe CEO to CEOs™ | I help mission-driven founders of $5M–$250M companies scale their impact and innovations | Serial entrepreneur, 15+ companies founded, $250M+ raised | Conscious Capitalism advisor\n\"More intentionally we need to protect the things that remind us we're alive\" resonates; it really resonates, as does so much of your post.\nThe red clover is the Vermont (USA) state flower.  I chose to name one of our '26 Scottish Highland calves \"Clover\"; her mother is Claire (as in Claire Randall, Outlander series).\n1 reaction\n1\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/maria-umen-a58169a2",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7498789820241010688,7498830974386999296)",
+          "text": "Maria Umen\nAuthor\n🌿UI—UX designer, researcher, and chronicler of life’s simple beauty.\nKent Gregoire Thank you, Kent. Clover is also one of my son's favorite flower.\n1 reaction\n1\n29 impressions\n29",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/yazvinskaya",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7498789820241010688,7498790845031026688)",
+          "text": "Mila Yazvinska  1st\nMila Yazvinska • 1st\nMarketing & Impact Project Manager\nMillennials life circle 🌱\n2 reactions\n2\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/maria-umen-a58169a2",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7498789820241010688,7498793536507641856)",
+          "text": "Maria Umen\nAuthor\n🌿UI—UX designer, researcher, and chronicler of life’s simple beauty.\nMila Yazvinska So true 🫠\n0\n50 impressions\n50",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/kentgregoire",
+        "https://www.linkedin.com/in/maria-umen-a58169a2",
+        "https://www.linkedin.com/in/yazvinskaya"
+      ],
+      "reactors": [
+        "https://www.linkedin.com/in/annakalinichenko",
+        "https://www.linkedin.com/in/dariamalova",
+        "https://www.linkedin.com/in/evgenia-usenok-8b4034b",
+        "https://www.linkedin.com/in/evgeniychystiakov",
+        "https://www.linkedin.com/in/gluzd",
+        "https://www.linkedin.com/in/kentgregoire",
+        "https://www.linkedin.com/in/mariia-platonova",
+        "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b",
+        "https://www.linkedin.com/in/olya7715",
+        "https://www.linkedin.com/in/svitlana-sudylovska-5a826732",
+        "https://www.linkedin.com/in/yana-nakonechna",
+        "https://www.linkedin.com/in/yazvinskaya"
+      ]
     }
   }
 }

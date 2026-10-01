@@ -280,6 +280,81 @@
       "commenters": [
         "https://www.linkedin.com/in/vasilyyaremchuk"
       ]
+    },
+    "2026-09-28": {
+      "snapshot_at": "2026-09-28T03:45:54Z",
+      "metrics": {
+        "impressions": 414,
+        "members_reached": 172,
+        "reactions": 4,
+        "comments": 2,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 1,
+        "followers_gained": 0,
+        "engagement_rate": 1.45
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 36,
+          "Entry": 19.8,
+          "Director": 11.6,
+          "CXO": 8.7,
+          "VP": 5.2
+        },
+        "job_title": {
+          "Software Engineer": 11.6
+        },
+        "industry": {
+          "IT Services and IT Consulting": 23.3,
+          "Software Development": 15.7,
+          "Financial Services": 12.8,
+          "Banking": 9.3,
+          "Technology, Information and Internet": 5.8
+        },
+        "company_size": {
+          "10,001+ employees": 37.8,
+          "51-200 employees": 18,
+          "11-50 employees": 8.1,
+          "1001-5000 employees": 7,
+          "5001-10,000 employees": 4.7
+        },
+        "location": {
+          "London Area, United Kingdom": 8.1,
+          "Lviv": 5.8,
+          "Kyiv Metropolitan Area": 5.2,
+          "Odesa": 3.5
+        },
+        "company": {
+          "HSBC": 22.7,
+          "Speed and Function": 11.6
+        }
+      },
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/vasilyyaremchuk",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7492904487343288320,7497719034486992896)",
+          "text": "Vasyl Yaremchuk Verified Profile 1st\nVasyl Yaremchuk\n• 1st\nResults-Driven Solutions Designer  | IT Consultant | Web Development Expert\nYou can run you model on your Mac mini. It could be not so smart but without any limits.\n0\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/ovchyn",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7492904487343288320,7497740882662715393)",
+          "text": "Peter Ovchynnikov\nAuthor\nCo-CEO @ Speed & Function ▪️ Building TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018\nVasyl Yaremchuk aha. And die young :)\n0\n68 impressions\n68",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/ovchyn",
+        "https://www.linkedin.com/in/vasilyyaremchuk"
+      ]
     }
   }
 }

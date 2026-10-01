@@ -68,6 +68,70 @@
       "commenters": [
         "https://www.linkedin.com/in/vladimir-miroshnichenko-8445b2208"
       ]
+    },
+    "2026-09-28": {
+      "snapshot_at": "2026-09-28T03:47:55Z",
+      "metrics": {
+        "impressions": 171,
+        "members_reached": 100,
+        "reactions": 5,
+        "comments": 1,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 3.51
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 33,
+          "Entry": 27,
+          "Director": 6,
+          "CXO": 6
+        },
+        "job_title": {
+          "Software Engineer": 11
+        },
+        "industry": {
+          "IT Services and IT Consulting": 33,
+          "Software Development": 19,
+          "Technology, Information and Internet": 13
+        },
+        "company_size": {
+          "51-200 employees": 25,
+          "11-50 employees": 17,
+          "1001-5000 employees": 13,
+          "1-10 employees": 7
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 8
+        },
+        "company": {
+          "Speed and Function": 17
+        }
+      },
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/vladimir-miroshnichenko-8445b2208",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7506626831983382528,7506732260004601856)",
+          "text": "Vladimir Miroshnichenko  1st\nVladimir Miroshnichenko • 1st\nFounder & CTO @ gitmir.com & mir.digital  | 25+ Years Building Software | I Make AI Systems Smarter Without Making the Models Smarter\nThe remedy I trust most is making each track resumable without holding it in my head. When the picture of a project, what it does, what the last change touched, what is still open, lives outside my memory, switching costs a minute of reading instead of twenty minutes of rebuilding. Most of the burnout comes from the rebuilding.\n0",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "reactors": [
+        "https://www.linkedin.com/in/anastasiiast",
+        "https://www.linkedin.com/in/anatoly-chelyshev",
+        "https://www.linkedin.com/in/dariamalova",
+        "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b",
+        "https://www.linkedin.com/in/ovchyn"
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/vladimir-miroshnichenko-8445b2208"
+      ]
     }
   }
 }

@@ -359,6 +359,108 @@
         "https://www.linkedin.com/in/gluzd",
         "https://www.linkedin.com/in/yazvinskaya"
       ]
+    },
+    "2026-09-28": {
+      "snapshot_at": "2026-09-28T04:01:18Z",
+      "metrics": {
+        "impressions": 431,
+        "members_reached": 194,
+        "reactions": 19,
+        "comments": 5,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 11,
+        "followers_gained": 0,
+        "engagement_rate": 5.57
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 32.5,
+          "Entry": 25.3,
+          "Director": 10.3,
+          "Manager": 7.2,
+          "CXO": 5.2
+        },
+        "job_title": {
+          "Software Engineer": 10.3
+        },
+        "industry": {
+          "IT Services and IT Consulting": 22.2,
+          "Software Development": 19.6,
+          "Technology, Information and Internet": 9.3,
+          "Design Services": 7.7,
+          "Advertising Services": 6.7
+        },
+        "company_size": {
+          "51-200 employees": 21.1,
+          "10,001+ employees": 16,
+          "1001-5000 employees": 12.9,
+          "11-50 employees": 11.3,
+          "1-10 employees": 7.7
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 14.9,
+          "Lviv": 7.2,
+          "Greater Kitchener-Cambridge-Waterloo Metropolitan Area": 3.1
+        },
+        "company": {
+          "Speed and Function": 8.8
+        }
+      },
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/arozhylo",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7478717734739107840,7478765381281538048)",
+          "text": "Andrii Rozhylo Verified Profile 1st\nAndrii Rozhylo\n• 1st\nAI Transformation Leader | Business Strategist | Entrepreneur | Delivery Manager | Product Manager | Marketing Expert\nIt would be great if you shared your findings on AI in design so fewer of us got pooped in the future 😁\n2 reactions\n2\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/maria-umen-a58169a2",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7478717734739107840,7478779530355302400)",
+          "text": "Maria Umen\nAuthor\n🌿UI—UX designer, researcher, and chronicler of life’s simple beauty.\nAndrii Rozhylo, will do!\n0\n22 impressions\n22",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/yazvinskaya",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7478717734739107840,7478761115389202432)",
+          "text": "Mila Yazvinska  1st\nMila Yazvinska • 1st\nMarketing & Impact Project Manager\nOh, this touches the soul (and my survival instincts) so deeply! As a mom of an 8-year-old now, let me give you a spoiler alert: the \"pre-call emergency poop\" phase does end, but it just gets replaced by a kid standing silently in the dark of your room at 2 AM to tell you they lost a Lego piece😂\nYou’re so righ: the real magic happens when we turn off the \"AI wallpaper\" and embrace the messy, unedited background. AI might be updating its models every five minutes and making us question our careers, but it will never match the chaotic brilliance of real life. Love your honesty, and good luck with the new course! Let's face Figma and the chaos together 🚀\n1 reaction\n1\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/maria-umen-a58169a2",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7478717734739107840,7478779212699643904)",
+          "text": "Maria Umen\nAuthor\n🌿UI—UX designer, researcher, and chronicler of life’s simple beauty.\nMila Yazvinska, you know what? I love you!\nP.S.: Also, many thanks for this insightful essay 😄\n0\n22 impressions\n22",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/gluzd",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7478717734739107840,7483178001971433473)",
+          "text": "Nick Gluzdov Premium Profile 1st\nNick Gluzdov\n• 1st\nReimagining Software Delivery with Developmental Practices\nApparently the whole self has a digestive system.\n1 reaction\n1",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/arozhylo",
+        "https://www.linkedin.com/in/gluzd",
+        "https://www.linkedin.com/in/maria-umen-a58169a2",
+        "https://www.linkedin.com/in/yazvinskaya"
+      ]
     }
   }
 }

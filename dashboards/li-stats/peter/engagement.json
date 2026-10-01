@@ -439,8 +439,8 @@
       "key": "in/anastasiiast",
       "name": "Anastasiia Stetsenko",
       "profile_url": "https://www.linkedin.com/in/anastasiiast",
-      "headline": "Personal Brand & LinkedIn Training for Companies and Leaders ✦ ✈️Creator of curated travel experiences (Mexico, Cambodia, yachting) ✦ ex-Brand Ambassadors Lead @ DataArt, Global Software Engineering Firm",
-      "headline_seen_at": "2026-09-01T19:59:44Z",
+      "headline": "Personal Brand, Brand Ambassadors & LinkedIn Training for Companies and Leaders ✦ ✈️Creator of curated travel experiences (Mexico, Cambodia, yachting) ✦ ex-Brand Ambassadors Lead @ DataArt",
+      "headline_seen_at": "2026-09-28T03:54:00Z",
       "first_seen_at": "2026-09-01T19:59:44Z",
       "icp": {
         "verdict": null,
@@ -2047,6 +2047,21 @@
       "headline": "Software Engineer, Data at Wunderkind",
       "headline_seen_at": "2026-09-01T20:45:49Z",
       "first_seen_at": "2026-09-01T20:45:49Z",
+      "icp": {
+        "verdict": null,
+        "reason": null,
+        "model": null,
+        "classified_at": null,
+        "headline_hash": null
+      }
+    },
+    "in/johnpetrone": {
+      "key": "in/johnpetrone",
+      "name": "John Petrone",
+      "profile_url": "https://www.linkedin.com/in/johnpetrone",
+      "headline": "Award Winning Fractional/Interim CTO/VP of Engineering",
+      "headline_seen_at": "2026-09-28T03:54:00Z",
+      "first_seen_at": "2026-09-28T03:54:00Z",
       "icp": {
         "verdict": null,
         "reason": null,
@@ -5399,6 +5414,19 @@
       "backfill": false,
       "first_seen_at": "2026-09-05T13:13:42Z",
       "text": "Arguing at the coffee machine is often a sign of juniority. And when they understand your idea about the fact that code is not a holy grail but rather a business instrument, we call them \"software developers\". And when we can explain this idea to other developers, we call them \"seniors.\""
+    },
+    "comment:urn:li:comment:(activity:7429507665682391040,7430103496760287232)": {
+      "event_id": "comment:urn:li:comment:(activity:7429507665682391040,7430103496760287232)",
+      "kind": "comment",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7429507665682391040",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7429507665682391040/",
+      "person_key": "in/darrinbaines",
+      "occurred_at": "2026-02-19T04:18:38Z",
+      "attributed_week": "2026-02-16",
+      "backfill": false,
+      "first_seen_at": "2026-09-28T03:54:00Z",
+      "text": "Darrin Baines  2nd\nDarrin Baines • 2nd\nBritish Health Economist | Pharmacy practice | Health systems | Darrin Baines (0000-0001-9502-4678) - ORCID\nFollow\nKevin Brown Thank you\n0"
     },
     "comment:urn:li:comment:(activity:7429507665682391040,7430198858409734144)": {
       "event_id": "comment:urn:li:comment:(activity:7429507665682391040,7430198858409734144)",
@@ -11447,6 +11475,54 @@
       "backfill": true,
       "first_seen_at": "2026-09-21T03:31:03Z"
     },
+    "react:post:urn:li:activity:7506626831983382528:in/anastasiiast": {
+      "event_id": "react:post:urn:li:activity:7506626831983382528:in/anastasiiast",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7506626831983382528",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7506626831983382528/",
+      "person_key": "in/anastasiiast",
+      "occurred_at": null,
+      "attributed_week": "2026-09-21",
+      "backfill": false,
+      "first_seen_at": "2026-09-28T03:54:00Z"
+    },
+    "react:post:urn:li:activity:7506626831983382528:in/anatoly-chelyshev": {
+      "event_id": "react:post:urn:li:activity:7506626831983382528:in/anatoly-chelyshev",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7506626831983382528",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7506626831983382528/",
+      "person_key": "in/anatoly-chelyshev",
+      "occurred_at": null,
+      "attributed_week": "2026-09-21",
+      "backfill": false,
+      "first_seen_at": "2026-09-28T03:54:00Z"
+    },
+    "react:post:urn:li:activity:7506626831983382528:in/dariamalova": {
+      "event_id": "react:post:urn:li:activity:7506626831983382528:in/dariamalova",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7506626831983382528",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7506626831983382528/",
+      "person_key": "in/dariamalova",
+      "occurred_at": null,
+      "attributed_week": "2026-09-21",
+      "backfill": false,
+      "first_seen_at": "2026-09-28T03:54:00Z"
+    },
+    "react:post:urn:li:activity:7506626831983382528:in/olga-mykhailova-michai-58b5424b": {
+      "event_id": "react:post:urn:li:activity:7506626831983382528:in/olga-mykhailova-michai-58b5424b",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7506626831983382528",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7506626831983382528/",
+      "person_key": "in/olga-mykhailova-michai-58b5424b",
+      "occurred_at": null,
+      "attributed_week": "2026-09-21",
+      "backfill": false,
+      "first_seen_at": "2026-09-28T03:54:00Z"
+    },
     "react:post:urn:li:activity:7506626831983382528:in/ovchyn": {
       "event_id": "react:post:urn:li:activity:7506626831983382528:in/ovchyn",
       "kind": "reaction",
@@ -11458,6 +11534,66 @@
       "attributed_week": null,
       "backfill": true,
       "first_seen_at": "2026-09-21T03:31:03Z"
+    },
+    "react:post:urn:li:activity:7508908378186747904:in/anastasiiast": {
+      "event_id": "react:post:urn:li:activity:7508908378186747904:in/anastasiiast",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7508908378186747904",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7508908378186747904/",
+      "person_key": "in/anastasiiast",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-09-28T03:54:00Z"
+    },
+    "react:post:urn:li:activity:7508908378186747904:in/anatoly-chelyshev": {
+      "event_id": "react:post:urn:li:activity:7508908378186747904:in/anatoly-chelyshev",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7508908378186747904",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7508908378186747904/",
+      "person_key": "in/anatoly-chelyshev",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-09-28T03:54:00Z"
+    },
+    "react:post:urn:li:activity:7508908378186747904:in/johnpetrone": {
+      "event_id": "react:post:urn:li:activity:7508908378186747904:in/johnpetrone",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7508908378186747904",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7508908378186747904/",
+      "person_key": "in/johnpetrone",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-09-28T03:54:00Z"
+    },
+    "react:post:urn:li:activity:7508908378186747904:in/oleksandr-mazur-005441174": {
+      "event_id": "react:post:urn:li:activity:7508908378186747904:in/oleksandr-mazur-005441174",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7508908378186747904",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7508908378186747904/",
+      "person_key": "in/oleksandr-mazur-005441174",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-09-28T03:54:00Z"
+    },
+    "react:post:urn:li:activity:7508908378186747904:in/vadim-kovalenko-frontdev": {
+      "event_id": "react:post:urn:li:activity:7508908378186747904:in/vadim-kovalenko-frontdev",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7508908378186747904",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7508908378186747904/",
+      "person_key": "in/vadim-kovalenko-frontdev",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-09-28T03:54:00Z"
     }
   },
   "targets": {
@@ -11917,7 +12053,16 @@
       "target_urn": "urn:li:activity:7506626831983382528",
       "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7506626831983382528/",
       "first_scanned_week": "2026-09-21",
-      "last_scanned_week": "2026-09-21",
+      "last_scanned_week": "2026-09-28",
+      "reactor_count": 5
+    },
+    "post:urn:li:activity:7508908378186747904": {
+      "target_id": "post:urn:li:activity:7508908378186747904",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7508908378186747904",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7508908378186747904/",
+      "first_scanned_week": "2026-09-28",
+      "last_scanned_week": "2026-09-28",
       "reactor_count": 5
     }
   }

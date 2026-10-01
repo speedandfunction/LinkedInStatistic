@@ -1689,6 +1689,22 @@ async function openPostReactors(page, dialogSel) {
       });
       target = hit?.closest('a, button, [role="button"]') || null;
     }
+    if (!target) {
+      // Fourth variant, found 2026-10-01 on maria's bucket: the action bar
+      // carries no reaction-count row at all. The count sits INSIDE the Like
+      // button (clicking it reacts — never a target), and the "who reacted"
+      // control is a bare anchor to the post URL whose only label is a
+      // visually hidden "<n> reactions" (a 0x0 child). innerText of a hidden
+      // node is "", so both passes above read the anchor as empty; its
+      // textContent still says what it is. Comments keep their own, visible
+      // counts, so inComment() still draws the line.
+      target = Array.from(root.querySelectorAll('a, button, [role="button"]')).find((el) => {
+        if (inComment(el) || el.getBoundingClientRect().width === 0) return false;
+        if (/^Reaction button state/i.test(el.getAttribute('aria-label') || '')) return false;
+        const t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+        return /^\d[\d,]*\s+reactions?$/i.test(t) || (/\breacted$/i.test(t) && t.length <= 160);
+      }) || null;
+    }
     if (!target) return 'no-button';
     target.click();
     for (let i = 0; i < 10; i++) {           // the dialog mounts async

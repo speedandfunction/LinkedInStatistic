@@ -247,6 +247,72 @@
       "commenters": [
         "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b"
       ]
+    },
+    "2026-09-28": {
+      "snapshot_at": "2026-09-28T03:46:19Z",
+      "metrics": {
+        "impressions": 301,
+        "members_reached": 110,
+        "reactions": 2,
+        "comments": 2,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 0,
+        "followers_gained": 0,
+        "engagement_rate": 1.33
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 43.6,
+          "Entry": 27.3
+        },
+        "job_title": {
+          "Software Engineer": 19.1
+        },
+        "industry": {
+          "Software Development": 29.1,
+          "IT Services and IT Consulting": 29.1,
+          "Technology, Information and Internet": 9.1
+        },
+        "company_size": {
+          "51-200 employees": 26.4,
+          "10,001+ employees": 15.5,
+          "11-50 employees": 15.5,
+          "1001-5000 employees": 10,
+          "1-10 employees": 5.5
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 5.5
+        },
+        "company": {
+          "Speed and Function": 19.1
+        }
+      },
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7498711668579799041,7498778015695429632)",
+          "text": "Olga Mykhailova (Michai) Verified Profile 1st\nOlga Mykhailova (Michai)\n• 1st\nI design culture that works | Less drama and more movement | Helping C-level leaders turn resistance and difficult dynamics into collaboration and change | Developmental Culture | Nonviolent Communication\nexactly! It drafts great, helps to brainstorm, but final polishing.... the devil is in the details!\n1 reaction\n1\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/ovchyn",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7498711668579799041,7498807679990071296)",
+          "text": "Peter Ovchynnikov\nAuthor\nCo-CEO @ Speed & Function ▪️ Building TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018\nOlga Mykhailova (Michai) The Devil Wears Prada\n0\n69 impressions\n69",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/olga-mykhailova-michai-58b5424b",
+        "https://www.linkedin.com/in/ovchyn"
+      ]
     }
   }
 }
