@@ -267,8 +267,10 @@ export function operatorId(raw) {
 export function readProfiles(path) {
   try {
     const p = JSON.parse(readFileSync(resolve(path), "utf8"));
+    // A retired author (profiles.json `retired`) is not scraped, so a row
+    // for them would read as "missing" every week; their data is still there.
     return Object.keys(p)
-      .filter((k) => !k.startsWith("_"))
+      .filter((k) => !k.startsWith("_") && !p[k]?.retired)
       .map((slug) => ({ slug, name: typeof p[slug]?.name === "string" ? p[slug].name : "" }));
   } catch {
     return null;

@@ -129,6 +129,26 @@ test("a clean, merged and deployed week posts one short 'collected and published
   assert.equal(p.unfurl_media, false);
 });
 
+test("a retired author (profiles.json `retired`) gets no row: not scraped, not missing", () => {
+  // Пітер лишається у profiles.json (його дані, дашборди і рядок у базі живуть
+  // далі), але з позначкою retired прогін його не збирає — і звіт не має
+  // показувати його ні як «collected», ні як проблему.
+  const retired = join(TMP, "profiles-retired.json");
+  writeFileSync(retired, JSON.stringify({
+    _note: "fixture",
+    peter: { name: "Peter Ovchynnikov", retired: "2026-10-12" },
+    andy: { name: "Andy Rozhylo" },
+    maria: { name: "Maria Umen" },
+  }));
+  const r = run({ ...CLEAN_RUN, ...DB_OK, PROFILES_FILE: retired });
+  assert.equal(r.code, 0);
+  for (const name of ["Andy Rozhylo", "Maria Umen"]) {
+    assert.match(firstText(r), new RegExp(`:white_check_mark: \\*${name}\\* — collected`));
+  }
+  assert.doesNotMatch(firstText(r), /Peter Ovchynnikov/, "retired автора у звіті немає");
+  assert.doesNotMatch(body(r), /peter/, "і за slug теж");
+});
+
 test("an unmerged week says NOT published, links the PR, names each problem, sets the deadline and pings the operator", () => {
   const r = run(REVIEW_RUN);
   assert.equal(r.code, 0);

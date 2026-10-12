@@ -1,10 +1,11 @@
 {
-  "_note": "Ідентичність кожного LinkedIn-профілю, який збирає пайплайн. Ключ = автор (той самий slug, що в lifleet authors.json). Скрапер читає запис за LI_AUTHOR і пише дані в dashboards/li-stats/<author>/. Публікація будує stats.json у <author>/ на Pages і генерує дашборд linkedin-<author> з цим URL. Додати людину = додати сюди запис; код міняти не треба. company_id читає лише company-page фаза.",
+  "_note": "Ідентичність кожного LinkedIn-профілю, який збирає пайплайн. Ключ = автор (той самий slug, що в lifleet authors.json). Скрапер читає запис за LI_AUTHOR і пише дані в dashboards/li-stats/<author>/. Публікація будує stats.json у <author>/ на Pages і генерує дашборд linkedin-<author> з цим URL. Додати людину = додати сюди запис; код міняти не треба. company_id читає лише company-page фаза. Автор із полем retired (дата) більше НЕ збирається і не перевіряється: тижневий прогін, ops/weekly.sh і Slack-звіт його пропускають, а зібрані дані, дашборди й рядок у базі лишаються як є (запис тут потрібен саме для цього — import.mjs дзеркалить profiles.json у li.author). Прибрати акаунт із реєстру lifleet — окремо.",
   "peter": {
     "name": "Peter Ovchynnikov",
     "profile_slug": "in/ovchyn",
     "company_id": "7948833",
-    "posts_cutoff": "2025-11-01"
+    "posts_cutoff": "2025-11-01",
+    "retired": "2026-10-12"
   },
   "andy": {
     "name": "Andy Rozhylo",
