@@ -195,7 +195,7 @@ jobs:
               console.error("LIFLEET_AUTHORS_JSON is not a non-empty JSON object"); process.exit(1);
             }
             const profiles = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
-            const wanted = Object.keys(profiles).filter((k) => !k.startsWith("_"));
+            const wanted = Object.keys(profiles).filter((k) => !k.startsWith("_") && !profiles[k].retired);
             const missing = wanted.filter((a) => !reg[a]);
             const noCtx = wanted.filter((a) => reg[a] && !reg[a].context_id);
             if (missing.length || noCtx.length) {
@@ -243,9 +243,12 @@ jobs:
         run: |
           set -uo pipefail
           # Every author in profiles.json; "_note" and friends are metadata.
+          # An author with `retired` set keeps their data, dashboards and
+          # li.author row, but is no longer scraped: their account is not
+          # ours to open any more (peter, 2026-10-12).
           authors=$(node -e '
             const p = JSON.parse(require("fs").readFileSync(process.argv[1], "utf8"));
-            console.log(Object.keys(p).filter((k) => !k.startsWith("_")).join("\n"));
+            console.log(Object.keys(p).filter((k) => !k.startsWith("_") && !p[k].retired).join("\n"));
           ' "${PROFILES_FILE}")
           if [ -z "${authors}" ]; then
             echo "::error::no authors in ${PROFILES_FILE}"

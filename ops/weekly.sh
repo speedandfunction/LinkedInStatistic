@@ -51,7 +51,9 @@ for c in node git jq gh; do command -v "$c" >/dev/null || die "missing command: 
 REGISTRY="${LIFLEET_REGISTRY:-$REPO_ROOT/scripts/lifleet/authors.json}"
 [ -f "$REGISTRY" ] || die "no lifleet registry at $REGISTRY — without it no account can be opened"
 
-AUTHORS="${AUTHORS:-$(jq -r 'keys[] | select(startswith("_") | not)' "$PROFILES")}"
+# Every author in profiles.json except metadata keys and authors marked
+# `retired` (their data stays, their account is no longer scraped).
+AUTHORS="${AUTHORS:-$(jq -r 'to_entries[] | select((.key | startswith("_") | not) and (.value.retired == null)) | .key' "$PROFILES")}"
 [ -n "$AUTHORS" ] || die "no accounts selected from $PROFILES"
 say "week ${WEEK} · accounts: $(echo "$AUTHORS" | tr '\n' ' ')· dry_run=${DRY_RUN}"
 

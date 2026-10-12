@@ -111,6 +111,18 @@ Adding a person to `profiles.json` is picked up automatically: the author
 list, the publish build and the Grafana refresh all derive it from the data.
 No workflow edit is ever needed. (You do have to update one secret — §5.)
 
+**Retiring a person** is the reverse, with one deliberate asymmetry: set
+`"retired": "<date>"` on their `profiles.json` entry and drop them from the
+registry (`lifleet drop <slug>`, then re-upload the secret — §5). The weekly
+loop, `ops/weekly.sh`, the preflight cross-check and the Slack report skip a
+retired author; everything they collected stays — the data folder, both
+Grafana dashboards, the Pages feed and their `li.author` row (the entry must
+remain in `profiles.json` precisely because `db/import.mjs` mirrors that file
+into `li.author`; deleting it would drop their history from the database).
+Delete their Browserbase context in the dashboard or over the API: a logged-in
+session nobody uses is a liability, not data. First done for peter on
+2026-10-12.
+
 ---
 
 ## 2. Secrets and variables
