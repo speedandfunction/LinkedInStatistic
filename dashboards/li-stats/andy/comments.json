@@ -42,6 +42,12 @@
           "reactions": 1,
           "replies_count": 0,
           "impressions": 130
+        },
+        "2026-10-05": {
+          "snapshot_at": "2026-10-05T04:09:58Z",
+          "reactions": 1,
+          "replies_count": 0,
+          "impressions": 131
         }
       }
     },
@@ -87,6 +93,12 @@
           "reactions": 1,
           "replies_count": 1,
           "impressions": 51
+        },
+        "2026-10-05": {
+          "snapshot_at": "2026-10-05T04:09:58Z",
+          "reactions": 1,
+          "replies_count": 1,
+          "impressions": 52
         }
       }
     },
