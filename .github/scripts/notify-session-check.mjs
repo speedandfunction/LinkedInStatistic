@@ -353,7 +353,12 @@ export function buildErrorMessage(authors, { channel, now = Date.now() }) {
         ? `the registry snapshot says last seen logged in ${escape(seen)}, and that date may be out of date`
         : `last successful check ${escape(seen)}, ${escape(relative(a.last_ok, now))}`)
       : "there has never been a successful check";
-    return `• *${escape(a.slug)}* — \`${escape(a.status)}\` (${tail})`;
+    // Причина від чекера (session_report `check_error`): таймаут навігації,
+    // обрив підключення, дивна адреса. Старі звіти її не мають — тоді без неї.
+    const why = typeof a.check_error === "string" && a.check_error.trim()
+      ? ` — ${escape(a.check_error.trim().slice(0, 200))}`
+      : "";
+    return `• *${escape(a.slug)}* — \`${escape(a.status)}\` (${tail})${why}`;
   });
   return {
     channel,

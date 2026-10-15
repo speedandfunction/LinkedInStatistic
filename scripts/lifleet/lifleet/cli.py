@@ -225,9 +225,14 @@ def _check_one(bb, project_id, slug, rec):
     try:
         pw, br, page = browser.connect_page(session)
         status, identity = probe_mod.probe(page)
+        if status in ("error", "unknown") and probe_mod.last_error:
+            print(f"[warn] {slug}: probe: {probe_mod.last_error}", file=sys.stderr)
     except Exception as exc:
         print(f"[warn] {slug}: {exc}", file=sys.stderr)
         status, identity = "error", None
+        # The reason travels with the status: session_report puts it in the
+        # report, the notifier shows it — "error" alone is a dead end.
+        probe_mod.last_error = f"{type(exc).__name__}: {str(exc).splitlines()[0][:160] if str(exc) else ''}"
     finally:
         browser.close_all(pw, br)
         browser.release(bb, session.id, project_id)

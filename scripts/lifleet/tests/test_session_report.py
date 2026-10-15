@@ -127,8 +127,26 @@ def test_error_status_gets_no_link(env, monkeypatch, tmp_path):
     item = json.loads(out.read_text(encoding="utf-8"))["authors"][0]
     assert item["status"] == "error"
     assert "invite_url" not in item
+    # «error» без причини — глухий кут для оператора: рядок «чому» іде в звіт
+    # завжди, навіть коли probe причини не назвав.
+    assert isinstance(item.get("check_error"), str) and item["check_error"]
     kinds = {c["user_metadata"]["kind"] for c in env.bb.sessions.create_calls}
     assert kinds == {"check"}
+
+
+def test_error_reason_from_the_probe_reaches_the_report(env, monkeypatch, tmp_path):
+    _seed("alex", "Alex")
+    import lifleet.probe as probe_mod
+
+    def failing_probe(page):
+        probe_mod.last_error = "TimeoutError after 2 attempt(s): navigation timeout"
+        return "error", None
+
+    monkeypatch.setattr("lifleet.probe.probe", failing_probe)
+    out = tmp_path / "report.json"
+    assert run(f"--out={out}") == 0
+    item = json.loads(out.read_text(encoding="utf-8"))["authors"][0]
+    assert item["check_error"] == "TimeoutError after 2 attempt(s): navigation timeout"
 
 
 # --------------------------------------------------------------------- аргументи
