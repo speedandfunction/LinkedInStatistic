@@ -92,17 +92,22 @@ class FakePage:
     """Мінімальний Page: налаштовується url, редірект після goto,
     виняток при goto і наявність селекторів."""
 
-    def __init__(self, url="about:blank", goto_url=None, goto_exc=None, selectors=None):
+    def __init__(self, url="about:blank", goto_url=None, goto_exc=None, selectors=None,
+                 goto_exc_times=None, url_after_exc=None):
         self.url = url
         self.goto_url = goto_url  # куди «перекидає» після будь-якого goto
         self.goto_exc = goto_exc  # виняток, який кидає goto
+        self.goto_exc_times = goto_exc_times  # None = кидає завжди; N = лише перші N разів
+        self.url_after_exc = url_after_exc  # адреса, на якій сторінка «застрягла» після винятку
         self.selectors = dict(selectors or {})  # селектор -> alt-рядок або FakeElement
         self.goto_calls = []
         self.context = FakeContext()
 
     def goto(self, url, **kwargs):
         self.goto_calls.append((url, kwargs))
-        if self.goto_exc is not None:
+        if self.goto_exc is not None and (self.goto_exc_times is None or len(self.goto_calls) <= self.goto_exc_times):
+            if self.url_after_exc is not None:
+                self.url = self.url_after_exc
             raise self.goto_exc
         self.url = self.goto_url or url
 

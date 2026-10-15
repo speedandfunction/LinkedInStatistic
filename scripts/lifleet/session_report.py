@@ -43,7 +43,7 @@ import sys
 from pathlib import Path
 from types import SimpleNamespace
 
-from lifleet import browser, cli, invite as invite_mod, registry
+from lifleet import browser, cli, invite as invite_mod, probe as probe_mod, registry
 
 USAGE = (
     "Запуск: python session_report.py --out=<файл.json> "
@@ -217,6 +217,11 @@ def build_report(slugs, *, minutes, mint=True, invite_cap=None) -> dict:
             # у CI з секрету; йому не можна вірити як спостереженню.
             "last_ok_source": "this-run" if status == "live" else "registry-snapshot",
         }
+        if status in ("error", "unknown"):
+            # Один рядок «чому»: таймаут навігації, обрив CDP, дивна адреса.
+            # Без нього Slack каже лише «could not be checked» і оператор іде
+            # читати лог кроку, де ця сама фраза вже надрукована.
+            item["check_error"] = probe_mod.last_error or "the probe gave no reason"
         report["authors"].append(item)
         if status in RELOGIN_STATUSES:
             need_link.append(item)

@@ -378,6 +378,21 @@ test("a null last_ok does not render as Invalid Date", () => {
 
 // ------------------------------------------------------------- помилки перевірки
 
+test("the checker's reason travels into the errored summary", () => {
+  // 2026-10-11: one navigation timeout read as "error" and the channel got a bare
+  // question mark. With `check_error` in the report the line says what happened.
+  const r = run(reportFile("errored-why", [
+    { slug: "alex", name: "Andrii Rozhylo", status: "error", last_ok: iso(3 * 86400e3),
+      check_error: "TimeoutError after 2 attempt(s): navigation timeout" },
+    { slug: "author2", name: "Second Author", status: "unknown", last_ok: null },
+    LIVE_PETER,
+  ]));
+  const body = allText(alerts(r)[0]);
+  assert.match(body, /alex.*TimeoutError after 2 attempt\(s\): navigation timeout/, "причина поруч із slug");
+  assert.match(body, /author2/, "запис без причини (старий звіт) теж на місці");
+  assert.doesNotMatch(body, /<@/, "причина не додає тегів");
+});
+
 test("errored authors get one summary and no link", () => {
   const r = run(reportFile("errored", [
     { slug: "alex", name: "Andrii Rozhylo", status: "error", last_ok: iso(3 * 86400e3) },
