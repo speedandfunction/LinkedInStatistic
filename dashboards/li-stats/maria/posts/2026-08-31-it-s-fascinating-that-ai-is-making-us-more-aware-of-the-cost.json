@@ -834,6 +834,117 @@
         "https://www.linkedin.com/in/olga-mykhailova-58b5424b",
         "https://www.linkedin.com/in/yazvinskaya"
       ]
+    },
+    "2026-10-26": {
+      "snapshot_at": "2026-10-26T03:20:43Z",
+      "metrics": {
+        "impressions": 341,
+        "members_reached": 135,
+        "reactions": 15,
+        "comments": 6,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 4,
+        "followers_gained": 0,
+        "engagement_rate": 6.16
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 34.1,
+          "Entry": 28.9,
+          "Director": 9.6,
+          "CXO": 5.9,
+          "Manager": 5.2
+        },
+        "job_title": {
+          "Software Engineer": 9.6,
+          "Frontend Developer": 5.2
+        },
+        "industry": {
+          "IT Services and IT Consulting": 20,
+          "Software Development": 17,
+          "Advertising Services": 10.4,
+          "Technology, Information and Internet": 5.9
+        },
+        "company_size": {
+          "51-200 employees": 23.7,
+          "10,001+ employees": 15.6,
+          "1001-5000 employees": 14.1,
+          "11-50 employees": 10.4,
+          "1-10 employees": 7.4
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 14.8,
+          "Lviv": 5.2,
+          "Greater Kitchener-Cambridge-Waterloo Metropolitan Area": 5.2
+        },
+        "company": {
+          "Speed and Function": 12.6
+        }
+      },
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/evgenia-usenok-8b4034b",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7500116105856749568,7500123446601936896)",
+          "text": "Evgenia Usenok  1st\nEvgenia Usenok • 1st\nCommunicator at Reactive Post. Personal Stylist\nPrice tag not always showing the real price. Some talks are priceless. But I know how to awoid cheap talks - to be the wierdest person in the team😁\n1 reaction\n1\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/maria-umen-a58169a2",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7500116105856749568,7500132897035821056)",
+          "text": "Maria Umen\nAuthor\n🌿UI—UX designer, researcher, and chronicler of life’s simple beauty.\nEvgenia Usenok Nice 😂\n48 impressions\n48",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/yazvinskaya",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7500116105856749568,7500174321567469568)",
+          "text": "Mila Yazvinska  1st\nMila Yazvinska • 1st\nMarketing & Impact Project Manager\nFrom the other hand it would be nice if some people could reach quickly their communication limits and be quiet at least till the next day 🙄 just saying\n1 reaction\n1\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/maria-umen-a58169a2",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7500116105856749568,7500178890871615489)",
+          "text": "Maria Umen\nAuthor\n🌿UI—UX designer, researcher, and chronicler of life’s simple beauty.\nMila Yazvinska Yep, sure, nothing personal 🤥\n47 impressions\n47",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/olga-mykhailova-58b5424b",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7500116105856749568,7501289661726752768)",
+          "text": "Olga Mykhailova Verified Profile 1st\nOlga Mykhailova\n• 1st\nI design culture that works | Less drama and more movement | Helping C-level leaders turn resistance and difficult dynamics into collaboration and change | Developmental Culture | Nonviolent Communication\nMy facial expression is a vivid visualization of that price haha\n1 reaction\n1\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/maria-umen-a58169a2",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7500116105856749568,7501291515084914688)",
+          "text": "Maria Umen\nAuthor\n🌿UI—UX designer, researcher, and chronicler of life’s simple beauty.\nOlga Mykhailova (Michai) Priceless 🤌\n1 reaction\n1\n30 impressions\n30",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/evgenia-usenok-8b4034b",
+        "https://www.linkedin.com/in/maria-umen-a58169a2",
+        "https://www.linkedin.com/in/olga-mykhailova-58b5424b",
+        "https://www.linkedin.com/in/yazvinskaya"
+      ]
     }
   }
 }

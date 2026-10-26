@@ -765,6 +765,21 @@
         "headline_hash": null
       }
     },
+    "in/alexandra-marchenko-624121a0": {
+      "key": "in/alexandra-marchenko-624121a0",
+      "name": "Alexandra Marchenko",
+      "profile_url": "https://www.linkedin.com/in/alexandra-marchenko-624121a0",
+      "headline": "Content Marketing Specialist | SQUAD",
+      "headline_seen_at": "2026-10-26T03:21:50Z",
+      "first_seen_at": "2026-10-26T03:21:50Z",
+      "icp": {
+        "verdict": null,
+        "reason": null,
+        "model": null,
+        "classified_at": null,
+        "headline_hash": null
+      }
+    },
     "in/anna-sholokhova": {
       "key": "in/anna-sholokhova",
       "name": "Anna Sholokhova",
@@ -964,8 +979,8 @@
       "key": "in/mariia-makushnenko-876799261",
       "name": "Mariia Makushnenko",
       "profile_url": "https://www.linkedin.com/in/mariia-makushnenko-876799261",
-      "headline": "Head of Growth | Business Development Manager (BDM) | Helping businesses Identify Core Bottlenecks & Scale 🚀 Let’s connect at SBC Lisbon!",
-      "headline_seen_at": "2026-10-01T18:22:15Z",
+      "headline": "Head of Growth | Head of Sales B2B/B2C | Business Development Manager (BDM) | Helping businesses Identify Core Bottlenecks & Scale 🚀 Let’s connect at SIGMA Rome!",
+      "headline_seen_at": "2026-10-26T03:21:50Z",
       "first_seen_at": "2026-10-01T18:22:15Z",
       "icp": {
         "verdict": null,
@@ -982,6 +997,21 @@
       "headline": "Senior B2B Marketing Leader | Agentic AI | Data Management | Automation",
       "headline_seen_at": "2026-09-05T16:22:34Z",
       "first_seen_at": "2026-09-05T16:22:34Z",
+      "icp": {
+        "verdict": null,
+        "reason": null,
+        "model": null,
+        "classified_at": null,
+        "headline_hash": null
+      }
+    },
+    "in/marymitso": {
+      "key": "in/marymitso",
+      "name": "Mariia Mytso",
+      "profile_url": "https://www.linkedin.com/in/marymitso",
+      "headline": "UX Writer at BetterMe",
+      "headline_seen_at": "2026-10-26T03:21:50Z",
+      "first_seen_at": "2026-10-26T03:21:50Z",
       "icp": {
         "verdict": null,
         "reason": null,
@@ -3523,6 +3553,78 @@
       "attributed_week": "2026-09-21",
       "backfill": false,
       "first_seen_at": "2026-10-01T18:22:15Z"
+    },
+    "react:post:urn:li:activity:7519320144024641536:in/alexandra-marchenko-624121a0": {
+      "event_id": "react:post:urn:li:activity:7519320144024641536:in/alexandra-marchenko-624121a0",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7519320144024641536",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7519320144024641536/",
+      "person_key": "in/alexandra-marchenko-624121a0",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-10-26T03:21:50Z"
+    },
+    "react:post:urn:li:activity:7519320144024641536:in/annakalinichenko": {
+      "event_id": "react:post:urn:li:activity:7519320144024641536:in/annakalinichenko",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7519320144024641536",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7519320144024641536/",
+      "person_key": "in/annakalinichenko",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-10-26T03:21:50Z"
+    },
+    "react:post:urn:li:activity:7519320144024641536:in/mariia-makushnenko-876799261": {
+      "event_id": "react:post:urn:li:activity:7519320144024641536:in/mariia-makushnenko-876799261",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7519320144024641536",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7519320144024641536/",
+      "person_key": "in/mariia-makushnenko-876799261",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-10-26T03:21:50Z"
+    },
+    "react:post:urn:li:activity:7519320144024641536:in/marymitso": {
+      "event_id": "react:post:urn:li:activity:7519320144024641536:in/marymitso",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7519320144024641536",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7519320144024641536/",
+      "person_key": "in/marymitso",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-10-26T03:21:50Z"
+    },
+    "react:post:urn:li:activity:7519320144024641536:in/pavlo-tayanovskyy-8980776": {
+      "event_id": "react:post:urn:li:activity:7519320144024641536:in/pavlo-tayanovskyy-8980776",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7519320144024641536",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7519320144024641536/",
+      "person_key": "in/pavlo-tayanovskyy-8980776",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-10-26T03:21:50Z"
+    },
+    "react:post:urn:li:activity:7519320144024641536:in/yana-nakonechna": {
+      "event_id": "react:post:urn:li:activity:7519320144024641536:in/yana-nakonechna",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7519320144024641536",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7519320144024641536/",
+      "person_key": "in/yana-nakonechna",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-10-26T03:21:50Z"
     }
   },
   "targets": {
@@ -3588,6 +3690,15 @@
       "first_scanned_week": "2026-08-31",
       "last_scanned_week": "2026-09-28",
       "reactor_count": 15
+    },
+    "post:urn:li:activity:7519320144024641536": {
+      "target_id": "post:urn:li:activity:7519320144024641536",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7519320144024641536",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7519320144024641536/",
+      "first_scanned_week": "2026-10-26",
+      "last_scanned_week": "2026-10-26",
+      "reactor_count": 7
     }
   }
 }
