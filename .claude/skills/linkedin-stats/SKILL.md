@@ -99,8 +99,15 @@ capped by `--people-max-posts` (25); and the owner's own comments younger than 3
 days, capped by `--people-max-comments` (25). Anything dropped by a cap is
 reported in `TARGETS_DROPPED`, never silently skipped.
 
-**Tiering.** `sources/icp.md` (synced from the ClickUp ICP Doc by the
-`sync-sources` skill) is the rubric; `fast/classify-icp.mjs` classifies each
+**Tiering.** `sources/icp.md` is the rubric — and it is deliberately only HALF
+of S&F's ICP. The source of truth is the sheet "S&F ICP — Enterprise
+Department (2026)" (v1.4), which separates ICP-as-company (its tabs 01–02:
+platform ownership, funded budget, segment, company age, geography) from
+ICP-as-persona (its tab 05). A LinkedIn headline can only answer the persona
+half, so that is all `sources/icp.md` asks for; the company half comes from
+HubSpot (`hs_ideal_customer_profile`, tier_1/2/3) and is not judged here.
+Copying the company criteria into this rubric would make the classifier
+guess at facts it cannot see. The rubric file is the no-code knob: `fast/classify-icp.mjs` classifies each
 person once from their name + headline via a batched, tool-free pinned-haiku
 `claude -p` call and caches the verdict against a hash of that headline.
 `.claude/skills/linkedin-stats/vip-people.md` is the hand-curated 4× list.
