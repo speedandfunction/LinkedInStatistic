@@ -706,6 +706,101 @@
         "https://www.linkedin.com/in/maria-umen-a58169a2",
         "https://www.linkedin.com/in/yazvinskaya"
       ]
+    },
+    "2026-10-26": {
+      "snapshot_at": "2026-10-26T03:21:12Z",
+      "metrics": {
+        "impressions": 458,
+        "members_reached": 191,
+        "reactions": 25,
+        "comments": 4,
+        "reposts": 0,
+        "saves": 1,
+        "sends": 0,
+        "profile_viewers": 5,
+        "followers_gained": 0,
+        "engagement_rate": 6.33
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 37.2,
+          "Entry": 22.5,
+          "Director": 9.4,
+          "CXO": 6.8,
+          "Manager": 5.8
+        },
+        "job_title": {
+          "Software Engineer": 9.9,
+          "Chief Executive Officer": 3.1
+        },
+        "industry": {
+          "Software Development": 18.8,
+          "IT Services and IT Consulting": 16.8,
+          "Technology, Information and Internet": 9.4,
+          "Design Services": 6.3,
+          "Advertising Services": 5.8
+        },
+        "company_size": {
+          "51-200 employees": 21.5,
+          "1001-5000 employees": 14.1,
+          "10,001+ employees": 14.1,
+          "11-50 employees": 11,
+          "201-500 employees": 6.3
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 18.3,
+          "Greater Philadelphia": 3.7,
+          "Greater Kitchener-Cambridge-Waterloo Metropolitan Area": 3.1,
+          "Warsaw Metropolitan Area": 3.1,
+          "Cracow Metropolitan Area": 3.1
+        },
+        "company": {
+          "Speed and Function": 6.8
+        }
+      },
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/yazvinskaya",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7470799833595797504,7470863945734483968)",
+          "text": "Mila Yazvinska  1st\nMila Yazvinska • 1st\nMarketing & Impact Project Manager\nGolden words ✨\n2 reactions\n2\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/maria-umen-a58169a2",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7470799833595797504,7470867610696404992)",
+          "text": "Maria Umen\nAuthor\n🌿UI—UX designer, researcher, and chronicler of life’s simple beauty.\nMila Yazvinska I said what I said 😅\n40 impressions\n40",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/evgenia-usenok-8b4034b",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7470799833595797504,7470930269747736577)",
+          "text": "Evgenia Usenok  1st\nEvgenia Usenok • 1st\nCommunicator at Reactive Post. Personal Stylist\nAre you planning the second child? Why so long?! 😁 My advice on desing in the next comment\n1 reaction\n1\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/maria-umen-a58169a2",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7470799833595797504,7470933536989118467)",
+          "text": "Maria Umen\nAuthor\n🌿UI—UX designer, researcher, and chronicler of life’s simple beauty.\n(edited) 4mo\nEvgenia Usenok Pfffffff 🫠\n18 impressions\n18",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/evgenia-usenok-8b4034b",
+        "https://www.linkedin.com/in/maria-umen-a58169a2",
+        "https://www.linkedin.com/in/yazvinskaya"
+      ]
     }
   }
 }
