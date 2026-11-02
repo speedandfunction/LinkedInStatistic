@@ -63,6 +63,104 @@
         "https://www.linkedin.com/in/pavlo-tayanovskyy-8980776",
         "https://www.linkedin.com/in/yana-nakonechna"
       ]
+    },
+    "2026-11-02": {
+      "snapshot_at": "2026-11-02T04:36:46Z",
+      "metrics": {
+        "impressions": 394,
+        "members_reached": 261,
+        "reactions": 11,
+        "comments": 3,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 1,
+        "followers_gained": 0,
+        "engagement_rate": 3.55
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 41,
+          "Entry": 20.7,
+          "Director": 7.3,
+          "Manager": 4.6,
+          "CXO": 3.8
+        },
+        "job_title": {
+          "Software Engineer": 11.5,
+          "Full Stack Engineer": 5,
+          "Frontend Developer": 3.8,
+          "Project Manager": 2.3
+        },
+        "industry": {
+          "IT Services and IT Consulting": 30.7,
+          "Software Development": 23.4,
+          "Advertising Services": 6.9,
+          "Technology, Information and Internet": 5,
+          "Design Services": 3.4
+        },
+        "company_size": {
+          "51-200 employees": 20.7,
+          "10,001+ employees": 12.6,
+          "201-500 employees": 9.2,
+          "1001-5000 employees": 9.2,
+          "11-50 employees": 6.9
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 25.3,
+          "Lviv": 4.2,
+          "Cracow Metropolitan Area": 2.7,
+          "Wroclaw Metropolitan Area": 2.3,
+          "Odesa": 2.3
+        },
+        "company": {
+          "Speed and Function": 6.9
+        }
+      },
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/maria-umen-a58169a2",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7519320144024641536,7521218785706655744)",
+          "text": "Maria Umen\nAuthor\nDesign Engineer · Claude Code + Figma · Chronicler of life’s simple beauty\nДрузі, дорогенькі, дякую за теплі слова, обійми на відстані й «донарунки».\nЦього року зібрані 26 000 грн (на хвилиночку) я розділила між двома зборами:\n🔋 16 000 грн — на зарядну станцію для розвідки.\n☄️ 10 000 грн — на збір для артилерії «Азову».\nЩойно з’являться фотографії чи звіти, обов’язково поділюся ними тут. Хочу, щоб ви теж бачили, у що перетворилася ваша підтримка. Дякую, що долучаєтеся до цієї традиції разом зі мною. Обіймаю!\nShow translation\n5 impressions\n5",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/maria-umen-a58169a2",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7519320144024641536,7521218970301911041)",
+          "text": "Maria Umen\nAuthor\nDesign Engineer · Claude Code + Figma · Chronicler of life’s simple beauty\nРаз\n1 impression\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/maria-umen-a58169a2",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7519320144024641536,7521219033820459009)",
+          "text": "Maria Umen\nAuthor\nDesign Engineer · Claude Code + Figma · Chronicler of life’s simple beauty\nДва\n1 impression\n1",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "reactors": [
+        "https://www.linkedin.com/in/alexandra-marchenko-624121a0",
+        "https://www.linkedin.com/in/anna-sholokhova",
+        "https://www.linkedin.com/in/annakalinichenko",
+        "https://www.linkedin.com/in/briannanadrofsky",
+        "https://www.linkedin.com/in/dariamalova",
+        "https://www.linkedin.com/in/lina-bokhonko",
+        "https://www.linkedin.com/in/mariia-makushnenko-876799261",
+        "https://www.linkedin.com/in/marymitso",
+        "https://www.linkedin.com/in/pavlo-tayanovskyy-8980776",
+        "https://www.linkedin.com/in/yana-nakonechna"
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/maria-umen-a58169a2"
+      ]
     }
   }
 }

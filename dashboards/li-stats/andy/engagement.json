@@ -1080,6 +1080,21 @@
         "headline_hash": null
       }
     },
+    "in/olyabereza": {
+      "key": "in/olyabereza",
+      "name": "Olya aka Holley Dovetail",
+      "profile_url": "https://www.linkedin.com/in/olyabereza",
+      "headline": "Psychologist, Author, Editor, Translator, Actress, Creative Writer @ Smashwords | Scriptwriting, Copywriting",
+      "headline_seen_at": "2026-11-02T04:32:35Z",
+      "first_seen_at": "2026-11-02T04:32:35Z",
+      "icp": {
+        "verdict": null,
+        "reason": null,
+        "model": null,
+        "classified_at": null,
+        "headline_hash": null
+      }
+    },
     "in/orestatymchyshyn": {
       "key": "in/orestatymchyshyn",
       "name": "Oresta Tymchyshyn 🇺🇦",
@@ -2936,6 +2951,18 @@
       "attributed_week": "2026-08-24",
       "backfill": false,
       "first_seen_at": "2026-09-05T13:20:26Z"
+    },
+    "react:post:urn:li:activity:7520791897775427584:in/olyabereza": {
+      "event_id": "react:post:urn:li:activity:7520791897775427584:in/olyabereza",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7520791897775427584",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7520791897775427584/",
+      "person_key": "in/olyabereza",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-11-02T04:32:35Z"
     }
   },
   "targets": {
@@ -3001,6 +3028,15 @@
       "first_scanned_week": "2026-08-31",
       "last_scanned_week": "2026-09-21",
       "reactor_count": 8
+    },
+    "post:urn:li:activity:7520791897775427584": {
+      "target_id": "post:urn:li:activity:7520791897775427584",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7520791897775427584",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7520791897775427584/",
+      "first_scanned_week": "2026-11-02",
+      "last_scanned_week": "2026-11-02",
+      "reactor_count": 1
     }
   }
 }
