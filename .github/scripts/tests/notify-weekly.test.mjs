@@ -10,10 +10,10 @@
 // оператора не пінгнули, пінгнули автора, який нічого не може зробити, або
 // сповіщення про збій саме стало причиною червоного прогону.
 
-import test from "node:test";
+import test, { after } from "node:test";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { mkdtempSync, writeFileSync } from "node:fs";
+import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -25,6 +25,8 @@ import {
 const HERE = dirname(fileURLToPath(import.meta.url));
 const SCRIPT = resolve(HERE, "..", "notify-weekly.mjs");
 const TMP = mkdtempSync(join(tmpdir(), "notify-weekly-"));
+// Прибираємо за собою: інакше кожен прогін лишає в $TMPDIR ще одну теку.
+after(() => rmSync(TMP, { recursive: true, force: true }));
 
 const CHANNEL = "C0FAKECHANNEL";
 // Ніколи не справжній токен (і не в формі xoxb-<цифри>-<цифри>: її блокує push protection).
