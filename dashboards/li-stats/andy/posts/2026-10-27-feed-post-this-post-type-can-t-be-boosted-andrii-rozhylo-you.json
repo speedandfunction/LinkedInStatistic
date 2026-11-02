@@ -1,0 +1,73 @@
+{
+  "urn": "urn:li:activity:7520791897775427584",
+  "id": "7520791897775427584",
+  "type": "post",
+  "posted_at": "2026-10-27T10:21:57Z",
+  "posted_date": "2026-10-27",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7520791897775427584/",
+  "preview": "Feed post This post type can't be boosted. Andrii Rozhylo • You AI Transformation Leader | Business Strategist | Entrepreneur | Delivery Manager | Product Manager | Marketing Expert 5d I have a therap",
+  "text": null,
+  "weeks": {
+    "2026-11-02": {
+      "snapshot_at": "2026-11-02T04:32:18Z",
+      "metrics": {
+        "impressions": 218,
+        "members_reached": 93,
+        "reactions": 1,
+        "comments": 2,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 2,
+        "followers_gained": 0,
+        "engagement_rate": 1.38
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 43.8,
+          "Entry": 18.8
+        },
+        "job_title": {},
+        "industry": {
+          "IT Services and IT Consulting": 35.4
+        },
+        "company_size": {
+          "51-200 employees": 22.9,
+          "10,001+ employees": 16.7,
+          "1-10 employees": 12.5
+        },
+        "location": {
+          "Lviv": 12.5
+        },
+        "company": {}
+      },
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/olyabereza",
+          "author_headline": "",
+          "comment_urn": "",
+          "text": "Olya aka Holley Dovetail, Open to work  1st\nOlya aka Holley Dovetail • 1st\nPsychologist, Author, Editor, Translator, Actress, Creative Writer @ Smashwords | Scriptwriting, Copywriting\njust be careful as AI sometyimes could be misleading, but yes, it's great to have it.\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/arozhylo",
+          "author_headline": "",
+          "comment_urn": "",
+          "text": "Andrii Rozhylo\nAuthor\nAI Transformation Leader | Business Strategist | Entrepreneur | Delivery Manager | Product Manager | Marketing Expert\nYep, it can be confidently wrong 🙂 That’s why I’d question its advice rather than take it at face value.\n19 impressions\n19",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "reactors": [
+        "https://www.linkedin.com/in/olyabereza"
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/arozhylo",
+        "https://www.linkedin.com/in/olyabereza"
+      ]
+    }
+  }
+}

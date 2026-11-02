@@ -784,8 +784,8 @@
       "key": "in/anna-sholokhova",
       "name": "Anna Sholokhova",
       "profile_url": "https://www.linkedin.com/in/anna-sholokhova",
-      "headline": "🇺🇦 🇨🇦 AI-driven full stack builder | PM | Senior UX/UI Designer & Manager | ex FE developer | 15+ y of experience building web & mobile apps",
-      "headline_seen_at": "2026-10-01T18:22:15Z",
+      "headline": "🇺🇦 🇨🇦 AI-driven full stack builder | PM | Senior UX/UI Designer & Manager | 15+ yrs of experience building web & mobile apps",
+      "headline_seen_at": "2026-11-02T04:37:05Z",
       "first_seen_at": "2026-10-01T18:22:15Z",
       "icp": {
         "verdict": null,
@@ -952,6 +952,21 @@
       "headline": "Project Manager | Web Development | Learning & Growing in Tech",
       "headline_seen_at": "2026-10-01T18:22:15Z",
       "first_seen_at": "2026-10-01T18:22:15Z",
+      "icp": {
+        "verdict": null,
+        "reason": null,
+        "model": null,
+        "classified_at": null,
+        "headline_hash": null
+      }
+    },
+    "in/lina-bokhonko": {
+      "key": "in/lina-bokhonko",
+      "name": "Lina Bokhonko",
+      "profile_url": "https://www.linkedin.com/in/lina-bokhonko",
+      "headline": "Talent Acquisition Specialist | Tech Recruiting Expert | IT Sourcing",
+      "headline_seen_at": "2026-11-02T04:37:05Z",
+      "first_seen_at": "2026-11-02T04:37:05Z",
       "icp": {
         "verdict": null,
         "reason": null,
@@ -1693,6 +1708,45 @@
       "backfill": false,
       "first_seen_at": "2026-09-28T04:03:07Z",
       "text": "Maria Umen\nAuthor\n🌿UI—UX designer, researcher, and chronicler of life’s simple beauty.\nOlga Mykhailova (Michai) Priceless 🤌\n1 reaction\n1\n25 impressions\n25"
+    },
+    "comment:urn:li:comment:(activity:7519320144024641536,7521218785706655744)": {
+      "event_id": "comment:urn:li:comment:(activity:7519320144024641536,7521218785706655744)",
+      "kind": "comment",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7519320144024641536",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7519320144024641536/",
+      "person_key": "in/maria-umen-a58169a2",
+      "occurred_at": "2026-10-28T14:38:16Z",
+      "attributed_week": "2026-10-26",
+      "backfill": false,
+      "first_seen_at": "2026-11-02T04:37:05Z",
+      "text": "Maria Umen\nAuthor\nDesign Engineer · Claude Code + Figma · Chronicler of life’s simple beauty\nДрузі, дорогенькі, дякую за теплі слова, обійми на відстані й «донарунки».\nЦього року зібрані 26 000 грн (на хвилиночку) я розділила між двома зборами:\n🔋 16 000 грн — на зарядну станцію для розвідки.\n☄️ 10 000 грн — на збір для артилерії «Азову».\nЩойно з’являться фотографії чи звіти, обов’язково поділюся ними тут. Хочу, щоб ви теж бачили, у що перетворилася ваша підтримка. Дякую, що долучаєтеся до цієї "
+    },
+    "comment:urn:li:comment:(activity:7519320144024641536,7521218970301911041)": {
+      "event_id": "comment:urn:li:comment:(activity:7519320144024641536,7521218970301911041)",
+      "kind": "comment",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7519320144024641536",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7519320144024641536/",
+      "person_key": "in/maria-umen-a58169a2",
+      "occurred_at": "2026-10-28T14:39:00Z",
+      "attributed_week": "2026-10-26",
+      "backfill": false,
+      "first_seen_at": "2026-11-02T04:37:05Z",
+      "text": "Maria Umen\nAuthor\nDesign Engineer · Claude Code + Figma · Chronicler of life’s simple beauty\nРаз\n1 impression\n1"
+    },
+    "comment:urn:li:comment:(activity:7519320144024641536,7521219033820459009)": {
+      "event_id": "comment:urn:li:comment:(activity:7519320144024641536,7521219033820459009)",
+      "kind": "comment",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7519320144024641536",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7519320144024641536/",
+      "person_key": "in/maria-umen-a58169a2",
+      "occurred_at": "2026-10-28T14:39:15Z",
+      "attributed_week": "2026-10-26",
+      "backfill": false,
+      "first_seen_at": "2026-11-02T04:37:05Z",
+      "text": "Maria Umen\nAuthor\nDesign Engineer · Claude Code + Figma · Chronicler of life’s simple beauty\nДва\n1 impression\n1"
     },
     "react:post:urn:li:activity:7470799833595797504:in/acoaaa3aql4bolly51lfz55s6id7_nxnhg20y5y": {
       "event_id": "react:post:urn:li:activity:7470799833595797504:in/acoaaa3aql4bolly51lfz55s6id7_nxnhg20y5y",
@@ -3566,6 +3620,18 @@
       "backfill": true,
       "first_seen_at": "2026-10-26T03:21:50Z"
     },
+    "react:post:urn:li:activity:7519320144024641536:in/anna-sholokhova": {
+      "event_id": "react:post:urn:li:activity:7519320144024641536:in/anna-sholokhova",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7519320144024641536",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7519320144024641536/",
+      "person_key": "in/anna-sholokhova",
+      "occurred_at": null,
+      "attributed_week": "2026-10-26",
+      "backfill": false,
+      "first_seen_at": "2026-11-02T04:37:05Z"
+    },
     "react:post:urn:li:activity:7519320144024641536:in/annakalinichenko": {
       "event_id": "react:post:urn:li:activity:7519320144024641536:in/annakalinichenko",
       "kind": "reaction",
@@ -3577,6 +3643,42 @@
       "attributed_week": null,
       "backfill": true,
       "first_seen_at": "2026-10-26T03:21:50Z"
+    },
+    "react:post:urn:li:activity:7519320144024641536:in/briannanadrofsky": {
+      "event_id": "react:post:urn:li:activity:7519320144024641536:in/briannanadrofsky",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7519320144024641536",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7519320144024641536/",
+      "person_key": "in/briannanadrofsky",
+      "occurred_at": null,
+      "attributed_week": "2026-10-26",
+      "backfill": false,
+      "first_seen_at": "2026-11-02T04:37:05Z"
+    },
+    "react:post:urn:li:activity:7519320144024641536:in/dariamalova": {
+      "event_id": "react:post:urn:li:activity:7519320144024641536:in/dariamalova",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7519320144024641536",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7519320144024641536/",
+      "person_key": "in/dariamalova",
+      "occurred_at": null,
+      "attributed_week": "2026-10-26",
+      "backfill": false,
+      "first_seen_at": "2026-11-02T04:37:05Z"
+    },
+    "react:post:urn:li:activity:7519320144024641536:in/lina-bokhonko": {
+      "event_id": "react:post:urn:li:activity:7519320144024641536:in/lina-bokhonko",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7519320144024641536",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7519320144024641536/",
+      "person_key": "in/lina-bokhonko",
+      "occurred_at": null,
+      "attributed_week": "2026-10-26",
+      "backfill": false,
+      "first_seen_at": "2026-11-02T04:37:05Z"
     },
     "react:post:urn:li:activity:7519320144024641536:in/mariia-makushnenko-876799261": {
       "event_id": "react:post:urn:li:activity:7519320144024641536:in/mariia-makushnenko-876799261",
@@ -3697,8 +3799,8 @@
       "target_urn": "urn:li:activity:7519320144024641536",
       "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7519320144024641536/",
       "first_scanned_week": "2026-10-26",
-      "last_scanned_week": "2026-10-26",
-      "reactor_count": 7
+      "last_scanned_week": "2026-11-02",
+      "reactor_count": 11
     }
   }
 }
