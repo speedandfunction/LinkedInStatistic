@@ -919,8 +919,8 @@
       "key": "in/iegor-osaulenko-b073444b",
       "name": "Iegor Osaulenko",
       "profile_url": "https://www.linkedin.com/in/iegor-osaulenko-b073444b",
-      "headline": "Staff Backend Engineer & Systems Architect: Python | Go | .NET/C# | JS/TS | Cloud | AI Native",
-      "headline_seen_at": "2026-09-21T03:45:34Z",
+      "headline": "Senior Software Engineer - Backend & Systems: Python | Go | .NET/C# | JS/TS | Cloud | AI Native",
+      "headline_seen_at": "2026-11-09T04:51:27Z",
       "first_seen_at": "2026-09-05T16:22:34Z",
       "icp": {
         "verdict": null,
@@ -1035,6 +1035,21 @@
         "headline_hash": null
       }
     },
+    "in/oleksandrapavlova": {
+      "key": "in/oleksandrapavlova",
+      "name": "Sasha Pavlova",
+      "profile_url": "https://www.linkedin.com/in/oleksandrapavlova",
+      "headline": "🎯 HR Partner | Pragmatic Strategist | Builder of People-Centered Solutions in Tech & Multicultural Environments",
+      "headline_seen_at": "2026-11-09T04:51:27Z",
+      "first_seen_at": "2026-11-09T04:51:27Z",
+      "icp": {
+        "verdict": null,
+        "reason": null,
+        "model": null,
+        "classified_at": null,
+        "headline_hash": null
+      }
+    },
     "in/olga-mykhailova-58b5424b": {
       "key": "in/olga-mykhailova-58b5424b",
       "name": "",
@@ -1072,6 +1087,21 @@
       "headline": "Software QA Engineer in Temabit software development",
       "headline_seen_at": "2026-10-01T18:22:15Z",
       "first_seen_at": "2026-10-01T18:22:15Z",
+      "icp": {
+        "verdict": null,
+        "reason": null,
+        "model": null,
+        "classified_at": null,
+        "headline_hash": null
+      }
+    },
+    "in/olha-bondarets": {
+      "key": "in/olha-bondarets",
+      "name": "Olha Bondarets",
+      "profile_url": "https://www.linkedin.com/in/olha-bondarets",
+      "headline": "Operations Manager",
+      "headline_seen_at": "2026-11-09T04:51:27Z",
+      "first_seen_at": "2026-11-09T04:51:27Z",
       "icp": {
         "verdict": null,
         "reason": null,
@@ -1747,6 +1777,136 @@
       "backfill": false,
       "first_seen_at": "2026-11-02T04:37:05Z",
       "text": "Maria Umen\nAuthor\nDesign Engineer · Claude Code + Figma · Chronicler of life’s simple beauty\nДва\n1 impression\n1"
+    },
+    "comment:urn:li:comment:(activity:7519320144024641536,7524463020396466177)": {
+      "event_id": "comment:urn:li:comment:(activity:7519320144024641536,7524463020396466177)",
+      "kind": "comment",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7519320144024641536",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7519320144024641536/",
+      "person_key": "in/%d1%85%d1%80%d0%b8%d1%81%d1%82%d0%b8%d0%bd%d0%b0-%d1%87%d1%83%d0%ba%d0%b0%d0%bd%d0%be%d0%b2%d0%b0-453453359",
+      "occurred_at": "2026-11-06T13:29:41Z",
+      "attributed_week": "2026-11-02",
+      "backfill": false,
+      "first_seen_at": "2026-11-09T04:51:27Z",
+      "text": "Христина Чуканова  1st\nХристина Чуканова • 1st\n--\nТи ♥️\nShow translation\n1 reaction\n1\n1\n1"
+    },
+    "comment:urn:li:comment:(activity:7519320144024641536,7524513699655475200)": {
+      "event_id": "comment:urn:li:comment:(activity:7519320144024641536,7524513699655475200)",
+      "kind": "comment",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7519320144024641536",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7519320144024641536/",
+      "person_key": "in/maria-umen-a58169a2",
+      "occurred_at": "2026-11-06T16:51:04Z",
+      "attributed_week": "2026-11-02",
+      "backfill": false,
+      "first_seen_at": "2026-11-09T04:51:27Z",
+      "text": "Maria Umen\nAuthor\nAI Design Explorer · Claude Code + Figma · Chronicler of life’s simple beauty\nХристина Чуканова 🫵"
+    },
+    "comment:urn:li:comment:(activity:7523128392947548160,7523276353157365761)": {
+      "event_id": "comment:urn:li:comment:(activity:7523128392947548160,7523276353157365761)",
+      "kind": "comment",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7523128392947548160",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7523128392947548160/",
+      "person_key": "in/yazvinskaya",
+      "occurred_at": "2026-11-03T06:54:18Z",
+      "attributed_week": "2026-11-02",
+      "backfill": false,
+      "first_seen_at": "2026-11-09T04:51:27Z",
+      "text": "Mila Yazvinska  1st\nMila Yazvinska • 1st\nMarketing & Impact Project Manager\nЯ працюю з молоддю і коли вони кажуть \"я не можу просто взяти і обрати спеціальність, це ж НА ВСЕ ЖИТТЯ\", дуже стримую істеричний сміх. Кар'єрні драбини прибрані, ліфти не працюють, на задньому плані грає музичка Супер Маріо, а ми стрибаємо вверх-вниз, збільшуємося і далі зменшуємося, періодично якісь черепахи нас атакують, а потім після биття головою в золоту скриньку відкривається новий скіл. І так до переможного кінця"
+    },
+    "comment:urn:li:comment:(activity:7523128392947548160,7523284936338882560)": {
+      "event_id": "comment:urn:li:comment:(activity:7523128392947548160,7523284936338882560)",
+      "kind": "comment",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7523128392947548160",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7523128392947548160/",
+      "person_key": "in/annakalinichenko",
+      "occurred_at": "2026-11-03T07:28:24Z",
+      "attributed_week": "2026-11-02",
+      "backfill": false,
+      "first_seen_at": "2026-11-09T04:51:27Z",
+      "text": "Anna Kalinichenko Verified Profile 1st\nAnna Kalinichenko\n• 1st\nHead of Enterprise Department\nна інтервʼю завжди питаю про той самий «не релевантний» досвід, який люди не пишуть в резюме.\nТам завжди є щось цікаве і насправді дуже релевантне, бо працювати потім з усією людиною повністю, а не з її резюме.\nShow translation\n2 reactions\n2\n1\n1"
+    },
+    "comment:urn:li:comment:(activity:7523128392947548160,7523286358203965440)": {
+      "event_id": "comment:urn:li:comment:(activity:7523128392947548160,7523286358203965440)",
+      "kind": "comment",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7523128392947548160",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7523128392947548160/",
+      "person_key": "in/maria-umen-a58169a2",
+      "occurred_at": "2026-11-03T07:34:03Z",
+      "attributed_week": "2026-11-02",
+      "backfill": false,
+      "first_seen_at": "2026-11-09T04:51:27Z",
+      "text": "Maria Umen\nAuthor\nAI Design Explorer · Claude Code + Figma · Chronicler of life’s simple beauty\nAnna Kalinichenko «Працювати з усією людиною, а не з її резюме» — я тебе закидаю серцями у лічку прям зараз! Так і є, багіня! ❤️\nShow translation\n1 reaction\n1\n22 impressions\n22"
+    },
+    "comment:urn:li:comment:(activity:7523128392947548160,7523286879388205057)": {
+      "event_id": "comment:urn:li:comment:(activity:7523128392947548160,7523286879388205057)",
+      "kind": "comment",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7523128392947548160",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7523128392947548160/",
+      "person_key": "in/maria-umen-a58169a2",
+      "occurred_at": "2026-11-03T07:36:07Z",
+      "attributed_week": "2026-11-02",
+      "backfill": false,
+      "first_seen_at": "2026-11-09T04:51:27Z",
+      "text": "Maria Umen\nAuthor\nAI Design Explorer · Claude Code + Figma · Chronicler of life’s simple beauty\nMila Yazvinska Ооооооо, так 🙌\n10 impressions\n10"
+    },
+    "comment:urn:li:comment:(activity:7523128392947548160,7523316335859318784)": {
+      "event_id": "comment:urn:li:comment:(activity:7523128392947548160,7523316335859318784)",
+      "kind": "comment",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7523128392947548160",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7523128392947548160/",
+      "person_key": "in/evgenia-usenok-8b4034b",
+      "occurred_at": "2026-11-03T09:33:10Z",
+      "attributed_week": "2026-11-02",
+      "backfill": false,
+      "first_seen_at": "2026-11-09T04:51:27Z",
+      "text": "Evgenia Usenok  1st\nEvgenia Usenok • 1st\nCommunicator at Reactive Post. Personal Stylist\nНерелевантний досвід, беру собі термін, бо раніше я все це називала \"дорогий Всесвіте, до чого ти мене готуєш?\"\nShow translation\n1 reaction\n1\n1\n1"
+    },
+    "comment:urn:li:comment:(activity:7523128392947548160,7523329440299315201)": {
+      "event_id": "comment:urn:li:comment:(activity:7523128392947548160,7523329440299315201)",
+      "kind": "comment",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7523128392947548160",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7523128392947548160/",
+      "person_key": "in/maria-umen-a58169a2",
+      "occurred_at": "2026-11-03T10:25:15Z",
+      "attributed_week": "2026-11-02",
+      "backfill": false,
+      "first_seen_at": "2026-11-09T04:51:27Z",
+      "text": "Maria Umen\nAuthor\nAI Design Explorer · Claude Code + Figma · Chronicler of life’s simple beauty\nEvgenia Usenok А мені твій варіант прям падобаєця 🤪\nShow translation\n16 impressions\n16"
+    },
+    "comment:urn:li:comment:(activity:7523128392947548160,7524461877561552896)": {
+      "event_id": "comment:urn:li:comment:(activity:7523128392947548160,7524461877561552896)",
+      "kind": "comment",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7523128392947548160",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7523128392947548160/",
+      "person_key": "in/%d1%85%d1%80%d0%b8%d1%81%d1%82%d0%b8%d0%bd%d0%b0-%d1%87%d1%83%d0%ba%d0%b0%d0%bd%d0%be%d0%b2%d0%b0-453453359",
+      "occurred_at": "2026-11-06T13:25:09Z",
+      "attributed_week": "2026-11-02",
+      "backfill": false,
+      "first_seen_at": "2026-11-09T04:51:27Z",
+      "text": "Христина Чуканова  1st\nХристина Чуканова • 1st\n--\nКолись проходила практику вожатою у таборі в Алушті з не дуже далекоглядним колегою-студентом. Одного ранку він вів їх на маре, і за його зміни дитина дуже пробувала втопитися. Вважаю цей \"нерелевантний досвід\" розбору польотів з вожатим і всіма дітьми базою своєї стресостійкості, мікроменеджменту та звичайно - тривожності.\nЯкби треба було писати саме нерелевантний досвід - це були б найцікавіші резюме.\nShow translation\n1 reaction\n1\n1\n1"
+    },
+    "comment:urn:li:comment:(activity:7523128392947548160,7524514630354747392)": {
+      "event_id": "comment:urn:li:comment:(activity:7523128392947548160,7524514630354747392)",
+      "kind": "comment",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7523128392947548160",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7523128392947548160/",
+      "person_key": "in/maria-umen-a58169a2",
+      "occurred_at": "2026-11-06T16:54:46Z",
+      "attributed_week": "2026-11-02",
+      "backfill": false,
+      "first_seen_at": "2026-11-09T04:51:27Z",
+      "text": "Maria Umen\nAuthor\nAI Design Explorer · Claude Code + Figma · Chronicler of life’s simple beauty\nХристина Чуканова Я це заберу в цитатник: «Якби треба було писати саме нерелевантний досвід — це були б найцікавіші резюме» 🤌 Золото! 😅\nShow translation\n1 impression\n1"
     },
     "react:post:urn:li:activity:7470799833595797504:in/acoaaa3aql4bolly51lfz55s6id7_nxnhg20y5y": {
       "event_id": "react:post:urn:li:activity:7470799833595797504:in/acoaaa3aql4bolly51lfz55s6id7_nxnhg20y5y",
@@ -3608,6 +3768,18 @@
       "backfill": false,
       "first_seen_at": "2026-10-01T18:22:15Z"
     },
+    "react:post:urn:li:activity:7519320144024641536:in/%d1%85%d1%80%d0%b8%d1%81%d1%82%d0%b8%d0%bd%d0%b0-%d1%87%d1%83%d0%ba%d0%b0%d0%bd%d0%be%d0%b2%d0%b0-453453359": {
+      "event_id": "react:post:urn:li:activity:7519320144024641536:in/%d1%85%d1%80%d0%b8%d1%81%d1%82%d0%b8%d0%bd%d0%b0-%d1%87%d1%83%d0%ba%d0%b0%d0%bd%d0%be%d0%b2%d0%b0-453453359",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7519320144024641536",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7519320144024641536/",
+      "person_key": "in/%d1%85%d1%80%d0%b8%d1%81%d1%82%d0%b8%d0%bd%d0%b0-%d1%87%d1%83%d0%ba%d0%b0%d0%bd%d0%be%d0%b2%d0%b0-453453359",
+      "occurred_at": null,
+      "attributed_week": "2026-11-02",
+      "backfill": false,
+      "first_seen_at": "2026-11-09T04:51:27Z"
+    },
     "react:post:urn:li:activity:7519320144024641536:in/alexandra-marchenko-624121a0": {
       "event_id": "react:post:urn:li:activity:7519320144024641536:in/alexandra-marchenko-624121a0",
       "kind": "reaction",
@@ -3704,6 +3876,18 @@
       "backfill": true,
       "first_seen_at": "2026-10-26T03:21:50Z"
     },
+    "react:post:urn:li:activity:7519320144024641536:in/olha-bondarets": {
+      "event_id": "react:post:urn:li:activity:7519320144024641536:in/olha-bondarets",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7519320144024641536",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7519320144024641536/",
+      "person_key": "in/olha-bondarets",
+      "occurred_at": null,
+      "attributed_week": "2026-11-02",
+      "backfill": false,
+      "first_seen_at": "2026-11-09T04:51:27Z"
+    },
     "react:post:urn:li:activity:7519320144024641536:in/pavlo-tayanovskyy-8980776": {
       "event_id": "react:post:urn:li:activity:7519320144024641536:in/pavlo-tayanovskyy-8980776",
       "kind": "reaction",
@@ -3727,6 +3911,102 @@
       "attributed_week": null,
       "backfill": true,
       "first_seen_at": "2026-10-26T03:21:50Z"
+    },
+    "react:post:urn:li:activity:7523128392947548160:in/%d1%85%d1%80%d0%b8%d1%81%d1%82%d0%b8%d0%bd%d0%b0-%d1%87%d1%83%d0%ba%d0%b0%d0%bd%d0%be%d0%b2%d0%b0-453453359": {
+      "event_id": "react:post:urn:li:activity:7523128392947548160:in/%d1%85%d1%80%d0%b8%d1%81%d1%82%d0%b8%d0%bd%d0%b0-%d1%87%d1%83%d0%ba%d0%b0%d0%bd%d0%be%d0%b2%d0%b0-453453359",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7523128392947548160",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7523128392947548160/",
+      "person_key": "in/%d1%85%d1%80%d0%b8%d1%81%d1%82%d0%b8%d0%bd%d0%b0-%d1%87%d1%83%d0%ba%d0%b0%d0%bd%d0%be%d0%b2%d0%b0-453453359",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-11-09T04:51:27Z"
+    },
+    "react:post:urn:li:activity:7523128392947548160:in/evgenia-usenok-8b4034b": {
+      "event_id": "react:post:urn:li:activity:7523128392947548160:in/evgenia-usenok-8b4034b",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7523128392947548160",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7523128392947548160/",
+      "person_key": "in/evgenia-usenok-8b4034b",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-11-09T04:51:27Z"
+    },
+    "react:post:urn:li:activity:7523128392947548160:in/iegor-osaulenko-b073444b": {
+      "event_id": "react:post:urn:li:activity:7523128392947548160:in/iegor-osaulenko-b073444b",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7523128392947548160",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7523128392947548160/",
+      "person_key": "in/iegor-osaulenko-b073444b",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-11-09T04:51:27Z"
+    },
+    "react:post:urn:li:activity:7523128392947548160:in/lina-bokhonko": {
+      "event_id": "react:post:urn:li:activity:7523128392947548160:in/lina-bokhonko",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7523128392947548160",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7523128392947548160/",
+      "person_key": "in/lina-bokhonko",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-11-09T04:51:27Z"
+    },
+    "react:post:urn:li:activity:7523128392947548160:in/oleksandrapavlova": {
+      "event_id": "react:post:urn:li:activity:7523128392947548160:in/oleksandrapavlova",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7523128392947548160",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7523128392947548160/",
+      "person_key": "in/oleksandrapavlova",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-11-09T04:51:27Z"
+    },
+    "react:post:urn:li:activity:7523128392947548160:in/olha-bondarets": {
+      "event_id": "react:post:urn:li:activity:7523128392947548160:in/olha-bondarets",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7523128392947548160",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7523128392947548160/",
+      "person_key": "in/olha-bondarets",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-11-09T04:51:27Z"
+    },
+    "react:post:urn:li:activity:7523128392947548160:in/svitlana-sudylovska-5a826732": {
+      "event_id": "react:post:urn:li:activity:7523128392947548160:in/svitlana-sudylovska-5a826732",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7523128392947548160",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7523128392947548160/",
+      "person_key": "in/svitlana-sudylovska-5a826732",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-11-09T04:51:27Z"
+    },
+    "react:post:urn:li:activity:7523128392947548160:in/yazvinskaya/en": {
+      "event_id": "react:post:urn:li:activity:7523128392947548160:in/yazvinskaya/en",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7523128392947548160",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7523128392947548160/",
+      "person_key": "in/yazvinskaya/en",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-11-09T04:51:27Z"
     }
   },
   "targets": {
@@ -3799,8 +4079,17 @@
       "target_urn": "urn:li:activity:7519320144024641536",
       "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7519320144024641536/",
       "first_scanned_week": "2026-10-26",
-      "last_scanned_week": "2026-11-02",
-      "reactor_count": 11
+      "last_scanned_week": "2026-11-09",
+      "reactor_count": 13
+    },
+    "post:urn:li:activity:7523128392947548160": {
+      "target_id": "post:urn:li:activity:7523128392947548160",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7523128392947548160",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7523128392947548160/",
+      "first_scanned_week": "2026-11-09",
+      "last_scanned_week": "2026-11-09",
+      "reactor_count": 8
     }
   }
 }

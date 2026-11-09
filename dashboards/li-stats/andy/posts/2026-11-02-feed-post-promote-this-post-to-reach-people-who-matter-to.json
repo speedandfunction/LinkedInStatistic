@@ -1,0 +1,73 @@
+{
+  "urn": "urn:li:activity:7523052974508503040",
+  "id": "7523052974508503040",
+  "type": "post",
+  "posted_at": "2026-11-02T16:06:40Z",
+  "posted_date": "2026-11-02",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7523052974508503040/",
+  "preview": "Feed post Promote this post to reach people who matter to you. Boost Andrii Rozhylo • You AI Transformation Leader | Business Strategist | Entrepreneur | Delivery Manager | Product Manager | Marketing",
+  "text": null,
+  "weeks": {
+    "2026-11-09": {
+      "snapshot_at": "2026-11-09T04:45:27Z",
+      "metrics": {
+        "impressions": 157,
+        "members_reached": 98,
+        "reactions": 3,
+        "comments": 1,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 3,
+        "followers_gained": 0,
+        "engagement_rate": 2.55
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 38.8,
+          "Entry": 22.4,
+          "Director": 12.2,
+          "Manager": 9.2
+        },
+        "job_title": {},
+        "industry": {
+          "IT Services and IT Consulting": 36.7,
+          "Software Development": 18.4
+        },
+        "company_size": {
+          "51-200 employees": 21.4,
+          "10,001+ employees": 17.3,
+          "1001-5000 employees": 15.3,
+          "11-50 employees": 8.2,
+          "1-10 employees": 7.1
+        },
+        "location": {
+          "Lviv": 20.4
+        },
+        "company": {
+          "Speed and Function": 9.2,
+          "SoftServe": 7.1
+        }
+      },
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/olenakuibida",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7523052974508503040,7524057498987945984)",
+          "text": "Olena Kuibida 🇺🇦 Verified Profile 1st\nOlena Kuibida 🇺🇦\n• 1st\nManual QA Engineer | Test Analyst | Software Testing | API and Backend testing | fluent in English and French | willing to learn QA Automation\nAnd this is a very good attitude!",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "reactors": [
+        "https://www.linkedin.com/in/anna-g-9b01376b",
+        "https://www.linkedin.com/in/odyslav-bozhenko-13ab17b6",
+        "https://www.linkedin.com/in/olenakuibida"
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/olenakuibida"
+      ]
+    }
+  }
+}
