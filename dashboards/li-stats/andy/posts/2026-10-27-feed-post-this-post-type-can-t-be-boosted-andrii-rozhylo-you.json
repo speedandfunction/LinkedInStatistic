@@ -68,6 +68,66 @@
         "https://www.linkedin.com/in/arozhylo",
         "https://www.linkedin.com/in/olyabereza"
       ]
+    },
+    "2026-11-09": {
+      "snapshot_at": "2026-11-09T04:44:49Z",
+      "metrics": {
+        "impressions": 250,
+        "members_reached": 105,
+        "reactions": 1,
+        "comments": 2,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 2,
+        "followers_gained": 0,
+        "engagement_rate": 1.2
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 40.8,
+          "Entry": 22.4
+        },
+        "job_title": {},
+        "industry": {
+          "IT Services and IT Consulting": 36.7
+        },
+        "company_size": {
+          "51-200 employees": 24.5,
+          "10,001+ employees": 16.3
+        },
+        "location": {
+          "Lviv": 14.3
+        },
+        "company": {}
+      },
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/olyabereza",
+          "author_headline": "",
+          "comment_urn": "",
+          "text": "Olya aka Holley Dovetail, Open to work  1st\nOlya aka Holley Dovetail • 1st\nPsychologist,  Creative Writing Teacher, Editor, Translator, Actress,  Author @ Smashwords | Scriptwriting, Copywriting\njust be careful as AI sometyimes could be misleading, but yes, it's great to have it.\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/arozhylo",
+          "author_headline": "",
+          "comment_urn": "",
+          "text": "Andrii Rozhylo\nAuthor\nAI Transformation Leader | Business Strategist | Entrepreneur | Delivery Manager | Product Manager | Marketing Expert\nYep, it can be confidently wrong 🙂 That’s why I’d question its advice rather than take it at face value.\n20 impressions\n20",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "reactors": [
+        "https://www.linkedin.com/in/olyabereza"
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/arozhylo",
+        "https://www.linkedin.com/in/olyabereza"
+      ]
     }
   }
 }

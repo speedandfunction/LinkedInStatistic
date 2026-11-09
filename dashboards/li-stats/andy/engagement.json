@@ -705,6 +705,21 @@
         "headline_hash": null
       }
     },
+    "in/alex-ost-sf": {
+      "key": "in/alex-ost-sf",
+      "name": "Alex Ost",
+      "profile_url": "https://www.linkedin.com/in/alex-ost-sf",
+      "headline": "Lead Developer at Speed and Function",
+      "headline_seen_at": "2026-11-09T04:46:19Z",
+      "first_seen_at": "2026-11-09T04:46:19Z",
+      "icp": {
+        "verdict": null,
+        "reason": null,
+        "model": null,
+        "classified_at": null,
+        "headline_hash": null
+      }
+    },
     "in/anastasiiast": {
       "key": "in/anastasiiast",
       "name": "Anastasiia Stetsenko",
@@ -712,6 +727,21 @@
       "headline": "Personal Brand & LinkedIn Training for Companies and Leaders ✦ ✈️Creator of curated travel experiences (Mexico, Cambodia, yachting) ✦ ex-Brand Ambassadors Lead @ DataArt, Global Software Engineering Firm",
       "headline_seen_at": "2026-09-05T13:20:26Z",
       "first_seen_at": "2026-09-05T13:20:26Z",
+      "icp": {
+        "verdict": null,
+        "reason": null,
+        "model": null,
+        "classified_at": null,
+        "headline_hash": null
+      }
+    },
+    "in/anna-g-9b01376b": {
+      "key": "in/anna-g-9b01376b",
+      "name": "Anna Gats",
+      "profile_url": "https://www.linkedin.com/in/anna-g-9b01376b",
+      "headline": "Project Manager at SoftServe",
+      "headline_seen_at": "2026-11-09T04:46:19Z",
+      "first_seen_at": "2026-11-09T04:46:19Z",
       "icp": {
         "verdict": null,
         "reason": null,
@@ -994,8 +1024,8 @@
       "key": "in/odyslav-bozhenko-13ab17b6",
       "name": "Odyslav Bozhenko",
       "profile_url": "https://www.linkedin.com/in/odyslav-bozhenko-13ab17b6",
-      "headline": "Senior Product Manager",
-      "headline_seen_at": "2026-10-12T04:27:47Z",
+      "headline": "Senior Product Manager, Team Lead | Market & Analytics, Short Range | Nordic Semiconductor",
+      "headline_seen_at": "2026-11-09T04:46:19Z",
       "first_seen_at": "2026-09-05T13:20:26Z",
       "icp": {
         "verdict": null,
@@ -1084,8 +1114,8 @@
       "key": "in/olyabereza",
       "name": "Olya aka Holley Dovetail",
       "profile_url": "https://www.linkedin.com/in/olyabereza",
-      "headline": "Psychologist, Author, Editor, Translator, Actress, Creative Writer @ Smashwords | Scriptwriting, Copywriting",
-      "headline_seen_at": "2026-11-02T04:32:35Z",
+      "headline": "Psychologist, Creative Writing Teacher, Editor, Translator, Actress, Author @ Smashwords | Scriptwriting, Copywriting",
+      "headline_seen_at": "2026-11-09T04:46:19Z",
       "first_seen_at": "2026-11-02T04:32:35Z",
       "icp": {
         "verdict": null,
@@ -1132,6 +1162,21 @@
       "headline": "IT Delivery Director at N-iX",
       "headline_seen_at": "2026-10-12T04:27:47Z",
       "first_seen_at": "2026-10-12T04:27:47Z",
+      "icp": {
+        "verdict": null,
+        "reason": null,
+        "model": null,
+        "classified_at": null,
+        "headline_hash": null
+      }
+    },
+    "in/saim-saudagar-bba029226": {
+      "key": "in/saim-saudagar-bba029226",
+      "name": "Saim Saudagar",
+      "profile_url": "https://www.linkedin.com/in/saim-saudagar-bba029226",
+      "headline": "I help founders who built their SaaS with AI take real payments, safely, in 21 days | Lovable, Bolt & Replit apps to production | Stripe, auth, security | Glintvex",
+      "headline_seen_at": "2026-11-09T04:46:19Z",
+      "first_seen_at": "2026-11-09T04:46:19Z",
       "icp": {
         "verdict": null,
         "reason": null,
@@ -1523,6 +1568,19 @@
       "backfill": false,
       "first_seen_at": "2026-09-05T13:20:26Z",
       "text": "Max Kozyra Verified Profile 1st\nMax Kozyra\n• 1st\nFrom Code to Vision. Driving product innovation at INCORA\nAndrii Rozhylo true!\nShow translation\n0"
+    },
+    "comment:urn:li:comment:(activity:7523052974508503040,7524057498987945984)": {
+      "event_id": "comment:urn:li:comment:(activity:7523052974508503040,7524057498987945984)",
+      "kind": "comment",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7523052974508503040",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7523052974508503040/",
+      "person_key": "in/olenakuibida",
+      "occurred_at": "2026-11-05T10:38:17Z",
+      "attributed_week": "2026-11-02",
+      "backfill": false,
+      "first_seen_at": "2026-11-09T04:46:19Z",
+      "text": "Olena Kuibida 🇺🇦 Verified Profile 1st\nOlena Kuibida 🇺🇦\n• 1st\nManual QA Engineer | Test Analyst | Software Testing | API and Backend testing | fluent in English and French | willing to learn QA Automation\nAnd this is a very good attitude!"
     },
     "react:post:urn:li:activity:7432772025972269056:company/speed-and-function": {
       "event_id": "react:post:urn:li:activity:7432772025972269056:company/speed-and-function",
@@ -2963,6 +3021,90 @@
       "attributed_week": null,
       "backfill": true,
       "first_seen_at": "2026-11-02T04:32:35Z"
+    },
+    "react:post:urn:li:activity:7523052974508503040:in/anna-g-9b01376b": {
+      "event_id": "react:post:urn:li:activity:7523052974508503040:in/anna-g-9b01376b",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7523052974508503040",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7523052974508503040/",
+      "person_key": "in/anna-g-9b01376b",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-11-09T04:46:19Z"
+    },
+    "react:post:urn:li:activity:7523052974508503040:in/odyslav-bozhenko-13ab17b6": {
+      "event_id": "react:post:urn:li:activity:7523052974508503040:in/odyslav-bozhenko-13ab17b6",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7523052974508503040",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7523052974508503040/",
+      "person_key": "in/odyslav-bozhenko-13ab17b6",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-11-09T04:46:19Z"
+    },
+    "react:post:urn:li:activity:7523052974508503040:in/olenakuibida": {
+      "event_id": "react:post:urn:li:activity:7523052974508503040:in/olenakuibida",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7523052974508503040",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7523052974508503040/",
+      "person_key": "in/olenakuibida",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-11-09T04:46:19Z"
+    },
+    "react:post:urn:li:activity:7523397170381856768:in/alex-ost-sf": {
+      "event_id": "react:post:urn:li:activity:7523397170381856768:in/alex-ost-sf",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7523397170381856768",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7523397170381856768/",
+      "person_key": "in/alex-ost-sf",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-11-09T04:46:19Z"
+    },
+    "react:post:urn:li:activity:7523397170381856768:in/odyslav-bozhenko-13ab17b6": {
+      "event_id": "react:post:urn:li:activity:7523397170381856768:in/odyslav-bozhenko-13ab17b6",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7523397170381856768",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7523397170381856768/",
+      "person_key": "in/odyslav-bozhenko-13ab17b6",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-11-09T04:46:19Z"
+    },
+    "react:post:urn:li:activity:7523397170381856768:in/ovchyn": {
+      "event_id": "react:post:urn:li:activity:7523397170381856768:in/ovchyn",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7523397170381856768",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7523397170381856768/",
+      "person_key": "in/ovchyn",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-11-09T04:46:19Z"
+    },
+    "react:post:urn:li:activity:7523397170381856768:in/saim-saudagar-bba029226": {
+      "event_id": "react:post:urn:li:activity:7523397170381856768:in/saim-saudagar-bba029226",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7523397170381856768",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7523397170381856768/",
+      "person_key": "in/saim-saudagar-bba029226",
+      "occurred_at": null,
+      "attributed_week": null,
+      "backfill": true,
+      "first_seen_at": "2026-11-09T04:46:19Z"
     }
   },
   "targets": {
@@ -3035,8 +3177,26 @@
       "target_urn": "urn:li:activity:7520791897775427584",
       "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7520791897775427584/",
       "first_scanned_week": "2026-11-02",
-      "last_scanned_week": "2026-11-02",
+      "last_scanned_week": "2026-11-09",
       "reactor_count": 1
+    },
+    "post:urn:li:activity:7523052974508503040": {
+      "target_id": "post:urn:li:activity:7523052974508503040",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7523052974508503040",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7523052974508503040/",
+      "first_scanned_week": "2026-11-09",
+      "last_scanned_week": "2026-11-09",
+      "reactor_count": 3
+    },
+    "post:urn:li:activity:7523397170381856768": {
+      "target_id": "post:urn:li:activity:7523397170381856768",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7523397170381856768",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7523397170381856768/",
+      "first_scanned_week": "2026-11-09",
+      "last_scanned_week": "2026-11-09",
+      "reactor_count": 4
     }
   }
 }

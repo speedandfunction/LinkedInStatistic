@@ -1,0 +1,62 @@
+{
+  "urn": "urn:li:activity:7523397170381856768",
+  "id": "7523397170381856768",
+  "type": "post",
+  "posted_at": "2026-11-03T14:54:23Z",
+  "posted_date": "2026-11-03",
+  "post_url": "https://www.linkedin.com/feed/update/urn:li:activity:7523397170381856768/",
+  "preview": "Feed post Promote this post to reach people who matter to you. Boost Andrii Rozhylo • You AI Transformation Leader | Business Strategist | Entrepreneur | Delivery Manager | Product Manager | Marketing",
+  "text": null,
+  "weeks": {
+    "2026-11-09": {
+      "snapshot_at": "2026-11-09T04:45:29Z",
+      "metrics": {
+        "impressions": 219,
+        "members_reached": 119,
+        "reactions": 4,
+        "comments": 5,
+        "reposts": 1,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 1,
+        "followers_gained": 0,
+        "engagement_rate": 4.57
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 31.9,
+          "Entry": 21,
+          "Manager": 8.4,
+          "Director": 7.6
+        },
+        "job_title": {
+          "Software Engineer": 8.4,
+          "Founder": 5
+        },
+        "industry": {
+          "IT Services and IT Consulting": 35.3,
+          "Software Development": 26.9
+        },
+        "company_size": {
+          "10,001+ employees": 15.1,
+          "51-200 employees": 14.3,
+          "1001-5000 employees": 13.4,
+          "11-50 employees": 8.4,
+          "201-500 employees": 6.7
+        },
+        "location": {
+          "Lviv": 13.4,
+          "Kyiv Metropolitan Area": 7.6
+        },
+        "company": {}
+      },
+      "comments": [],
+      "reactors": [
+        "https://www.linkedin.com/in/alex-ost-sf",
+        "https://www.linkedin.com/in/odyslav-bozhenko-13ab17b6",
+        "https://www.linkedin.com/in/ovchyn",
+        "https://www.linkedin.com/in/saim-saudagar-bba029226"
+      ]
+    }
+  }
+}
