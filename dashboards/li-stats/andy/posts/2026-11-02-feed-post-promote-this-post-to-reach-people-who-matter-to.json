@@ -68,6 +68,70 @@
       "commenters": [
         "https://www.linkedin.com/in/olenakuibida"
       ]
+    },
+    "2026-11-16": {
+      "snapshot_at": "2026-11-16T04:49:33Z",
+      "metrics": {
+        "impressions": 195,
+        "members_reached": 120,
+        "reactions": 3,
+        "comments": 1,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 3,
+        "followers_gained": 0,
+        "engagement_rate": 2.05
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 35.8,
+          "Entry": 26.7,
+          "Director": 10.8,
+          "Manager": 7.5
+        },
+        "job_title": {
+          "Project Manager": 5.8
+        },
+        "industry": {
+          "IT Services and IT Consulting": 39.2,
+          "Software Development": 17.5,
+          "Technology, Information and Internet": 5
+        },
+        "company_size": {
+          "51-200 employees": 21.7,
+          "10,001+ employees": 20,
+          "1001-5000 employees": 11.7,
+          "11-50 employees": 8.3,
+          "201-500 employees": 6.7
+        },
+        "location": {
+          "Lviv": 18.3
+        },
+        "company": {
+          "Speed and Function": 10.8,
+          "SoftServe": 8.3
+        }
+      },
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/olenakuibida",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7523052974508503040,7524057498987945984)",
+          "text": "Olena Kuibida 🇺🇦 Verified Profile 1st\nOlena Kuibida 🇺🇦\n• 1st\nManual QA Engineer | Test Analyst | Software Testing | API and Backend testing | fluent in English and French | willing to learn QA Automation\nAnd this is a very good attitude!",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "reactors": [
+        "https://www.linkedin.com/in/anna-g-9b01376b",
+        "https://www.linkedin.com/in/odyslav-bozhenko-13ab17b6",
+        "https://www.linkedin.com/in/olenakuibida"
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/olenakuibida"
+      ]
     }
   }
 }
