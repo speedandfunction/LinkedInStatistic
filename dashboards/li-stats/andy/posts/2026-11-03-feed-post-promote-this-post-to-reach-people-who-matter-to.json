@@ -57,6 +57,59 @@
         "https://www.linkedin.com/in/ovchyn",
         "https://www.linkedin.com/in/saim-saudagar-bba029226"
       ]
+    },
+    "2026-11-16": {
+      "snapshot_at": "2026-11-16T04:48:54Z",
+      "metrics": {
+        "impressions": 257,
+        "members_reached": 142,
+        "reactions": 4,
+        "comments": 5,
+        "reposts": 1,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 1,
+        "followers_gained": 0,
+        "engagement_rate": 3.89
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 33.1,
+          "Entry": 23.2,
+          "Director": 7.7,
+          "Manager": 7.7,
+          "Owner": 4.9
+        },
+        "job_title": {
+          "Software Engineer": 9.2,
+          "Founder": 4.9
+        },
+        "industry": {
+          "IT Services and IT Consulting": 34.5,
+          "Software Development": 26.1,
+          "Staffing and Recruiting": 4.2
+        },
+        "company_size": {
+          "51-200 employees": 16.9,
+          "10,001+ employees": 14.1,
+          "1001-5000 employees": 13.4,
+          "11-50 employees": 9.9,
+          "1-10 employees": 7.7
+        },
+        "location": {
+          "Lviv": 14.8,
+          "Kyiv Metropolitan Area": 9.2,
+          "Warsaw Metropolitan Area": 4.2
+        },
+        "company": {}
+      },
+      "comments": [],
+      "reactors": [
+        "https://www.linkedin.com/in/alex-ost-sf",
+        "https://www.linkedin.com/in/odyslav-bozhenko-13ab17b6",
+        "https://www.linkedin.com/in/ovchyn",
+        "https://www.linkedin.com/in/saim-saudagar-bba029226"
+      ]
     }
   }
 }

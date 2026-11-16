@@ -1035,6 +1035,21 @@
         "headline_hash": null
       }
     },
+    "in/nstas": {
+      "key": "in/nstas",
+      "name": "Stas Nikitin",
+      "profile_url": "https://www.linkedin.com/in/nstas",
+      "headline": "Chief of Staff / Business Operations | Senior Project Manager & Scrum Master | AI Workflow Automation | 20 years in software",
+      "headline_seen_at": "2026-11-16T04:55:40Z",
+      "first_seen_at": "2026-11-16T04:55:40Z",
+      "icp": {
+        "verdict": null,
+        "reason": null,
+        "model": null,
+        "classified_at": null,
+        "headline_hash": null
+      }
+    },
     "in/oleksandrapavlova": {
       "key": "in/oleksandrapavlova",
       "name": "Sasha Pavlova",
@@ -3936,6 +3951,18 @@
       "backfill": true,
       "first_seen_at": "2026-11-09T04:51:27Z"
     },
+    "react:post:urn:li:activity:7523128392947548160:in/evgeniychystiakov": {
+      "event_id": "react:post:urn:li:activity:7523128392947548160:in/evgeniychystiakov",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7523128392947548160",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7523128392947548160/",
+      "person_key": "in/evgeniychystiakov",
+      "occurred_at": null,
+      "attributed_week": "2026-11-09",
+      "backfill": false,
+      "first_seen_at": "2026-11-16T04:55:40Z"
+    },
     "react:post:urn:li:activity:7523128392947548160:in/iegor-osaulenko-b073444b": {
       "event_id": "react:post:urn:li:activity:7523128392947548160:in/iegor-osaulenko-b073444b",
       "kind": "reaction",
@@ -3959,6 +3986,18 @@
       "attributed_week": null,
       "backfill": true,
       "first_seen_at": "2026-11-09T04:51:27Z"
+    },
+    "react:post:urn:li:activity:7523128392947548160:in/nstas": {
+      "event_id": "react:post:urn:li:activity:7523128392947548160:in/nstas",
+      "kind": "reaction",
+      "target_type": "post",
+      "target_urn": "urn:li:activity:7523128392947548160",
+      "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7523128392947548160/",
+      "person_key": "in/nstas",
+      "occurred_at": null,
+      "attributed_week": "2026-11-09",
+      "backfill": false,
+      "first_seen_at": "2026-11-16T04:55:40Z"
     },
     "react:post:urn:li:activity:7523128392947548160:in/oleksandrapavlova": {
       "event_id": "react:post:urn:li:activity:7523128392947548160:in/oleksandrapavlova",
@@ -4079,7 +4118,7 @@
       "target_urn": "urn:li:activity:7519320144024641536",
       "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7519320144024641536/",
       "first_scanned_week": "2026-10-26",
-      "last_scanned_week": "2026-11-09",
+      "last_scanned_week": "2026-11-16",
       "reactor_count": 13
     },
     "post:urn:li:activity:7523128392947548160": {
@@ -4088,8 +4127,8 @@
       "target_urn": "urn:li:activity:7523128392947548160",
       "target_url": "https://www.linkedin.com/feed/update/urn:li:activity:7523128392947548160/",
       "first_scanned_week": "2026-11-09",
-      "last_scanned_week": "2026-11-09",
-      "reactor_count": 8
+      "last_scanned_week": "2026-11-16",
+      "reactor_count": 10
     }
   }
 }

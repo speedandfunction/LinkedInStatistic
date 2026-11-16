@@ -1022,6 +1022,99 @@
         "https://www.linkedin.com/in/maria-umen-a58169a2",
         "https://www.linkedin.com/in/yazvinskaya"
       ]
+    },
+    "2026-11-16": {
+      "snapshot_at": "2026-11-16T04:55:05Z",
+      "metrics": {
+        "impressions": 397,
+        "members_reached": 156,
+        "reactions": 13,
+        "comments": 4,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 3,
+        "followers_gained": 0,
+        "engagement_rate": 4.28
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 28.2,
+          "Entry": 20.5,
+          "Director": 12.2,
+          "CXO": 10.9,
+          "Manager": 7.7
+        },
+        "job_title": {
+          "Software Engineer": 5.8,
+          "Product Manager": 3.8
+        },
+        "industry": {
+          "IT Services and IT Consulting": 20.5,
+          "Software Development": 15.4,
+          "Technology, Information and Internet": 8.3,
+          "Advertising Services": 6.4,
+          "Design Services": 5.8
+        },
+        "company_size": {
+          "51-200 employees": 17.9,
+          "11-50 employees": 17.3,
+          "10,001+ employees": 10.9,
+          "1001-5000 employees": 10.3,
+          "1-10 employees": 10.3
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 13.5,
+          "New York City Metropolitan Area": 5.1,
+          "Greater Philadelphia": 4.5
+        },
+        "company": {
+          "Speed and Function": 10.9
+        }
+      },
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/kentgregoire",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7498789820241010688,7498820614900858882)",
+          "text": "Kent Gregoire Premium Profile 1st\nKent Gregoire\n• 1st\nThe CEO to CEOs™ | I help mission-driven founders of $10M - 250M companies scale their impact and innovations | Serial entrepreneur, 15+ companies founded, $250M+ raised | Conscious Capitalism advisor\n\"More intentionally we need to protect the things that remind us we're alive\" resonates; it really resonates, as does so much of your post.\nThe red clover is the Vermont (USA) state flower.  I chose to name one of our '26 Scottish Highland calves \"Clover\"; her mother is Claire (as in Claire Randall, Outlander series).\n1 reaction\n1\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/maria-umen-a58169a2",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7498789820241010688,7498830974386999296)",
+          "text": "Maria Umen\nAuthor\nAI Design Explorer · Claude Code + Figma · Chronicler of life’s simple beauty\nKent Gregoire Thank you, Kent. Clover is also one of my son's favorite flower.\n1 reaction\n1\n37 impressions\n37",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/yazvinskaya",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7498789820241010688,7498790845031026688)",
+          "text": "Mila Yazvinska  1st\nMila Yazvinska • 1st\nMarketing & Impact Project Manager\nMillennials life circle 🌱\n2 reactions\n2\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/maria-umen-a58169a2",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7498789820241010688,7498793536507641856)",
+          "text": "Maria Umen\nAuthor\nAI Design Explorer · Claude Code + Figma · Chronicler of life’s simple beauty\nMila Yazvinska So true 🫠\n58 impressions\n58",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/kentgregoire",
+        "https://www.linkedin.com/in/maria-umen-a58169a2",
+        "https://www.linkedin.com/in/yazvinskaya"
+      ]
     }
   }
 }
