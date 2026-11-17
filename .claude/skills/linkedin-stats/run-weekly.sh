@@ -324,14 +324,16 @@ emit_output() {
 # is undocumented — one write, on the one path that earns it.
 
 # ------------------------------------------------------------ author roster
-# Keys of profiles.json minus the "_"-prefixed metadata (e.g. "_note").
+# Keys of profiles.json minus the "_"-prefixed metadata (e.g. "_note") and
+# minus retired authors (`"retired": "<date>"` — their data stays, their account
+# is no longer visited; same rule as the workflow and ops/weekly.sh).
 # jq's `keys` sorts, so the order is deterministic across fires — a run that
 # dies halfway always got through the same prefix of the roster.
 if [ ! -f "$PROFILES_FILE" ]; then
   echo "run-weekly: $PROFILES_FILE missing from this checkout; failing." >&2
   exit 1
 fi
-roster_raw=$(jq -r 'keys[] | select(startswith("_") | not)' "$PROFILES_FILE") || {
+roster_raw=$(jq -r 'to_entries | sort_by(.key)[] | select((.key | startswith("_") | not) and (.value.retired == null)) | .key' "$PROFILES_FILE") || {
   echo "run-weekly: could not parse $PROFILES_FILE; failing." >&2
   exit 1
 }

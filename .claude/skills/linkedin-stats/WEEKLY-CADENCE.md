@@ -114,14 +114,22 @@ No workflow edit is ever needed. (You do have to update one secret — §5.)
 **Retiring a person** is the reverse, with one deliberate asymmetry: set
 `"retired": "<date>"` on their `profiles.json` entry and drop them from the
 registry (`lifleet drop <slug>`, then re-upload the secret — §5). The weekly
-loop, `ops/weekly.sh`, the preflight cross-check and the Slack report skip a
-retired author; everything they collected stays — the data folder, both
-Grafana dashboards, the Pages feed and their `li.author` row (the entry must
+loop, `ops/weekly.sh`, `run-weekly.sh`, the preflight cross-check and the
+Slack report skip a retired author; everything they collected stays — the
+data folder, both Grafana dashboards, the Pages feed and their `li.author`
+row (the entry must
 remain in `profiles.json` precisely because `db/import.mjs` mirrors that file
 into `li.author`; deleting it would drop their history from the database).
 Delete their Browserbase context in the dashboard or over the API: a logged-in
-session nobody uses is a liability, not data. First done for peter on
-2026-10-12.
+session nobody uses is a liability, not data. Done for peter on 2026-10-12
+and for andy on 2026-11-17.
+
+**Order matters:** land the `retired` flag on `main` *first*, then drop the
+slug from the registry secret. The preflight reads `profiles.json` from
+`main`, so a still-active author missing from the secret fails the whole run
+for everybody. The daily session check walks the *registry*, not
+`profiles.json` — until the secret is re-uploaded it keeps opening the
+retired author's context.
 
 ---
 
