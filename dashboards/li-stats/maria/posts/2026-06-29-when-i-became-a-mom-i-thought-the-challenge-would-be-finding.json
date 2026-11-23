@@ -970,6 +970,88 @@
         "https://www.linkedin.com/in/ovchyn",
         "https://www.linkedin.com/in/yazvinskaya"
       ]
+    },
+    "2026-11-23": {
+      "snapshot_at": "2026-11-23T05:51:03Z",
+      "metrics": {
+        "impressions": 383,
+        "members_reached": 162,
+        "reactions": 18,
+        "comments": 3,
+        "reposts": 0,
+        "saves": 0,
+        "sends": 0,
+        "profile_viewers": 5,
+        "followers_gained": 0,
+        "engagement_rate": 5.48
+      },
+      "demographics": {
+        "seniority": {
+          "Senior": 30.2,
+          "Entry": 23.5,
+          "Director": 11.1,
+          "Manager": 9.3,
+          "CXO": 4.3
+        },
+        "job_title": {
+          "Software Engineer": 4.9
+        },
+        "industry": {
+          "IT Services and IT Consulting": 23.5,
+          "Software Development": 21.6,
+          "Technology, Information and Internet": 8,
+          "Design Services": 7.4,
+          "Advertising Services": 4.9
+        },
+        "company_size": {
+          "51-200 employees": 18.5,
+          "10,001+ employees": 16,
+          "1001-5000 employees": 14.2,
+          "11-50 employees": 11.7,
+          "1-10 employees": 8
+        },
+        "location": {
+          "Kyiv Metropolitan Area": 13.6,
+          "Lviv": 6.8
+        },
+        "company": {
+          "Speed and Function": 8.6
+        }
+      },
+      "comments": [
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/yazvinskaya",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7477289819551887361,7477391276024360960)",
+          "text": "Mila Yazvinska  1st\nMila Yazvinska • 1st\nMarketing & Impact Project Manager\nSpot on. The \"human touch\" is exactly what AI cannot replicate. Those countless iterations and hard-won lessons are what define true expertise. Proud to see you documenting this journey ✊ it's a real look at the intersection of growth and reality.\n1 reaction\n1\n1\n1",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/maria-umen-a58169a2",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7477289819551887361,7478369553887129601)",
+          "text": "Maria Umen\nAuthor\nAI Design Explorer · Claude Code + Figma · Chronicler of life’s simple beauty\nMila Yazvinska Tell me you're a designer without telling me: \"Countless iterations...\"\n1 reaction\n1\n8 impressions\n8",
+          "reactions": 0,
+          "replies_count": 0
+        },
+        {
+          "author_name": "",
+          "author_url": "https://www.linkedin.com/in/ovchyn",
+          "author_headline": "",
+          "comment_urn": "urn:li:comment:(activity:7477289819551887361,7477318478924824576)",
+          "text": "Peter Ovchyn Premium Profile 1st\nPeter Ovchyn\n• 1st\nCo-CEO @ Speed & Function ▪️ Building TrueBDD, a spec-as-source tool — no code in the repository anymore ▪️ Shipping production AI since 2018\nMaria, you make juggling motherhood and the AI whirlwind look like a quiet superpower. Please share your tips and tricks!\n2 reactions\n2",
+          "reactions": 0,
+          "replies_count": 0
+        }
+      ],
+      "commenters": [
+        "https://www.linkedin.com/in/maria-umen-a58169a2",
+        "https://www.linkedin.com/in/ovchyn",
+        "https://www.linkedin.com/in/yazvinskaya"
+      ]
     }
   }
 }
