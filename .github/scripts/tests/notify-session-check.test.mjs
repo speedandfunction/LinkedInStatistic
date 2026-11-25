@@ -17,10 +17,10 @@
 // пінг — найшвидший спосіб привчити канал глушити бота. Тому індекси нижче
 // зсунуті на одиницю, і це навмисно зафіксовано в кожному тесті.
 
-import test from "node:test";
+import test, { after } from "node:test";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { mkdtempSync, writeFileSync } from "node:fs";
+import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -30,6 +30,8 @@ import { classify, escape, safeUrl, partition } from "../notify-session-check.mj
 const HERE = dirname(fileURLToPath(import.meta.url));
 const SCRIPT = resolve(HERE, "..", "notify-session-check.mjs");
 const TMP = mkdtempSync(join(tmpdir(), "notify-session-check-"));
+// Прибираємо за собою: інакше кожен прогін лишає в $TMPDIR ще одну теку.
+after(() => rmSync(TMP, { recursive: true, force: true }));
 
 const CHANNEL = "C0FAKECHANNEL";
 const PEOPLE = JSON.stringify({ maria: "U04JKL", peter: "U02DEF" });
