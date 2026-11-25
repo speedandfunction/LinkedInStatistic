@@ -11,6 +11,8 @@ HTTP. Any number of authors is supported — the roster is `profiles.json`.
 scrape  ->  dashboards/li-stats/<author>/*.json  ->  PR  ->  <author>/stats.json on Pages  ->  Grafana
 ```
 
+Taking over this project, or handing it over? Start with [HANDOVER.md](HANDOVER.md) (in Ukrainian).
+
 ## Setup
 
 1. `cp .env.example .env` and fill in the Grafana values.
